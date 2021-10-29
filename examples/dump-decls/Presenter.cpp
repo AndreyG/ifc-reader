@@ -275,7 +275,9 @@ void Presenter::present(ifc::DeclIndex decl) const
             ifc::VariableDeclaration const & variable = file_.variables()[decl.index];
             out_ << "Variable '";
             present(variable.name);
-            out_ << "'\n";
+            out_ << "', type: ";
+            present(variable.type);
+            out_ << "\n";
         }
         break;
     case Scope:
