@@ -13,6 +13,7 @@ namespace ifc
     struct LvalueReference;
     struct TupleType;
     struct FunctionType;
+    struct ForallType;
 
     enum class Qualifiers : std::uint8_t;
 }

@@ -27,4 +27,7 @@ namespace ifc
     using ExprIndex = AbstractReference<6, ExprSort>;
     using NameIndex = AbstractReference<3, NameSort>;
     using TypeIndex = AbstractReference<5, TypeSort>;
+
+    enum class ChartSort;
+    using ChartIndex = AbstractReference<2, ChartSort>;
 }

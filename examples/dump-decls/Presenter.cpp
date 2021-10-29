@@ -2,6 +2,7 @@
 
 #include "ifc/File.h"
 
+#include "ifc/Chart.h"
 #include "ifc/Expression.h"
 #include "ifc/Declaration.h"
 #include "ifc/Type.h"
@@ -191,6 +192,59 @@ void Presenter::present(ifc::ExprIndex expr) const
     }
 }
 
+void Presenter::present(ifc::ChartIndex chart) const
+{
+    switch (chart.sort())
+    {
+    case ifc::ChartSort::None:
+        out_ << "template<> ";
+        break;
+    case ifc::ChartSort::Unilevel:
+        {
+            auto uni_chart = file_.unilevel_charts()[chart.index];
+            out_ << "template<";
+            bool first = true;
+            for (auto param : file_.parameters().slice(uni_chart))
+            {
+                if (first)
+                    first = false;
+                else
+                    out_ << ", ";
+                switch (param.sort)
+                {
+                case ifc::ParameterSort::Object:
+                    assert(false && "function parameter is unexpected here");
+                    break;
+                case ifc::ParameterSort::Type:
+                    out_ << "typename";
+                    break;
+                case ifc::ParameterSort::NonType:
+                    present(param.type);
+                    break;
+                case ifc::ParameterSort::Template:
+                    assert(param.type.sort() == ifc::TypeSort::Forall);
+                    auto forall_type = file_.forall_types()[param.type.index];
+                    assert(forall_type.chart.sort() == ifc::ChartSort::Unilevel);
+                    present(forall_type.chart);
+                    assert(forall_type.subject.sort() == ifc::TypeSort::Fundamental);
+                    assert(file_.fundamental_types()[forall_type.subject.index].basis == ifc::TypeBasis::Typename);
+                    out_ << "typename";
+                    break;
+                }
+                if (param.pack)
+                    out_ << "...";
+                if (!is_null(param.name))
+                    out_ << " " << file_.get_string(param.name);
+            }
+            out_ << "> ";
+        }
+        break;
+    case ifc::ChartSort::Multilevel:
+        out_ << "Chart.Multilevel presentation is unsupported ";
+        break;
+    }
+}
+
 void Presenter::present(ifc::TemplateId const& template_id) const
 {
     present(template_id.primary);
@@ -358,7 +412,8 @@ void Presenter::present(ifc::DeclIndex decl) const
     case Template:
         {
             auto const & template_declaration = file_.template_declarations()[decl.index];
-            out_ << "Template ";
+            present(template_declaration.chart);
+            out_ << "\n";
             present(template_declaration.entity.decl);
             out_ << "\n";
         }

@@ -1,6 +1,7 @@
 #include "ifc/File.h"
 #include "ifc/Environment.h"
 
+#include "ifc/Chart.h"
 #include "ifc/Declaration.h"
 #include "ifc/Expression.h"
 #include "ifc/Type.h"
@@ -128,6 +129,11 @@ namespace ifc
         return get_partition<QualifiedType>();
     }
 
+    Partition<ForallType> File::forall_types() const
+    {
+        return get_partition<ForallType>();
+    }
+
     Partition<TypeExpression> File::type_expressions() const
     {
         return get_partition<TypeExpression>();
@@ -176,6 +182,16 @@ namespace ifc
     Partition<OperatorFunctionName> File::operator_names() const
     {
         return get_partition<OperatorFunctionName>();
+    }
+
+    Partition<ChartUnilevel> File::unilevel_charts() const
+    {
+        return get_partition<ChartUnilevel>();
+    }
+
+    Partition<ChartMultilevel> File::multilevel_charts() const
+    {
+        return get_partition<ChartMultilevel>();
     }
 
     template<typename T, typename Index>

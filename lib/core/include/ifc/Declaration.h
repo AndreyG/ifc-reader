@@ -117,15 +117,6 @@ namespace ifc
         static constexpr std::string_view PartitionName = "decl.using-declaration";
     };
 
-    enum class ChartSort
-    {
-        None        = 0x00,
-        Unilievel   = 0x01,
-        Multilevel  = 0x02,
-    };
-
-    using ChartIndex = AbstractReference<2, ChartSort>;
-
     struct ParameterizedEntity
     {
         DeclIndex decl;

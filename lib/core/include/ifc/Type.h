@@ -21,6 +21,7 @@ namespace ifc
         Function        = 0x0A,
         Qualified       = 0x0E,
         Tuple           = 0x12,
+        Forall          = 0x13,
         // TODO
     };
 
@@ -192,5 +193,13 @@ namespace ifc
         Qualifiers qualifiers;
 
         static constexpr std::string_view PartitionName = "type.qualified";
+    };
+
+    struct ForallType
+    {
+        ChartIndex chart;
+        TypeIndex subject;
+
+        static constexpr std::string_view PartitionName = "type.forall";
     };
 }

@@ -3,6 +3,7 @@
 #include "FileHeader.h"
 #include "Partition.h"
 
+#include "ChartFwd.h"
 #include "ExpressionFwd.h"
 #include "DeclarationFwd.h"
 #include "NameFwd.h"
@@ -49,6 +50,7 @@ namespace ifc
         Partition<LvalueReference>              lvalue_references()     const;
         Partition<RvalueReference>              rvalue_references()     const;
         Partition<QualifiedType>                qualified_types()       const;
+        Partition<ForallType>                   forall_types()          const;
 
         // Expressions
         Partition<TypeExpression>               type_expressions()      const;
@@ -62,6 +64,10 @@ namespace ifc
 
         // Names
         Partition<OperatorFunctionName>         operator_names()        const;
+
+        // Charts
+        Partition<ChartUnilevel>                unilevel_charts()       const;
+        Partition<ChartMultilevel>              multilevel_charts()     const;
 
         File const & get_imported_module(ModuleReference) const;
 

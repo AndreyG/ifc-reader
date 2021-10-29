@@ -46,6 +46,8 @@ private:
     void present(ifc::TemplateId const &) const;
     void present(ifc::ExprIndex) const;
 
+    void present(ifc::ChartIndex) const;
+
     void present_refered_declaration(ifc::DeclIndex) const;
 
     template<typename T, typename Index>
