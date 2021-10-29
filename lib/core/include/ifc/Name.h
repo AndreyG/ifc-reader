@@ -4,6 +4,8 @@
 
 #include "common_types.h"
 
+#include <string_view>
+
 namespace ifc
 {
     enum class NameSort

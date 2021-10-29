@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 namespace ifc
 {
     struct FundamentalType;
@@ -10,4 +12,6 @@ namespace ifc
     struct LvalueReference;
     struct TupleType;
     struct FunctionType;
+
+    enum class Qualifiers : std::uint8_t;
 }

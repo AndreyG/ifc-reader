@@ -1,10 +1,12 @@
 #pragma once
 
-#include "ifc/FileFwd.h"
+#include "ifc/ExpressionFwd.h"
+#include "ifc/TypeFwd.h"
 
-#include "ifc/Expression.h"
 #include "ifc/Declaration.h"
-#include "ifc/Type.h"
+#include "ifc/Indices.h"
+
+#include "ifc/FileFwd.h"
 
 #include <iosfwd>
 
@@ -16,10 +18,11 @@ public:
         , out_(out)
     {}
 
-    void present(ifc::DeclIndex decl) const;
+    void present(ifc::Declaration) const;
 
 private:
     void present(ifc::NameIndex)     const;
+    void present(ifc::DeclIndex)     const;
     void present(ifc::DeclReference) const;
 
     void present(ifc::TypeIndex) const;

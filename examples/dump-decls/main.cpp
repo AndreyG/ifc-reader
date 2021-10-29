@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
         for (size_t i = 0; i != raw_count(global_scope.cardinality); ++i)
         {
             std::cout << "------------------- Declaration " << i << " -------------------\n";
-            presenter.present(declarations[first_global_scope_declaration + i].index);
+            presenter.present(declarations[first_global_scope_declaration + i]);
         }
 
         return EXIT_SUCCESS;

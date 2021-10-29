@@ -2,6 +2,10 @@
 
 #include "ifc/File.h"
 
+#include "ifc/Expression.h"
+#include "ifc/Declaration.h"
+#include "ifc/Type.h"
+
 void Presenter::present(ifc::NameIndex name) const
 {
     using enum ifc::NameSort;
@@ -375,4 +379,9 @@ void Presenter::present(ifc::DeclIndex decl) const
     default:
         out_ << "Unsupported DeclSort '" << static_cast<int>(kind) << "'\n";
     }
+}
+
+void Presenter::present(ifc::Declaration decl) const
+{
+    present(decl.index);
 }
