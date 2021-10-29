@@ -35,6 +35,7 @@ namespace ifc
         Partition<AliasDeclaration>             alias_declarations()    const;
         Partition<FunctionDeclaration>          functions()             const;
         Partition<VariableDeclaration>          variables()             const;
+        Partition<ParameterDeclaration>         parameters()            const;
         Partition<DeclIndex>                    deduction_guides()      const;
         Partition<DeclReference>                decl_references()       const;
 

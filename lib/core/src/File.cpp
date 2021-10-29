@@ -163,6 +163,11 @@ namespace ifc
         return get_partition<VariableDeclaration>();
     }
 
+    Partition<ParameterDeclaration> File::parameters() const
+    {
+        return get_partition<ParameterDeclaration>();
+    }
+
     Partition<OperatorFunctionName> File::operator_names() const
     {
         return get_partition<OperatorFunctionName>();

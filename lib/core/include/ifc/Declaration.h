@@ -258,6 +258,30 @@ namespace ifc
         static constexpr std::string_view PartitionName = "decl.variable";
     };
 
+    enum class ParameterSort : uint8_t
+    {
+        Object,     // Function parameter
+        Type,       // Type template parameter
+        NonType,    // Non-type template parameter
+        Template,   // Template template parameter
+    };
+
+    struct ParameterDeclaration
+    {
+        TextOffset name;
+        SourceLocation locus;
+        TypeIndex type;
+        ExprIndex constraint;
+        ExprIndex initializer;
+        ParameterLevel level;
+        ParameterPosition position;
+        ParameterSort sort;
+        ReachableProperties properties;
+        bool pack;
+
+        static constexpr std::string_view PartitionName = "decl.parameter";
+    };
+
     struct DeclReference
     {
         ModuleReference unit;

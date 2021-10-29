@@ -217,6 +217,12 @@ void Presenter::present_refered_declaration(ifc::DeclIndex decl) const
 
     switch (const auto kind = decl.sort())
     {
+    case Parameter:
+        {
+            ifc::ParameterDeclaration const & param = file_.parameters()[decl.index];
+            out_ << file_.get_string(param.name);
+        }
+        break;
     case Scope:
         {
             ifc::ScopeDeclaration const & scope = file_.scope_declarations()[decl.index];
