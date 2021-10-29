@@ -55,6 +55,7 @@ namespace ifc
         Default,
         Short,
         Long,
+        Bit8,
         Bit16,
         Bit32,
         Bit64,
