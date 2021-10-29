@@ -42,6 +42,29 @@ void Presenter::present(ifc::FundamentalType const& type) const
         break;
     }
 
+    switch (type.precision)
+    {
+    case ifc::TypePrecision::Default:
+        break;
+    case ifc::TypePrecision::Short:
+        assert(type.basis == ifc::TypeBasis::Int);
+        out_ << "short";
+        return;
+    case ifc::TypePrecision::Long:
+        out_ << "long ";
+        break;
+    case ifc::TypePrecision::Bit64:
+        assert(type.basis == ifc::TypeBasis::Int);
+        out_ << "long long";
+        return;
+    case ifc::TypePrecision::Bit8:
+    case ifc::TypePrecision::Bit16:
+    case ifc::TypePrecision::Bit32:
+    case ifc::TypePrecision::Bit128:
+        out_ << "Unsupported Bitness '" << static_cast<int>(type.precision) << "' ";
+        break;
+    }
+
     using enum ifc::TypeBasis;
     switch (type.basis)
     {
