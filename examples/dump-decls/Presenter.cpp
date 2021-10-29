@@ -30,6 +30,18 @@ void Presenter::present(ifc::FunctionType const& function_type) const
 
 void Presenter::present(ifc::FundamentalType const& type) const
 {
+    switch (type.sign)
+    {
+    case ifc::TypeSign::Plain:
+        break;
+    case ifc::TypeSign::Signed:
+        out_ << "signed ";
+        break;
+    case ifc::TypeSign::Unsigned:
+        out_ << "unsigned ";
+        break;
+    }
+
     using enum ifc::TypeBasis;
     switch (type.basis)
     {
