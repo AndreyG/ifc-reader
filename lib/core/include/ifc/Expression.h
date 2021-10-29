@@ -44,8 +44,7 @@ namespace ifc
     {
         SourceLocation locus;
         TypeIndex type;
-        Index start;
-        Cardinality cardinality;
+        Sequence seq;
 
         static constexpr std::string_view PartitionName = "expr.tuple";
     };

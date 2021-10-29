@@ -98,18 +98,23 @@ void Presenter::present(ifc::FundamentalType const& type) const
     }
 }
 
-void Presenter::present(ifc::TupleType tuple) const
+template<typename T, typename Index>
+void Presenter::present_heap_slice(ifc::Partition<T, Index> heap, ifc::Sequence seq) const
 {
-    auto type_heap = file_.type_heap();
     bool first = true;
-    for (size_t i = 0, n = raw_count(tuple.cardinality); i != n; ++i)
+    for (auto element : heap.slice(seq))
     {
         if (first)
             first = false;
         else
             out_ << ", ";
-        present(type_heap[tuple.start + i]);
+        present(element);
     }
+}
+
+void Presenter::present(ifc::TupleType tuple) const
+{
+    present_heap_slice(file_.type_heap(), tuple);
 }
 
 void Presenter::present(ifc::LvalueReference ref) const
@@ -164,16 +169,7 @@ void Presenter::present(ifc::NamedDecl const& decl) const
 
 void Presenter::present(ifc::TupleExpression const& tuple) const
 {
-    auto expr_heap = file_.expr_heap();
-    bool first = true;
-    for (size_t i = 0, n = raw_count(tuple.cardinality); i != n; ++i)
-    {
-        if (first)
-            first = false;
-        else
-            out_ << ", ";
-        present(expr_heap[tuple.start + i]);
-    }
+    present_heap_slice(file_.expr_heap(), tuple.seq);
 }
 
 void Presenter::present(ifc::ExprIndex expr) const

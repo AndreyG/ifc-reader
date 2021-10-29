@@ -10,6 +10,8 @@
 
 #include <iosfwd>
 
+#include "ifc/Partition.h"
+
 class Presenter
 {
 public:
@@ -44,6 +46,9 @@ private:
     void present(ifc::ExprIndex) const;
 
     void present_refered_declaration(ifc::DeclIndex) const;
+
+    template<typename T, typename Index>
+    void present_heap_slice(ifc::Partition<T, Index>, ifc::Sequence) const;
 
 private:
     ifc::File const & file_;

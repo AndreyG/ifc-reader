@@ -34,6 +34,11 @@ namespace ifc
         using Base::end;
         using Base::size;
 
+        Partition slice(Sequence seq)
+        {
+            return { Base::subspan(static_cast<size_t>(seq.start), raw_count(seq.cardinality)) };
+        }
+
         Partition(std::span<T const> raw_data)
             : Base(raw_data)
         {}
