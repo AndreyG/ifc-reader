@@ -93,6 +93,20 @@ namespace ifc
         static constexpr std::string_view PartitionName = "type.syntactic";
     };
 
+    enum class ExpansionMode : uint8_t
+    {
+        Full,
+        Partial
+    };
+
+    struct ExpansionType
+    {
+        TypeIndex pack;
+        ExpansionMode mode;
+
+        static constexpr std::string_view PartitionName = "type.expansion";
+    };
+
     enum class CallingConvention : uint8_t
     {
         Cdecl,

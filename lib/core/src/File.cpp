@@ -98,6 +98,11 @@ namespace ifc
         return get_partition<SyntacticType>();
     }
 
+    Partition<ExpansionType> File::expansion_types() const
+    {
+        return get_partition<ExpansionType>();
+    }
+
     Partition<FunctionType> File::function_types() const
     {
         return get_partition<FunctionType>();

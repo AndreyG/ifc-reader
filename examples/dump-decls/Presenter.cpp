@@ -212,6 +212,12 @@ void Presenter::present(ifc::SyntacticType type) const
     }
 }
 
+void Presenter::present(ifc::ExpansionType type) const
+{
+    present(type.pack);
+    out_ << "...";
+}
+
 void Presenter::present(ifc::TypeIndex type) const
 {
     using enum ifc::TypeSort;
@@ -225,6 +231,9 @@ void Presenter::present(ifc::TypeIndex type) const
         break;
     case Syntactic:
         present(file_.syntactic_types()[type.index]);
+        break;
+    case Expansion:
+        present(file_.expansion_types()[type.index]);
         break;
     case LvalueReference:
         present(file_.lvalue_references()[type.index]);

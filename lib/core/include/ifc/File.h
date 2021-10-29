@@ -43,6 +43,7 @@ namespace ifc
         Partition<FundamentalType>              fundamental_types()     const;
         Partition<DesignatedType>               designated_types()      const;
         Partition<SyntacticType>                syntactic_types()       const;
+        Partition<ExpansionType>                expansion_types()       const;
         Partition<FunctionType>                 function_types()        const;
         Partition<TupleType>                    tuple_types()           const;
         Partition<LvalueReference>              lvalue_references()     const;
