@@ -19,6 +19,18 @@ namespace ifc
         }
     };
 
+    template<typename Index>
+    Index get_raw_index(Index index)
+    {
+        return index;
+    }
+
+    template<int N, typename Sort>
+    uint32_t get_raw_index(AbstractReference<N, Sort> ref)
+    {
+        return ref.index;
+    }
+
     template<typename T, typename Index = uint32_t>
     class Partition : std::span<T const>
     {
@@ -27,7 +39,7 @@ namespace ifc
     public:
         T const & operator[] (Index index) const
         {
-            return Base::operator[](static_cast<size_t>(index));
+            return Base::operator[](static_cast<size_t>(get_raw_index(index)));
         }
 
         using Base::begin;

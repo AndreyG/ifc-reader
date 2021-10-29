@@ -17,7 +17,7 @@ void Presenter::present(ifc::NameIndex name) const
         out_ << file_.get_string(ifc::TextOffset{name.index});
         break;
     case Operator:
-        const auto operator_function_name = file_.operator_names()[name.index];
+        const auto operator_function_name = file_.operator_names()[name];
         out_ << "operator" << file_.get_string(operator_function_name.encoded);
         break;
     default:
@@ -161,7 +161,7 @@ void Presenter::present(ifc::NamedDecl const& decl) const
     switch (auto const kind = decl.resolution.sort())
     {
     case Reference:
-        present(file_.decl_references()[decl.resolution.index]);
+        present(file_.decl_references()[decl.resolution]);
         break;
     default:
         out_ << "Declaration of unsupported kind '" << static_cast<int>(kind) << "'";
@@ -179,13 +179,13 @@ void Presenter::present(ifc::ExprIndex expr) const
     switch (auto const expr_kind = expr.sort())
     {
     case Type:
-        present(file_.type_expressions()[expr.index].denotation);
+        present(file_.type_expressions()[expr].denotation);
         break;
     case NamedDecl:
-        present(file_.decl_expressions()[expr.index]);
+        present(file_.decl_expressions()[expr]);
         break;
     case Tuple:
-        present(file_.tuple_expressions()[expr.index]);
+        present(file_.tuple_expressions()[expr]);
         break;
     default:
         out_ << "Unsupported ExprSort'" << static_cast<int>(expr_kind) << "'";
@@ -201,7 +201,7 @@ void Presenter::present(ifc::ChartIndex chart) const
         break;
     case ifc::ChartSort::Unilevel:
         {
-            auto uni_chart = file_.unilevel_charts()[chart.index];
+            auto uni_chart = file_.unilevel_charts()[chart];
             out_ << "template<";
             bool first = true;
             for (auto param : file_.parameters().slice(uni_chart))
@@ -223,11 +223,11 @@ void Presenter::present(ifc::ChartIndex chart) const
                     break;
                 case ifc::ParameterSort::Template:
                     assert(param.type.sort() == ifc::TypeSort::Forall);
-                    auto forall_type = file_.forall_types()[param.type.index];
+                    auto forall_type = file_.forall_types()[param.type];
                     assert(forall_type.chart.sort() == ifc::ChartSort::Unilevel);
                     present(forall_type.chart);
                     assert(forall_type.subject.sort() == ifc::TypeSort::Fundamental);
-                    assert(file_.fundamental_types()[forall_type.subject.index].basis == ifc::TypeBasis::Typename);
+                    assert(file_.fundamental_types()[forall_type.subject].basis == ifc::TypeBasis::Typename);
                     out_ << "typename";
                     break;
                 }
@@ -259,7 +259,7 @@ void Presenter::present(ifc::SyntacticType type) const
     switch (auto const expr_kind = type.expr.sort())
     {
     case TemplateId:
-        present(file_.template_ids()[type.expr.index]);
+        present(file_.template_ids()[type.expr]);
         break;
     default:
         out_ << "Syntactic Type of unsupported expression kind '" << static_cast<int>(expr_kind) << "'";
@@ -278,31 +278,31 @@ void Presenter::present(ifc::TypeIndex type) const
     switch (const auto kind = type.sort())
     {
     case Fundamental:
-        present(file_.fundamental_types()[type.index]);
+        present(file_.fundamental_types()[type]);
         break;
     case Designated:
-        present_refered_declaration(file_.designated_types()[type.index].decl);
+        present_refered_declaration(file_.designated_types()[type].decl);
         break;
     case Syntactic:
-        present(file_.syntactic_types()[type.index]);
+        present(file_.syntactic_types()[type]);
         break;
     case Expansion:
-        present(file_.expansion_types()[type.index]);
+        present(file_.expansion_types()[type]);
         break;
     case LvalueReference:
-        present(file_.lvalue_references()[type.index]);
+        present(file_.lvalue_references()[type]);
         break;
     case RvalueReference:
-        present(file_.rvalue_references()[type.index]);
+        present(file_.rvalue_references()[type]);
         break;
     case Function:
-        present(file_.function_types()[type.index]);
+        present(file_.function_types()[type]);
         break;
     case Qualified:
-        present(file_.qualified_types()[type.index]);
+        present(file_.qualified_types()[type]);
         break;
     case Tuple:
-        present(file_.tuple_types()[type.index]);
+        present(file_.tuple_types()[type]);
         break;
     default:
         out_ << "Unsupported TypeSort '" << static_cast<int>(kind) << "'";
@@ -317,30 +317,30 @@ void Presenter::present_refered_declaration(ifc::DeclIndex decl) const
     {
     case Parameter:
         {
-            ifc::ParameterDeclaration const & param = file_.parameters()[decl.index];
+            ifc::ParameterDeclaration const & param = file_.parameters()[decl];
             out_ << file_.get_string(param.name);
         }
         break;
     case Scope:
         {
-            ifc::ScopeDeclaration const & scope = file_.scope_declarations()[decl.index];
+            ifc::ScopeDeclaration const & scope = file_.scope_declarations()[decl];
             present(scope.name);
         }
         break;
     case Template:
         {
-            ifc::TemplateDeclaration const & template_declaration = file_.template_declarations()[decl.index];
+            ifc::TemplateDeclaration const & template_declaration = file_.template_declarations()[decl];
             present(template_declaration.name);
         }
         break;
     case Function:
         {
-            ifc::FunctionDeclaration const & function = file_.functions()[decl.index];
+            ifc::FunctionDeclaration const & function = file_.functions()[decl];
             present(function.name);
         }
         break;
     case Reference:
-        present(file_.decl_references()[decl.index]);
+        present(file_.decl_references()[decl]);
         break;
     default:
         out_ << "Unsupported DeclSort '" << static_cast<int>(kind) << "'";
@@ -358,7 +358,7 @@ void Presenter::present(ifc::DeclIndex decl) const
         break;
     case Variable:
         {
-            ifc::VariableDeclaration const & variable = file_.variables()[decl.index];
+            ifc::VariableDeclaration const & variable = file_.variables()[decl];
             out_ << "Variable '";
             present(variable.name);
             out_ << "', type: ";
@@ -368,10 +368,10 @@ void Presenter::present(ifc::DeclIndex decl) const
         break;
     case Scope:
         {
-            ifc::ScopeDeclaration const & scope = file_.scope_declarations()[decl.index];
+            ifc::ScopeDeclaration const & scope = file_.scope_declarations()[decl];
             const auto type = scope.type;
             assert(type.sort() == ifc::TypeSort::Fundamental);
-            switch (const auto scope_kind = file_.fundamental_types()[type.index].basis)
+            switch (const auto scope_kind = file_.fundamental_types()[type].basis)
             {
                 using enum ifc::TypeBasis;
             case Class:
@@ -399,19 +399,19 @@ void Presenter::present(ifc::DeclIndex decl) const
         break;
     case Enumeration:
         {
-            auto const & enumeration = file_.enumerations()[decl.index];
+            auto const & enumeration = file_.enumerations()[decl];
             out_ << "Enumeration '" << file_.get_string(enumeration.name) << "'\n";
         }
         break;
     case Alias:
         {
-            auto const & alias = file_.alias_declarations()[decl.index];
+            auto const & alias = file_.alias_declarations()[decl];
             out_ << "Alias '" << file_.get_string(alias.name) << "'\n";
             break;
         }
     case Template:
         {
-            auto const & template_declaration = file_.template_declarations()[decl.index];
+            auto const & template_declaration = file_.template_declarations()[decl];
             present(template_declaration.chart);
             out_ << "\n";
             present(template_declaration.entity.decl);
@@ -420,7 +420,7 @@ void Presenter::present(ifc::DeclIndex decl) const
         break;
     case Function:
         {
-            ifc::FunctionDeclaration const & function = file_.functions()[decl.index];
+            ifc::FunctionDeclaration const & function = file_.functions()[decl];
             out_ << "Function '";
             present(function.name);
             out_ << "', type: ";
@@ -430,7 +430,7 @@ void Presenter::present(ifc::DeclIndex decl) const
         break;
     case UsingDeclaration:
         {
-            auto const & using_declaration = file_.using_declarations()[decl.index];
+            auto const & using_declaration = file_.using_declarations()[decl];
             out_ << "Using '";
             present_refered_declaration(using_declaration.resolution);
             out_ << "'\n";

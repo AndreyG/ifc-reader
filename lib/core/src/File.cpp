@@ -49,29 +49,29 @@ namespace ifc
         return get_partition<Declaration, Index>();
     }
 
-    Partition<ScopeDeclaration> File::scope_declarations() const
+    Partition<ScopeDeclaration, DeclIndex> File::scope_declarations() const
     {
-        return get_partition<ScopeDeclaration>();
+        return get_partition<ScopeDeclaration, DeclIndex>();
     }
 
-    Partition<TemplateDeclaration> File::template_declarations() const
+    Partition<TemplateDeclaration, DeclIndex> File::template_declarations() const
     {
-        return get_partition<TemplateDeclaration>();
+        return get_partition<TemplateDeclaration, DeclIndex>();
     }
 
-    Partition<UsingDeclaration> File::using_declarations() const
+    Partition<UsingDeclaration, DeclIndex> File::using_declarations() const
     {
-        return get_partition<UsingDeclaration>();
+        return get_partition<UsingDeclaration, DeclIndex>();
     }
 
-    Partition<Enumeration> File::enumerations() const
+    Partition<Enumeration, DeclIndex> File::enumerations() const
     {
-        return get_partition<Enumeration>();
+        return get_partition<Enumeration, DeclIndex>();
     }
 
-    Partition<AliasDeclaration> File::alias_declarations() const
+    Partition<AliasDeclaration, DeclIndex> File::alias_declarations() const
     {
-        return get_partition<AliasDeclaration>();
+        return get_partition<AliasDeclaration, DeclIndex>();
     }
 
     Partition<DeclIndex> File::deduction_guides() const
@@ -79,79 +79,79 @@ namespace ifc
         return get_partition<DeclIndex, uint32_t>("name.guide");
     }
 
-    Partition<DeclReference> File::decl_references() const
+    Partition<DeclReference, DeclIndex> File::decl_references() const
     {
-        return get_partition<DeclReference>();
+        return get_partition<DeclReference, DeclIndex>();
     }
 
-    Partition<FundamentalType> File::fundamental_types() const
+    Partition<FundamentalType, TypeIndex> File::fundamental_types() const
     {
-        return get_partition<FundamentalType>();
+        return get_partition<FundamentalType, TypeIndex>();
     }
 
-    Partition<DesignatedType> File::designated_types() const
+    Partition<DesignatedType, TypeIndex> File::designated_types() const
     {
-        return get_partition<DesignatedType>();
+        return get_partition<DesignatedType, TypeIndex>();
     }
 
-    Partition<SyntacticType> File::syntactic_types() const
+    Partition<SyntacticType, TypeIndex> File::syntactic_types() const
     {
-        return get_partition<SyntacticType>();
+        return get_partition<SyntacticType, TypeIndex>();
     }
 
-    Partition<ExpansionType> File::expansion_types() const
+    Partition<ExpansionType, TypeIndex> File::expansion_types() const
     {
-        return get_partition<ExpansionType>();
+        return get_partition<ExpansionType, TypeIndex>();
     }
 
-    Partition<FunctionType> File::function_types() const
+    Partition<FunctionType, TypeIndex> File::function_types() const
     {
-        return get_partition<FunctionType>();
+        return get_partition<FunctionType, TypeIndex>();
     }
 
-    Partition<TupleType> File::tuple_types() const
+    Partition<TupleType, TypeIndex> File::tuple_types() const
     {
-        return get_partition<TupleType>();
+        return get_partition<TupleType, TypeIndex>();
     }
 
-    Partition<LvalueReference> File::lvalue_references() const
+    Partition<LvalueReference, TypeIndex> File::lvalue_references() const
     {
-        return get_partition<LvalueReference>();
+        return get_partition<LvalueReference, TypeIndex>();
     }
 
-    Partition<RvalueReference> File::rvalue_references() const
+    Partition<RvalueReference, TypeIndex> File::rvalue_references() const
     {
-        return get_partition<RvalueReference>();
+        return get_partition<RvalueReference, TypeIndex>();
     }
 
-    Partition<QualifiedType> File::qualified_types() const
+    Partition<QualifiedType, TypeIndex> File::qualified_types() const
     {
-        return get_partition<QualifiedType>();
+        return get_partition<QualifiedType, TypeIndex>();
     }
 
-    Partition<ForallType> File::forall_types() const
+    Partition<ForallType, TypeIndex> File::forall_types() const
     {
-        return get_partition<ForallType>();
+        return get_partition<ForallType, TypeIndex>();
     }
 
-    Partition<TypeExpression> File::type_expressions() const
+    Partition<TypeExpression, ExprIndex> File::type_expressions() const
     {
-        return get_partition<TypeExpression>();
+        return get_partition<TypeExpression, ExprIndex>();
     }
 
-    Partition<NamedDecl> File::decl_expressions() const
+    Partition<NamedDecl, ExprIndex> File::decl_expressions() const
     {
-        return get_partition<NamedDecl>();
+        return get_partition<NamedDecl, ExprIndex>();
     }
 
-    Partition<TemplateId> File::template_ids() const
+    Partition<TemplateId, ExprIndex> File::template_ids() const
     {
-        return get_partition<TemplateId>();
+        return get_partition<TemplateId, ExprIndex>();
     }
 
-    Partition<TupleExpression> File::tuple_expressions() const
+    Partition<TupleExpression, ExprIndex> File::tuple_expressions() const
     {
-        return get_partition<TupleExpression>();
+        return get_partition<TupleExpression, ExprIndex>();
     }
 
     Partition<TypeIndex, Index> File::type_heap() const
@@ -164,34 +164,34 @@ namespace ifc
         return get_partition<ExprIndex, Index>("heap.expr");
     }
 
-    Partition<FunctionDeclaration> File::functions() const
+    Partition<FunctionDeclaration, DeclIndex> File::functions() const
     {
-        return get_partition<FunctionDeclaration>();
+        return get_partition<FunctionDeclaration, DeclIndex>();
     }
 
-    Partition<VariableDeclaration> File::variables() const
+    Partition<VariableDeclaration, DeclIndex> File::variables() const
     {
-        return get_partition<VariableDeclaration>();
+        return get_partition<VariableDeclaration, DeclIndex>();
     }
 
-    Partition<ParameterDeclaration> File::parameters() const
+    Partition<ParameterDeclaration, DeclIndex> File::parameters() const
     {
-        return get_partition<ParameterDeclaration>();
+        return get_partition<ParameterDeclaration, DeclIndex>();
     }
 
-    Partition<OperatorFunctionName> File::operator_names() const
+    Partition<OperatorFunctionName, NameIndex> File::operator_names() const
     {
-        return get_partition<OperatorFunctionName>();
+        return get_partition<OperatorFunctionName, NameIndex>();
     }
 
-    Partition<ChartUnilevel> File::unilevel_charts() const
+    Partition<ChartUnilevel, ChartIndex> File::unilevel_charts() const
     {
-        return get_partition<ChartUnilevel>();
+        return get_partition<ChartUnilevel, ChartIndex>();
     }
 
-    Partition<ChartMultilevel> File::multilevel_charts() const
+    Partition<ChartMultilevel, ChartIndex> File::multilevel_charts() const
     {
-        return get_partition<ChartMultilevel>();
+        return get_partition<ChartMultilevel, ChartIndex>();
     }
 
     template<typename T, typename Index>
