@@ -39,7 +39,7 @@ namespace ifc
         return scope_descriptors()[header().global_scope];
     }
 
-    Partition<ScopeDescriptor, ScopeIndex> File::scope_descriptors() const
+    ScopePartition File::scope_descriptors() const
     {
         return get_partition<ScopeDescriptor, ScopeIndex>();
     }

@@ -24,7 +24,7 @@ namespace ifc
 
         ScopeDescriptor global_scope() const;
 
-        Partition<ScopeDescriptor, ScopeIndex>  scope_descriptors()     const;
+        ScopePartition scope_descriptors() const;
 
         // Declarations
         Partition<Declaration, Index>               declarations()          const;
