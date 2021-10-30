@@ -51,12 +51,6 @@ jobs:
           cmake --build build
           echo "::endgroup::"
 
-      - name: run
-        run: |
-          echo "::group:: build"
-          cmake --build build
-          echo "::endgroup::"
-
        # No tests, but let's make sure the binary runs
       - name: test
         run: |
