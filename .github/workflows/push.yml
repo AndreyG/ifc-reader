@@ -2,10 +2,6 @@ name: build
 
 on: [push]
 
-strategy:
-  matrix:
-    compiler: [gcc, clang]
-
 jobs:
   build:
     runs-on: ubuntu-latest
