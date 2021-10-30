@@ -4,13 +4,14 @@
 
 #include <unordered_map>
 #include <vector>
+#include <optional>
 
 namespace ifc
 {
     class Environment
     {
     public:
-        File const & get_module_by_bmi_path (std::string const &);
+        File const & get_module_by_bmi_path (std::string const &, std::optional<std::string> const&);
         File const & get_module_by_name     (std::string const &);
 
     protected:
@@ -34,7 +35,7 @@ namespace ifc
             std::vector<Module> imported_modules;
         };
 
-        virtual Config get_config(std::string const & path_to_bmi) const = 0;
+        virtual Config get_config(std::string const & path_to_bmi, std::optional<std::string> const&) const = 0;
 
     private:
         void fill_name_to_path_mapping(Config);

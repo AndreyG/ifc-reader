@@ -5,12 +5,13 @@
 
 #include <filesystem>
 #include <iostream>
+#include <optional>
 
 int main(int argc, char* argv[])
 {
-    if (argc != 2)
+    if (argc < 2 || argc > 3)
     {
-        std::cerr << "expected: path to .ifc file\n";
+        std::cerr << "expected: <path to .ifc file> <optional path to source dep json>\n";
         return EXIT_FAILURE;
     }
 
@@ -21,10 +22,21 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
+    std::optional<std::string> path_to_metadata{std::nullopt};
+    if (argc > 2)
+    {
+        path_to_metadata = argv[2];
+        if (!is_regular_file(std::filesystem::path(*path_to_metadata)))
+        {
+            std::cerr << *path_to_metadata << " is not regular file\n";
+            return EXIT_FAILURE;
+        }
+    }
+
     try
     {
         ifc::MSVCEnvironment env;
-        ifc::File const & file = env.get_module_by_bmi_path(path_to_ifc);
+        ifc::File const & file = env.get_module_by_bmi_path(path_to_ifc, path_to_metadata);
 
         ifc::FileHeader const & header = file.header();
         std::cout << "IFC Version: " << header.major_version << "." << header.minor_version << "\n"
@@ -53,7 +65,7 @@ int main(int argc, char* argv[])
     }
     catch (std::exception const & e)
     {
-        std::cerr << e.what();
+        std::cerr << e.what() << std::endl;
         return EXIT_FAILURE;
     }
 }

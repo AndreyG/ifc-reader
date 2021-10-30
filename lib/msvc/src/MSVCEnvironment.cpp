@@ -5,13 +5,12 @@
 #include <filesystem>
 #include <fstream>
 
-ifc::Environment::Config ifc::MSVCEnvironment::get_config(std::string const& path_to_bmi) const
+ifc::Environment::Config ifc::MSVCEnvironment::get_config(std::string const& path_to_bmi, std::optional<std::string> const& path_to_metadata) const
 {
-    std::string path_to_metadata = path_to_bmi + ".d.json";
-
-    std::ifstream file(path_to_metadata);
+    const std::string metadata_path = path_to_metadata.value_or(path_to_bmi + ".d.json");
+    std::ifstream file(metadata_path);
     if (!file)
-        throw std::runtime_error("metadata is not found by path '" + path_to_metadata + "'");
+        throw std::runtime_error("metadata is not found by path '" + metadata_path + "'");
 
     nlohmann::json metadata;
     file >> metadata;
