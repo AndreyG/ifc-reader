@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 {
     if (argc < 2 || argc > 3)
     {
-        std::cerr << "expected: <path to .ifc file> <optional path to source dep json>\n";
+        std::cerr << "expected: <path to .ifc file> <(optional) path to metadata>\n";
         return EXIT_FAILURE;
     }
 
