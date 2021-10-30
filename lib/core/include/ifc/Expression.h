@@ -6,6 +6,8 @@
 
 #include "common_types.h"
 
+#include "Type.h"
+
 #include <string_view>
 
 namespace ifc

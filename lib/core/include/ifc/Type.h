@@ -1,6 +1,8 @@
 #pragma once
 
 #include "TypeFwd.h"
+#include "DeclarationFwd.h"
+#include "NoexceptSpecification.h"
 
 #include "CallingConvention.h"
 

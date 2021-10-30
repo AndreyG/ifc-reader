@@ -8,6 +8,7 @@
 #include "NoexceptSpecification.h"
 #include "Scope.h"
 #include "SourceLocation.h"
+#include "Type.h"
 
 #include <string_view>
 

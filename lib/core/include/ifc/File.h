@@ -3,11 +3,11 @@
 #include "FileHeader.h"
 #include "Partition.h"
 
-#include "ChartFwd.h"
-#include "ExpressionFwd.h"
-#include "DeclarationFwd.h"
-#include "NameFwd.h"
-#include "TypeFwd.h"
+#include "Chart.h"
+#include "Expression.h"
+#include "Declaration.h"
+#include "Name.h"
+#include "Type.h"
 
 #include <boost/iostreams/device/mapped_file.hpp>
 
