@@ -27,7 +27,7 @@ ifc::Environment::Config ifc::MSVCEnvironment::get_config(std::string const& pat
         if (!is_regular_file(std::filesystem::path(bmi)))
             throw std::runtime_error("cannot find BMI file " + bmi + " for header '" + header + "'");
 
-        config.imported_header_units.emplace_back(std::move(header), std::move(bmi));
+        config.imported_header_units.push_back({ std::move(header), std::move(bmi) });
     }
 
     auto const & imported_modules = data["ImportedModules"];
@@ -38,7 +38,7 @@ ifc::Environment::Config ifc::MSVCEnvironment::get_config(std::string const& pat
         if (!is_regular_file(std::filesystem::path(bmi)))
             throw std::runtime_error("cannot find BMI file " + bmi + " for module '" + name + "'");
 
-        config.imported_modules.emplace_back(std::move(name), std::move(bmi));
+        config.imported_modules.push_back({ std::move(name), std::move(bmi) });
     }
 
     return config;
