@@ -2,6 +2,8 @@
 
 #include "TypeFwd.h"
 
+#include "CallingConvention.h"
+
 namespace ifc
 {
     enum class TypeSort
@@ -114,17 +116,6 @@ namespace ifc
         static constexpr std::string_view PartitionName = "type.pointer";
     };
 
-    enum class CallingConvention : uint8_t
-    {
-        Cdecl,
-        Fast,
-        Std,
-        This,
-        Clr,
-        Vector,
-        Eabi,
-    };
-
     enum class FunctionTypeTraits : uint8_t
     {
         None        = 0,
@@ -138,22 +129,6 @@ namespace ifc
     {
         return (static_cast<uint8_t>(a) & static_cast<uint8_t>(b)) != 0;
     }
-
-    enum class NoexceptSort : uint8_t
-    {
-        None,
-        False,
-        True,
-        Expression,
-        Inferred,
-        Unenforced,
-    };
-
-    struct NoexceptSpecification
-    {
-        SentenceIndex words;
-        NoexceptSort sort;
-    };
 
     struct FunctionType
     {
@@ -176,6 +151,15 @@ namespace ifc
         FunctionTypeTraits traits;
 
         static constexpr std::string_view PartitionName = "type.nonstatic-member-function";
+    };
+
+    struct TorType
+    {
+        TypeIndex source;
+        NoexceptSpecification eh_spec;
+        CallingConvention convention;
+
+        static constexpr std::string_view PartitionName = "type.tor";
     };
 
     struct TupleType : Sequence

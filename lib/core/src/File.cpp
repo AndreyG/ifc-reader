@@ -94,6 +94,11 @@ namespace ifc
         return get_partition<DesignatedType, TypeIndex>();
     }
 
+    Partition<TorType, TypeIndex> File::tor_types() const
+    {
+        return get_partition<TorType, TypeIndex>();
+    }
+
     Partition<SyntacticType, TypeIndex> File::syntactic_types() const
     {
         return get_partition<SyntacticType, TypeIndex>();
@@ -182,6 +187,16 @@ namespace ifc
     Partition<MethodDeclaration, DeclIndex> File::methods() const
     {
         return get_partition<MethodDeclaration, DeclIndex>();
+    }
+
+    Partition<Constructor, DeclIndex> File::constructors() const
+    {
+        return get_partition<Constructor, DeclIndex>();
+    }
+
+    Partition<Destructor, DeclIndex> File::destructors() const
+    {
+        return get_partition<Destructor, DeclIndex>();
     }
 
     Partition<VariableDeclaration, DeclIndex> File::variables() const

@@ -2,8 +2,10 @@
 
 #include "DeclarationFwd.h"
 
+#include "CallingConvention.h"
 #include "Module.h"
 #include "Name.h"
+#include "NoexceptSpecification.h"
 #include "Scope.h"
 #include "SourceLocation.h"
 
@@ -238,6 +240,36 @@ namespace ifc
     struct MethodDeclaration : FunctionDeclarationBase
     {
         static constexpr std::string_view PartitionName = "decl.method";
+    };
+
+    struct Constructor
+    {
+        TextOffset name;
+        SourceLocation locus;
+        TypeIndex type;
+        DeclIndex home_scope;
+        ChartIndex chart;
+        FunctionTraits traits;
+        BasicSpecifiers specifiers;
+        Access access;
+        ReachableProperties properties;
+
+        static constexpr std::string_view PartitionName = "decl.constructor";
+    };
+
+    struct Destructor
+    {
+        TextOffset name;
+        SourceLocation locus;
+        DeclIndex home_scope;
+        NoexceptSpecification eh_spec;
+        FunctionTraits traits;
+        BasicSpecifiers specifiers;
+        Access access;
+        CallingConvention convention;
+        ReachableProperties properties;
+
+        static constexpr std::string_view PartitionName = "decl.destructor";
     };
 
     struct VariableDeclaration

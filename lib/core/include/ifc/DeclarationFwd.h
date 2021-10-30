@@ -14,6 +14,8 @@ namespace ifc
     struct ScopeDeclaration;
     struct FunctionDeclaration;
     struct MethodDeclaration;
+    struct Constructor;
+    struct Destructor;
     struct AliasDeclaration;
     struct Enumeration;
     struct UsingDeclaration;

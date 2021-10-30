@@ -58,6 +58,8 @@ private:
     void present(ifc::ScopeDeclaration      const &) const;
     void present(ifc::FunctionDeclaration   const &) const;
     void present(ifc::MethodDeclaration     const &) const;
+    void present(ifc::Constructor           const &) const;
+    void present(ifc::Destructor            const &) const;
     void present(ifc::VariableDeclaration   const &) const;
     void present(ifc::TemplateDeclaration   const &) const;
     void present(ifc::Enumeration           const &) const;

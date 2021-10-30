@@ -9,6 +9,7 @@ namespace ifc
 
     struct FundamentalType;
     struct DesignatedType;
+    struct TorType;
     struct SyntacticType;
     struct ExpansionType;
     struct PointerType;

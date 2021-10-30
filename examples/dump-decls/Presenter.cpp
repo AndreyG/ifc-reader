@@ -458,6 +458,38 @@ void Presenter::present(ifc::MethodDeclaration const& method) const
     out_ << "\n";
 }
 
+namespace SpecialMemberNames
+{
+    using namespace std::string_view_literals;
+
+    constexpr auto Ctor = "{ctor}"sv;
+    constexpr auto Dtor = "{dtor}"sv;
+}
+
+void Presenter::present(ifc::Constructor const& constructor) const
+{
+    assert(file_.get_string(constructor.name) == SpecialMemberNames::Ctor);
+    assert(constructor.type.sort() == ifc::TypeSort::Tor);
+    auto type = file_.tor_types()[constructor.type];
+    if (auto params = type.source; params.is_null())
+    {
+        out_ << "Default Constructor";
+    }
+    else
+    {
+        out_ << "Constructor, parameter types: (";
+        present(type.source);
+        out_ << ")";
+    }
+    out_ << "\n";
+}
+
+void Presenter::present(ifc::Destructor const& destructor) const
+{
+    assert(file_.get_string(destructor.name) == SpecialMemberNames::Dtor);
+    out_ << "Destructor\n";
+}
+
 void Presenter::present(ifc::VariableDeclaration const& variable) const
 {
     out_ << "Variable '";
@@ -529,6 +561,12 @@ void Presenter::present(ifc::DeclIndex decl) const
     case Method:
         present(file_.methods()[decl]);
         break;
+    case Constructor:
+        present(file_.constructors()[decl]);
+        break;
+    case Destructor:
+        present(file_.destructors()[decl]);
+        break;;
     case UsingDeclaration:
         present(file_.using_declarations()[decl]);
         break;
