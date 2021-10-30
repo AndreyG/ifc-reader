@@ -217,7 +217,7 @@ namespace ifc
         Vendor          = 1 << 15,
     };
 
-    struct FunctionDeclaration
+    struct FunctionDeclarationBase
     {
         NameIndex name;
         SourceLocation locus;
@@ -228,8 +228,16 @@ namespace ifc
         BasicSpecifiers specifiers;
         Access access;
         ReachableProperties properties;
+    };
 
+    struct FunctionDeclaration : FunctionDeclarationBase
+    {
         static constexpr std::string_view PartitionName = "decl.function";
+    };
+
+    struct MethodDeclaration : FunctionDeclarationBase
+    {
+        static constexpr std::string_view PartitionName = "decl.method";
     };
 
     struct VariableDeclaration

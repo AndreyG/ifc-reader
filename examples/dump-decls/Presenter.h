@@ -30,6 +30,10 @@ private:
     void present(ifc::TypeIndex) const;
 
     void present(ifc::FunctionType    const &) const;
+    void present(ifc::MethodType      const &) const;
+    void present_function_type(auto const &)   const;
+    void present(ifc::FunctionTypeTraits)      const;
+
     void present(ifc::FundamentalType const &) const;
 
     void present(ifc::SyntacticType) const;
@@ -52,6 +56,7 @@ private:
 
     void present(ifc::ScopeDeclaration      const &) const;
     void present(ifc::FunctionDeclaration   const &) const;
+    void present(ifc::MethodDeclaration     const &) const;
     void present(ifc::VariableDeclaration   const &) const;
     void present(ifc::TemplateDeclaration   const &) const;
     void present(ifc::Enumeration           const &) const;

@@ -27,11 +27,35 @@ void Presenter::present(ifc::NameIndex name) const
 
 void Presenter::present(ifc::FunctionType const& function_type) const
 {
+    present_function_type(function_type);
+}
+
+void Presenter::present(ifc::MethodType const& method_type) const
+{
+    present_function_type(method_type);
+}
+
+void Presenter::present_function_type(auto const& function_type) const
+{
     present(function_type.target);
     out_ << "(";
     if (auto params = function_type.source; !params.is_null())
         present(params);
     out_ << ")";
+    present(function_type.traits);
+}
+
+void Presenter::present(ifc::FunctionTypeTraits traits) const
+{
+    using enum ifc::FunctionTypeTraits;
+    if (has_trait(traits, Const))
+        out_ << " const";
+    if (has_trait(traits, Volatile))
+        out_ << " volatile";
+    if (has_trait(traits, Lvalue))
+        out_ << " &";
+    if (has_trait(traits, Rvalue))
+        out_ << " &&";
 }
 
 void Presenter::present(ifc::FundamentalType const& type) const
@@ -305,6 +329,9 @@ void Presenter::present(ifc::TypeIndex type) const
     case Function:
         present(file_.function_types()[type]);
         break;
+    case Method:
+        present(file_.method_types()[type]);
+        break;
     case Qualified:
         present(file_.qualified_types()[type]);
         break;
@@ -413,6 +440,15 @@ void Presenter::present(ifc::FunctionDeclaration const& function) const
     out_ << "\n";
 }
 
+void Presenter::present(ifc::MethodDeclaration const& method) const
+{
+    out_ << "Method '";
+    present(method.name);
+    out_ << "', type: ";
+    present(method.type);
+    out_ << "\n";
+}
+
 void Presenter::present(ifc::VariableDeclaration const& variable) const
 {
     out_ << "Variable '";
@@ -480,6 +516,9 @@ void Presenter::present(ifc::DeclIndex decl) const
         break;
     case Function:
         present(file_.functions()[decl]);
+        break;
+    case Method:
+        present(file_.methods()[decl]);
         break;
     case UsingDeclaration:
         present(file_.using_declarations()[decl]);

@@ -17,6 +17,7 @@ namespace ifc
         LvalueReference = 0x08,
         RvalueReference = 0x09,
         Function        = 0x0A,
+        Method          = 0x0B,
         Qualified       = 0x0E,
         Tuple           = 0x12,
         Forall          = 0x13,
@@ -126,6 +127,11 @@ namespace ifc
         Rvalue      = 1 << 3,
     };
 
+    inline bool has_trait(FunctionTypeTraits a, FunctionTypeTraits b)
+    {
+        return (static_cast<uint8_t>(a) & static_cast<uint8_t>(b)) != 0;
+    }
+
     enum class NoexceptSort : uint8_t
     {
         None,
@@ -151,6 +157,18 @@ namespace ifc
         FunctionTypeTraits traits;
 
         static constexpr std::string_view PartitionName = "type.function";
+    };
+
+    struct MethodType
+    {
+        TypeIndex target;
+        TypeIndex source;
+        TypeIndex scope;
+        NoexceptSpecification eh_spec;
+        CallingConvention convention;
+        FunctionTypeTraits traits;
+
+        static constexpr std::string_view PartitionName = "type.nonstatic-member-function";
     };
 
     struct TupleType : Sequence

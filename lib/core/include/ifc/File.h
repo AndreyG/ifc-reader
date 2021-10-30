@@ -34,6 +34,7 @@ namespace ifc
         Partition<Enumeration, DeclIndex>           enumerations()          const;
         Partition<AliasDeclaration, DeclIndex>      alias_declarations()    const;
         Partition<FunctionDeclaration, DeclIndex>   functions()             const;
+        Partition<MethodDeclaration, DeclIndex>     methods()               const;
         Partition<VariableDeclaration, DeclIndex>   variables()             const;
         Partition<ParameterDeclaration, DeclIndex>  parameters()            const;
         Partition<DeclReference, DeclIndex>         decl_references()       const;
@@ -45,6 +46,7 @@ namespace ifc
         Partition<SyntacticType, TypeIndex>     syntactic_types()       const;
         Partition<ExpansionType, TypeIndex>     expansion_types()       const;
         Partition<FunctionType, TypeIndex>      function_types()        const;
+        Partition<MethodType, TypeIndex>        method_types()          const;
         Partition<TupleType, TypeIndex>         tuple_types()           const;
         Partition<LvalueReference, TypeIndex>   lvalue_references()     const;
         Partition<RvalueReference, TypeIndex>   rvalue_references()     const;

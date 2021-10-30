@@ -109,6 +109,11 @@ namespace ifc
         return get_partition<FunctionType, TypeIndex>();
     }
 
+    Partition<MethodType, TypeIndex> File::method_types() const
+    {
+        return get_partition<MethodType, TypeIndex>();
+    }
+
     Partition<TupleType, TypeIndex> File::tuple_types() const
     {
         return get_partition<TupleType, TypeIndex>();
@@ -167,6 +172,11 @@ namespace ifc
     Partition<FunctionDeclaration, DeclIndex> File::functions() const
     {
         return get_partition<FunctionDeclaration, DeclIndex>();
+    }
+
+    Partition<MethodDeclaration, DeclIndex> File::methods() const
+    {
+        return get_partition<MethodDeclaration, DeclIndex>();
     }
 
     Partition<VariableDeclaration, DeclIndex> File::variables() const
