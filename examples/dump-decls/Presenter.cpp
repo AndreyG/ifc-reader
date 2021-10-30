@@ -17,8 +17,10 @@ void Presenter::present(ifc::NameIndex name) const
         out_ << file_.get_string(ifc::TextOffset{name.index});
         break;
     case Operator:
-        const auto operator_function_name = file_.operator_names()[name];
-        out_ << "operator" << file_.get_string(operator_function_name.encoded);
+        {
+            const auto operator_function_name = file_.operator_names()[name];
+            out_ << "operator" << file_.get_string(operator_function_name.encoded);
+        }
         break;
     default:
         out_ << "Unsupported NameSort '" << static_cast<int>(kind) << "'";
