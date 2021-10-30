@@ -44,18 +44,10 @@ int main(int argc, char* argv[])
 
         std::cout << "Count of declarations from all scopes: " << number_of_decls_from_all_scopes << "\n";
 
-        ifc::ScopeDescriptor global_scope = file.global_scope();
-        const ifc::Index first_global_scope_declaration = global_scope.start;
-        std::cout << "Global scope contains " << raw_count(global_scope.cardinality) << " declarations, "
-                  << "first declaration index = " << static_cast<int>(first_global_scope_declaration) << "\n";
+        std::cout << "-------------------------------------- Global Scope --------------------------------------\n";
 
         Presenter presenter(file, std::cout);
-
-        for (size_t i = 0; i != raw_count(global_scope.cardinality); ++i)
-        {
-            std::cout << "------------------- Declaration " << i << " -------------------\n";
-            presenter.present(declarations[first_global_scope_declaration + i]);
-        }
+        presenter.present_scope_members(file.global_scope());
 
         return EXIT_SUCCESS;
     }

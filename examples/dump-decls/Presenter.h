@@ -19,12 +19,13 @@ public:
         , out_(out)
     {}
 
-    void present(ifc::Declaration) const;
+    void present_scope_members(ifc::ScopeDescriptor) const;
 
 private:
     void present(ifc::NameIndex)     const;
     void present(ifc::DeclIndex)     const;
     void present(ifc::DeclReference) const;
+    void present(ifc::Declaration)   const;
 
     void present(ifc::TypeIndex) const;
 
@@ -49,10 +50,18 @@ private:
 
     void present_refered_declaration(ifc::DeclIndex) const;
 
+    void present(ifc::ScopeDeclaration const &) const;
+
     template<typename T, typename Index>
     void present_heap_slice(ifc::Partition<T, Index>, ifc::Sequence) const;
+
+    template<typename Range>
+    void present_range(Range, std::string_view separator) const;
+
+    void insert_indent() const;
 
 private:
     ifc::File const & file_;
     std::ostream& out_;
+    mutable size_t indent_ = 0;
 };

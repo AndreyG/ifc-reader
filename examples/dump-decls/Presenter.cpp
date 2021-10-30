@@ -102,13 +102,19 @@ void Presenter::present(ifc::FundamentalType const& type) const
 template<typename T, typename Index>
 void Presenter::present_heap_slice(ifc::Partition<T, Index> heap, ifc::Sequence seq) const
 {
+    present_range(heap.slice(seq), ", ");
+}
+
+template<typename Range>
+void Presenter::present_range(Range range, std::string_view separator) const
+{
     bool first = true;
-    for (auto element : heap.slice(seq))
+    for (auto element : range)
     {
         if (first)
             first = false;
         else
-            out_ << ", ";
+            out_ << separator;
         present(element);
     }
 }
@@ -347,9 +353,67 @@ void Presenter::present_refered_declaration(ifc::DeclIndex decl) const
     }
 }
 
+void Presenter::present_scope_members(ifc::ScopeDescriptor scope) const
+{
+    present_range(file_.declarations().slice(scope), "\n");
+}
+
+void Presenter::present(ifc::ScopeDeclaration const& scope) const
+{
+    const auto type = scope.type;
+    assert(type.sort() == ifc::TypeSort::Fundamental);
+    switch (const auto scope_kind = file_.fundamental_types()[type].basis)
+    {
+        using enum ifc::TypeBasis;
+    case Class:
+        out_ << "Class";
+        break;
+    case Struct:
+        out_ << "Struct";
+        break;
+    case Union:
+        out_ << "Union";
+        break;
+    case Namespace:
+        out_ << "Namespace";
+        break;
+    case Interface:
+        out_ << "__interface";
+        break;
+    default:
+        out_ << "Unknown Scope '" << static_cast<int>(scope_kind) << "'";
+    }
+    out_ << " '";
+    present(scope.name);
+    out_ << "'";
+    if (auto const def = scope.initializer; is_null(def))
+    {
+        out_ << ": incomplete";
+    }
+    else
+    {
+        out_ << " {\n";
+        indent_ += 2;
+        present_scope_members(file_.scope_descriptors()[def]);
+        indent_ -= 2;
+
+        insert_indent();
+        out_ << "}";
+    }
+    out_ << "\n";
+}
+
+void Presenter::insert_indent() const
+{
+    for (size_t i = 0; i != indent_; ++i)
+        out_ << ' ';
+}
+
 void Presenter::present(ifc::DeclIndex decl) const
 {
     using enum ifc::DeclSort;
+
+    insert_indent();
 
     switch (const auto kind = decl.sort())
     {
@@ -367,35 +431,7 @@ void Presenter::present(ifc::DeclIndex decl) const
         }
         break;
     case Scope:
-        {
-            ifc::ScopeDeclaration const & scope = file_.scope_declarations()[decl];
-            const auto type = scope.type;
-            assert(type.sort() == ifc::TypeSort::Fundamental);
-            switch (const auto scope_kind = file_.fundamental_types()[type].basis)
-            {
-                using enum ifc::TypeBasis;
-            case Class:
-                out_ << "Class";
-                break;
-            case Struct:
-                out_ << "Struct";
-                break;
-            case Union:
-                out_ << "Union";
-                break;
-            case Namespace:
-                out_ << "Namespace";
-                break;
-            case Interface:
-                out_ << "__interface";
-                break;
-            default:
-                out_ << "Unknown Scope '" << static_cast<int>(scope_kind) << "'";
-            }
-            out_ << " '";
-            present(scope.name);
-            out_ << "'\n";
-        }
+        present(file_.scope_declarations()[decl]);
         break;
     case Enumeration:
         {
@@ -415,7 +451,6 @@ void Presenter::present(ifc::DeclIndex decl) const
             present(template_declaration.chart);
             out_ << "\n";
             present(template_declaration.entity.decl);
-            out_ << "\n";
         }
         break;
     case Function:
