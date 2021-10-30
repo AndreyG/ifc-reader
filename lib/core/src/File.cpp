@@ -44,130 +44,66 @@ namespace ifc
         return get_partition<ScopeDescriptor, ScopeIndex>();
     }
 
-    Partition<Declaration, Index> File::declarations() const
-    {
-        return get_partition<Declaration, Index>();
+#define DEFINE_PARTITION_GETTER(ElementType, IndexType, Property)   \
+    Partition<ElementType, IndexType> File::Property() const {      \
+        return get_partition<ElementType, IndexType>();             \
     }
 
-    Partition<ScopeDeclaration, DeclIndex> File::scope_declarations() const
-    {
-        return get_partition<ScopeDeclaration, DeclIndex>();
-    }
+    DEFINE_PARTITION_GETTER(Declaration, Index, declarations)
 
-    Partition<TemplateDeclaration, DeclIndex> File::template_declarations() const
-    {
-        return get_partition<TemplateDeclaration, DeclIndex>();
-    }
+#define DEFINE_DECL_PARTITION_GETTER(DeclType, DeclName) \
+    DEFINE_PARTITION_GETTER(DeclType, DeclIndex, DeclName)
 
-    Partition<UsingDeclaration, DeclIndex> File::using_declarations() const
-    {
-        return get_partition<UsingDeclaration, DeclIndex>();
-    }
+    DEFINE_DECL_PARTITION_GETTER(ScopeDeclaration,      scope_declarations)
+    DEFINE_DECL_PARTITION_GETTER(TemplateDeclaration,   template_declarations)
+    DEFINE_DECL_PARTITION_GETTER(UsingDeclaration,      using_declarations)
+    DEFINE_DECL_PARTITION_GETTER(Enumeration,           enumerations)
+    DEFINE_DECL_PARTITION_GETTER(AliasDeclaration,      alias_declarations)
+    DEFINE_DECL_PARTITION_GETTER(DeclReference,         decl_references)
+    DEFINE_DECL_PARTITION_GETTER(FunctionDeclaration,   functions)
+    DEFINE_DECL_PARTITION_GETTER(MethodDeclaration,     methods)
+    DEFINE_DECL_PARTITION_GETTER(Constructor,           constructors)
+    DEFINE_DECL_PARTITION_GETTER(Destructor,            destructors)
+    DEFINE_DECL_PARTITION_GETTER(VariableDeclaration,   variables)
+    DEFINE_DECL_PARTITION_GETTER(ParameterDeclaration,  parameters)
 
-    Partition<Enumeration, DeclIndex> File::enumerations() const
-    {
-        return get_partition<Enumeration, DeclIndex>();
-    }
+#undef DEFINE_DECL_PARTITION_GETTER
 
-    Partition<AliasDeclaration, DeclIndex> File::alias_declarations() const
-    {
-        return get_partition<AliasDeclaration, DeclIndex>();
-    }
+#define DEFINE_TYPE_PARTITION_GETTER(Type, TypeName) \
+    DEFINE_PARTITION_GETTER(Type, TypeIndex, TypeName)
 
-    Partition<DeclIndex> File::deduction_guides() const
-    {
-        return get_partition<DeclIndex, uint32_t>("name.guide");
-    }
+    DEFINE_TYPE_PARTITION_GETTER(FundamentalType,    fundamental_types)
+    DEFINE_TYPE_PARTITION_GETTER(DesignatedType,     designated_types)
+    DEFINE_TYPE_PARTITION_GETTER(TorType,            tor_types)
+    DEFINE_TYPE_PARTITION_GETTER(SyntacticType,      syntactic_types)
+    DEFINE_TYPE_PARTITION_GETTER(ExpansionType,      expansion_types)
+    DEFINE_TYPE_PARTITION_GETTER(PointerType,        pointer_types)
+    DEFINE_TYPE_PARTITION_GETTER(FunctionType,       function_types)
+    DEFINE_TYPE_PARTITION_GETTER(MethodType,         method_types)
+    DEFINE_TYPE_PARTITION_GETTER(TupleType,          tuple_types)
+    DEFINE_TYPE_PARTITION_GETTER(LvalueReference,    lvalue_references)
+    DEFINE_TYPE_PARTITION_GETTER(RvalueReference,    rvalue_references)
+    DEFINE_TYPE_PARTITION_GETTER(QualifiedType,      qualified_types)
+    DEFINE_TYPE_PARTITION_GETTER(ForallType,         forall_types)
 
-    Partition<DeclReference, DeclIndex> File::decl_references() const
-    {
-        return get_partition<DeclReference, DeclIndex>();
-    }
+#undef DEFINE_TYPE_PARTITION_GETTER
 
-    Partition<FundamentalType, TypeIndex> File::fundamental_types() const
-    {
-        return get_partition<FundamentalType, TypeIndex>();
-    }
+#define DEFINE_EXPR_PARTITION_GETTER(ExprType, ExprName) \
+    DEFINE_PARTITION_GETTER(ExprType, ExprIndex, ExprName)
 
-    Partition<DesignatedType, TypeIndex> File::designated_types() const
-    {
-        return get_partition<DesignatedType, TypeIndex>();
-    }
+    DEFINE_EXPR_PARTITION_GETTER(TypeExpression,    type_expressions)
+    DEFINE_EXPR_PARTITION_GETTER(NamedDecl,         decl_expressions)
+    DEFINE_EXPR_PARTITION_GETTER(TemplateId,        template_ids)
+    DEFINE_EXPR_PARTITION_GETTER(TupleExpression,   tuple_expressions)
 
-    Partition<TorType, TypeIndex> File::tor_types() const
-    {
-        return get_partition<TorType, TypeIndex>();
-    }
+#undef DEFINE_EXPR_PARTITION_GETTER
 
-    Partition<SyntacticType, TypeIndex> File::syntactic_types() const
-    {
-        return get_partition<SyntacticType, TypeIndex>();
-    }
+    DEFINE_PARTITION_GETTER(ChartUnilevel,   ChartIndex, unilevel_charts)
+    DEFINE_PARTITION_GETTER(ChartMultilevel, ChartIndex, multilevel_charts)
 
-    Partition<ExpansionType, TypeIndex> File::expansion_types() const
-    {
-        return get_partition<ExpansionType, TypeIndex>();
-    }
+    DEFINE_PARTITION_GETTER(OperatorFunctionName, NameIndex, operator_names)
 
-    Partition<PointerType, TypeIndex> File::pointer_types() const
-    {
-        return get_partition<PointerType, TypeIndex>();
-    }
-
-    Partition<FunctionType, TypeIndex> File::function_types() const
-    {
-        return get_partition<FunctionType, TypeIndex>();
-    }
-
-    Partition<MethodType, TypeIndex> File::method_types() const
-    {
-        return get_partition<MethodType, TypeIndex>();
-    }
-
-    Partition<TupleType, TypeIndex> File::tuple_types() const
-    {
-        return get_partition<TupleType, TypeIndex>();
-    }
-
-    Partition<LvalueReference, TypeIndex> File::lvalue_references() const
-    {
-        return get_partition<LvalueReference, TypeIndex>();
-    }
-
-    Partition<RvalueReference, TypeIndex> File::rvalue_references() const
-    {
-        return get_partition<RvalueReference, TypeIndex>();
-    }
-
-    Partition<QualifiedType, TypeIndex> File::qualified_types() const
-    {
-        return get_partition<QualifiedType, TypeIndex>();
-    }
-
-    Partition<ForallType, TypeIndex> File::forall_types() const
-    {
-        return get_partition<ForallType, TypeIndex>();
-    }
-
-    Partition<TypeExpression, ExprIndex> File::type_expressions() const
-    {
-        return get_partition<TypeExpression, ExprIndex>();
-    }
-
-    Partition<NamedDecl, ExprIndex> File::decl_expressions() const
-    {
-        return get_partition<NamedDecl, ExprIndex>();
-    }
-
-    Partition<TemplateId, ExprIndex> File::template_ids() const
-    {
-        return get_partition<TemplateId, ExprIndex>();
-    }
-
-    Partition<TupleExpression, ExprIndex> File::tuple_expressions() const
-    {
-        return get_partition<TupleExpression, ExprIndex>();
-    }
+#undef DEFINE_PARTITION_GETTER
 
     Partition<TypeIndex, Index> File::type_heap() const
     {
@@ -179,49 +115,9 @@ namespace ifc
         return get_partition<ExprIndex, Index>("heap.expr");
     }
 
-    Partition<FunctionDeclaration, DeclIndex> File::functions() const
+    Partition<DeclIndex> File::deduction_guides() const
     {
-        return get_partition<FunctionDeclaration, DeclIndex>();
-    }
-
-    Partition<MethodDeclaration, DeclIndex> File::methods() const
-    {
-        return get_partition<MethodDeclaration, DeclIndex>();
-    }
-
-    Partition<Constructor, DeclIndex> File::constructors() const
-    {
-        return get_partition<Constructor, DeclIndex>();
-    }
-
-    Partition<Destructor, DeclIndex> File::destructors() const
-    {
-        return get_partition<Destructor, DeclIndex>();
-    }
-
-    Partition<VariableDeclaration, DeclIndex> File::variables() const
-    {
-        return get_partition<VariableDeclaration, DeclIndex>();
-    }
-
-    Partition<ParameterDeclaration, DeclIndex> File::parameters() const
-    {
-        return get_partition<ParameterDeclaration, DeclIndex>();
-    }
-
-    Partition<OperatorFunctionName, NameIndex> File::operator_names() const
-    {
-        return get_partition<OperatorFunctionName, NameIndex>();
-    }
-
-    Partition<ChartUnilevel, ChartIndex> File::unilevel_charts() const
-    {
-        return get_partition<ChartUnilevel, ChartIndex>();
-    }
-
-    Partition<ChartMultilevel, ChartIndex> File::multilevel_charts() const
-    {
-        return get_partition<ChartMultilevel, ChartIndex>();
+        return get_partition<DeclIndex, uint32_t>("name.guide");
     }
 
     template<typename T, typename Index>

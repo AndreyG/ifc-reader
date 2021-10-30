@@ -26,53 +26,74 @@ namespace ifc
 
         ScopePartition scope_descriptors() const;
 
+#define DECLARE_PARTITION_GETTER(ElementType, IndexType, Property)   \
+    Partition<ElementType, IndexType> Property() const;
+
         // Declarations
-        Partition<Declaration, Index>               declarations()          const;
-        Partition<ScopeDeclaration, DeclIndex>      scope_declarations()    const;
-        Partition<TemplateDeclaration, DeclIndex>   template_declarations() const;
-        Partition<UsingDeclaration, DeclIndex>      using_declarations()    const;
-        Partition<Enumeration, DeclIndex>           enumerations()          const;
-        Partition<AliasDeclaration, DeclIndex>      alias_declarations()    const;
-        Partition<FunctionDeclaration, DeclIndex>   functions()             const;
-        Partition<MethodDeclaration, DeclIndex>     methods()               const;
-        Partition<Constructor, DeclIndex>           constructors()          const;
-        Partition<Destructor, DeclIndex>            destructors()           const;
-        Partition<VariableDeclaration, DeclIndex>   variables()             const;
-        Partition<ParameterDeclaration, DeclIndex>  parameters()            const;
-        Partition<DeclReference, DeclIndex>         decl_references()       const;
-        Partition<DeclIndex>                        deduction_guides()      const;
+        DECLARE_PARTITION_GETTER(Declaration, Index, declarations)
+
+#define DECLARE_DECL_PARTITION_GETTER(DeclType, DeclName) \
+    DECLARE_PARTITION_GETTER(DeclType, DeclIndex, DeclName)
+
+        DECLARE_DECL_PARTITION_GETTER(ScopeDeclaration,      scope_declarations)
+        DECLARE_DECL_PARTITION_GETTER(TemplateDeclaration,   template_declarations)
+        DECLARE_DECL_PARTITION_GETTER(UsingDeclaration,      using_declarations)
+        DECLARE_DECL_PARTITION_GETTER(Enumeration,           enumerations)
+        DECLARE_DECL_PARTITION_GETTER(AliasDeclaration,      alias_declarations)
+        DECLARE_DECL_PARTITION_GETTER(DeclReference,         decl_references)
+        DECLARE_DECL_PARTITION_GETTER(FunctionDeclaration,   functions)
+        DECLARE_DECL_PARTITION_GETTER(MethodDeclaration,     methods)
+        DECLARE_DECL_PARTITION_GETTER(Constructor,           constructors)
+        DECLARE_DECL_PARTITION_GETTER(Destructor,            destructors)
+        DECLARE_DECL_PARTITION_GETTER(VariableDeclaration,   variables)
+        DECLARE_DECL_PARTITION_GETTER(ParameterDeclaration,  parameters)
+
+#undef DECLARE_DECL_PARTITION_GETTER
 
         // Types
-        Partition<FundamentalType, TypeIndex>   fundamental_types()     const;
-        Partition<DesignatedType, TypeIndex>    designated_types()      const;
-        Partition<TorType, TypeIndex>           tor_types()             const;
-        Partition<SyntacticType, TypeIndex>     syntactic_types()       const;
-        Partition<ExpansionType, TypeIndex>     expansion_types()       const;
-        Partition<PointerType, TypeIndex>       pointer_types()         const;
-        Partition<FunctionType, TypeIndex>      function_types()        const;
-        Partition<MethodType, TypeIndex>        method_types()          const;
-        Partition<TupleType, TypeIndex>         tuple_types()           const;
-        Partition<LvalueReference, TypeIndex>   lvalue_references()     const;
-        Partition<RvalueReference, TypeIndex>   rvalue_references()     const;
-        Partition<QualifiedType, TypeIndex>     qualified_types()       const;
-        Partition<ForallType, TypeIndex>        forall_types()          const;
+#define DECLARE_TYPE_PARTITION_GETTER(Type, TypeName) \
+    DECLARE_PARTITION_GETTER(Type, TypeIndex, TypeName)
+
+        DECLARE_TYPE_PARTITION_GETTER(FundamentalType,    fundamental_types)
+        DECLARE_TYPE_PARTITION_GETTER(DesignatedType,     designated_types)
+        DECLARE_TYPE_PARTITION_GETTER(TorType,            tor_types)
+        DECLARE_TYPE_PARTITION_GETTER(SyntacticType,      syntactic_types)
+        DECLARE_TYPE_PARTITION_GETTER(ExpansionType,      expansion_types)
+        DECLARE_TYPE_PARTITION_GETTER(PointerType,        pointer_types)
+        DECLARE_TYPE_PARTITION_GETTER(FunctionType,       function_types)
+        DECLARE_TYPE_PARTITION_GETTER(MethodType,         method_types)
+        DECLARE_TYPE_PARTITION_GETTER(TupleType,          tuple_types)
+        DECLARE_TYPE_PARTITION_GETTER(LvalueReference,    lvalue_references)
+        DECLARE_TYPE_PARTITION_GETTER(RvalueReference,    rvalue_references)
+        DECLARE_TYPE_PARTITION_GETTER(QualifiedType,      qualified_types)
+        DECLARE_TYPE_PARTITION_GETTER(ForallType,         forall_types)
+#undef DECLARE_TYPE_PARTITION_GETTER
 
         // Expressions
-        Partition<TypeExpression, ExprIndex>    type_expressions()      const;
-        Partition<NamedDecl, ExprIndex>         decl_expressions()      const;
-        Partition<TemplateId, ExprIndex>        template_ids()          const;
-        Partition<TupleExpression, ExprIndex>   tuple_expressions()     const;
+#define DECLARE_EXPR_PARTITION_GETTER(ExprType, ExprName) \
+    DECLARE_PARTITION_GETTER(ExprType, ExprIndex, ExprName)
+
+        DECLARE_EXPR_PARTITION_GETTER(TypeExpression,    type_expressions)
+        DECLARE_EXPR_PARTITION_GETTER(NamedDecl,         decl_expressions)
+        DECLARE_EXPR_PARTITION_GETTER(TemplateId,        template_ids)
+        DECLARE_EXPR_PARTITION_GETTER(TupleExpression,   tuple_expressions)
+
+#undef DECLARE_EXPR_PARTITION_GETTER
 
         // Heaps
-        Partition<TypeIndex, Index>             type_heap()             const;
-        Partition<ExprIndex, Index>             expr_heap()             const;
+        DECLARE_PARTITION_GETTER(TypeIndex, Index, type_heap)
+        DECLARE_PARTITION_GETTER(ExprIndex, Index, expr_heap)
 
         // Names
-        Partition<OperatorFunctionName, NameIndex> operator_names()     const;
+        DECLARE_PARTITION_GETTER(OperatorFunctionName, NameIndex, operator_names)
 
         // Charts
-        Partition<ChartUnilevel, ChartIndex>    unilevel_charts()       const;
-        Partition<ChartMultilevel, ChartIndex>  multilevel_charts()     const;
+        DECLARE_PARTITION_GETTER(ChartUnilevel,     ChartIndex, unilevel_charts)
+        DECLARE_PARTITION_GETTER(ChartMultilevel,   ChartIndex, multilevel_charts)
+
+        Partition<DeclIndex> deduction_guides() const;
+
+#undef DECLARE_PARTITION_GETTER
 
         File const & get_imported_module(ModuleReference) const;
 
