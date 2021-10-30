@@ -403,6 +403,48 @@ void Presenter::present(ifc::ScopeDeclaration const& scope) const
     out_ << "\n";
 }
 
+void Presenter::present(ifc::FunctionDeclaration const& function) const
+{
+    out_ << "Function '";
+    present(function.name);
+    out_ << "', type: ";
+    present(function.type);
+    out_ << "\n";
+}
+
+void Presenter::present(ifc::VariableDeclaration const& variable) const
+{
+    out_ << "Variable '";
+    present(variable.name);
+    out_ << "', type: ";
+    present(variable.type);
+    out_ << "\n";
+}
+
+void Presenter::present(ifc::TemplateDeclaration const& template_) const
+{
+    present(template_.chart);
+    out_ << "\n";
+    present(template_.entity.decl);
+}
+
+void Presenter::present(ifc::Enumeration const& enumeration) const
+{
+    out_ << "Enumeration '" << file_.get_string(enumeration.name) << "'\n";
+}
+
+void Presenter::present(ifc::AliasDeclaration const& alias) const
+{
+    out_ << "Alias '" << file_.get_string(alias.name) << "'\n";
+}
+
+void Presenter::present(ifc::UsingDeclaration const& using_declaration) const
+{
+    out_ << "Using '";
+    present_refered_declaration(using_declaration.resolution);
+    out_ << "'\n";
+}
+
 void Presenter::insert_indent() const
 {
     for (size_t i = 0; i != indent_; ++i)
@@ -421,55 +463,25 @@ void Presenter::present(ifc::DeclIndex decl) const
         out_ << "Vendor Extension\n";
         break;
     case Variable:
-        {
-            ifc::VariableDeclaration const & variable = file_.variables()[decl];
-            out_ << "Variable '";
-            present(variable.name);
-            out_ << "', type: ";
-            present(variable.type);
-            out_ << "\n";
-        }
+        present(file_.variables()[decl]);
         break;
     case Scope:
         present(file_.scope_declarations()[decl]);
         break;
     case Enumeration:
-        {
-            auto const & enumeration = file_.enumerations()[decl];
-            out_ << "Enumeration '" << file_.get_string(enumeration.name) << "'\n";
-        }
+        present(file_.enumerations()[decl]);
         break;
     case Alias:
-        {
-            auto const & alias = file_.alias_declarations()[decl];
-            out_ << "Alias '" << file_.get_string(alias.name) << "'\n";
-            break;
-        }
+        present(file_.alias_declarations()[decl]);
+        break;
     case Template:
-        {
-            auto const & template_declaration = file_.template_declarations()[decl];
-            present(template_declaration.chart);
-            out_ << "\n";
-            present(template_declaration.entity.decl);
-        }
+        present(file_.template_declarations()[decl]);
         break;
     case Function:
-        {
-            ifc::FunctionDeclaration const & function = file_.functions()[decl];
-            out_ << "Function '";
-            present(function.name);
-            out_ << "', type: ";
-            present(function.type);
-            out_ << "\n";
-        }
+        present(file_.functions()[decl]);
         break;
     case UsingDeclaration:
-        {
-            auto const & using_declaration = file_.using_declarations()[decl];
-            out_ << "Using '";
-            present_refered_declaration(using_declaration.resolution);
-            out_ << "'\n";
-        }
+        present(file_.using_declarations()[decl]);
         break;
     default:
         out_ << "Unsupported DeclSort '" << static_cast<int>(kind) << "'\n";

@@ -50,7 +50,13 @@ private:
 
     void present_refered_declaration(ifc::DeclIndex) const;
 
-    void present(ifc::ScopeDeclaration const &) const;
+    void present(ifc::ScopeDeclaration      const &) const;
+    void present(ifc::FunctionDeclaration   const &) const;
+    void present(ifc::VariableDeclaration   const &) const;
+    void present(ifc::TemplateDeclaration   const &) const;
+    void present(ifc::Enumeration           const &) const;
+    void present(ifc::AliasDeclaration      const &) const;
+    void present(ifc::UsingDeclaration      const &) const;
 
     template<typename T, typename Index>
     void present_heap_slice(ifc::Partition<T, Index>, ifc::Sequence) const;
