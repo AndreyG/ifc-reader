@@ -4,6 +4,9 @@
 
 namespace ifc
 {
+    enum class TypeSort;
+    using TypeIndex = AbstractReference<5, TypeSort>;
+
     struct FundamentalType;
     struct DesignatedType;
     struct SyntacticType;

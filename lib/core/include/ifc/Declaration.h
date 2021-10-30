@@ -2,7 +2,6 @@
 
 #include "DeclarationFwd.h"
 
-#include "Indices.h"
 #include "Module.h"
 #include "Name.h"
 #include "Scope.h"

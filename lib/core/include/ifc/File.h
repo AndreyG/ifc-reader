@@ -8,7 +8,6 @@
 #include "DeclarationFwd.h"
 #include "NameFwd.h"
 #include "TypeFwd.h"
-#include "Indices.h"
 
 #include <boost/iostreams/device/mapped_file.hpp>
 

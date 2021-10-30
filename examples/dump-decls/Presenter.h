@@ -1,16 +1,15 @@
 #pragma once
 
+#include "ifc/ChartFwd.h"
 #include "ifc/ExpressionFwd.h"
 #include "ifc/TypeFwd.h"
 
 #include "ifc/Declaration.h"
-#include "ifc/Indices.h"
+#include "ifc/Partition.h"
 
 #include "ifc/FileFwd.h"
 
 #include <iosfwd>
-
-#include "ifc/Partition.h"
 
 class Presenter
 {

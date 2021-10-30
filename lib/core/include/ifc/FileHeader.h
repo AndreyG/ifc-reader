@@ -1,8 +1,8 @@
 #pragma once
 
+#include "AbstractReference.h"
 #include "Scope.h"
 #include "Module.h"
-#include "Indices.h"
 
 #include <array>
 #include <ostream>

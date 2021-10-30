@@ -2,8 +2,6 @@
 
 #include "TypeFwd.h"
 
-#include "Indices.h"
-
 namespace ifc
 {
     enum class TypeSort
