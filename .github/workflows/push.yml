@@ -16,14 +16,14 @@ jobs:
           echo "::group:: deps"
             sudo apt-get update -y
             sudo apt-get install -y \
-            gcc-11 \
-            g++-11 \
-            clang-12 \
-            clang++-12 \
-            cmake \
-            ninja-build \
-            libboost-iostreams-dev \
-            nlohmann-json3-dev
+              gcc-11 \
+              g++-11 \
+              clang-12 \
+              clang++-12 \
+              cmake \
+              ninja-build \
+              libboost-iostreams-dev \
+              nlohmann-json3-dev
             echo "::endgroup::"
 
       - uses: actions/checkout@v2
