@@ -9,14 +9,12 @@
 
 void Presenter::present(ifc::NameIndex name) const
 {
-    using enum ifc::NameSort;
-
     switch (const auto kind = name.sort())
     {
-    case Identifier:
+    case ifc::NameSort::Identifier:
         out_ << file_.get_string(ifc::TextOffset{name.index});
         break;
-    case Operator:
+    case ifc::NameSort::Operator:
         {
             const auto operator_function_name = file_.operator_names()[name];
             out_ << "operator" << file_.get_string(operator_function_name.encoded);
@@ -49,14 +47,13 @@ void Presenter::present_function_type(auto const& function_type) const
 
 void Presenter::present(ifc::FunctionTypeTraits traits) const
 {
-    using enum ifc::FunctionTypeTraits;
-    if (has_trait(traits, Const))
+    if (has_trait(traits, ifc::FunctionTypeTraits::Const))
         out_ << " const";
-    if (has_trait(traits, Volatile))
+    if (has_trait(traits, ifc::FunctionTypeTraits::Volatile))
         out_ << " volatile";
-    if (has_trait(traits, Lvalue))
+    if (has_trait(traits, ifc::FunctionTypeTraits::Lvalue))
         out_ << " &";
-    if (has_trait(traits, Rvalue))
+    if (has_trait(traits, ifc::FunctionTypeTraits::Rvalue))
         out_ << " &&";
 }
 
@@ -97,28 +94,27 @@ void Presenter::present(ifc::FundamentalType const& type) const
         break;
     }
 
-    using enum ifc::TypeBasis;
     switch (type.basis)
     {
-    case Void:
+    case ifc::TypeBasis::Void:
         out_ << "void";
         break;
-    case Bool:
+    case ifc::TypeBasis::Bool:
         out_ << "bool";
         break;
-    case Char:
+    case ifc::TypeBasis::Char:
         out_ << "char";
         break;
-    case Wchar_t:
+    case ifc::TypeBasis::Wchar_t:
         out_ << "wchar_t";
         break;
-    case Int:
+    case ifc::TypeBasis::Int:
         out_ << "int";
         break;
-    case Float:
+    case ifc::TypeBasis::Float:
         out_ << "float";
         break;
-    case Double:
+    case ifc::TypeBasis::Double:
         out_ << "double";
         break;
     default:
@@ -165,13 +161,11 @@ void Presenter::present(ifc::RvalueReference ref) const
 
 void Presenter::present(ifc::Qualifiers quals) const
 {
-    using enum ifc::Qualifiers;
-
-    if (has_qualifier(quals, Const))
+    if (has_qualifier(quals, ifc::Qualifiers::Const))
         out_ << "const ";
-    if (has_qualifier(quals, Volatile))
+    if (has_qualifier(quals, ifc::Qualifiers::Volatile))
         out_ << "volatile ";
-    if (has_qualifier(quals, Restrict))
+    if (has_qualifier(quals, ifc::Qualifiers::Restrict))
         out_ << "__restrict ";
 }
 
@@ -189,11 +183,9 @@ void Presenter::present(ifc::DeclReference decl_ref) const
 
 void Presenter::present(ifc::NamedDecl const& decl) const
 {
-    using enum ifc::DeclSort;
-
     switch (auto const kind = decl.resolution.sort())
     {
-    case Reference:
+    case ifc::DeclSort::Reference:
         present(file_.decl_references()[decl.resolution]);
         break;
     default:
@@ -208,16 +200,15 @@ void Presenter::present(ifc::TupleExpression const& tuple) const
 
 void Presenter::present(ifc::ExprIndex expr) const
 {
-    using enum ifc::ExprSort;
     switch (auto const expr_kind = expr.sort())
     {
-    case Type:
+    case ifc::ExprSort::Type:
         present(file_.type_expressions()[expr].denotation);
         break;
-    case NamedDecl:
+    case ifc::ExprSort::NamedDecl:
         present(file_.decl_expressions()[expr]);
         break;
-    case Tuple:
+    case ifc::ExprSort::Tuple:
         present(file_.tuple_expressions()[expr]);
         break;
     default:
@@ -288,10 +279,9 @@ void Presenter::present(ifc::TemplateId const& template_id) const
 
 void Presenter::present(ifc::SyntacticType type) const
 {
-    using enum ifc::ExprSort;
     switch (auto const expr_kind = type.expr.sort())
     {
-    case TemplateId:
+    case ifc::ExprSort::TemplateId:
         present(file_.template_ids()[type.expr]);
         break;
     default:
@@ -313,40 +303,39 @@ void Presenter::present(ifc::PointerType pointer) const
 
 void Presenter::present(ifc::TypeIndex type) const
 {
-    using enum ifc::TypeSort;
     switch (const auto kind = type.sort())
     {
-    case Fundamental:
+    case ifc::TypeSort::Fundamental:
         present(file_.fundamental_types()[type]);
         break;
-    case Designated:
+    case ifc::TypeSort::Designated:
         present_refered_declaration(file_.designated_types()[type].decl);
         break;
-    case Syntactic:
+    case ifc::TypeSort::Syntactic:
         present(file_.syntactic_types()[type]);
         break;
-    case Expansion:
+    case ifc::TypeSort::Expansion:
         present(file_.expansion_types()[type]);
         break;
-    case Pointer:
+    case ifc::TypeSort::Pointer:
         present(file_.pointer_types()[type]);
         break;
-    case LvalueReference:
+    case ifc::TypeSort::LvalueReference:
         present(file_.lvalue_references()[type]);
         break;
-    case RvalueReference:
+    case ifc::TypeSort::RvalueReference:
         present(file_.rvalue_references()[type]);
         break;
-    case Function:
+    case ifc::TypeSort::Function:
         present(file_.function_types()[type]);
         break;
-    case Method:
+    case ifc::TypeSort::Method:
         present(file_.method_types()[type]);
         break;
-    case Qualified:
+    case ifc::TypeSort::Qualified:
         present(file_.qualified_types()[type]);
         break;
-    case Tuple:
+    case ifc::TypeSort::Tuple:
         present(file_.tuple_types()[type]);
         break;
     default:
@@ -356,35 +345,33 @@ void Presenter::present(ifc::TypeIndex type) const
 
 void Presenter::present_refered_declaration(ifc::DeclIndex decl) const
 {
-    using enum ifc::DeclSort;
-
     switch (const auto kind = decl.sort())
     {
-    case Parameter:
+    case ifc::DeclSort::Parameter:
         {
             ifc::ParameterDeclaration const & param = file_.parameters()[decl];
             out_ << file_.get_string(param.name);
         }
         break;
-    case Scope:
+    case ifc::DeclSort::Scope:
         {
             ifc::ScopeDeclaration const & scope = file_.scope_declarations()[decl];
             present(scope.name);
         }
         break;
-    case Template:
+    case ifc::DeclSort::Template:
         {
             ifc::TemplateDeclaration const & template_declaration = file_.template_declarations()[decl];
             present(template_declaration.name);
         }
         break;
-    case Function:
+    case ifc::DeclSort::Function:
         {
             ifc::FunctionDeclaration const & function = file_.functions()[decl];
             present(function.name);
         }
         break;
-    case Reference:
+    case ifc::DeclSort::Reference:
         present(file_.decl_references()[decl]);
         break;
     default:
@@ -403,20 +390,19 @@ void Presenter::present(ifc::ScopeDeclaration const& scope) const
     assert(type.sort() == ifc::TypeSort::Fundamental);
     switch (const auto scope_kind = file_.fundamental_types()[type].basis)
     {
-        using enum ifc::TypeBasis;
-    case Class:
+    case ifc::TypeBasis::Class:
         out_ << "Class";
         break;
-    case Struct:
+    case ifc::TypeBasis::Struct:
         out_ << "Struct";
         break;
-    case Union:
+    case ifc::TypeBasis::Union:
         out_ << "Union";
         break;
-    case Namespace:
+    case ifc::TypeBasis::Namespace:
         out_ << "Namespace";
         break;
-    case Interface:
+    case ifc::TypeBasis::Interface:
         out_ << "__interface";
         break;
     default:
@@ -533,43 +519,41 @@ void Presenter::insert_indent() const
 
 void Presenter::present(ifc::DeclIndex decl) const
 {
-    using enum ifc::DeclSort;
-
     insert_indent();
 
     switch (const auto kind = decl.sort())
     {
-    case VendorExtension:
+    case ifc::DeclSort::VendorExtension:
         out_ << "Vendor Extension\n";
         break;
-    case Variable:
+    case ifc::DeclSort::Variable:
         present(file_.variables()[decl]);
         break;
-    case Scope:
+    case ifc::DeclSort::Scope:
         present(file_.scope_declarations()[decl]);
         break;
-    case Enumeration:
+    case ifc::DeclSort::Enumeration:
         present(file_.enumerations()[decl]);
         break;
-    case Alias:
+    case ifc::DeclSort::Alias:
         present(file_.alias_declarations()[decl]);
         break;
-    case Template:
+    case ifc::DeclSort::Template:
         present(file_.template_declarations()[decl]);
         break;
-    case Function:
+    case ifc::DeclSort::Function:
         present(file_.functions()[decl]);
         break;
-    case Method:
+    case ifc::DeclSort::Method:
         present(file_.methods()[decl]);
         break;
-    case Constructor:
+    case ifc::DeclSort::Constructor:
         present(file_.constructors()[decl]);
         break;
-    case Destructor:
+    case ifc::DeclSort::Destructor:
         present(file_.destructors()[decl]);
         break;;
-    case UsingDeclaration:
+    case ifc::DeclSort::UsingDeclaration:
         present(file_.using_declarations()[decl]);
         break;
     default:
