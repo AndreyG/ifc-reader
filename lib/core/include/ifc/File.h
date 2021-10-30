@@ -45,6 +45,7 @@ namespace ifc
         Partition<DesignatedType, TypeIndex>    designated_types()      const;
         Partition<SyntacticType, TypeIndex>     syntactic_types()       const;
         Partition<ExpansionType, TypeIndex>     expansion_types()       const;
+        Partition<PointerType, TypeIndex>       pointer_types()         const;
         Partition<FunctionType, TypeIndex>      function_types()        const;
         Partition<MethodType, TypeIndex>        method_types()          const;
         Partition<TupleType, TypeIndex>         tuple_types()           const;

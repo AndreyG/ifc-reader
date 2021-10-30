@@ -107,6 +107,13 @@ namespace ifc
         static constexpr std::string_view PartitionName = "type.expansion";
     };
 
+    struct PointerType
+    {
+        TypeIndex pointee;
+
+        static constexpr std::string_view PartitionName = "type.pointer";
+    };
+
     enum class CallingConvention : uint8_t
     {
         Cdecl,

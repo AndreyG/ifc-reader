@@ -11,6 +11,7 @@ namespace ifc
     struct DesignatedType;
     struct SyntacticType;
     struct ExpansionType;
+    struct PointerType;
     struct QualifiedType;
     struct RvalueReference;
     struct LvalueReference;

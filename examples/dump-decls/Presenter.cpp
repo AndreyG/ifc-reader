@@ -303,6 +303,12 @@ void Presenter::present(ifc::ExpansionType type) const
     out_ << "...";
 }
 
+void Presenter::present(ifc::PointerType pointer) const
+{
+    present(pointer.pointee);
+    out_ << "*";
+}
+
 void Presenter::present(ifc::TypeIndex type) const
 {
     using enum ifc::TypeSort;
@@ -319,6 +325,9 @@ void Presenter::present(ifc::TypeIndex type) const
         break;
     case Expansion:
         present(file_.expansion_types()[type]);
+        break;
+    case Pointer:
+        present(file_.pointer_types()[type]);
         break;
     case LvalueReference:
         present(file_.lvalue_references()[type]);

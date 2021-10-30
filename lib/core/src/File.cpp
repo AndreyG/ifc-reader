@@ -104,6 +104,11 @@ namespace ifc
         return get_partition<ExpansionType, TypeIndex>();
     }
 
+    Partition<PointerType, TypeIndex> File::pointer_types() const
+    {
+        return get_partition<PointerType, TypeIndex>();
+    }
+
     Partition<FunctionType, TypeIndex> File::function_types() const
     {
         return get_partition<FunctionType, TypeIndex>();

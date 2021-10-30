@@ -38,6 +38,7 @@ private:
 
     void present(ifc::SyntacticType) const;
     void present(ifc::ExpansionType) const;
+    void present(ifc::PointerType)   const;
     void present(ifc::TupleType    ) const;
     void present(ifc::QualifiedType) const;
     void present(ifc::Qualifiers) const;
