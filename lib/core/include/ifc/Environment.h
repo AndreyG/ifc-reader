@@ -3,6 +3,7 @@
 #include "File.h"
 
 #include <unordered_map>
+#include <vector>
 
 namespace ifc
 {
