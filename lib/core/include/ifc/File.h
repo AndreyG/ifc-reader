@@ -11,6 +11,7 @@
 
 #include <boost/iostreams/device/mapped_file.hpp>
 
+#include <optional>
 #include <unordered_map>
 
 namespace ifc
@@ -26,8 +27,11 @@ namespace ifc
 
         ScopePartition scope_descriptors() const;
 
-#define DECLARE_PARTITION_GETTER(ElementType, IndexType, Property)   \
-    Partition<ElementType, IndexType> Property() const;
+#define DECLARE_PARTITION_GETTER(ElementType, IndexType, Property)  \
+    public:                                                         \
+    Partition<ElementType, IndexType> Property() const;             \
+    private:                                                        \
+        mutable std::optional<Partition<ElementType, IndexType>> cached_ ## Property ## _ ;
 
         // Declarations
         DECLARE_PARTITION_GETTER(Declaration, Index, declarations)
@@ -95,6 +99,7 @@ namespace ifc
 
 #undef DECLARE_PARTITION_GETTER
 
+    public:
         File const & get_imported_module(ModuleReference) const;
 
         File(std::string const &, class Environment*);

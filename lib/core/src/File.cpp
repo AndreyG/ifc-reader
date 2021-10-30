@@ -46,7 +46,11 @@ namespace ifc
 
 #define DEFINE_PARTITION_GETTER(ElementType, IndexType, Property)   \
     Partition<ElementType, IndexType> File::Property() const {      \
-        return get_partition<ElementType, IndexType>();             \
+        if (cached_ ## Property ## _.has_value())                   \
+            return *cached_ ## Property ## _;                       \
+        auto result = get_partition<ElementType, IndexType>();      \
+        cached_ ## Property ## _ = result;                          \
+        return result;                                              \
     }
 
     DEFINE_PARTITION_GETTER(Declaration, Index, declarations)
