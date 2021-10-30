@@ -29,7 +29,8 @@ void Presenter::present(ifc::FunctionType const& function_type) const
 {
     present(function_type.target);
     out_ << "(";
-    present(function_type.source);
+    if (auto params = function_type.source; !params.is_null())
+        present(params);
     out_ << ")";
 }
 

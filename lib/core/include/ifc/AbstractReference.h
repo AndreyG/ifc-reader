@@ -15,5 +15,10 @@ namespace ifc
         {
             return static_cast<Sort>(tag);
         }
+
+        bool is_null() const
+        {
+            return tag == 0 && index == 0;
+        }
     };
 }
