@@ -91,7 +91,7 @@ Namespace 'hello' {
 
 ## A note on `wine`
 
-If you wish to use `cl.exe` under `wine` but compile `ifc-reader` *natively* under Linux, then this is possible, but you must correct the paths in the source dependencies to point to _native_ file paths before calling `dump-decls`. For example, if `wine` gives you:
+If you wish to use `cl.exe` under `wine` but compile `ifc-reader` *natively* under Linux, then this is possible, but you must correct the paths in the source dependencies to point to _native_ file paths before calling `dump-decls`. For example, if `cl.exe` (when run under `wine`) gives you:
 
 * `z:\\home\\avj\\clones\\ifc-reader\\how_to\\hello.cpp`
 
@@ -103,7 +103,7 @@ which is the output from:
 
 * `readlink -f $(wine64 winepath -u "z:\\home\\avj\\clones\\ifc-reader\\how_to\\hello.cpp")`
 
-After changing all paths to be their Linux equivilents, you can then load your IFC file with `dump-decls`
+After changing all paths to be their Linux equivalents, you can then load your IFC file with `dump-decls`
 
 # Building from source
 
