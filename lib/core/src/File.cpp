@@ -135,7 +135,7 @@ namespace ifc
     {
         const auto partition = table_of_contents_.at(name);
         assert(static_cast<size_t>(partition->entry_size) == sizeof(T));
-        return std::span<T const> { get_pointer<T>(partition->offset), raw_count(partition->cardinality) };
+        return { get_pointer<T>(partition->offset), raw_count(partition->cardinality) };
     }
 
     template<typename T>

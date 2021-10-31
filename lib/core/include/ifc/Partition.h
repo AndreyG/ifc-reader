@@ -2,8 +2,6 @@
 
 #include "common_types.h"
 
-#include <span>
-
 namespace ifc
 {
     struct PartitionSummary
@@ -32,27 +30,31 @@ namespace ifc
     }
 
     template<typename T, typename Index = uint32_t>
-    class Partition : std::span<T const>
+    class Partition
     {
-        using Base = std::span<T const>;
-
     public:
         T const & operator[] (Index index) const
         {
-            return Base::operator[](static_cast<size_t>(get_raw_index(index)));
+            return data_[static_cast<size_t>(get_raw_index(index))];
         }
 
-        using Base::begin;
-        using Base::end;
-        using Base::size;
+        size_t size() const { return size_; }
+
+        T const * begin() { return data_; }
+        T const * end()   { return data_ + size_; }
 
         Partition slice(Sequence seq)
         {
-            return { Base::subspan(static_cast<size_t>(seq.start), raw_count(seq.cardinality)) };
+            return { data_ + static_cast<std::ptrdiff_t>(seq.start), raw_count(seq.cardinality) };
         }
 
-        Partition(std::span<T const> raw_data)
-            : Base(raw_data)
+        Partition(T const * data, size_t size)
+            : data_(data)
+            , size_(size)
         {}
+
+    private:
+        T const* data_;
+        size_t size_;
     };
 }

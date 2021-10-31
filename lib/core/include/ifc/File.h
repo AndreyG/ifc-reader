@@ -12,6 +12,7 @@
 #include <boost/iostreams/device/mapped_file.hpp>
 
 #include <optional>
+#include <span>
 #include <unordered_map>
 
 namespace ifc
