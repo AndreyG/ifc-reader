@@ -34,10 +34,7 @@ namespace ifc
             std::vector<Module> imported_modules;
         };
 
-        virtual Config get_config(std::string const & path_to_bmi) const = 0;
-
-    private:
-        void fill_name_to_path_mapping(Config);
+        Environment(Config);
 
     private:
         std::unordered_map<std::string, File> cached_bmis_;

@@ -7,7 +7,6 @@ namespace ifc
         auto cached = cached_bmis_.find(key);
         if (cached == cached_bmis_.end())
         {
-            fill_name_to_path_mapping(get_config(key));
             cached = cached_bmis_.emplace_hint(cached, key, File(key, this));
         }
         return cached->second;
@@ -18,7 +17,7 @@ namespace ifc
         return get_module_by_bmi_path(module_name_to_bmi_path_[name]);
     }
 
-    void Environment::fill_name_to_path_mapping(Config config)
+    Environment::Environment(Config config)
     {
         for (auto & [header, bmi] : config.imported_header_units)
             module_name_to_bmi_path_.emplace(std::move(header), std::move(bmi));

@@ -5,10 +5,8 @@
 #include <filesystem>
 #include <fstream>
 
-ifc::Environment::Config ifc::MSVCEnvironment::get_config(std::string const& path_to_bmi) const
+ifc::Environment::Config ifc::MSVCEnvironment::read_config(std::string const& path_to_metadata)
 {
-    std::string path_to_metadata = path_to_bmi + ".d.json";
-
     std::ifstream file(path_to_metadata);
     if (!file)
         throw std::runtime_error("metadata is not found by path '" + path_to_metadata + "'");
