@@ -66,6 +66,7 @@ private:
     void present(ifc::Enumeration           const &) const;
     void present(ifc::AliasDeclaration      const &) const;
     void present(ifc::UsingDeclaration      const &) const;
+    void present(ifc::Concept               const &) const;
 
     template<typename T, typename Index>
     void present_heap_slice(ifc::Partition<T, Index>, ifc::Sequence) const;

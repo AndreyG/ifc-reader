@@ -518,6 +518,14 @@ void Presenter::present(ifc::UsingDeclaration const& using_declaration) const
     out_ << "'\n";
 }
 
+void Presenter::present(ifc::Concept const& concept_) const
+{
+    present(concept_.chart);
+    out_ << "\n";
+    insert_indent();
+    out_ << "Concept '" << file_.get_string(concept_.name) << "'\n";
+}
+
 void Presenter::insert_indent() const
 {
     for (size_t i = 0; i != indent_; ++i)
@@ -550,6 +558,9 @@ void Presenter::present(ifc::DeclIndex decl) const
         break;
     case ifc::DeclSort::Template:
         present(file_.template_declarations()[decl]);
+        break;
+    case ifc::DeclSort::Concept:
+        present(file_.concepts()[decl]);
         break;
     case ifc::DeclSort::Function:
         present(file_.functions()[decl]);

@@ -328,6 +328,22 @@ namespace ifc
         static constexpr std::string_view PartitionName = "decl.parameter";
     };
 
+    struct Concept
+    {
+        TextOffset name;
+        SourceLocation locus;
+        DeclIndex home_scope;
+        TypeIndex type;
+        ChartIndex chart;
+        ExprIndex constraint;
+        BasicSpecifiers specifiers;
+        Access access;
+        SentenceIndex head;
+        SentenceIndex body;
+
+        static constexpr std::string_view PartitionName = "decl.concept";
+    };
+
     struct DeclReference
     {
         ModuleReference unit;

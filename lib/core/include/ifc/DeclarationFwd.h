@@ -21,4 +21,5 @@ namespace ifc
     struct Enumeration;
     struct UsingDeclaration;
     struct TemplateDeclaration;
+    struct Concept;
 }

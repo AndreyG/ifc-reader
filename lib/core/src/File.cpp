@@ -71,6 +71,7 @@ namespace ifc
     DEFINE_DECL_PARTITION_GETTER(VariableDeclaration,   variables)
     DEFINE_DECL_PARTITION_GETTER(FieldDeclaration,      fields)
     DEFINE_DECL_PARTITION_GETTER(ParameterDeclaration,  parameters)
+    DEFINE_DECL_PARTITION_GETTER(Concept,               concepts)
 
 #undef DEFINE_DECL_PARTITION_GETTER
 
