@@ -69,6 +69,7 @@ namespace ifc
     DEFINE_DECL_PARTITION_GETTER(Constructor,           constructors)
     DEFINE_DECL_PARTITION_GETTER(Destructor,            destructors)
     DEFINE_DECL_PARTITION_GETTER(VariableDeclaration,   variables)
+    DEFINE_DECL_PARTITION_GETTER(FieldDeclaration,      fields)
     DEFINE_DECL_PARTITION_GETTER(ParameterDeclaration,  parameters)
 
 #undef DEFINE_DECL_PARTITION_GETTER

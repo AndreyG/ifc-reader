@@ -10,6 +10,7 @@ namespace ifc
     struct Declaration;
     struct DeclReference;
     struct VariableDeclaration;
+    struct FieldDeclaration;
     struct ParameterDeclaration;
     struct ScopeDeclaration;
     struct FunctionDeclaration;

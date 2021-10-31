@@ -487,6 +487,13 @@ void Presenter::present(ifc::VariableDeclaration const& variable) const
     out_ << "\n";
 }
 
+void Presenter::present(ifc::FieldDeclaration const& field) const
+{
+    out_ << "Field '" << file_.get_string(field.name) << "' type: ";
+    present(field.type);
+    out_ << "\n";
+}
+
 void Presenter::present(ifc::TemplateDeclaration const& template_) const
 {
     present(template_.chart);
@@ -528,6 +535,9 @@ void Presenter::present(ifc::DeclIndex decl) const
         break;
     case ifc::DeclSort::Variable:
         present(file_.variables()[decl]);
+        break;
+    case ifc::DeclSort::Field:
+        present(file_.fields()[decl]);
         break;
     case ifc::DeclSort::Scope:
         present(file_.scope_declarations()[decl]);

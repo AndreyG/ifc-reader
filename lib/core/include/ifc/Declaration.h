@@ -288,6 +288,22 @@ namespace ifc
         static constexpr std::string_view PartitionName = "decl.variable";
     };
 
+    struct FieldDeclaration
+    {
+        TextOffset name;
+        SourceLocation locus;
+        TypeIndex type;
+        DeclIndex home_scope;
+        ExprIndex initializer;
+        ExprIndex alignment;
+        ObjectTraits traits;
+        BasicSpecifiers specifiers;
+        Access access;
+        ReachableProperties properties;
+
+        static constexpr std::string_view PartitionName = "decl.field";
+    };
+
     enum class ParameterSort : uint8_t
     {
         Object,     // Function parameter
