@@ -1,0 +1,61 @@
+name: build
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        compiler:
+          - { compiler: gcc,  CC: gcc-11,   CXX: g++-11 }
+          - { compiler: clang, CC: clang-12, CXX: clang++-12 }
+    steps:
+      - name: deps
+        run: |
+          echo "::group:: deps"
+            sudo apt-get update -y
+            sudo apt-get install -y \
+              gcc-11 \
+              g++-11 \
+              clang-12 \
+              clang++-12 \
+              cmake \
+              ninja-build \
+              libboost-iostreams-dev \
+              nlohmann-json3-dev
+            echo "::endgroup::"
+
+      - uses: actions/checkout@v2
+
+      # Allow for https://github.com/nektos/act to write to the current
+      # directory
+      - name: fix_act
+        run: |
+          echo "::group:: fix_act"
+          sudo chmod a+w .
+          echo "::endgroup::"
+
+      - name: configure
+        env:
+          CC: ${{ matrix.compiler.CC }}
+          CXX: ${{ matrix.compiler.CXX }}
+        run: |
+          echo "::group:: configure"
+          cmake -B build -G Ninja .
+          echo "::endgroup::"
+
+      - name: build
+        run: |
+          echo "::group:: build"
+          cmake --build build
+          echo "::endgroup::"
+
+       # No tests, but let's make sure the binary runs
+      - name: test
+        run: |
+          echo "::group:: test"
+          ./build/examples/dump-decls/dump-decls || exit 0
+          echo "::endgroup::"
+
+# EOF
