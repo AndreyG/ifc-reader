@@ -133,11 +133,10 @@ namespace ifc
         DeclIndex home_scope;
         ChartIndex chart;
         ParameterizedEntity entity;
+        TypeIndex type;
         BasicSpecifiers specifiers;
         Access access;
         ReachableProperties properties;
-
-        uint32_t _padding_;
 
         static constexpr std::string_view PartitionName = "decl.template";
     };
