@@ -11,4 +11,5 @@ namespace ifc
     struct TemplateId;
     struct NamedDecl;
     struct TypeExpression;
+    struct DyadExpression;
 }

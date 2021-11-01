@@ -100,6 +100,7 @@ namespace ifc
     DEFINE_EXPR_PARTITION_GETTER(TypeExpression,    type_expressions)
     DEFINE_EXPR_PARTITION_GETTER(NamedDecl,         decl_expressions)
     DEFINE_EXPR_PARTITION_GETTER(TemplateId,        template_ids)
+    DEFINE_EXPR_PARTITION_GETTER(DyadExpression,    dyad_expressions)
     DEFINE_EXPR_PARTITION_GETTER(TupleExpression,   tuple_expressions)
 
 #undef DEFINE_EXPR_PARTITION_GETTER

@@ -49,6 +49,7 @@ private:
     void present(ifc::NamedDecl const &) const;
     void present(ifc::TupleExpression const &) const;
     void present(ifc::TemplateId const &) const;
+    void present(ifc::DyadExpression const &) const;
     void present(ifc::ExprIndex) const;
 
     void present(ifc::ChartIndex) const;

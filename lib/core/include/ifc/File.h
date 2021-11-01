@@ -83,6 +83,7 @@ namespace ifc
         DECLARE_EXPR_PARTITION_GETTER(TypeExpression,    type_expressions)
         DECLARE_EXPR_PARTITION_GETTER(NamedDecl,         decl_expressions)
         DECLARE_EXPR_PARTITION_GETTER(TemplateId,        template_ids)
+        DECLARE_EXPR_PARTITION_GETTER(DyadExpression,    dyad_expressions)
         DECLARE_EXPR_PARTITION_GETTER(TupleExpression,   tuple_expressions)
 
 #undef DECLARE_EXPR_PARTITION_GETTER

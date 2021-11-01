@@ -208,6 +208,9 @@ void Presenter::present(ifc::ExprIndex expr) const
     case ifc::ExprSort::NamedDecl:
         present(file_.decl_expressions()[expr]);
         break;
+    case ifc::ExprSort::Dyad:
+        present(file_.dyad_expressions()[expr]);
+        break;
     case ifc::ExprSort::Tuple:
         present(file_.tuple_expressions()[expr]);
         break;
@@ -275,6 +278,13 @@ void Presenter::present(ifc::TemplateId const& template_id) const
     out_ << '<';
     present(template_id.arguments);
     out_ << '>';
+}
+
+void Presenter::present(ifc::DyadExpression const& dyad) const
+{
+    present(dyad.arguments[0]);
+    out_ << " " << to_string(dyad.op) << " ";
+    present(dyad.arguments[1]);
 }
 
 void Presenter::present(ifc::SyntacticType type) const

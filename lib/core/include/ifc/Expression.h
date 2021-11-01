@@ -78,40 +78,124 @@ namespace ifc
         AssignInitializer   = 0x3C,
     };
 
-    struct NamedDecl
+    struct ExpressionBase
     {
         SourceLocation source;
         TypeIndex type;
+    };
+
+    struct NamedDecl : ExpressionBase
+    {
         DeclIndex resolution;
 
         static constexpr std::string_view PartitionName = "expr.decl";
     };
 
-    struct TemplateId
+    struct TemplateId : ExpressionBase
     {
-        SourceLocation source;
-        TypeIndex type;
         ExprIndex primary;
         ExprIndex arguments;
 
         static constexpr std::string_view PartitionName = "expr.template-id";
     };
 
-    struct TupleExpression
+    struct TupleExpression : ExpressionBase
     {
-        SourceLocation locus;
-        TypeIndex type;
         Sequence seq;
 
         static constexpr std::string_view PartitionName = "expr.tuple";
     };
 
-    struct TypeExpression
+    struct TypeExpression : ExpressionBase
     {
-        SourceLocation locus;
-        TypeIndex type;
         TypeIndex denotation;
 
         static constexpr std::string_view PartitionName = "expr.type";
+    };
+
+    enum class DyadicOperator
+    {
+        Unknown     = 0x00,
+        // Arithmetic
+        Plus            = 0x01,
+        Minus           = 0x02,
+        Mult            = 0x03,
+        Slash           = 0x04,
+        Modulo          = 0x05,
+        Remaniner       = 0x06,
+        // Bitwise
+        Bitand          = 0x07,
+        Bitor           = 0x08,
+        Bitxor          = 0x09,
+        Lshift          = 0x0A,
+        Rshifh          = 0x0B,
+        // Comparison
+        Equal           = 0x0C,
+        NotEqual        = 0x0D,
+        Less            = 0x0E,
+        LessEqual       = 0x0F,
+        Greater         = 0x10,
+        GreaterEqual    = 0x11,
+        Compare         = 0x12,
+        // Logical
+        LogicAnd        = 0x13,
+        LogicOr         = 0x14,
+        // TODO
+    };
+
+    inline const char * to_string(DyadicOperator op)
+    {
+        switch (op)
+        {
+        case DyadicOperator::Unknown:
+            return "Unknown";
+        case DyadicOperator::Plus:
+            return "+";
+        case DyadicOperator::Minus:
+            return "-";
+        case DyadicOperator::Mult:
+            return "*";
+        case DyadicOperator::Slash:
+            return "/";
+        case DyadicOperator::Modulo:
+            return "%";
+        case DyadicOperator::Bitand:
+            return "&";
+        case DyadicOperator::Bitor:
+            return "|";
+        case DyadicOperator::Bitxor:
+            return "^";
+        case DyadicOperator::Lshift:
+            return "<<";
+        case DyadicOperator::Rshifh:
+            return ">>";
+        case DyadicOperator::Equal:
+            return "==";
+        case DyadicOperator::NotEqual:
+            return "!=";
+        case DyadicOperator::Less:
+            return "<";
+        case DyadicOperator::LessEqual:
+            return "<=";
+        case DyadicOperator::Greater:
+            return ">";
+        case DyadicOperator::GreaterEqual:
+            return ">=";
+        case DyadicOperator::Compare:
+            return "<=>";
+        case DyadicOperator::LogicAnd:
+            return "&&";
+        case DyadicOperator::LogicOr:
+            return "||";
+        }
+        return "Unknown";
+    }
+
+    struct DyadExpression : ExpressionBase
+    {
+        ExprIndex arguments[2];
+        DyadicOperator op;
+
+        static constexpr std::string_view PartitionName = "expr.dyad";
     };
 }
