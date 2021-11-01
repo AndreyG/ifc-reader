@@ -3,6 +3,7 @@
 #include "TypeFwd.h"
 
 #include "CallingConvention.h"
+#include "NoexceptSpecification.h"
 
 namespace ifc
 {
