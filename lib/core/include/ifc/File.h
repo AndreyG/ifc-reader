@@ -7,6 +7,7 @@
 #include "ExpressionFwd.h"
 #include "DeclarationFwd.h"
 #include "NameFwd.h"
+#include "SyntaxTreeFwd.h"
 #include "TypeFwd.h"
 
 #include <boost/iostreams/device/mapped_file.hpp>
@@ -74,6 +75,7 @@ namespace ifc
         DECLARE_TYPE_PARTITION_GETTER(RvalueReference,    rvalue_references)
         DECLARE_TYPE_PARTITION_GETTER(QualifiedType,      qualified_types)
         DECLARE_TYPE_PARTITION_GETTER(ForallType,         forall_types)
+        DECLARE_TYPE_PARTITION_GETTER(SyntaxType,         syntax_types)
 #undef DECLARE_TYPE_PARTITION_GETTER
 
         // Expressions
@@ -82,6 +84,7 @@ namespace ifc
 
         DECLARE_EXPR_PARTITION_GETTER(TypeExpression,    type_expressions)
         DECLARE_EXPR_PARTITION_GETTER(NamedDecl,         decl_expressions)
+        DECLARE_EXPR_PARTITION_GETTER(UnqualifiedId,     unqualified_id_expressions)
         DECLARE_EXPR_PARTITION_GETTER(TemplateId,        template_ids)
         DECLARE_EXPR_PARTITION_GETTER(DyadExpression,    dyad_expressions)
         DECLARE_EXPR_PARTITION_GETTER(SizeofExpression,  sizeof_expressions)
@@ -100,6 +103,19 @@ namespace ifc
         // Charts
         DECLARE_PARTITION_GETTER(ChartUnilevel,     ChartIndex, unilevel_charts)
         DECLARE_PARTITION_GETTER(ChartMultilevel,   ChartIndex, multilevel_charts)
+
+        // Syntax Trees
+#define DECLARE_SYNTAX_PARTITION_GETTER(SyntaxType, SyntaxName) \
+    DECLARE_PARTITION_GETTER(SyntaxType, SyntaxIndex, SyntaxName)
+
+        DECLARE_SYNTAX_PARTITION_GETTER(SimpleTypeSpecifier,        simple_type_specifiers)
+        DECLARE_SYNTAX_PARTITION_GETTER(TypeSpecifierSeq,           type_specifier_seq_syntax_trees)
+        DECLARE_SYNTAX_PARTITION_GETTER(TypeIdSyntax,               typeid_syntax_trees)
+        DECLARE_SYNTAX_PARTITION_GETTER(DeclaratorSyntax,           declarator_syntax_trees)
+        DECLARE_SYNTAX_PARTITION_GETTER(PointerDeclaratorSyntax,    pointer_declarator_syntax_trees)
+        DECLARE_SYNTAX_PARTITION_GETTER(ExpressionSyntax,           expression_syntax_trees)
+
+#undef DECLARE_SYNTAX_PARTITION_GETTER
 
         Partition<DeclIndex> deduction_guides() const;
 

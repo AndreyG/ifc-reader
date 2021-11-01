@@ -91,6 +91,15 @@ namespace ifc
         static constexpr std::string_view PartitionName = "expr.decl";
     };
 
+    struct UnqualifiedId : ExpressionBase
+    {
+        NameIndex name;
+        ExprIndex resolution;
+        SourceLocation template_keyword;
+
+        static constexpr std::string_view PartitionName = "expr.unqualified-id";
+    };
+
     struct TemplateId : ExpressionBase
     {
         ExprIndex primary;

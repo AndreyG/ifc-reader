@@ -5,6 +5,7 @@
 #include "ifc/Chart.h"
 #include "ifc/Expression.h"
 #include "ifc/Declaration.h"
+#include "ifc/SyntaxTree.h"
 #include "ifc/Type.h"
 
 void Presenter::present(ifc::NameIndex name) const
@@ -193,6 +194,11 @@ void Presenter::present(ifc::NamedDecl const& decl) const
     }
 }
 
+void Presenter::present(ifc::UnqualifiedId const& expr) const
+{
+    present(expr.name);
+}
+
 void Presenter::present(ifc::TupleExpression const& tuple) const
 {
     present_heap_slice(file_.expr_heap(), tuple.seq);
@@ -207,6 +213,9 @@ void Presenter::present(ifc::ExprIndex expr) const
         break;
     case ifc::ExprSort::NamedDecl:
         present(file_.decl_expressions()[expr]);
+        break;
+    case ifc::ExprSort::UnqualifiedId:
+        present(file_.unqualified_id_expressions()[expr]);
         break;
     case ifc::ExprSort::Dyad:
         present(file_.dyad_expressions()[expr]);
@@ -367,6 +376,9 @@ void Presenter::present(ifc::TypeIndex type) const
         break;
     case ifc::TypeSort::Tuple:
         present(file_.tuple_types()[type]);
+        break;
+    case ifc::TypeSort::SyntaxTree:
+        present(file_.syntax_types()[type].syntax);
         break;
     default:
         out_ << "Unsupported TypeSort '" << static_cast<int>(kind) << "'";
@@ -553,7 +565,76 @@ void Presenter::present(ifc::Concept const& concept_) const
     present(concept_.chart);
     out_ << "\n";
     insert_indent();
-    out_ << "Concept '" << file_.get_string(concept_.name) << "'\n";
+    out_ << "Concept '" << file_.get_string(concept_.name) << "' = ";
+    present(concept_.constraint);
+    out_ << "\n";
+}
+
+void Presenter::present(ifc::SyntaxIndex syntax) const
+{
+    switch (auto const kind = syntax.sort())
+    {
+    case ifc::SyntaxSort::SimpleTypeSpecifier:
+        present(file_.simple_type_specifiers()[syntax]);
+        break;
+    case ifc::SyntaxSort::TypeSpecifierSeq:
+        present(file_.type_specifier_seq_syntax_trees()[syntax]);
+        break;
+    case ifc::SyntaxSort::TypeId:
+        present(file_.typeid_syntax_trees()[syntax]);
+        break;
+    case ifc::SyntaxSort::Declarator:
+        present(file_.declarator_syntax_trees()[syntax]);
+        break;
+    case ifc::SyntaxSort::PointerDeclarator:
+        present(file_.pointer_declarator_syntax_trees()[syntax]);
+        break;
+    case ifc::SyntaxSort::Expression:
+        present(file_.expression_syntax_trees()[syntax].expression);
+        break;
+    default:
+        out_ << "Unsupported SyntaxSort '" << static_cast<int>(kind) << "'";
+    }
+}
+
+void Presenter::present(ifc::SimpleTypeSpecifier const& specifier) const
+{
+    out_ << "simple-type-specifier";
+}
+
+void Presenter::present(ifc::TypeIdSyntax const& type_id) const
+{
+    present(type_id.type_specifier);
+    if (auto decl = type_id.abstract_declarator; !decl.is_null())
+    {
+        assert(decl.sort() == ifc::SyntaxSort::Declarator);
+        present(file_.declarator_syntax_trees()[decl]);
+    }
+}
+
+void Presenter::present(ifc::DeclaratorSyntax const& declarator) const
+{
+    if (auto ptr = declarator.pointer; !ptr.is_null())
+    {
+        assert(ptr.sort() == ifc::SyntaxSort::PointerDeclarator);
+        present(file_.pointer_declarator_syntax_trees()[ptr]);
+    }
+    else
+        out_ << "Unsupported declarator-syntax-tree";
+}
+
+void Presenter::present(ifc::PointerDeclaratorSyntax const& pointer) const
+{
+    out_ << "*";
+}
+
+void Presenter::present(ifc::TypeSpecifierSeq const& seq) const
+{
+    present(seq.qualifiers);
+    if (auto typename_ =  seq.typename_; !typename_.is_null())
+        present(typename_);
+    else
+        present(seq.type);
 }
 
 void Presenter::insert_indent() const

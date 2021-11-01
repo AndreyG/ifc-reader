@@ -20,6 +20,7 @@ namespace ifc
     struct FunctionType;
     struct MethodType;
     struct ForallType;
+    struct SyntaxType;
 
     enum class Qualifiers : std::uint8_t;
 

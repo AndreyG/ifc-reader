@@ -4,6 +4,7 @@
 
 #include "CallingConvention.h"
 #include "NoexceptSpecification.h"
+#include "SyntaxTreeFwd.h"
 
 namespace ifc
 {
@@ -210,5 +211,12 @@ namespace ifc
         TypeIndex subject;
 
         static constexpr std::string_view PartitionName = "type.forall";
+    };
+
+    struct SyntaxType
+    {
+        SyntaxIndex syntax;
+
+        static constexpr std::string_view PartitionName = "type.syntax-tree";
     };
 }

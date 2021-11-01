@@ -3,6 +3,7 @@
 #include "ifc/ChartFwd.h"
 #include "ifc/ExpressionFwd.h"
 #include "ifc/TypeFwd.h"
+#include "ifc/SyntaxTreeFwd.h"
 
 #include "ifc/Declaration.h"
 #include "ifc/Partition.h"
@@ -47,6 +48,7 @@ private:
     void present(ifc::RvalueReference) const;
 
     void present(ifc::NamedDecl const &) const;
+    void present(ifc::UnqualifiedId const &) const;
     void present(ifc::TupleExpression const &) const;
     void present(ifc::TemplateId const &) const;
     void present(ifc::DyadExpression const &) const;
@@ -70,6 +72,14 @@ private:
     void present(ifc::AliasDeclaration      const &) const;
     void present(ifc::UsingDeclaration      const &) const;
     void present(ifc::Concept               const &) const;
+
+    void present(ifc::SyntaxIndex) const;
+
+    void present(ifc::SimpleTypeSpecifier       const &) const;
+    void present(ifc::TypeSpecifierSeq          const &) const;
+    void present(ifc::TypeIdSyntax              const &) const;
+    void present(ifc::DeclaratorSyntax          const &) const;
+    void present(ifc::PointerDeclaratorSyntax   const &) const;
 
     template<typename T, typename Index>
     void present_heap_slice(ifc::Partition<T, Index>, ifc::Sequence) const;

@@ -10,6 +10,7 @@ namespace ifc
     struct TupleExpression;
     struct TemplateId;
     struct NamedDecl;
+    struct UnqualifiedId;
     struct TypeExpression;
     struct DyadExpression;
     struct SizeofExpression;

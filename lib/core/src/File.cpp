@@ -4,6 +4,7 @@
 #include "ifc/Chart.h"
 #include "ifc/Declaration.h"
 #include "ifc/Expression.h"
+#include "ifc/SyntaxTree.h"
 #include "ifc/Type.h"
 
 #include <cassert>
@@ -91,6 +92,7 @@ namespace ifc
     DEFINE_TYPE_PARTITION_GETTER(RvalueReference,    rvalue_references)
     DEFINE_TYPE_PARTITION_GETTER(QualifiedType,      qualified_types)
     DEFINE_TYPE_PARTITION_GETTER(ForallType,         forall_types)
+    DEFINE_TYPE_PARTITION_GETTER(SyntaxType,         syntax_types)
 
 #undef DEFINE_TYPE_PARTITION_GETTER
 
@@ -99,6 +101,7 @@ namespace ifc
 
     DEFINE_EXPR_PARTITION_GETTER(TypeExpression,    type_expressions)
     DEFINE_EXPR_PARTITION_GETTER(NamedDecl,         decl_expressions)
+    DEFINE_EXPR_PARTITION_GETTER(UnqualifiedId,     unqualified_id_expressions)
     DEFINE_EXPR_PARTITION_GETTER(TemplateId,        template_ids)
     DEFINE_EXPR_PARTITION_GETTER(DyadExpression,    dyad_expressions)
     DEFINE_EXPR_PARTITION_GETTER(SizeofExpression,  sizeof_expressions)
@@ -109,6 +112,18 @@ namespace ifc
 
     DEFINE_PARTITION_GETTER(ChartUnilevel,   ChartIndex, unilevel_charts)
     DEFINE_PARTITION_GETTER(ChartMultilevel, ChartIndex, multilevel_charts)
+
+#define DEFINE_SYNTAX_PARTITION_GETTER(SyntaxType, SyntaxName) \
+    DEFINE_PARTITION_GETTER(SyntaxType, SyntaxIndex, SyntaxName)
+
+    DEFINE_SYNTAX_PARTITION_GETTER(SimpleTypeSpecifier,         simple_type_specifiers)
+    DEFINE_SYNTAX_PARTITION_GETTER(TypeSpecifierSeq,            type_specifier_seq_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(TypeIdSyntax,                typeid_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(DeclaratorSyntax,            declarator_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(PointerDeclaratorSyntax,     pointer_declarator_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(ExpressionSyntax,            expression_syntax_trees)
+
+#undef DEFINE_SYNTAX_PARTITION_GETTER
 
     DEFINE_PARTITION_GETTER(OperatorFunctionName, NameIndex, operator_names)
 
