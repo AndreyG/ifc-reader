@@ -198,4 +198,18 @@ namespace ifc
 
         static constexpr std::string_view PartitionName = "expr.dyad";
     };
+
+    struct SizeofExpression : ExpressionBase
+    {
+        TypeIndex operand;
+
+        static constexpr std::string_view PartitionName = "expr.sizeof-type";
+    };
+
+    struct AlignofExpression : ExpressionBase
+    {
+        TypeIndex operand;
+
+        static constexpr std::string_view PartitionName = "expr.alignof";
+    };
 }

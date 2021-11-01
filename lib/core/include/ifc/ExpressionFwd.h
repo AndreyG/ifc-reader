@@ -12,4 +12,6 @@ namespace ifc
     struct NamedDecl;
     struct TypeExpression;
     struct DyadExpression;
+    struct SizeofExpression;
+    struct AlignofExpression;
 }

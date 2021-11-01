@@ -50,6 +50,8 @@ private:
     void present(ifc::TupleExpression const &) const;
     void present(ifc::TemplateId const &) const;
     void present(ifc::DyadExpression const &) const;
+    void present(ifc::SizeofExpression const &) const;
+    void present(ifc::AlignofExpression const &) const;
     void present(ifc::ExprIndex) const;
 
     void present(ifc::ChartIndex) const;
