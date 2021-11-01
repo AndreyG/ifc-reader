@@ -23,7 +23,8 @@ namespace ifc
         Qualified       = 0x0E,
         Tuple           = 0x12,
         Forall          = 0x13,
-        // TODO
+        Unaligned       = 0x14,
+        SyntaxTree      = 0x15,
     };
 
     enum class TypeBasis : uint8_t
