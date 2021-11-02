@@ -6,6 +6,7 @@
 #include "ifc/SyntaxTreeFwd.h"
 
 #include "ifc/Declaration.h"
+#include "ifc/Literal.h"
 #include "ifc/Partition.h"
 
 #include "ifc/FileFwd.h"
@@ -54,6 +55,7 @@ private:
     void present(ifc::DyadExpression const &) const;
     void present(ifc::SizeofExpression const &) const;
     void present(ifc::AlignofExpression const &) const;
+    void present(ifc::LitIndex) const;
     void present(ifc::ExprIndex) const;
 
     void present(ifc::ChartIndex) const;

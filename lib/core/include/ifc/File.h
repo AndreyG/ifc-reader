@@ -6,6 +6,7 @@
 #include "ChartFwd.h"
 #include "ExpressionFwd.h"
 #include "DeclarationFwd.h"
+#include "Literal.h"
 #include "NameFwd.h"
 #include "SyntaxTreeFwd.h"
 #include "TypeFwd.h"
@@ -82,6 +83,7 @@ namespace ifc
 #define DECLARE_EXPR_PARTITION_GETTER(ExprType, ExprName) \
     DECLARE_PARTITION_GETTER(ExprType, ExprIndex, ExprName)
 
+        DECLARE_EXPR_PARTITION_GETTER(LiteralExpression, literal_expressions)
         DECLARE_EXPR_PARTITION_GETTER(TypeExpression,    type_expressions)
         DECLARE_EXPR_PARTITION_GETTER(NamedDecl,         decl_expressions)
         DECLARE_EXPR_PARTITION_GETTER(UnqualifiedId,     unqualified_id_expressions)
@@ -103,6 +105,10 @@ namespace ifc
         // Charts
         DECLARE_PARTITION_GETTER(ChartUnilevel,     ChartIndex, unilevel_charts)
         DECLARE_PARTITION_GETTER(ChartMultilevel,   ChartIndex, multilevel_charts)
+
+        // Literals
+        DECLARE_PARTITION_GETTER(IntegerLiteral,    LitIndex,   integer_literals)
+        DECLARE_PARTITION_GETTER(FPLiteral,         LitIndex,   fp_literals)
 
         // Syntax Trees
 #define DECLARE_SYNTAX_PARTITION_GETTER(SyntaxType, SyntaxName) \

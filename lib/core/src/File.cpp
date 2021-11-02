@@ -99,6 +99,7 @@ namespace ifc
 #define DEFINE_EXPR_PARTITION_GETTER(ExprType, ExprName) \
     DEFINE_PARTITION_GETTER(ExprType, ExprIndex, ExprName)
 
+    DEFINE_EXPR_PARTITION_GETTER(LiteralExpression, literal_expressions)
     DEFINE_EXPR_PARTITION_GETTER(TypeExpression,    type_expressions)
     DEFINE_EXPR_PARTITION_GETTER(NamedDecl,         decl_expressions)
     DEFINE_EXPR_PARTITION_GETTER(UnqualifiedId,     unqualified_id_expressions)
@@ -112,6 +113,9 @@ namespace ifc
 
     DEFINE_PARTITION_GETTER(ChartUnilevel,   ChartIndex, unilevel_charts)
     DEFINE_PARTITION_GETTER(ChartMultilevel, ChartIndex, multilevel_charts)
+
+    DEFINE_PARTITION_GETTER(IntegerLiteral,  LitIndex,   integer_literals)
+    DEFINE_PARTITION_GETTER(FPLiteral,       LitIndex,   fp_literals)
 
 #define DEFINE_SYNTAX_PARTITION_GETTER(SyntaxType, SyntaxName) \
     DEFINE_PARTITION_GETTER(SyntaxType, SyntaxIndex, SyntaxName)

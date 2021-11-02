@@ -2,6 +2,7 @@
 
 #include "ExpressionFwd.h"
 
+#include "Literal.h"
 #include "SourceLocation.h"
 
 #include "common_types.h"
@@ -82,6 +83,13 @@ namespace ifc
     {
         SourceLocation source;
         TypeIndex type;
+    };
+
+    struct LiteralExpression : ExpressionBase
+    {
+        LitIndex value;
+
+        static constexpr std::string_view PartitionName = "expr.literal";
     };
 
     struct NamedDecl : ExpressionBase

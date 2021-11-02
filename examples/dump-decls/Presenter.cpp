@@ -223,6 +223,9 @@ void Presenter::present(ifc::ExprIndex expr) const
 {
     switch (auto const expr_kind = expr.sort())
     {
+    case ifc::ExprSort::Literal:
+        present(file_.literal_expressions()[expr].value);
+        break;
     case ifc::ExprSort::Type:
         present(file_.type_expressions()[expr].denotation);
         break;
@@ -329,6 +332,24 @@ void Presenter::present(ifc::AlignofExpression const& expr) const
     out_ << "alignof(";
     present(expr.operand);
     out_ << ")";
+}
+
+void Presenter::present(ifc::LitIndex lit) const
+{
+    switch (lit.sort())
+    {
+    case ifc::LiteralSort::Immediate:
+        out_ << lit.index;
+        break;
+    case ifc::LiteralSort::Integer:
+        out_ << file_.integer_literals()[lit].value;
+        break;
+    case ifc::LiteralSort::FloatingPoint:
+        out_ << file_.fp_literals()[lit].value;
+        break;
+    default: ;
+    }
+
 }
 
 void Presenter::present(ifc::SyntacticType type) const
