@@ -141,6 +141,9 @@ namespace ifc
         Partition<T, Index> get_partition() const;
 
         template<typename T, typename Index>
+        Partition<T, Index> get_partition_with_cache(std::optional<Partition<T, Index>> & cache) const;
+
+        template<typename T, typename Index>
         Partition<T, Index> get_partition(std::string_view name) const;
 
         template<typename T>

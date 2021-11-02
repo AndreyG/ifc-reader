@@ -45,13 +45,9 @@ namespace ifc
         return get_partition<ScopeDescriptor, ScopeIndex>();
     }
 
-#define DEFINE_PARTITION_GETTER(ElementType, IndexType, Property)   \
-    Partition<ElementType, IndexType> File::Property() const {      \
-        if (cached_ ## Property ## _.has_value())                   \
-            return *cached_ ## Property ## _;                       \
-        auto result = get_partition<ElementType, IndexType>();      \
-        cached_ ## Property ## _ = result;                          \
-        return result;                                              \
+#define DEFINE_PARTITION_GETTER(ElementType, IndexType, Property)                           \
+    Partition<ElementType, IndexType> File::Property() const {                              \
+        return get_partition_with_cache<ElementType, IndexType>(cached_ ## Property ## _);  \
     }
 
     DEFINE_PARTITION_GETTER(Declaration, Index, declarations)
@@ -152,6 +148,16 @@ namespace ifc
     Partition<T, Index> File::get_partition() const
     {
         return get_partition<T, Index>(T::PartitionName);
+    }
+
+    template<typename T, typename Index>
+    Partition<T, Index> File::get_partition_with_cache(std::optional<Partition<T, Index>> & cache) const
+    {
+        if (cache.has_value())
+            return *cache;
+        auto result = get_partition<T, Index>();
+        cache = result;
+        return result;
     }
 
     template<typename T, typename Index>
