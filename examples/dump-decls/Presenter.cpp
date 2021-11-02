@@ -539,7 +539,13 @@ void Presenter::present(ifc::VariableDeclaration const& variable) const
 {
     out_ << "Variable '";
     present(variable.name);
-    out_ << "', type: ";
+    out_ << "'";
+    if (const auto initializer = variable.initializer; !initializer.is_null())
+    {
+        out_ << " = ";
+        present(variable.initializer);
+    }
+    out_ << ", type: ";
     present(variable.type);
     out_ << "\n";
 }
