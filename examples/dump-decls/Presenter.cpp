@@ -88,8 +88,23 @@ void Presenter::present(ifc::FundamentalType const& type) const
         out_ << "long long";
         return;
     case ifc::TypePrecision::Bit8:
+        if (type.basis == ifc::TypeBasis::Char)
+        {
+            out_ << "char8_t";
+            return;
+        }
     case ifc::TypePrecision::Bit16:
+        if (type.basis == ifc::TypeBasis::Char)
+        {
+            out_ << "char16_t";
+            return;
+        }
     case ifc::TypePrecision::Bit32:
+        if (type.basis == ifc::TypeBasis::Char)
+        {
+            out_ << "char32_t";
+            return;
+        }
     case ifc::TypePrecision::Bit128:
         out_ << "Unsupported Bitness '" << static_cast<int>(type.precision) << "' ";
         break;
