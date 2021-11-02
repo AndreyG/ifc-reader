@@ -54,8 +54,10 @@ namespace ifc
         Function,
         Empty,
         VariableTemplate,
+        Concept,
         Auto,
         DecltypeAuto,
+        Overload
     };
 
     enum class TypePrecision : uint8_t
