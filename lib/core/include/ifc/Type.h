@@ -224,4 +224,13 @@ namespace ifc
 
         static constexpr std::string_view PartitionName = "type.syntax-tree";
     };
+
+    struct PlaceholderType
+    {
+        ExprIndex constraint;
+        TypeBasis basis;
+        TypeIndex elaboration;
+
+        static constexpr std::string_view PartitionName = "type.placeholder";
+    };
 }

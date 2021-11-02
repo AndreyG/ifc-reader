@@ -185,6 +185,21 @@ void Presenter::present(ifc::Qualifiers quals) const
         out_ << "__restrict ";
 }
 
+void Presenter::present(ifc::PlaceholderType placeholder) const
+{
+    switch (const auto basis = placeholder.basis)
+    {
+    case ifc::TypeBasis::Auto:
+        out_ << "auto";
+        break;
+    case ifc::TypeBasis::DecltypeAuto:
+        out_ << "delctype(auto)";
+        break;
+    default:
+        out_ << "Unexpected placeholder basis: " << static_cast<int>(basis);
+    }
+}
+
 void Presenter::present(ifc::QualifiedType qualType) const
 {
     present(qualType.qualifiers);
@@ -415,6 +430,9 @@ void Presenter::present(ifc::TypeIndex type) const
         break;
     case ifc::TypeSort::SyntaxTree:
         present(file_.syntax_types()[type].syntax);
+        break;
+    case ifc::TypeSort::Placeholder:
+        present(file_.placeholder_types()[type]);
         break;
     default:
         out_ << "Unsupported TypeSort '" << static_cast<int>(kind) << "'";

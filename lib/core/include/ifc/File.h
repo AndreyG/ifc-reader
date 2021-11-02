@@ -77,6 +77,8 @@ namespace ifc
         DECLARE_TYPE_PARTITION_GETTER(QualifiedType,      qualified_types)
         DECLARE_TYPE_PARTITION_GETTER(ForallType,         forall_types)
         DECLARE_TYPE_PARTITION_GETTER(SyntaxType,         syntax_types)
+        DECLARE_TYPE_PARTITION_GETTER(PlaceholderType,    placeholder_types)
+
 #undef DECLARE_TYPE_PARTITION_GETTER
 
         // Expressions

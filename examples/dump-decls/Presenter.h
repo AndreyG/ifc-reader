@@ -44,6 +44,7 @@ private:
     void present(ifc::TupleType    ) const;
     void present(ifc::QualifiedType) const;
     void present(ifc::Qualifiers) const;
+    void present(ifc::PlaceholderType) const;
 
     void present(ifc::LvalueReference) const;
     void present(ifc::RvalueReference) const;

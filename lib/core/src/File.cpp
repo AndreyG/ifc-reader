@@ -89,6 +89,7 @@ namespace ifc
     DEFINE_TYPE_PARTITION_GETTER(QualifiedType,      qualified_types)
     DEFINE_TYPE_PARTITION_GETTER(ForallType,         forall_types)
     DEFINE_TYPE_PARTITION_GETTER(SyntaxType,         syntax_types)
+    DEFINE_TYPE_PARTITION_GETTER(PlaceholderType,    placeholder_types)
 
 #undef DEFINE_TYPE_PARTITION_GETTER
 
