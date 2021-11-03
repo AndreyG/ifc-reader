@@ -65,7 +65,14 @@ namespace ifc
         static constexpr std::string_view PartitionName = "syntax.declarator";
     };
 
-    enum class PointerDeclaratorSort : uint8_t;
+    enum class PointerDeclaratorSort : uint8_t
+    {
+        None,
+        Pointer,
+        LvalueReference,
+        RvalueReference,
+        PointerToMember,
+    };
 
     struct PointerDeclaratorSyntax
     {

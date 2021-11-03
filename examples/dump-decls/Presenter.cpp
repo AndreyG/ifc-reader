@@ -685,7 +685,20 @@ void Presenter::present(ifc::DeclaratorSyntax const& declarator) const
 
 void Presenter::present(ifc::PointerDeclaratorSyntax const& pointer) const
 {
-    out_ << "*";
+    switch (const auto kind = pointer.sort)
+    {
+    case ifc::PointerDeclaratorSort::Pointer:
+        out_ << "*";
+        break;
+    case ifc::PointerDeclaratorSort::LvalueReference:
+        out_ << "&";
+        break;
+    case ifc::PointerDeclaratorSort::RvalueReference:
+        out_ << "&&";
+        break;
+    default:
+        out_ << "Unsupported PointerDeclarator '" << static_cast<int>(kind) << "'";
+    }
 }
 
 void Presenter::present(ifc::TypeSpecifierSeq const& seq) const
