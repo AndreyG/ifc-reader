@@ -56,6 +56,7 @@ private:
     void present(ifc::DyadExpression const &) const;
     void present(ifc::SizeofExpression const &) const;
     void present(ifc::AlignofExpression const &) const;
+    void present(ifc::PackedTemplateArguments const &) const;
     void present(ifc::LitIndex) const;
     void present(ifc::ExprIndex) const;
 

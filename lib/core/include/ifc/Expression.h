@@ -130,6 +130,13 @@ namespace ifc
         static constexpr std::string_view PartitionName = "expr.type";
     };
 
+    struct PackedTemplateArguments : ExpressionBase
+    {
+        ExprIndex arguments;
+
+        static constexpr std::string_view PartitionName = "expr.packed-template-arguments";
+    };
+
     enum class DyadicOperator
     {
         Unknown     = 0x00,

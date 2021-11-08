@@ -106,6 +106,8 @@ namespace ifc
     DEFINE_EXPR_PARTITION_GETTER(AlignofExpression, alignof_expressions)
     DEFINE_EXPR_PARTITION_GETTER(TupleExpression,   tuple_expressions)
 
+    DEFINE_EXPR_PARTITION_GETTER(PackedTemplateArguments, packed_template_arguments)
+
 #undef DEFINE_EXPR_PARTITION_GETTER
 
     DEFINE_PARTITION_GETTER(ChartUnilevel,   ChartIndex, unilevel_charts)

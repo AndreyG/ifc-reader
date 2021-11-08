@@ -262,6 +262,9 @@ void Presenter::present(ifc::ExprIndex expr) const
     case ifc::ExprSort::Tuple:
         present(file_.tuple_expressions()[expr]);
         break;
+    case ifc::ExprSort::PackedTemplateArguments:
+        present(file_.packed_template_arguments()[expr]);
+        break;
     default:
         out_ << "Unsupported ExprSort'" << static_cast<int>(expr_kind) << "'";
     }
@@ -347,6 +350,11 @@ void Presenter::present(ifc::AlignofExpression const& expr) const
     out_ << "alignof(";
     present(expr.operand);
     out_ << ")";
+}
+
+void Presenter::present(ifc::PackedTemplateArguments const& templargs) const
+{
+    present(templargs.arguments);
 }
 
 void Presenter::present(ifc::LitIndex lit) const
