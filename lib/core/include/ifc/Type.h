@@ -170,6 +170,16 @@ namespace ifc
         static constexpr std::string_view PartitionName = "type.tor";
     };
 
+    struct BaseType
+    {
+        TypeIndex type;
+        Access access;
+        bool shared : 1;
+        bool pack_expanded : 1;
+
+        static constexpr std::string_view PartitionName = "type.base";
+    };
+
     struct TupleType : Sequence
     {
         static constexpr std::string_view PartitionName = "type.tuple";

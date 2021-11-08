@@ -17,6 +17,7 @@ namespace ifc
     struct RvalueReference;
     struct LvalueReference;
     struct TupleType;
+    struct BaseType;
     struct FunctionType;
     struct MethodType;
     struct ForallType;

@@ -219,6 +219,9 @@ void Presenter::present(ifc::NamedDecl const& decl) const
     case ifc::DeclSort::Reference:
         present(file_.decl_references()[decl.resolution]);
         break;
+    case ifc::DeclSort::Template:
+        present(file_.template_declarations()[decl.resolution].name);
+        break;
     default:
         out_ << "Declaration of unsupported kind '" << static_cast<int>(kind) << "'";
     }
@@ -433,6 +436,9 @@ void Presenter::present(ifc::TypeIndex type) const
     case ifc::TypeSort::Qualified:
         present(file_.qualified_types()[type]);
         break;
+    case ifc::TypeSort::Base:
+        present(file_.base_types()[type]);
+        break;
     case ifc::TypeSort::Tuple:
         present(file_.tuple_types()[type]);
         break;
@@ -445,6 +451,29 @@ void Presenter::present(ifc::TypeIndex type) const
     default:
         out_ << "Unsupported TypeSort '" << static_cast<int>(kind) << "'";
     }
+}
+
+void Presenter::present(ifc::BaseType const& base) const
+{
+    switch (base.access)
+    {
+    case ifc::Access::None:
+        break;
+    case ifc::Access::Private:
+        out_ << "private ";
+        break;
+    case ifc::Access::Protected:
+        out_ << "protected ";
+        break;
+    case ifc::Access::Public:
+        out_ << "public ";
+        break;
+    }
+    if (base.shared)
+        out_ << "virtual ";
+    present(base.type);
+    if (base.pack_expanded)
+        out_ << "...";
 }
 
 void Presenter::present_refered_declaration(ifc::DeclIndex decl) const
@@ -515,6 +544,11 @@ void Presenter::present(ifc::ScopeDeclaration const& scope) const
     out_ << " '";
     present(scope.name);
     out_ << "'";
+    if (auto const base = scope.base; !base.is_null())
+    {
+        out_ << " : ";
+        present(base);
+    }
     if (auto const def = scope.initializer; is_null(def))
     {
         out_ << ": incomplete";

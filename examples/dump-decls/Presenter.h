@@ -31,6 +31,7 @@ private:
 
     void present(ifc::TypeIndex) const;
 
+    void present(ifc::BaseType        const &) const;
     void present(ifc::FunctionType    const &) const;
     void present(ifc::MethodType      const &) const;
     void present_function_type(auto const &)   const;
