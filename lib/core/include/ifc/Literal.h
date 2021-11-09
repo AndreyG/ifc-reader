@@ -23,9 +23,14 @@ namespace ifc
         static constexpr std::string_view PartitionName = "const.i64";
     };
 
-    struct FPLiteral
+    struct alignas(4) FPLiteral
     {
-        double value;
+        std::byte raw_data[12];
+
+        double value() const
+        {
+            return *reinterpret_cast<double const*>(raw_data);
+        }
 
         static constexpr std::string_view PartitionName = "const.f64";
     };

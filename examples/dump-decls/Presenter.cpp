@@ -371,7 +371,7 @@ void Presenter::present(ifc::LitIndex lit) const
         out_ << file_.integer_literals()[lit].value;
         break;
     case ifc::LiteralSort::FloatingPoint:
-        out_ << file_.fp_literals()[lit].value;
+        out_ << file_.fp_literals()[lit].value();
         break;
     default: ;
     }
