@@ -174,8 +174,14 @@ namespace ifc
     {
         TypeIndex type;
         Access access;
-        bool shared : 1;
-        bool pack_expanded : 1;
+
+        enum Specifiers : uint8_t
+        {
+            Shared   = 1 << 0,
+            Expanded = 1 << 1,
+        };
+
+        Specifiers specifiers;
 
         static constexpr std::string_view PartitionName = "type.base";
     };

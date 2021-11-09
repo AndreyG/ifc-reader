@@ -469,10 +469,10 @@ void Presenter::present(ifc::BaseType const& base) const
         out_ << "public ";
         break;
     }
-    if (base.shared)
+    if (base.specifiers & ifc::BaseType::Shared)
         out_ << "virtual ";
     present(base.type);
-    if (base.pack_expanded)
+    if (base.specifiers & ifc::BaseType::Expanded)
         out_ << "...";
 }
 
