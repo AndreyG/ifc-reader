@@ -17,6 +17,10 @@ namespace ifc
         return get_module_by_bmi_path(module_name_to_bmi_path_[name]);
     }
 
+    Environment::Environment()
+    {
+    }
+
     Environment::Environment(Config config)
     {
         for (auto & [header, bmi] : config.imported_header_units)

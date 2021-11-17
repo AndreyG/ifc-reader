@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
 
     try
     {
-        ifc::MSVCEnvironment env(path_to_ifc + ".d.json");
+        ifc::MSVCEnvironment env;
         ifc::File const & file = env.get_module_by_bmi_path(path_to_ifc);
 
         ifc::FileHeader const & header = file.header();
