@@ -23,23 +23,27 @@ IF (WIN32)
        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg
     )
 
+
     add_custom_target(get_vcpkg
         BYPRODUCTS ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/vcpkg.exe
         COMMAND bootstrap-vcpkg.bat -disableMetrics:$$True
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg
     )
+    add_dependencies(get_vcpkg vcpkg)
 
     add_custom_target(get_boost_iostreams ALL
         DEPENDS get_vcpkg
         COMMAND vcpkg.exe install boost-iostreams:x64-windows
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg
     )
+    add_dependencies(get_boost_iostreams get_vcpkg)
 
     add_custom_target(get_nlohmann-json ALL
         DEPENDS get_vcpkg
         COMMAND vcpkg.exe install nlohmann-json:x64-windows
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg
     )
+    add_dependencies(get_boost_iostreams get_vcpkg)
 
     set(VcpkgCMake ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake)
 
