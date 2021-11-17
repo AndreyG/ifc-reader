@@ -3,11 +3,22 @@ cmake_minimum_required(VERSION 3.16)
 
 include(ExternalProject)
 
-set(AddMainProjects TRUE)
+set(VcpkgCMake ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake)
+set(getDependentLibs FALSE)
+
+if(WIN32)
+    set(getDependentLibs TRUE)
+
+    if(EXISTS ${VcpkgCMake} AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed)
+        find_package(Boost QUIET)
+        if (Boost_FOUND)
+            set(getDependentLibs FALSE)
+        endif()
+    endif()
+endif()
 
 # Can someone port this to linux?
-IF (WIN32)
-    set(AddMainProjects FALSE)
+IF (${getDependentLibs})
 
     ExternalProject_Add(vcpkg
        GIT_REPOSITORY https://github.com/microsoft/vcpkg
@@ -38,34 +49,31 @@ IF (WIN32)
     )
 
     add_custom_target(get_nlohmann-json ALL
-        DEPENDS get_vcpkg
+        DEPENDS get_vcpkg get_boost_iostreams
         COMMAND vcpkg.exe install nlohmann-json:x64-windows
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg
     )
-
-    set(VcpkgCMake ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake)
-
-    set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS 
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed
- 
-        #test vcpkg bootstrap
-        ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems
-    )
-
-    if(NOT EXISTS ${VcpkgCMake} OR NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed)
-        message("IMPORTANT: Run compilation again to update cmake project")
-    else()
-        set(AddMainProjects TRUE)
-        include(${VcpkgCMake})
-    endif()
-
 endif()
 
-if(${AddMainProjects})
+if(EXISTS ${VcpkgCMake} AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed)
+    include(${VcpkgCMake})
+endif()
+
+find_package(Boost QUIET)
+if (Boost_FOUND)
     add_subdirectory(lib/core)
     add_subdirectory(lib/msvc)
 
     add_subdirectory(examples/dump-decls)
+else()
+    if (WIN32)
+        add_custom_target(all_builds_complete ALL
+            DEPENDS get_nlohmann-json
+            DEPENDS get_boost_iostreams
+            COMMAND echo ----------------------------------------------------------
+            COMMAND echo - Re-generate cmake cache now                            -
+            COMMAND echo ----------------------------------------------------------
+        )
+    endif()
 endif()
 
