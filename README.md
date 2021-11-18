@@ -42,11 +42,11 @@ cmake -G "Visual Studio 16 2019" ..
 
 Run following commands:
 
-`git clone https://github.com/microsoft/vcpkg
-cd vcpkg
-bootstrap-vcpkg.bat
-vcpkg.exe install boost-iostreams:x64-windows
-vcpkg.exe install nlohmann-json:x64-windows`
+    git clone https://github.com/microsoft/vcpkg
+    cd vcpkg
+    bootstrap-vcpkg.bat
+    vcpkg.exe install boost-iostreams:x64-windows
+    vcpkg.exe install nlohmann-json:x64-windows
 
 From Visual Studio, open `CMakeFile.txt`
 
