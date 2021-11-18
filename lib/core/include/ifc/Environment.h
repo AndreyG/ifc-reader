@@ -1,7 +1,8 @@
 #pragma once
 
-#include "File.h"
+#include "FileFwd.h"
 
+#include <string>
 #include <unordered_map>
 #include <vector>
 
@@ -14,7 +15,7 @@ namespace ifc
         File const & get_module_by_name     (std::string const &);
 
     protected:
-        ~Environment() = default;
+        ~Environment();
 
         struct Config
         {

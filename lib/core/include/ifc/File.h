@@ -11,11 +11,8 @@
 #include "SyntaxTreeFwd.h"
 #include "TypeFwd.h"
 
-#include <boost/iostreams/device/mapped_file.hpp>
-
+#include <memory>
 #include <optional>
-#include <span>
-#include <unordered_map>
 
 namespace ifc
 {
@@ -25,6 +22,8 @@ namespace ifc
         FileHeader const & header() const;
 
         const char * get_string(TextOffset) const;
+
+        File const & get_imported_module(ModuleReference) const;
 
         ScopeDescriptor global_scope() const;
 
@@ -133,38 +132,20 @@ namespace ifc
 #undef DECLARE_PARTITION_GETTER
 
     public:
-        File const & get_imported_module(ModuleReference) const;
-
         File(std::string const &, class Environment*);
+        ~File();
+
+        File           (File &&) noexcept;
+        File& operator=(File &&) noexcept;
 
     private:
-        struct Structure;
-
-        Structure const * structure() const;
-
-        template<typename T, typename Index = uint32_t>
-        Partition<T, Index> get_partition() const;
-
         template<typename T, typename Index>
         Partition<T, Index> get_partition_with_cache(std::optional<Partition<T, Index>> & cache) const;
 
-        template<typename T, typename Index>
-        Partition<T, Index> get_partition(std::string_view name) const;
-
-        template<typename T>
-        T const* get_pointer(ByteOffset offset) const;
-
-        void const* get_raw_pointer(ByteOffset) const;
-
-        size_t calc_size() const;
-
-        std::span<PartitionSummary const> table_of_contents() const;
-
-        void fill_table_of_contents();
-
     private:
         Environment* env_;
-        boost::iostreams::mapped_file_source fmap_;
-        std::unordered_map<std::string_view, PartitionSummary const*> table_of_contents_;
+
+        struct Impl;
+        std::unique_ptr<Impl> impl_;
     };
 }

@@ -7,32 +7,118 @@
 #include "ifc/SyntaxTree.h"
 #include "ifc/Type.h"
 
+#include <boost/iostreams/device/mapped_file.hpp>
+
 #include <cassert>
+#include <span>
 #include <stdexcept>
+#include <unordered_map>
 
 namespace ifc
 {
-    using FileSignature = std::array<std::byte, 4>;
-
-    struct File::Structure
+    namespace
     {
-        FileSignature signature;
-        FileHeader header;
-    };
+        using FileSignature = std::array<std::byte, 4>;
 
-    File::Structure const* File::structure() const
-    {
-        return reinterpret_cast<Structure const *>(fmap_.data());
+        constexpr auto as_bytes(auto... values)
+        {
+            return std::array { static_cast<std::byte>(values)... };
+        }
+
+        constexpr FileSignature CANONICAL_FILE_SIGNATURE = as_bytes(0x54, 0x51, 0x45, 0x1A);
     }
+
+    struct File::Impl
+    {
+    private:
+        struct Structure
+        {
+            FileSignature signature;
+            FileHeader header;
+        };
+
+        boost::iostreams::mapped_file_source fmap_;
+        std::unordered_map<std::string_view, PartitionSummary const*> table_of_contents_;
+
+        Structure const * structure() const
+        {
+            return reinterpret_cast<Structure const *>(fmap_.data());
+        }
+
+        size_t calc_size() const
+        {
+            auto result = sizeof(Structure) + raw_count(header().string_table_size);
+            const auto toc = table_of_contents();
+            result += toc.size_bytes();
+            for (const auto & partition : toc)
+                result += partition.size_bytes();
+            return result;
+        }
+
+        std::span<PartitionSummary const> table_of_contents() const
+        {
+            auto const & h = header();
+            return { get_pointer<PartitionSummary>(h.toc), raw_count(h.partition_count) };
+        }
+
+        template<typename T>
+        T const* get_pointer(ByteOffset offset) const
+        {
+            return static_cast<T const*>(get_raw_pointer(offset));
+        }
+
+        void const* get_raw_pointer(ByteOffset offset) const
+        {
+            return fmap_.data() + static_cast<size_t>(offset);
+        }
+
+    public:
+        Impl(std::string const & path)
+            : fmap_(path)
+        {
+            if (structure()->signature != CANONICAL_FILE_SIGNATURE)
+                throw std::invalid_argument("corrupted file signature");
+
+            if (calc_size() != fmap_.size())
+                throw std::runtime_error("corrupted file");
+
+            for (auto const & partition : table_of_contents())
+                table_of_contents_.emplace(get_string(partition.name), &partition);
+        }
+
+        FileHeader const & header() const
+        {
+            return structure()->header;
+        }
+
+        const char* get_string(TextOffset index) const
+        {
+            return get_pointer<char>(header().string_table_bytes) + static_cast<size_t>(index);
+        }
+
+        template<typename T, typename Index>
+        Partition<T, Index> get_partition(std::string_view name) const
+        {
+            const auto partition = table_of_contents_.at(name);
+            assert(static_cast<size_t>(partition->entry_size) == sizeof(T));
+            return { get_pointer<T>(partition->offset), raw_count(partition->cardinality) };
+        }
+
+        template<typename T, typename Index>
+        Partition<T, Index> get_partition() const
+        {
+            return get_partition<T, Index>(T::PartitionName);
+        }
+    };
 
     FileHeader const& File::header() const
     {
-        return structure()->header;
+        return impl_->header();
     }
 
     const char* File::get_string(TextOffset index) const
     {
-        return get_pointer<char>(header().string_table_bytes) + static_cast<size_t>(index);
+        return impl_->get_string(index);
     }
 
     ScopeDescriptor File::global_scope() const
@@ -42,7 +128,7 @@ namespace ifc
 
     ScopePartition File::scope_descriptors() const
     {
-        return get_partition<ScopeDescriptor, ScopeIndex>();
+        return impl_->get_partition<ScopeDescriptor, ScopeIndex>();
     }
 
 #define DEFINE_PARTITION_GETTER(ElementType, IndexType, Property)                           \
@@ -135,23 +221,17 @@ namespace ifc
 
     Partition<TypeIndex, Index> File::type_heap() const
     {
-        return get_partition<TypeIndex, Index>("heap.type");
+        return impl_->get_partition<TypeIndex, Index>("heap.type");
     }
 
     Partition<ExprIndex, Index> File::expr_heap() const
     {
-        return get_partition<ExprIndex, Index>("heap.expr");
+        return impl_->get_partition<ExprIndex, Index>("heap.expr");
     }
 
     Partition<DeclIndex> File::deduction_guides() const
     {
-        return get_partition<DeclIndex, uint32_t>("name.guide");
-    }
-
-    template<typename T, typename Index>
-    Partition<T, Index> File::get_partition() const
-    {
-        return get_partition<T, Index>(T::PartitionName);
+        return impl_->get_partition<DeclIndex, uint32_t>("name.guide");
     }
 
     template<typename T, typename Index>
@@ -159,54 +239,9 @@ namespace ifc
     {
         if (cache.has_value())
             return *cache;
-        auto result = get_partition<T, Index>();
+        auto result = impl_->get_partition<T, Index>();
         cache = result;
         return result;
-    }
-
-    template<typename T, typename Index>
-    Partition<T, Index> File::get_partition(std::string_view name) const
-    {
-        const auto partition = table_of_contents_.at(name);
-        assert(static_cast<size_t>(partition->entry_size) == sizeof(T));
-        return { get_pointer<T>(partition->offset), raw_count(partition->cardinality) };
-    }
-
-    template<typename T>
-    T const* File::get_pointer(ByteOffset offset) const
-    {
-        return static_cast<T const*>(get_raw_pointer(offset));
-    }
-
-    void const* File::get_raw_pointer(ByteOffset offset) const
-    {
-        return fmap_.data() + static_cast<size_t>(offset);
-    }
-
-    size_t File::calc_size() const
-    {
-        auto result = sizeof(Structure) + raw_count(header().string_table_size);
-        const auto toc = table_of_contents();
-        result += toc.size_bytes();
-        for (const auto & partition : toc)
-            result += partition.size_bytes();
-        return result;
-    }
-
-    std::span<PartitionSummary const> File::table_of_contents() const
-    {
-        auto const & h = header();
-        return { get_pointer<PartitionSummary>(h.toc), raw_count(h.partition_count) };
-    }
-
-    namespace
-    {
-        constexpr auto as_bytes(auto... values)
-        {
-            return std::array { static_cast<std::byte>(values)... };
-        }
-
-        constexpr FileSignature CANONICAL_FILE_SIGNATURE = as_bytes(0x54, 0x51, 0x45, 0x1A);
     }
 
     File const& File::get_imported_module(ModuleReference module) const
@@ -227,20 +262,12 @@ namespace ifc
 
     File::File(std::string const & path, Environment* env)
         : env_(env)
-        , fmap_(path)
+        , impl_(std::make_unique<Impl>(path))
     {
-        if (structure()->signature != CANONICAL_FILE_SIGNATURE)
-            throw std::invalid_argument("corrupted file signature");
-
-        if (calc_size() != fmap_.size())
-            throw std::runtime_error("corrupted file");
-
-        fill_table_of_contents();
     }
 
-    void File::fill_table_of_contents()
-    {
-        for (const auto & partition : table_of_contents())
-            table_of_contents_.emplace(get_string(partition.name), &partition);
-    }
+    File::~File() = default;
+
+    File::File           (File&&) noexcept = default;
+    File& File::operator=(File&&) noexcept = default;
 }

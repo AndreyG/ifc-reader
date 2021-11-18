@@ -1,4 +1,5 @@
 #include "ifc/Environment.h"
+#include "ifc/File.h"
 
 namespace ifc
 {
@@ -24,4 +25,6 @@ namespace ifc
         for (auto & [name, bmi] : config.imported_modules)
             module_name_to_bmi_path_.emplace(std::move(name), std::move(bmi));
     }
+
+    Environment::~Environment() = default;
 }

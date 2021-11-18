@@ -8,6 +8,8 @@
 #include "ifc/SyntaxTree.h"
 #include "ifc/Type.h"
 
+#include <cassert>
+
 void Presenter::present(ifc::NameIndex name) const
 {
     switch (const auto kind = name.sort())
