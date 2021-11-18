@@ -25,10 +25,36 @@ and library `ifc-msvc` provides its implementation [`MSVCEnvironment`](https://g
 `ifc-msvc` depends on [nlohmann::json](https://github.com/nlohmann/json) for reading `.d.json` configs produced by MSVC.
 
 # Build
+### In Linux
+
 Nothing special, just plain CMake, something like this should be enough (after installing [Boost::iostreams](https://www.boost.org/doc/libs/1_77_0/libs/iostreams/doc/index.html)
 and [nlohmann::json](https://github.com/nlohmann/json) mentioned [above](#Dependencies)):
+
 ```
 mkdir build
 cd build
 cmake -G "Visual Studio 16 2019" ..
 ```
+
+
+
+### In Windows
+
+Run following commands:
+
+`git clone https://github.com/microsoft/vcpkg
+cd vcpkg
+bootstrap-vcpkg.bat
+vcpkg.exe install boost-iostreams:x64-windows
+vcpkg.exe install nlohmann-json:x64-windows`
+
+From Visual Studio, open `CMakeFile.txt`
+
+After `cmake` wizard pops up, open the `CMake Settings Editor`
+
+In `CMake toolchain file` - browse and select `vcpkg\scripts\buildsystems\vcpkg.cmake`
+
+Delete cache, generate cache.
+
+Build solution normally.
+
