@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FileFwd.h"
+#include "File.h"
 
 #include <string>
 #include <unordered_map>
