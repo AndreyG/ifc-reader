@@ -23,8 +23,15 @@ int main(int argc, char* argv[])
 
     try
     {
-        ifc::MSVCEnvironment env;
-        ifc::File const & file = env.get_module_by_bmi_path(path_to_ifc);
+        std::filesystem::path f(path_to_ifc + ".d.json");
+        std::shared_ptr<ifc::MSVCEnvironment> env;
+        
+        if(std::filesystem::exists(f))
+            env.reset(new ifc::MSVCEnvironment(f.string().c_str()));
+        else
+            env.reset(new ifc::MSVCEnvironment);
+
+        ifc::File const & file = env->get_module_by_bmi_path(path_to_ifc);
 
         ifc::FileHeader const & header = file.header();
         std::cout << "IFC Version: " << header.major_version << "." << header.minor_version << "\n"
