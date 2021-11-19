@@ -7,6 +7,11 @@ namespace ifc
     class MSVCEnvironment final : public Environment
     {
     public:
+        MSVCEnvironment()
+            : Environment()
+        {
+        }
+
         MSVCEnvironment(std::string const& path_to_config)
             : Environment(read_config(path_to_config))
         {}

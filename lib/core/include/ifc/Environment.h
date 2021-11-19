@@ -35,6 +35,7 @@ namespace ifc
             std::vector<Module> imported_modules;
         };
 
+        Environment();
         Environment(Config);
 
     private:
