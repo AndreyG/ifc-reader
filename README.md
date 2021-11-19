@@ -27,7 +27,11 @@ and library `ifc-msvc` provides its implementation [`MSVCEnvironment`](https://g
 # Build
 Nothing special, just plain CMake, something like this should be enough (after installing [Boost::iostreams](https://www.boost.org/doc/libs/1_77_0/libs/iostreams/doc/index.html)
 and [nlohmann::json](https://github.com/nlohmann/json) mentioned [above](#Dependencies)):
-
+```
+mkdir build
+cd build
+cmake ..
+```
 ### Windows
 [Vcpkg](https://github.com/microsoft/vcpkg) could be used for fetching required dependencies. If it's not installed yet, you could run the following commands for pulling package manager itself:
 
@@ -44,7 +48,7 @@ After that you could generate normal Visual Studio solution:
 ```
 mkdir build
 cd build
-cmake -G "Visual Studio 16 2019" -A x64 -DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake
+cmake -G "Visual Studio 16 2019" -A x64 -DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake ..
 ```
 or work with CMake directly in Visual Studio.
 
