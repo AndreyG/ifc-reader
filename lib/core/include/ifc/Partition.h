@@ -4,6 +4,8 @@
 
 #include "common_types.h"
 
+#include <ranges>
+
 namespace ifc
 {
     struct PartitionSummary
@@ -55,8 +57,17 @@ namespace ifc
             , size_(size)
         {}
 
+        // needed to satisfy concept std::ranges::view
+        Partition() = default;
+
     private:
         T const* data_;
         size_t size_;
     };
+}
+
+namespace std::ranges
+{
+    template<typename T, typename Index>
+    inline constexpr bool enable_view<ifc::Partition<T, Index>> = true;
 }
