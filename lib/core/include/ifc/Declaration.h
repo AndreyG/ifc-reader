@@ -3,11 +3,14 @@
 #include "DeclarationFwd.h"
 
 #include "CallingConvention.h"
+#include "ChartFwd.h"
+#include "ExpressionFwd.h"
 #include "Module.h"
 #include "Name.h"
 #include "NoexceptSpecification.h"
 #include "Scope.h"
 #include "SourceLocation.h"
+#include "TypeFwd.h"
 
 #include <string_view>
 

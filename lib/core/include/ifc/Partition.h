@@ -1,5 +1,7 @@
 #pragma once
 
+#include "AbstractReference.h"
+
 #include "common_types.h"
 
 namespace ifc
