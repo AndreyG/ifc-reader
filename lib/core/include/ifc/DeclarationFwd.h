@@ -22,4 +22,6 @@ namespace ifc
     struct UsingDeclaration;
     struct TemplateDeclaration;
     struct Concept;
+
+    enum class Access : uint8_t;
 }

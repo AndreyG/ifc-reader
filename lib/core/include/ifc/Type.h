@@ -3,6 +3,7 @@
 #include "TypeFwd.h"
 
 #include "CallingConvention.h"
+#include "DeclarationFwd.h"
 #include "NoexceptSpecification.h"
 #include "SyntaxTreeFwd.h"
 
