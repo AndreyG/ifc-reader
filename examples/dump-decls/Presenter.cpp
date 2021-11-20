@@ -490,7 +490,7 @@ void Presenter::present_refered_declaration(ifc::DeclIndex decl) const
         break;
     case ifc::DeclSort::Scope:
         {
-            ifc::ScopeDeclaration const & scope = file_.scope_declarations()[decl];
+            ifc::ScopeDeclaration const & scope = get_scope(file_, decl);
             present(scope.name);
         }
         break;
@@ -516,14 +516,14 @@ void Presenter::present_refered_declaration(ifc::DeclIndex decl) const
 
 void Presenter::present_scope_members(ifc::ScopeDescriptor scope) const
 {
-    present_range(file_.declarations().slice(scope), "\n");
+    present_range(get_declarations(file_, scope), "\n");
 }
 
 void Presenter::present(ifc::ScopeDeclaration const& scope) const
 {
     const auto type = scope.type;
     assert(type.sort() == ifc::TypeSort::Fundamental);
-    switch (const auto scope_kind = file_.fundamental_types()[type].basis)
+    switch (const auto scope_kind = get_kind(scope, file_))
     {
     case ifc::TypeBasis::Class:
         out_ << "Class";
@@ -776,7 +776,7 @@ void Presenter::present(ifc::DeclIndex decl) const
         present(file_.fields()[decl]);
         break;
     case ifc::DeclSort::Scope:
-        present(file_.scope_declarations()[decl]);
+        present(get_scope(file_, decl));
         break;
     case ifc::DeclSort::Enumeration:
         present(file_.enumerations()[decl]);
