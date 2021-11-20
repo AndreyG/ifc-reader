@@ -9,7 +9,7 @@ jobs:
       matrix:
         compiler:
           - { compiler: gcc,  CC: gcc-11,   CXX: g++-11 }
-          - { compiler: clang, CC: clang-12, CXX: clang++-12 }
+          - { compiler: clang, CC: clang-13, CXX: clang++-13 }
     steps:
       - name: deps
         run: |
@@ -18,8 +18,8 @@ jobs:
             sudo apt-get install -y \
               gcc-11 \
               g++-11 \
-              clang-12 \
-              clang++-12 \
+              clang-13 \
+              clang++-13 \
               cmake \
               ninja-build \
               libboost-iostreams-dev \
