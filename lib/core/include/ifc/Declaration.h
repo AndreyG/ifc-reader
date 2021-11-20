@@ -5,6 +5,7 @@
 #include "CallingConvention.h"
 #include "ChartFwd.h"
 #include "ExpressionFwd.h"
+#include "FileFwd.h"
 #include "Module.h"
 #include "Name.h"
 #include "NoexceptSpecification.h"
@@ -202,6 +203,8 @@ namespace ifc
 
         static constexpr std::string_view PartitionName = "decl.scope";
     };
+
+    TypeBasis get_kind(ScopeDeclaration const &, File const &);
 
     enum class FunctionTraits : uint16_t
     {

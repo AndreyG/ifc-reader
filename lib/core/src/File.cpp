@@ -270,4 +270,19 @@ namespace ifc
 
     File::File           (File&&) noexcept = default;
     File& File::operator=(File&&) noexcept = default;
+
+    ScopeDeclaration const& get_scope(File const& file, DeclIndex decl)
+    {
+        return file.scope_declarations()[decl];
+    }
+
+    Partition<Declaration, Index> get_declarations(File const& file, ScopeDescriptor scope)
+    {
+        return file.declarations().slice(scope);
+    }
+
+    TypeBasis get_kind(ScopeDeclaration const & scope, File const & file)
+    {
+        return file.fundamental_types()[scope.type].basis;
+    }
 }
