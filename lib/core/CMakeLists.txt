@@ -9,6 +9,7 @@ file(GLOB_RECURSE headers
 set(sources
     src/File.cpp
     src/Environment.cpp
+    src/accessors.cpp
 )
 
 add_library(ifc-core STATIC ${sources} ${headers})
