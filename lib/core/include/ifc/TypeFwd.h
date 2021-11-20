@@ -27,4 +27,6 @@ namespace ifc
     enum class Qualifiers : std::uint8_t;
 
     enum class FunctionTypeTraits : std::uint8_t;
+
+    enum class TypeBasis : uint8_t;
 }

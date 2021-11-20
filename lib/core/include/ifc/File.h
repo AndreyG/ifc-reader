@@ -148,4 +148,7 @@ namespace ifc
         struct Impl;
         std::unique_ptr<Impl> impl_;
     };
+
+    ScopeDeclaration const &        get_scope       (File const&, DeclIndex);
+    Partition<Declaration, Index>   get_declarations(File const&, ScopeDescriptor);
 }

@@ -3,11 +3,15 @@
 #include "DeclarationFwd.h"
 
 #include "CallingConvention.h"
+#include "ChartFwd.h"
+#include "ExpressionFwd.h"
+#include "FileFwd.h"
 #include "Module.h"
 #include "Name.h"
 #include "NoexceptSpecification.h"
 #include "Scope.h"
 #include "SourceLocation.h"
+#include "TypeFwd.h"
 
 #include <string_view>
 
@@ -199,6 +203,8 @@ namespace ifc
 
         static constexpr std::string_view PartitionName = "decl.scope";
     };
+
+    TypeBasis get_kind(ScopeDeclaration const &, File const &);
 
     enum class FunctionTraits : uint16_t
     {
