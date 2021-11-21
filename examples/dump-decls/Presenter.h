@@ -23,8 +23,9 @@ public:
 
     void present_scope_members(ifc::ScopeDescriptor) const;
 
+    void present(ifc::NameIndex) const;
+
 private:
-    void present(ifc::NameIndex)     const;
     void present(ifc::DeclIndex)     const;
     void present(ifc::DeclReference) const;
     void present(ifc::Declaration)   const;
