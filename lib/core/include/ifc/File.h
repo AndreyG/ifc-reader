@@ -45,6 +45,7 @@ namespace ifc
         DECLARE_DECL_PARTITION_GETTER(TemplateDeclaration,   template_declarations)
         DECLARE_DECL_PARTITION_GETTER(UsingDeclaration,      using_declarations)
         DECLARE_DECL_PARTITION_GETTER(Enumeration,           enumerations)
+        DECLARE_DECL_PARTITION_GETTER(Enumerator,            enumerators)
         DECLARE_DECL_PARTITION_GETTER(AliasDeclaration,      alias_declarations)
         DECLARE_DECL_PARTITION_GETTER(DeclReference,         decl_references)
         DECLARE_DECL_PARTITION_GETTER(FunctionDeclaration,   functions)

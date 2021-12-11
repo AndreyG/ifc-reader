@@ -19,6 +19,7 @@ namespace ifc
     struct Destructor;
     struct AliasDeclaration;
     struct Enumeration;
+    struct Enumerator;
     struct UsingDeclaration;
     struct TemplateDeclaration;
     struct Concept;

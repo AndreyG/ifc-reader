@@ -145,6 +145,7 @@ namespace ifc
     DEFINE_DECL_PARTITION_GETTER(TemplateDeclaration,   template_declarations)
     DEFINE_DECL_PARTITION_GETTER(UsingDeclaration,      using_declarations)
     DEFINE_DECL_PARTITION_GETTER(Enumeration,           enumerations)
+    DEFINE_DECL_PARTITION_GETTER(Enumerator,            enumerators)
     DEFINE_DECL_PARTITION_GETTER(AliasDeclaration,      alias_declarations)
     DEFINE_DECL_PARTITION_GETTER(DeclReference,         decl_references)
     DEFINE_DECL_PARTITION_GETTER(FunctionDeclaration,   functions)

@@ -655,7 +655,17 @@ void Presenter::present(ifc::TemplateDeclaration const& template_) const
 
 void Presenter::present(ifc::Enumeration const& enumeration) const
 {
-    out_ << "Enumeration '" << file_.get_string(enumeration.name) << "'\n";
+    out_ << "Enumeration '" << file_.get_string(enumeration.name) << "' {\n";
+    indent_ += 2;
+    for (ifc::Enumerator const & enumerator : file_.enumerators().slice(enumeration.initializer))
+    {
+        insert_indent();
+        out_ << file_.get_string(enumerator.name) << "\n";
+    }
+    indent_ -= 2;
+
+    insert_indent();
+    out_ << "}\n";
 }
 
 void Presenter::present(ifc::AliasDeclaration const& alias) const

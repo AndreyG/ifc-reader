@@ -161,6 +161,18 @@ namespace ifc
         static constexpr std::string_view PartitionName = "decl.enum";
     };
 
+    struct Enumerator
+    {
+        TextOffset name;
+        SourceLocation locus;
+        TypeIndex type;
+        ExprIndex initializer;
+        BasicSpecifiers specifier;
+        Access access;
+
+        static constexpr std::string_view PartitionName = "decl.enumerator";
+    };
+
     struct AliasDeclaration
     {
         TextOffset name;
