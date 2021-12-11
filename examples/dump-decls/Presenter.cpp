@@ -509,6 +509,12 @@ void Presenter::present_refered_declaration(ifc::DeclIndex decl) const
     case ifc::DeclSort::Reference:
         present(file_.decl_references()[decl]);
         break;
+    case ifc::DeclSort::Enumeration:
+        {
+            auto const & enumeration = file_.enumerations()[decl];
+            out_ << file_.get_string(enumeration.name);
+        }
+        break;
     default:
         out_ << "Unsupported DeclSort '" << static_cast<int>(kind) << "'";
     }
