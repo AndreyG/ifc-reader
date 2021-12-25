@@ -7,8 +7,6 @@
 
 #include "common_types.h"
 
-#include <string_view>
-
 namespace ifc
 {
     enum class ExprSort
@@ -89,14 +87,14 @@ namespace ifc
     {
         LitIndex value;
 
-        static constexpr std::string_view PartitionName = "expr.literal";
+        PARTITION_NAME("expr.literal");
     };
 
     struct NamedDecl : ExpressionBase
     {
         DeclIndex resolution;
 
-        static constexpr std::string_view PartitionName = "expr.decl";
+        PARTITION_NAME("expr.decl");
     };
 
     struct UnqualifiedId : ExpressionBase
@@ -105,7 +103,7 @@ namespace ifc
         ExprIndex resolution;
         SourceLocation template_keyword;
 
-        static constexpr std::string_view PartitionName = "expr.unqualified-id";
+        PARTITION_NAME("expr.unqualified-id");
     };
 
     struct TemplateId : ExpressionBase
@@ -113,28 +111,28 @@ namespace ifc
         ExprIndex primary;
         ExprIndex arguments;
 
-        static constexpr std::string_view PartitionName = "expr.template-id";
+        PARTITION_NAME("expr.template-id");
     };
 
     struct TupleExpression : ExpressionBase
     {
         Sequence seq;
 
-        static constexpr std::string_view PartitionName = "expr.tuple";
+        PARTITION_NAME("expr.tuple");
     };
 
     struct TypeExpression : ExpressionBase
     {
         TypeIndex denotation;
 
-        static constexpr std::string_view PartitionName = "expr.type";
+        PARTITION_NAME("expr.type");
     };
 
     struct PackedTemplateArguments : ExpressionBase
     {
         ExprIndex arguments;
 
-        static constexpr std::string_view PartitionName = "expr.packed-template-arguments";
+        PARTITION_NAME("expr.packed-template-arguments");
     };
 
     enum class DyadicOperator
@@ -220,20 +218,20 @@ namespace ifc
         ExprIndex arguments[2];
         DyadicOperator op;
 
-        static constexpr std::string_view PartitionName = "expr.dyad";
+        PARTITION_NAME("expr.dyad");
     };
 
     struct SizeofExpression : ExpressionBase
     {
         TypeIndex operand;
 
-        static constexpr std::string_view PartitionName = "expr.sizeof-type";
+        PARTITION_NAME("expr.sizeof-type");
     };
 
     struct AlignofExpression : ExpressionBase
     {
         TypeIndex operand;
 
-        static constexpr std::string_view PartitionName = "expr.alignof";
+        PARTITION_NAME("expr.alignof");
     };
 }

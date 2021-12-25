@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <cstddef>
+#include <string_view>
 
 namespace ifc
 {
@@ -39,4 +40,7 @@ namespace ifc
         Index start;
         Cardinality cardinality;
     };
+
+#define PARTITION_NAME(value) static constexpr std::string_view PartitionName = value
+
 }

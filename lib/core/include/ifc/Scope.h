@@ -3,7 +3,6 @@
 #include "Partition.h"
 
 #include <stdexcept>
-#include <string_view>
 
 namespace ifc
 {
@@ -16,7 +15,7 @@ namespace ifc
 
     struct ScopeDescriptor : Sequence
     {
-        static constexpr std::string_view PartitionName = "scope.desc";
+        PARTITION_NAME("scope.desc");
     };
 
     class ScopePartition : Partition<ScopeDescriptor, ScopeIndex>

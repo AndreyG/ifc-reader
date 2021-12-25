@@ -87,21 +87,21 @@ namespace ifc
         TypeSign sign;
         uint8_t _padding_;
 
-        static constexpr std::string_view PartitionName = "type.fundamental";
+        PARTITION_NAME("type.fundamental");
     };
 
     struct DesignatedType
     {
         DeclIndex decl;
 
-        static constexpr std::string_view PartitionName = "type.designated";
+        PARTITION_NAME("type.designated");
     };
 
     struct SyntacticType
     {
         ExprIndex expr;
 
-        static constexpr std::string_view PartitionName = "type.syntactic";
+        PARTITION_NAME("type.syntactic");
     };
 
     enum class ExpansionMode : uint8_t
@@ -115,14 +115,14 @@ namespace ifc
         TypeIndex pack;
         ExpansionMode mode;
 
-        static constexpr std::string_view PartitionName = "type.expansion";
+        PARTITION_NAME("type.expansion");
     };
 
     struct PointerType
     {
         TypeIndex pointee;
 
-        static constexpr std::string_view PartitionName = "type.pointer";
+        PARTITION_NAME("type.pointer");
     };
 
     enum class FunctionTypeTraits : uint8_t
@@ -147,7 +147,7 @@ namespace ifc
         CallingConvention convention;
         FunctionTypeTraits traits;
 
-        static constexpr std::string_view PartitionName = "type.function";
+        PARTITION_NAME("type.function");
     };
 
     struct MethodType
@@ -159,7 +159,7 @@ namespace ifc
         CallingConvention convention;
         FunctionTypeTraits traits;
 
-        static constexpr std::string_view PartitionName = "type.nonstatic-member-function";
+        PARTITION_NAME("type.nonstatic-member-function");
     };
 
     struct TorType
@@ -168,7 +168,7 @@ namespace ifc
         NoexceptSpecification eh_spec;
         CallingConvention convention;
 
-        static constexpr std::string_view PartitionName = "type.tor";
+        PARTITION_NAME("type.tor");
     };
 
     struct BaseType
@@ -184,26 +184,26 @@ namespace ifc
 
         Specifiers specifiers;
 
-        static constexpr std::string_view PartitionName = "type.base";
+        PARTITION_NAME("type.base");
     };
 
     struct TupleType : Sequence
     {
-        static constexpr std::string_view PartitionName = "type.tuple";
+        PARTITION_NAME("type.tuple");
     };
 
     struct LvalueReference
     {
         TypeIndex referee;
 
-        static constexpr std::string_view PartitionName = "type.lvalue-reference";
+        PARTITION_NAME("type.lvalue-reference");
     };
 
     struct RvalueReference
     {
         TypeIndex referee;
 
-        static constexpr std::string_view PartitionName = "type.rvalue-reference";
+        PARTITION_NAME("type.rvalue-reference");
     };
 
     enum class Qualifiers : uint8_t
@@ -224,7 +224,7 @@ namespace ifc
         TypeIndex unqualified;
         Qualifiers qualifiers;
 
-        static constexpr std::string_view PartitionName = "type.qualified";
+        PARTITION_NAME("type.qualified");
     };
 
     struct ForallType
@@ -232,14 +232,14 @@ namespace ifc
         ChartIndex chart;
         TypeIndex subject;
 
-        static constexpr std::string_view PartitionName = "type.forall";
+        PARTITION_NAME("type.forall");
     };
 
     struct SyntaxType
     {
         SyntaxIndex syntax;
 
-        static constexpr std::string_view PartitionName = "type.syntax-tree";
+        PARTITION_NAME("type.syntax-tree");
     };
 
     struct PlaceholderType
@@ -248,6 +248,6 @@ namespace ifc
         TypeBasis basis;
         TypeIndex elaboration;
 
-        static constexpr std::string_view PartitionName = "type.placeholder";
+        PARTITION_NAME("type.placeholder");
     };
 }

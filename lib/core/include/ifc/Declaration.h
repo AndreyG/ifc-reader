@@ -13,8 +13,6 @@
 #include "SourceLocation.h"
 #include "TypeFwd.h"
 
-#include <string_view>
-
 namespace ifc
 {
     using std::uint8_t;
@@ -104,7 +102,7 @@ namespace ifc
     {
         DeclIndex index;
 
-        static constexpr std::string_view PartitionName = "scope.member";
+        PARTITION_NAME("scope.member");
     };
 
     struct UsingDeclaration
@@ -119,7 +117,7 @@ namespace ifc
         Access access;
         bool hidden;
 
-        static constexpr std::string_view PartitionName = "decl.using-declaration";
+        PARTITION_NAME("decl.using-declaration");
     };
 
     struct ParameterizedEntity
@@ -142,7 +140,7 @@ namespace ifc
         Access access;
         ReachableProperties properties;
 
-        static constexpr std::string_view PartitionName = "decl.template";
+        PARTITION_NAME("decl.template");
     };
 
     struct Enumeration
@@ -158,7 +156,7 @@ namespace ifc
         Access access;
         ReachableProperties properties;
 
-        static constexpr std::string_view PartitionName = "decl.enum";
+        PARTITION_NAME("decl.enum");
     };
 
     struct Enumerator
@@ -170,7 +168,7 @@ namespace ifc
         BasicSpecifiers specifier;
         Access access;
 
-        static constexpr std::string_view PartitionName = "decl.enumerator";
+        PARTITION_NAME("decl.enumerator");
     };
 
     struct AliasDeclaration
@@ -183,7 +181,7 @@ namespace ifc
         BasicSpecifiers specifiers;
         Access access;
 
-        static constexpr std::string_view PartitionName = "decl.alias";
+        PARTITION_NAME("decl.alias");
     };
 
     enum class PackSize : uint16_t {};
@@ -213,7 +211,7 @@ namespace ifc
         Access access;
         ReachableProperties properties;
 
-        static constexpr std::string_view PartitionName = "decl.scope";
+        PARTITION_NAME("decl.scope");
     };
 
     TypeBasis get_kind(ScopeDeclaration const &, File const &);
@@ -251,12 +249,12 @@ namespace ifc
 
     struct FunctionDeclaration : FunctionDeclarationBase
     {
-        static constexpr std::string_view PartitionName = "decl.function";
+        PARTITION_NAME("decl.function");
     };
 
     struct MethodDeclaration : FunctionDeclarationBase
     {
-        static constexpr std::string_view PartitionName = "decl.method";
+        PARTITION_NAME("decl.method");
     };
 
     struct Constructor
@@ -271,7 +269,7 @@ namespace ifc
         Access access;
         ReachableProperties properties;
 
-        static constexpr std::string_view PartitionName = "decl.constructor";
+        PARTITION_NAME("decl.constructor");
     };
 
     struct Destructor
@@ -286,7 +284,7 @@ namespace ifc
         CallingConvention convention;
         ReachableProperties properties;
 
-        static constexpr std::string_view PartitionName = "decl.destructor";
+        PARTITION_NAME("decl.destructor");
     };
 
     struct VariableDeclaration
@@ -302,7 +300,7 @@ namespace ifc
         Access access;
         ReachableProperties properties;
 
-        static constexpr std::string_view PartitionName = "decl.variable";
+        PARTITION_NAME("decl.variable");
     };
 
     struct FieldDeclaration
@@ -318,7 +316,7 @@ namespace ifc
         Access access;
         ReachableProperties properties;
 
-        static constexpr std::string_view PartitionName = "decl.field";
+        PARTITION_NAME("decl.field");
     };
 
     enum class ParameterSort : uint8_t
@@ -342,7 +340,7 @@ namespace ifc
         ReachableProperties properties;
         bool pack;
 
-        static constexpr std::string_view PartitionName = "decl.parameter";
+        PARTITION_NAME("decl.parameter");
     };
 
     struct Concept
@@ -358,7 +356,7 @@ namespace ifc
         SentenceIndex head;
         SentenceIndex body;
 
-        static constexpr std::string_view PartitionName = "decl.concept";
+        PARTITION_NAME("decl.concept");
     };
 
     struct DeclReference
@@ -366,6 +364,6 @@ namespace ifc
         ModuleReference unit;
         DeclIndex local_index;
 
-        static constexpr std::string_view PartitionName = "decl.reference";
+        PARTITION_NAME("decl.reference");
     };
 }
