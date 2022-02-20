@@ -1,5 +1,6 @@
 #include "ifc/File.h"
 #include "ifc/Environment.h"
+#include "ifc/Trait.h"
 
 #include "ifc/Chart.h"
 #include "ifc/Declaration.h"
@@ -13,6 +14,7 @@
 #include <span>
 #include <stdexcept>
 #include <unordered_map>
+#include <optional>
 
 namespace ifc
 {
@@ -82,8 +84,41 @@ namespace ifc
             if (calc_size() != fmap_.size())
                 throw std::runtime_error("corrupted file");
 
-            for (auto const & partition : table_of_contents())
+            for (auto const& partition : table_of_contents())
+            {
                 table_of_contents_.emplace(get_string(partition.name), &partition);
+            }
+
+            auto deprecations = try_get_partition<AssociatedTrait<TextOffset>, Index>("trait.deprecated");
+            if (deprecations)
+            {
+                for (auto deprecation : *deprecations)
+                {
+                    trait_deprecation_texts[deprecation.decl] = deprecation.trait;
+                }
+            }
+
+            // ObjectTraits, FunctionTraits or Attributes for a template.
+            auto attributes = try_get_partition<AssociatedTrait<AttrIndex>, Index>("trait.attribute");
+            if (attributes)
+            {
+                for (auto attribute : *attributes)
+                {
+                    // We could seperate this trait & .msvc.trait.decl-attrs.
+                    // But the type is the same so it fits nicely here I think.
+                    trait_declaration_attributes[attribute.decl] = attribute.trait;
+                }
+            }
+
+            // All other attributes like [[nodiscard]] etc...
+            auto msvc_attributes = try_get_partition<AssociatedTrait<AttrIndex>, Index>(".msvc.trait.decl-attrs");
+            if (msvc_attributes)
+            {
+                for (auto msvc_attribute : *msvc_attributes)
+                {
+                    trait_declaration_attributes[msvc_attribute.decl] = msvc_attribute.trait;
+                }
+            }
         }
 
         FileHeader const & header() const
@@ -94,6 +129,24 @@ namespace ifc
         const char* get_string(TextOffset index) const
         {
             return get_pointer<char>(header().string_table_bytes) + static_cast<size_t>(index);
+        }
+
+        template<typename T, typename Index>
+        std::optional<Partition<T, Index>> try_get_partition(std::string_view name) const
+        {
+            auto it = table_of_contents_.find(name);
+            if (it == table_of_contents_.end())
+                return std::nullopt;
+
+            const auto partition_summary = it->second;
+            assert(static_cast<size_t>(partition_summary->entry_size) == sizeof(T));
+            return { { get_pointer<T>(partition_summary->offset), raw_count(partition_summary->cardinality) } };
+        }
+
+        template<typename T, typename Index>
+        std::optional<Partition<T, Index>> try_get_partition() const
+        {
+            return try_get_partition<T, Index>(T::PartitionName);
         }
 
         template<typename T, typename Index>
@@ -109,6 +162,9 @@ namespace ifc
         {
             return get_partition<T, Index>(T::PartitionName);
         }
+
+        std::unordered_map<DeclIndex, TextOffset> trait_deprecation_texts;
+        std::unordered_map<DeclIndex, AttrIndex> trait_declaration_attributes;
     };
 
     FileHeader const& File::header() const
@@ -230,9 +286,34 @@ namespace ifc
         return impl_->get_partition<ExprIndex, Index>("heap.expr");
     }
 
+    Partition<AttrIndex, Index> File::attr_heap() const
+    {
+        return impl_->get_partition<AttrIndex, Index>("heap.attr");
+    }
+
     Partition<DeclIndex> File::deduction_guides() const
     {
         return impl_->get_partition<DeclIndex, uint32_t>("name.guide");
+    }
+
+    std::optional<TextOffset> File::trait_deprecation_texts(DeclIndex declaration) const
+    {
+        auto it = impl_->trait_deprecation_texts.find(declaration);
+        if (it != impl_->trait_deprecation_texts.end())
+        {
+            return it->second;
+        }
+        return std::nullopt;
+    }
+
+    std::optional<AttrIndex> File::trait_declaration_attributes(DeclIndex declaration) const
+    {
+        auto it = impl_->trait_declaration_attributes.find(declaration);
+        if (it != impl_->trait_declaration_attributes.end())
+        {
+            return it->second;
+        }
+        return std::nullopt;
     }
 
     template<typename T, typename Index>
