@@ -780,6 +780,11 @@ void Presenter::present(ifc::DeclIndex decl) const
 {
     insert_indent();
 
+    if (auto attr_index = file_.trait_declaration_attributes(decl))
+    {
+        out_ << "Found a attribute!!!";
+    }
+
     switch (const auto kind = decl.sort())
     {
     case ifc::DeclSort::VendorExtension:

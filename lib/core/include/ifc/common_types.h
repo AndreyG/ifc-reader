@@ -6,6 +6,7 @@
 
 namespace ifc
 {
+    using std::uint16_t;
     using std::uint32_t;
 
     enum class TextOffset : uint32_t { };
@@ -34,6 +35,8 @@ namespace ifc
     }
 
     enum class SentenceIndex : uint32_t {};
+
+    enum class WordIndex : uint32_t { };
 
     struct Sequence
     {

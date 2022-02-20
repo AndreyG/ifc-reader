@@ -3,6 +3,7 @@
 #include "FileHeader.h"
 #include "Partition.h"
 
+#include "AttributeFwd.h"
 #include "ChartFwd.h"
 #include "ExpressionFwd.h"
 #include "DeclarationFwd.h"
@@ -103,6 +104,7 @@ namespace ifc
         // Heaps
         DECLARE_PARTITION_GETTER(TypeIndex, Index, type_heap)
         DECLARE_PARTITION_GETTER(ExprIndex, Index, expr_heap)
+        DECLARE_PARTITION_GETTER(AttrIndex, Index, attr_heap);
 
         // Names
         DECLARE_PARTITION_GETTER(OperatorFunctionName, NameIndex, operator_names)
@@ -131,6 +133,11 @@ namespace ifc
         Partition<DeclIndex> deduction_guides() const;
 
 #undef DECLARE_PARTITION_GETTER
+
+    public:
+        // Traits
+        std::optional<TextOffset> trait_deprecation_texts(DeclIndex declaration) const;
+        std::optional<AttrIndex> trait_declaration_attributes(DeclIndex declaration) const;
 
     public:
         File(std::string const &, class Environment*);
