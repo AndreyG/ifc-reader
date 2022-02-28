@@ -14,6 +14,7 @@
 #include <span>
 #include <stdexcept>
 #include <unordered_map>
+#include <optional>
 
 namespace ifc
 {
@@ -83,20 +84,40 @@ namespace ifc
             if (calc_size() != fmap_.size())
                 throw std::runtime_error("corrupted file");
 
-            for (auto const & partition : table_of_contents())
-                table_of_contents_.emplace(get_string(partition.name), &partition);
-
-            // TODO: This partition is not available when deprecated is never used
-            //auto deprecations = get_partition<AssociatedTrait<TextOffset>, Index>("trait.deprecated");
-            //for (auto deprecation : deprecations)
-            //{
-            //    trait_deprecation_texts[deprecation.decl] = deprecation.trait;
-            //}
-
-            auto attributes = get_partition<AssociatedTrait<AttrIndex>, Index>(/*"trait.attribute"*/ ".msvc.trait.decl-attrs");
-            for (auto attribute : attributes)
+            for (auto const& partition : table_of_contents())
             {
-                trait_declaration_attributes[attribute.decl] = attribute.trait;
+                table_of_contents_.emplace(get_string(partition.name), &partition);
+            }
+
+            auto deprecations = try_get_partition<AssociatedTrait<TextOffset>, Index>("trait.deprecated");
+            if (deprecations)
+            {
+                for (auto deprecation : *deprecations)
+                {
+                    trait_deprecation_texts[deprecation.decl] = deprecation.trait;
+                }
+            }
+
+            // ObjectTraits, FunctionTraits or Attributes for a template.
+            auto attributes = try_get_partition<AssociatedTrait<AttrIndex>, Index>("trait.attribute");
+            if (attributes)
+            {
+                for (auto attribute : *attributes)
+                {
+                    // We could seperate this trait & .msvc.trait.decl-attrs.
+                    // But the type is the same so it fits nicely here I think.
+                    trait_declaration_attributes[attribute.decl] = attribute.trait;
+                }
+            }
+
+            // All other attributes like [[nodiscard]] etc...
+            auto msvc_attributes = try_get_partition<AssociatedTrait<AttrIndex>, Index>(".msvc.trait.decl-attrs");
+            if (msvc_attributes)
+            {
+                for (auto msvc_attribute : *msvc_attributes)
+                {
+                    trait_declaration_attributes[msvc_attribute.decl] = msvc_attribute.trait;
+                }
             }
         }
 
@@ -108,6 +129,24 @@ namespace ifc
         const char* get_string(TextOffset index) const
         {
             return get_pointer<char>(header().string_table_bytes) + static_cast<size_t>(index);
+        }
+
+        template<typename T, typename Index>
+        std::optional<Partition<T, Index>> try_get_partition(std::string_view name) const
+        {
+            auto it = table_of_contents_.find(name);
+            if (it == table_of_contents_.end())
+                return std::nullopt;
+
+            const auto partition_summary = it->second;
+            assert(static_cast<size_t>(partition_summary->entry_size) == sizeof(T));
+            return { { get_pointer<T>(partition_summary->offset), raw_count(partition_summary->cardinality) } };
+        }
+
+        template<typename T, typename Index>
+        std::optional<Partition<T, Index>> try_get_partition() const
+        {
+            return try_get_partition<T, Index>(T::PartitionName);
         }
 
         template<typename T, typename Index>

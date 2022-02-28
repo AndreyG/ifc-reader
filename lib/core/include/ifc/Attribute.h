@@ -22,10 +22,6 @@ namespace ifc
         Tuple      = 0x08,
     };
 
-    struct AttrNothing
-    {
-    };
-
     struct AttrBasic
     {
         Word word;
