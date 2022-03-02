@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ifc/AttributeFwd.h"
 #include "ifc/ChartFwd.h"
 #include "ifc/ExpressionFwd.h"
 #include "ifc/TypeFwd.h"
@@ -8,6 +9,7 @@
 #include "ifc/Declaration.h"
 #include "ifc/Literal.h"
 #include "ifc/Partition.h"
+#include "ifc/Word.h"
 
 #include "ifc/FileFwd.h"
 
@@ -37,6 +39,17 @@ private:
     void present_function_type(auto const &)   const;
     void present(ifc::FunctionTypeTraits)      const;
 
+    void present(ifc::AttrIndex) const;
+
+    void present(ifc::Word const &) const;
+
+    void present(ifc::SourceDirective) const;
+    void present(ifc::SourcePunctuator) const;
+    void present(ifc::SourceLiteral, ifc::Index const &) const;
+    void present(ifc::SourceOperator) const;
+    void present(ifc::SourceKeyword) const;
+    void present(ifc::SourceIdentifier, ifc::Index const&) const;
+
     void present(ifc::FundamentalType const &) const;
 
     void present(ifc::SyntacticType) const;
@@ -60,6 +73,7 @@ private:
     void present(ifc::PackedTemplateArguments const &) const;
     void present(ifc::LitIndex) const;
     void present(ifc::ExprIndex) const;
+    void present(ifc::StringIndex) const;
 
     void present(ifc::ChartIndex) const;
 

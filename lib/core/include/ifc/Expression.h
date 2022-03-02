@@ -77,6 +77,14 @@ namespace ifc
         AssignInitializer   = 0x3C,
     };
 
+    enum class StringSort : uint8_t {
+        Ordinary,
+        UTF8,
+        Char16,
+        Char32,
+        Wide,
+    };
+
     struct ExpressionBase
     {
         SourceLocation source;
@@ -233,5 +241,14 @@ namespace ifc
         TypeIndex operand;
 
         PARTITION_NAME("expr.alignof");
+    };
+
+    struct StringLiteral
+    {
+        TextOffset start;
+        Cardinality length;
+        TextOffset suffix;
+
+        PARTITION_NAME("const.str");
     };
 }

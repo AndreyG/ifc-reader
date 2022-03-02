@@ -2,6 +2,7 @@
 #include "ifc/Environment.h"
 #include "ifc/Trait.h"
 
+#include "ifc/Attribute.h"
 #include "ifc/Chart.h"
 #include "ifc/Declaration.h"
 #include "ifc/Expression.h"
@@ -106,7 +107,7 @@ namespace ifc
                 {
                     // We could seperate this trait & .msvc.trait.decl-attrs.
                     // But the type is the same so it fits nicely here I think.
-                    trait_declaration_attributes[attribute.decl] = attribute.trait;
+                    trait_declaration_attributes[attribute.decl].push_back(attribute.trait);
                 }
             }
 
@@ -116,7 +117,7 @@ namespace ifc
             {
                 for (auto msvc_attribute : *msvc_attributes)
                 {
-                    trait_declaration_attributes[msvc_attribute.decl] = msvc_attribute.trait;
+                    trait_declaration_attributes[msvc_attribute.decl].push_back(msvc_attribute.trait);
                 }
             }
         }
@@ -164,7 +165,7 @@ namespace ifc
         }
 
         std::unordered_map<DeclIndex, TextOffset> trait_deprecation_texts;
-        std::unordered_map<DeclIndex, AttrIndex> trait_declaration_attributes;
+        std::unordered_map<DeclIndex, std::vector<AttrIndex>> trait_declaration_attributes;
     };
 
     FileHeader const& File::header() const
@@ -237,6 +238,20 @@ namespace ifc
 
 #undef DEFINE_TYPE_PARTITION_GETTER
 
+#define DEFINE_ATTR_PARTITION_GETTER(DeclType, DeclName) \
+    DEFINE_PARTITION_GETTER(DeclType, AttrIndex, DeclName)
+
+        DEFINE_ATTR_PARTITION_GETTER(AttrBasic, basic_attributes)
+        DEFINE_ATTR_PARTITION_GETTER(AttrScoped, scoped_attributes)
+        DEFINE_ATTR_PARTITION_GETTER(AttrLabeled, labeled_attributes)
+        DEFINE_ATTR_PARTITION_GETTER(AttrCalled, called_attributes)
+        DEFINE_ATTR_PARTITION_GETTER(AttrExpanded, expanded_attributes)
+        DEFINE_ATTR_PARTITION_GETTER(AttrFactored, factored_attributes)
+        DEFINE_ATTR_PARTITION_GETTER(AttrElaborated, elaborated_attributes)
+        DEFINE_ATTR_PARTITION_GETTER(AttrTuple, tuple_attributes)
+
+#undef DEFINE_ATTR_PARTITION_GETTER
+
 #define DEFINE_EXPR_PARTITION_GETTER(ExprType, ExprName) \
     DEFINE_PARTITION_GETTER(ExprType, ExprIndex, ExprName)
 
@@ -251,6 +266,8 @@ namespace ifc
     DEFINE_EXPR_PARTITION_GETTER(TupleExpression,   tuple_expressions)
 
     DEFINE_EXPR_PARTITION_GETTER(PackedTemplateArguments, packed_template_arguments)
+
+    DEFINE_PARTITION_GETTER(StringLiteral, StringIndex, string_literal_expressions)
 
 #undef DEFINE_EXPR_PARTITION_GETTER
 
@@ -306,14 +323,14 @@ namespace ifc
         return std::nullopt;
     }
 
-    std::optional<AttrIndex> File::trait_declaration_attributes(DeclIndex declaration) const
+    std::vector<AttrIndex> File::trait_declaration_attributes(DeclIndex declaration) const
     {
         auto it = impl_->trait_declaration_attributes.find(declaration);
         if (it != impl_->trait_declaration_attributes.end())
         {
             return it->second;
         }
-        return std::nullopt;
+        return {};
     }
 
     template<typename T, typename Index>

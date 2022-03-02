@@ -14,6 +14,7 @@
 
 #include <memory>
 #include <optional>
+#include <vector>
 
 namespace ifc
 {
@@ -83,6 +84,21 @@ namespace ifc
 
 #undef DECLARE_TYPE_PARTITION_GETTER
 
+        // Attributes
+#define DECLARE_ATTR_PARTITION_GETTER(ExprType, ExprName) \
+    DECLARE_PARTITION_GETTER(ExprType, AttrIndex, ExprName)
+
+        DECLARE_ATTR_PARTITION_GETTER(AttrBasic, basic_attributes)
+        DECLARE_ATTR_PARTITION_GETTER(AttrScoped, scoped_attributes)
+        DECLARE_ATTR_PARTITION_GETTER(AttrLabeled, labeled_attributes)
+        DECLARE_ATTR_PARTITION_GETTER(AttrCalled, called_attributes)
+        DECLARE_ATTR_PARTITION_GETTER(AttrExpanded, expanded_attributes)
+        DECLARE_ATTR_PARTITION_GETTER(AttrFactored, factored_attributes)
+        DECLARE_ATTR_PARTITION_GETTER(AttrElaborated, elaborated_attributes)
+        DECLARE_ATTR_PARTITION_GETTER(AttrTuple, tuple_attributes)
+
+#undef DECLARE_ATTR_PARTITION_GETTER
+
         // Expressions
 #define DECLARE_EXPR_PARTITION_GETTER(ExprType, ExprName) \
     DECLARE_PARTITION_GETTER(ExprType, ExprIndex, ExprName)
@@ -98,6 +114,8 @@ namespace ifc
         DECLARE_EXPR_PARTITION_GETTER(TupleExpression,   tuple_expressions)
 
         DECLARE_EXPR_PARTITION_GETTER(PackedTemplateArguments, packed_template_arguments)
+
+        DECLARE_PARTITION_GETTER(StringLiteral, StringIndex, string_literal_expressions)
 
 #undef DECLARE_EXPR_PARTITION_GETTER
 
@@ -137,7 +155,7 @@ namespace ifc
     public:
         // Traits
         std::optional<TextOffset> trait_deprecation_texts(DeclIndex declaration) const;
-        std::optional<AttrIndex> trait_declaration_attributes(DeclIndex declaration) const;
+        std::vector<AttrIndex>    trait_declaration_attributes(DeclIndex declaration) const;
 
     public:
         File(std::string const &, class Environment*);
