@@ -8,11 +8,6 @@
 
 int main(int argc, char* argv[])
 {
-    //Temp shit
-    argc = 2;
-    argv = new char* [2];
-    argv[1] = (char*)"D:/Projects/Cpp/ifc-reader/ModuleA.ixx.ifc";
-
     if (argc != 2)
     {
         std::cerr << "expected: path to .ifc file\n";
