@@ -4,7 +4,7 @@
 
 namespace ifc
 {
-    enum class WordSort;
+    enum class WordSort : uint8_t;
 
     struct Sentence;
     struct Word;

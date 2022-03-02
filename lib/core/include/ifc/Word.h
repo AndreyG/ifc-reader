@@ -6,7 +6,7 @@
 
 namespace ifc
 {
-    enum class WordSort
+    enum class WordSort : uint8_t
     {
         Unknown    = 0x00,
         Directive  = 0x01, // Word::value type is SourceDirective
@@ -36,6 +36,7 @@ namespace ifc
 
         PARTITION_NAME("src.word");
     };
+    static_assert(sizeof(Word) == 16);
 
     enum class SourceDirective : uint16_t
     {

@@ -2,13 +2,16 @@
 
 #include "ifc/File.h"
 
+#include "ifc/Attribute.h"
 #include "ifc/Chart.h"
 #include "ifc/Expression.h"
 #include "ifc/Declaration.h"
 #include "ifc/SyntaxTree.h"
 #include "ifc/Type.h"
+#include "ifc/Word.h"
 
 #include <cassert>
+#include <locale>
 
 void Presenter::present(ifc::NameIndex name) const
 {
@@ -275,6 +278,49 @@ void Presenter::present(ifc::ExprIndex expr) const
     }
 }
 
+void Presenter::present(ifc::StringIndex index) const
+{
+    auto& literal = file_.string_literal_expressions()[index];
+    auto str = file_.get_string(literal.start);
+    auto suffix = file_.get_string(literal.suffix);
+
+    out_ << "\"";
+
+    switch (index.sort())
+    {
+    case ifc::StringSort::Ordinary:
+        out_ << str;
+        break;
+    case ifc::StringSort::UTF8:
+        out_ << str;
+        break;
+    case ifc::StringSort::Char16:
+    case ifc::StringSort::Char32:
+    case ifc::StringSort::Wide:
+        // TODO: Use a library to convert from utf16/32 to utf8
+        out_ << "Currently unsupported String encoding (Only Ordinary & UTF8 are supported)";
+        break;
+    }
+
+    out_ << "\"";
+
+    switch (index.sort())
+    {
+    case ifc::StringSort::Ordinary:
+        out_ << suffix;
+        break;
+    case ifc::StringSort::UTF8:
+        out_ << suffix;
+        break;
+    case ifc::StringSort::Char16:
+    case ifc::StringSort::Char32:
+    case ifc::StringSort::Wide:
+        // TODO: Use a library to convert from utf16/32 to utf8
+        out_ << "Currently unsupported String encoding (Only Ordinary & UTF8 are supported)";
+        break;
+    }
+}
+
 void Presenter::present(ifc::ChartIndex chart) const
 {
     switch (chart.sort())
@@ -452,6 +498,333 @@ void Presenter::present(ifc::TypeIndex type) const
         break;
     default:
         out_ << "Unsupported TypeSort '" << static_cast<int>(kind) << "'";
+    }
+}
+
+void Presenter::present(ifc::AttrIndex attr) const
+{
+    switch (attr.sort())
+    {
+    case ifc::AttrSort::Nothing:
+        out_ << " ";
+        break;
+    case ifc::AttrSort::Basic:
+        present(file_.basic_attributes()[attr].word);
+        break;
+    case ifc::AttrSort::Scoped:
+        present(file_.scoped_attributes()[attr].scope);
+        out_ << "::";
+        present(file_.scoped_attributes()[attr].member);
+        break;
+    case ifc::AttrSort::Labeled:
+        present(file_.labeled_attributes()[attr].label);
+        out_ << ": ";
+        present(file_.labeled_attributes()[attr].attribute);
+        break;
+    case ifc::AttrSort::Called:
+        present(file_.called_attributes()[attr].function);
+        out_ << "(";
+        present(file_.called_attributes()[attr].arguments);
+        out_ << ")";
+        break;
+    case ifc::AttrSort::Expanded:
+        present(file_.expanded_attributes()[attr].operand);
+        out_ << "...";
+        break;
+    case ifc::AttrSort::Factored:
+        out_ << "using ";
+        present(file_.factored_attributes()[attr].factor);
+        out_ << ": ";
+        present(file_.factored_attributes()[attr].terms);
+        break;
+    case ifc::AttrSort::Elaborated:
+        present(file_.elaborated_attributes()[attr].expression);
+        break;
+    case ifc::AttrSort::Tuple:
+    {
+        auto& tuple_attribute = file_.tuple_attributes()[attr];
+        for (uint32_t i = 0; i < ifc::raw_count(tuple_attribute.cardinality); ++i)
+        {
+            present(file_.attr_heap()[tuple_attribute.start + i]);
+            if (i + 1 != ifc::raw_count(tuple_attribute.cardinality))
+                out_ << ", ";
+        }
+        break;
+    }
+    default:
+        out_ << "Unkown AttrSort";
+    }
+}
+
+void Presenter::present(ifc::Word const& word) const
+{
+    switch (word.sort)
+    {
+    case ifc::WordSort::Directive:
+        present(static_cast<ifc::SourceDirective>(word.value));
+        break;
+    case ifc::WordSort::Punctuator:
+        present(static_cast<ifc::SourcePunctuator>(word.value));
+        break;
+    case ifc::WordSort::Literal:
+        present(static_cast<ifc::SourceLiteral>(word.value), word.index);
+        break;
+    case ifc::WordSort::Operator:
+        present(static_cast<ifc::SourceOperator>(word.value));
+        break;
+    case ifc::WordSort::Keyword:
+        present(static_cast<ifc::SourceKeyword>(word.value));
+        break;
+    case ifc::WordSort::Identifier:
+        present(static_cast<ifc::SourceIdentifier>(word.value), word.index);
+        break;
+    }
+}
+
+void Presenter::present(ifc::SourceDirective directive) const
+{
+    // TODO: SourceDirective enum to String.
+    static_assert(sizeof(uint16_t) == sizeof(ifc::SourceDirective));
+    out_ << "SourceDirective: " << static_cast<uint16_t>(directive) << " ";
+}
+
+void Presenter::present(ifc::SourcePunctuator punctuator) const
+{
+    switch (punctuator)
+    {
+        // Group 1
+    case ifc::SourcePunctuator::LeftParenthesis:
+        out_ << "(";
+        break;
+    case ifc::SourcePunctuator::RightParenthesis:
+        out_ << ")";
+        break;
+    case ifc::SourcePunctuator::LeftBracket:
+        out_ << "[";
+        break;
+    case ifc::SourcePunctuator::RightBracket:
+        out_ << "]";
+        break;
+    case ifc::SourcePunctuator::LeftBrace:
+        out_ << "{";
+        break;
+    case ifc::SourcePunctuator::RightBrace:
+        out_ << "}";
+        break;
+    case ifc::SourcePunctuator::Colon:
+        out_ << ":";
+        break;
+    case ifc::SourcePunctuator::Question:
+        out_ << "?";
+        break;
+    case ifc::SourcePunctuator::Semicolon:
+        out_ << ";";
+        break;
+    case ifc::SourcePunctuator::ColonColon:
+        out_ << "::";
+        break;
+
+        // Group 2
+    case ifc::SourcePunctuator::MsvcZeroWidthSpace:
+    case ifc::SourcePunctuator::MsvcEndOfPhrase:
+    case ifc::SourcePunctuator::MsvcFullStop:
+    case ifc::SourcePunctuator::MsvcNestedTemplateStart:
+    case ifc::SourcePunctuator::MsvcDefaultArgumentStart:
+    case ifc::SourcePunctuator::MsvcAlignasEdictStart:
+    case ifc::SourcePunctuator::MsvcDefaultInitStart:
+        static_assert(sizeof(uint16_t) == sizeof(ifc::SourcePunctuator));
+        out_ << "SourcePunctuator::Msvc* value: " << static_cast<uint16_t>(punctuator) << " ";
+        break;
+    }
+}
+
+void Presenter::present(ifc::SourceLiteral literal, ifc::Index const& index ) const
+{
+    switch (literal)
+    {
+    case ifc::SourceLiteral::Scalar:
+        present(reinterpret_cast<ifc::ExprIndex const&>(index));
+        break;
+    case ifc::SourceLiteral::String:
+        present(reinterpret_cast<ifc::StringIndex const&>(index));
+        break;
+    case ifc::SourceLiteral::DefinedString:
+        present(reinterpret_cast<ifc::StringIndex const&>(index));
+        break;
+    case ifc::SourceLiteral::MsvcFunctionNameMacro:
+        out_ << file_.get_string(reinterpret_cast<ifc::TextOffset const&>(index));
+        break;
+    case ifc::SourceLiteral::MsvcStringPrefixMacro:
+        out_ << file_.get_string(reinterpret_cast<ifc::TextOffset const&>(index));
+        break;
+    case ifc::SourceLiteral::MsvcBinding:
+        present(reinterpret_cast<ifc::ExprIndex const&>(index));
+        break;
+    }
+}
+
+void Presenter::present(ifc::SourceOperator op) const
+{
+    switch (op)
+    {
+    case ifc::SourceOperator::Equal:
+        out_ << "=";
+        break;
+    case ifc::SourceOperator::Comma:
+        out_ << ",";
+        break;
+    case ifc::SourceOperator::Exclaim:
+        out_ << "!";
+        break;
+    case ifc::SourceOperator::Plus:
+        out_ << "+";
+        break;
+    case ifc::SourceOperator::Dash:
+        out_ << "-";
+        break;
+    case ifc::SourceOperator::Star:
+        out_ << "*";
+        break;
+    case ifc::SourceOperator::Slash:
+        out_ << "/";
+        break;
+    case ifc::SourceOperator::Percent:
+        out_ << "%";
+        break;
+    case ifc::SourceOperator::LeftChevron:
+        out_ << "<<";
+        break;
+    case ifc::SourceOperator::RightChevron:
+        out_ << ">>";
+        break;
+    case ifc::SourceOperator::Tilde:
+        out_ << "~";
+        break;
+    case ifc::SourceOperator::Caret:
+        out_ << "^";
+        break;
+    case ifc::SourceOperator::Bar:
+        out_ << "|";
+        break;
+    case ifc::SourceOperator::Ampersand:
+        out_ << "&";
+        break;
+    case ifc::SourceOperator::PlusPlus:
+        out_ << "++";
+        break;
+    case ifc::SourceOperator::DashDash:
+        out_ << "--";
+        break;
+    case ifc::SourceOperator::Less:
+        out_ << "<";
+        break;
+    case ifc::SourceOperator::LessEqual:
+        out_ << "<=";
+        break;
+    case ifc::SourceOperator::Greater:
+        out_ << ">";
+        break;
+    case ifc::SourceOperator::GreaterEqual:
+        out_ << ">=";
+        break;
+    case ifc::SourceOperator::EqualEqual:
+        out_ << "==";
+        break;
+    case ifc::SourceOperator::ExclaimEqual:
+        out_ << "!=";
+        break;
+    case ifc::SourceOperator::Diamond:
+        out_ << "<=>";
+        break;
+    case ifc::SourceOperator::PlusEqual:
+        out_ << "+=";
+        break;
+    case ifc::SourceOperator::DashEqual:
+        out_ << "-=";
+        break;
+    case ifc::SourceOperator::StarEqual:
+        out_ << "*=";
+        break;
+    case ifc::SourceOperator::SlashEqual:
+        out_ << "/=";
+        break;
+    case ifc::SourceOperator::PercentEqual:
+        out_ << "%=";
+        break;
+    case ifc::SourceOperator::AmpersandEqual:
+        out_ << "&=";
+        break;
+    case ifc::SourceOperator::BarEqual:
+        out_ << "|=";
+        break;
+    case ifc::SourceOperator::CaretEqual:
+        out_ << "^=";
+        break;
+    case ifc::SourceOperator::LeftChevronEqual:
+        out_ << "<<=";
+        break;
+    case ifc::SourceOperator::RightChevronEqual:
+        out_ << ">>";
+        break;
+    case ifc::SourceOperator::AmpersandAmpersand:
+        out_ << "&&";
+        break;
+    case ifc::SourceOperator::BarBar:
+        out_ << "||";
+        break;
+    case ifc::SourceOperator::Ellipsis:
+        out_ << "...";
+        break;
+    case ifc::SourceOperator::Dot:
+        out_ << ".";
+        break;
+    case ifc::SourceOperator::Arrow:
+        out_ << "->";
+        break;
+    case ifc::SourceOperator::DotStar:
+        out_ << ".*";
+        break;
+    case ifc::SourceOperator::ArrowStar:
+        out_ << "->*";
+        break;
+    }
+}
+
+void Presenter::present(ifc::SourceKeyword keyword) const
+{
+    // TODO: Write out all enum values as strings
+    static_assert(sizeof(uint16_t) == sizeof(ifc::SourceKeyword));
+    out_ << "keyword value: " << static_cast<uint16_t>(keyword);
+}
+
+void Presenter::present(ifc::SourceIdentifier identifier, ifc::Index const& index) const
+{
+    switch (identifier)
+    {
+        // Group 1
+    case ifc::SourceIdentifier::Plain:
+        out_ << file_.get_string(reinterpret_cast<ifc::TextOffset const&>(index));
+        break;
+
+        // Group 2
+    case ifc::SourceIdentifier::MsvcBuiltinHugeVal:
+        out_ << "__builtin_huge_val ";
+        break;
+    case ifc::SourceIdentifier::MsvcBuiltinHugeValf:
+        out_ << "__builtin_huge_valf ";
+        break;
+    case ifc::SourceIdentifier::MsvcBuiltinNan:
+        out_ << "__builtin_nan ";
+        break;
+    case ifc::SourceIdentifier::MsvcBuiltinNanf:
+        out_ << "__builtin_nanf ";
+        break;
+    case ifc::SourceIdentifier::MsvcBuiltinNans:
+        out_ << "__builtin_nans ";
+        break;
+    case ifc::SourceIdentifier::MsvcBuiltinNansf:
+        out_ << "__builtin_nansf ";
+        break;
     }
 }
 
@@ -780,9 +1153,11 @@ void Presenter::present(ifc::DeclIndex decl) const
 {
     insert_indent();
 
-    if (auto attr_index = file_.trait_declaration_attributes(decl))
+    for (auto attr_index : file_.trait_declaration_attributes(decl))
     {
-        out_ << "Found a attribute!!!";
+        out_ << "[[";
+        present(attr_index);
+        out_ << "]] ";
     }
 
     switch (const auto kind = decl.sort())
