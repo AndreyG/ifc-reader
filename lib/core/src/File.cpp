@@ -330,22 +330,23 @@ namespace ifc
         return impl_->get_partition<DeclIndex, uint32_t>("name.guide");
     }
 
-    std::optional<TextOffset> File::trait_deprecation_texts(DeclIndex declaration) const
+    template<typename RetType, typename Value>
+    Value get_value(DeclIndex declaration, std::unordered_map<DeclIndex, Value> const & map)
     {
-        auto const & trait_deprecation_texts = impl_->trait_deprecation_texts();
-        if (auto it = trait_deprecation_texts.find(declaration); it != trait_deprecation_texts.end())
+        if (auto it = map.find(declaration); it != map.end())
             return it->second;
 
-        return std::nullopt;
+        return {};
+    }
+
+    TextOffset File::trait_deprecation_texts(DeclIndex declaration) const
+    {
+        return get_value<TextOffset>(declaration, impl_->trait_deprecation_texts());
     }
 
     std::span<AttrIndex const> File::trait_declaration_attributes(DeclIndex declaration) const
     {
-        auto const & trait_declaration_attributes = impl_->trait_declaration_attributes();
-        if (auto it = trait_declaration_attributes.find(declaration); it != trait_declaration_attributes.end())
-            return it->second;
-
-        return {};
+        return get_value<std::span<AttrIndex const>>(declaration, impl_->trait_declaration_attributes());
     }
 
     template<typename T, typename Index>

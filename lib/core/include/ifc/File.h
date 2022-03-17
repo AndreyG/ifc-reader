@@ -154,8 +154,8 @@ namespace ifc
 
     public:
         // Traits
-        std::optional<TextOffset>   trait_deprecation_texts(DeclIndex declaration) const;
-        std::span<AttrIndex const>  trait_declaration_attributes(DeclIndex declaration) const;
+        TextOffset                  trait_deprecation_texts     (DeclIndex) const;
+        std::span<AttrIndex const>  trait_declaration_attributes(DeclIndex) const;
 
     public:
         File(std::string const &, class Environment*);
