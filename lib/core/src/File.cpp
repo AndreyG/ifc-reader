@@ -89,34 +89,6 @@ namespace ifc
             {
                 table_of_contents_.emplace(get_string(partition.name), &partition);
             }
-
-            if (auto deprecations = try_get_partition<AssociatedTrait<TextOffset>, Index>("trait.deprecated"))
-            {
-                for (auto deprecation : *deprecations)
-                {
-                    trait_deprecation_texts[deprecation.decl] = deprecation.trait;
-                }
-            }
-
-            // ObjectTraits, FunctionTraits or Attributes for a template.
-            if (auto attributes = try_get_partition<AssociatedTrait<AttrIndex>, Index>("trait.attribute"))
-            {
-                for (auto attribute : *attributes)
-                {
-                    // We could separate this trait & .msvc.trait.decl-attrs.
-                    // But the type is the same so it fits nicely here I think.
-                    trait_declaration_attributes[attribute.decl].push_back(attribute.trait);
-                }
-            }
-
-            // All other attributes like [[nodiscard]] etc...
-            if (auto msvc_attributes = try_get_partition<AssociatedTrait<AttrIndex>, Index>(".msvc.trait.decl-attrs"))
-            {
-                for (auto msvc_attribute : *msvc_attributes)
-                {
-                    trait_declaration_attributes[msvc_attribute.decl].push_back(msvc_attribute.trait);
-                }
-            }
         }
 
         FileHeader const & header() const
@@ -164,8 +136,53 @@ namespace ifc
             return get_partition<T, Index>(T::PartitionName);
         }
 
-        std::unordered_map<DeclIndex, TextOffset> trait_deprecation_texts;
-        std::unordered_map<DeclIndex, std::vector<AttrIndex>> trait_declaration_attributes;
+        std::unordered_map<DeclIndex, std::vector<AttrIndex>> const & trait_declaration_attributes()
+        {
+            if (!trait_declaration_attributes_)
+            {
+                trait_declaration_attributes_.emplace();
+
+                // ObjectTraits, FunctionTraits or Attributes for a template.
+                // We could separate this trait & .msvc.trait.decl-attrs.
+                // But the type is the same so it fits nicely here I think.
+                fill_decl_attributes("trait.attribute");
+                // All other attributes like [[nodiscard]] etc...
+                fill_decl_attributes(".msvc.trait.decl-attrs");
+            }
+            return *trait_declaration_attributes_;
+        }
+
+        std::unordered_map<DeclIndex, TextOffset> const & trait_deprecation_texts()
+        {
+            if (!trait_deprecation_texts_)
+            {
+                trait_deprecation_texts_.emplace();
+
+                if (auto deprecations = try_get_partition<AssociatedTrait<TextOffset>, Index>("trait.deprecated"))
+                {
+                    for (auto deprecation : *deprecations)
+                    {
+                        (*trait_deprecation_texts_)[deprecation.decl] = deprecation.trait;
+                    }
+                }
+            }
+            return *trait_deprecation_texts_;
+        }
+
+    private:
+        void fill_decl_attributes(std::string_view partition)
+        {
+            if (auto attributes = try_get_partition<AssociatedTrait<AttrIndex>, Index>(partition))
+            {
+                for (auto attribute : *attributes)
+                {
+                    (*trait_declaration_attributes_)[attribute.decl].push_back(attribute.trait);
+                }
+            }
+        }
+
+        std::optional<std::unordered_map<DeclIndex, TextOffset>> trait_deprecation_texts_;
+        std::optional<std::unordered_map<DeclIndex, std::vector<AttrIndex>>> trait_declaration_attributes_;
     };
 
     FileHeader const& File::header() const
@@ -315,21 +332,19 @@ namespace ifc
 
     std::optional<TextOffset> File::trait_deprecation_texts(DeclIndex declaration) const
     {
-        auto it = impl_->trait_deprecation_texts.find(declaration);
-        if (it != impl_->trait_deprecation_texts.end())
-        {
+        auto const & trait_deprecation_texts = impl_->trait_deprecation_texts();
+        if (auto it = trait_deprecation_texts.find(declaration); it != trait_deprecation_texts.end())
             return it->second;
-        }
+
         return std::nullopt;
     }
 
-    std::vector<AttrIndex> File::trait_declaration_attributes(DeclIndex declaration) const
+    std::span<AttrIndex const> File::trait_declaration_attributes(DeclIndex declaration) const
     {
-        auto it = impl_->trait_declaration_attributes.find(declaration);
-        if (it != impl_->trait_declaration_attributes.end())
-        {
+        auto const & trait_declaration_attributes = impl_->trait_declaration_attributes();
+        if (auto it = trait_declaration_attributes.find(declaration); it != trait_declaration_attributes.end())
             return it->second;
-        }
+
         return {};
     }
 
