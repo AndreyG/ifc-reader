@@ -23,7 +23,7 @@ namespace ifc
             return tag == 0 && index == 0;
         }
 
-        auto operator<=>(const AbstractReference& rhs) const = default;
+        bool operator==(const AbstractReference& rhs) const = default;
     };
 }
 
