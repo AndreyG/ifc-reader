@@ -27,15 +27,12 @@ namespace ifc
     };
 }
 
-namespace std
+template<int N, typename Sort>
+	requires std::is_enum_v<Sort>
+struct std::hash<ifc::AbstractReference<N, Sort>>
 {
-    template<int N, typename Sort>
-        requires std::is_enum_v<Sort>
-    struct hash<ifc::AbstractReference<N, Sort>>
-    {
-        std::size_t operator()(ifc::AbstractReference<N, Sort> const& s) const noexcept
-        {
-            return std::hash<uint32_t>{}((uint32_t&)s);
-        }
-    };
-}
+	std::size_t operator()(ifc::AbstractReference<N, Sort> s) const noexcept
+	{
+		return std::hash<uint32_t>{}(reinterpret_cast<uint32_t&>(s));
+	}
+};

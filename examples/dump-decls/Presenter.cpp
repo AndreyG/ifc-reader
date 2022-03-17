@@ -512,47 +512,70 @@ void Presenter::present(ifc::AttrIndex attr) const
         present(file_.basic_attributes()[attr].word);
         break;
     case ifc::AttrSort::Scoped:
-        present(file_.scoped_attributes()[attr].scope);
-        out_ << "::";
-        present(file_.scoped_attributes()[attr].member);
+        present(file_.scoped_attributes()[attr]);
         break;
     case ifc::AttrSort::Labeled:
-        present(file_.labeled_attributes()[attr].label);
-        out_ << ": ";
-        present(file_.labeled_attributes()[attr].attribute);
+        present(file_.labeled_attributes()[attr]);
         break;
     case ifc::AttrSort::Called:
-        present(file_.called_attributes()[attr].function);
-        out_ << "(";
-        present(file_.called_attributes()[attr].arguments);
-        out_ << ")";
+        present(file_.called_attributes()[attr]);
         break;
     case ifc::AttrSort::Expanded:
         present(file_.expanded_attributes()[attr].operand);
         out_ << "...";
         break;
     case ifc::AttrSort::Factored:
-        out_ << "using ";
-        present(file_.factored_attributes()[attr].factor);
-        out_ << ": ";
-        present(file_.factored_attributes()[attr].terms);
+        present(file_.factored_attributes()[attr]);
         break;
     case ifc::AttrSort::Elaborated:
         present(file_.elaborated_attributes()[attr].expression);
         break;
     case ifc::AttrSort::Tuple:
-    {
-        auto& tuple_attribute = file_.tuple_attributes()[attr];
-        for (uint32_t i = 0; i < ifc::raw_count(tuple_attribute.cardinality); ++i)
-        {
-            present(file_.attr_heap()[tuple_attribute.start + i]);
-            if (i + 1 != ifc::raw_count(tuple_attribute.cardinality))
-                out_ << ", ";
-        }
+        present(file_.tuple_attributes()[attr]);
         break;
-    }
     default:
         out_ << "Unkown AttrSort";
+    }
+}
+
+void Presenter::present(ifc::AttrScoped const& attr) const
+{
+    present(attr.scope);
+    out_ << "::";
+    present(attr.member);
+}
+
+void Presenter::present(ifc::AttrLabeled const& attr) const
+{
+    present(attr.label);
+    out_ << ": ";
+    present(attr.attribute);
+}
+
+void Presenter::present(ifc::AttrCalled const& attr) const
+{
+    present(attr.function);
+    out_ << "(";
+    present(attr.arguments);
+    out_ << ")";
+}
+
+void Presenter::present(ifc::AttrFactored const& attr) const
+{
+    out_ << "using ";
+    present(attr.factor);
+    out_ << ": ";
+    present(attr.terms);
+}
+
+void Presenter::present(ifc::AttrTuple const& attr) const
+{
+    auto heap = file_.attr_heap();
+    for (size_t i = 0, n = raw_count(attr.cardinality); i != n; ++i)
+    {
+        present(heap[attr.start + i]);
+        if (i + 1 != n)
+            out_ << ", ";
     }
 }
 

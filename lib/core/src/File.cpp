@@ -90,8 +90,7 @@ namespace ifc
                 table_of_contents_.emplace(get_string(partition.name), &partition);
             }
 
-            auto deprecations = try_get_partition<AssociatedTrait<TextOffset>, Index>("trait.deprecated");
-            if (deprecations)
+            if (auto deprecations = try_get_partition<AssociatedTrait<TextOffset>, Index>("trait.deprecated"))
             {
                 for (auto deprecation : *deprecations)
                 {
@@ -100,20 +99,18 @@ namespace ifc
             }
 
             // ObjectTraits, FunctionTraits or Attributes for a template.
-            auto attributes = try_get_partition<AssociatedTrait<AttrIndex>, Index>("trait.attribute");
-            if (attributes)
+            if (auto attributes = try_get_partition<AssociatedTrait<AttrIndex>, Index>("trait.attribute"))
             {
                 for (auto attribute : *attributes)
                 {
-                    // We could seperate this trait & .msvc.trait.decl-attrs.
+                    // We could separate this trait & .msvc.trait.decl-attrs.
                     // But the type is the same so it fits nicely here I think.
                     trait_declaration_attributes[attribute.decl].push_back(attribute.trait);
                 }
             }
 
             // All other attributes like [[nodiscard]] etc...
-            auto msvc_attributes = try_get_partition<AssociatedTrait<AttrIndex>, Index>(".msvc.trait.decl-attrs");
-            if (msvc_attributes)
+            if (auto msvc_attributes = try_get_partition<AssociatedTrait<AttrIndex>, Index>(".msvc.trait.decl-attrs"))
             {
                 for (auto msvc_attribute : *msvc_attributes)
                 {
@@ -139,9 +136,7 @@ namespace ifc
             if (it == table_of_contents_.end())
                 return std::nullopt;
 
-            const auto partition_summary = it->second;
-            assert(static_cast<size_t>(partition_summary->entry_size) == sizeof(T));
-            return { { get_pointer<T>(partition_summary->offset), raw_count(partition_summary->cardinality) } };
+            return get_partition<T, Index>(it->second);
         }
 
         template<typename T, typename Index>
@@ -153,7 +148,12 @@ namespace ifc
         template<typename T, typename Index>
         Partition<T, Index> get_partition(std::string_view name) const
         {
-            const auto partition = table_of_contents_.at(name);
+            return get_partition<T, Index>(table_of_contents_.at(name));
+        }
+
+        template<typename T, typename Index>
+        Partition<T, Index> get_partition(PartitionSummary const * partition) const
+        {
             assert(static_cast<size_t>(partition->entry_size) == sizeof(T));
             return { get_pointer<T>(partition->offset), raw_count(partition->cardinality) };
         }

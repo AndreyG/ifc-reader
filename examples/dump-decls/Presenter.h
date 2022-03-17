@@ -40,6 +40,11 @@ private:
     void present(ifc::FunctionTypeTraits)      const;
 
     void present(ifc::AttrIndex) const;
+    void present(ifc::AttrScoped    const&) const;
+    void present(ifc::AttrLabeled   const&) const;
+    void present(ifc::AttrCalled    const&) const;
+    void present(ifc::AttrFactored  const&) const;
+    void present(ifc::AttrTuple     const&) const;
 
     void present(ifc::Word const &) const;
 
