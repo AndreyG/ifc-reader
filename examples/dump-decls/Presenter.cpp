@@ -138,6 +138,9 @@ void Presenter::present(ifc::FundamentalType const& type) const
     case ifc::TypeBasis::Double:
         out_ << "double";
         break;
+    case ifc::TypeBasis::Ellipsis:
+        out_ << "...";
+        break;
     default:
         out_ << "fundamental type {" << static_cast<int>(type.basis) << "}";
     }
