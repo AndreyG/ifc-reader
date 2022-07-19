@@ -223,6 +223,7 @@ namespace ifc
 
     struct DyadExpression : ExpressionBase
     {
+        DeclIndex impl;
         ExprIndex arguments[2];
         DyadicOperator op;
 
