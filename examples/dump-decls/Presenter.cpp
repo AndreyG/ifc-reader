@@ -230,6 +230,9 @@ void Presenter::present(ifc::NamedDecl const& decl) const
     case ifc::DeclSort::Template:
         present(file_.template_declarations()[decl.resolution].name);
         break;
+    case ifc::DeclSort::Alias:
+        out_ << file_.get_string(file_.alias_declarations()[decl.resolution].name);
+        break;
     default:
         out_ << "Declaration of unsupported kind '" << static_cast<int>(kind) << "'";
     }
