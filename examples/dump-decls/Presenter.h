@@ -96,6 +96,7 @@ private:
     void present(ifc::AliasDeclaration      const &) const;
     void present(ifc::UsingDeclaration      const &) const;
     void present(ifc::Concept               const &) const;
+    void present(ifc::IntrinsicDeclaration  const &) const;
 
     void present(ifc::SyntaxIndex) const;
 

@@ -1086,6 +1086,14 @@ void Presenter::present(ifc::Concept const& concept_) const
     out_ << "\n";
 }
 
+void Presenter::present(ifc::IntrinsicDeclaration const& intrinsic) const
+{
+    insert_indent();
+    out_ << "Intrinsic '" << file_.get_string(intrinsic.name) << "', type: ";
+    present(intrinsic.type);
+    out_ << "\n";
+}
+
 void Presenter::present(ifc::SyntaxIndex syntax) const
 {
     switch (auto const kind = syntax.sort())
@@ -1223,6 +1231,9 @@ void Presenter::present(ifc::DeclIndex decl) const
         break;;
     case ifc::DeclSort::UsingDeclaration:
         present(file_.using_declarations()[decl]);
+        break;
+    case ifc::DeclSort::Intrinsic:
+        present(file_.intrinsic_declarations()[decl]);
         break;
     default:
         out_ << "Unsupported DeclSort '" << static_cast<int>(kind) << "'\n";

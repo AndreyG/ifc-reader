@@ -359,6 +359,18 @@ namespace ifc
         PARTITION_NAME("decl.concept");
     };
 
+    struct IntrinsicDeclaration
+    {
+        TextOffset name;
+        SourceLocation locus;
+        TypeIndex type;
+        DeclIndex home_scope;
+        BasicSpecifiers specifiers;
+        Access access;
+
+        PARTITION_NAME("decl.intrinsic");
+    };
+
     struct DeclReference
     {
         ModuleReference unit;
