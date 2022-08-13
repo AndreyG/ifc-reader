@@ -4,7 +4,7 @@
 
 namespace ifc
 {
-    enum class DeclSort;
+    enum class DeclSort : uint32_t;
     using DeclIndex = AbstractReference<5, DeclSort>;
 
     struct Declaration;

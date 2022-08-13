@@ -62,7 +62,7 @@ namespace ifc
 
     enum class ParameterPosition : uint32_t { };
 
-    enum class DeclSort
+    enum class DeclSort : uint32_t
     {
         VendorExtension         = 0x00,
         Enumerator              = 0x01,
