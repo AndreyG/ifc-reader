@@ -23,6 +23,7 @@ namespace ifc
     struct ForallType;
     struct SyntaxType;
     struct PlaceholderType;
+    struct TypenameType;
     struct WordType;
 
     enum class Qualifiers : std::uint8_t;

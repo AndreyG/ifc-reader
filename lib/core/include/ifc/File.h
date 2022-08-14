@@ -82,6 +82,7 @@ namespace ifc
         DECLARE_TYPE_PARTITION_GETTER(ForallType,         forall_types)
         DECLARE_TYPE_PARTITION_GETTER(SyntaxType,         syntax_types)
         DECLARE_TYPE_PARTITION_GETTER(PlaceholderType,    placeholder_types)
+        DECLARE_TYPE_PARTITION_GETTER(TypenameType,       typename_types)
 
 #undef DECLARE_TYPE_PARTITION_GETTER
 
@@ -113,6 +114,7 @@ namespace ifc
         DECLARE_EXPR_PARTITION_GETTER(SizeofExpression,  sizeof_expressions)
         DECLARE_EXPR_PARTITION_GETTER(AlignofExpression, alignof_expressions)
         DECLARE_EXPR_PARTITION_GETTER(TupleExpression,   tuple_expressions)
+        DECLARE_EXPR_PARTITION_GETTER(PathExpression,    path_expressions)
 
         DECLARE_EXPR_PARTITION_GETTER(PackedTemplateArguments, packed_template_arguments)
 

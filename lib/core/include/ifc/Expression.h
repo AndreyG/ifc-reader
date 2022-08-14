@@ -244,6 +244,14 @@ namespace ifc
         PARTITION_NAME("expr.alignof");
     };
 
+    struct PathExpression : ExpressionBase
+    {
+        ExprIndex scope;
+        ExprIndex member;
+
+        PARTITION_NAME("expr.path");
+    };
+
     struct StringLiteral
     {
         TextOffset start;

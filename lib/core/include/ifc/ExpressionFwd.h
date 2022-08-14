@@ -19,6 +19,7 @@ namespace ifc
     struct DyadExpression;
     struct SizeofExpression;
     struct AlignofExpression;
+    struct PathExpression;
     struct PackedTemplateArguments;
     struct StringLiteral;
 }

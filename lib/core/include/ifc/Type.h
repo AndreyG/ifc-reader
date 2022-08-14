@@ -23,6 +23,7 @@ namespace ifc
         RvalueReference = 0x09,
         Function        = 0x0A,
         Method          = 0x0B,
+        Typename        = 0x0D,
         Base            = 0x0F,
         Decltype        = 0x10,
         Placeholder     = 0x11,
@@ -249,5 +250,12 @@ namespace ifc
         TypeIndex elaboration;
 
         PARTITION_NAME("type.placeholder");
+    };
+
+    struct TypenameType
+    {
+        ExprIndex path;
+
+        PARTITION_NAME("type.typename");
     };
 }
