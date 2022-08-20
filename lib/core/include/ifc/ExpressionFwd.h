@@ -20,6 +20,7 @@ namespace ifc
     struct SizeofExpression;
     struct AlignofExpression;
     struct PathExpression;
+    struct ReadExpression;
     struct PackedTemplateArguments;
     struct StringLiteral;
 }

@@ -115,6 +115,7 @@ namespace ifc
         DECLARE_EXPR_PARTITION_GETTER(AlignofExpression, alignof_expressions)
         DECLARE_EXPR_PARTITION_GETTER(TupleExpression,   tuple_expressions)
         DECLARE_EXPR_PARTITION_GETTER(PathExpression,    path_expressions)
+        DECLARE_EXPR_PARTITION_GETTER(ReadExpression,    read_expressions)
 
         DECLARE_EXPR_PARTITION_GETTER(PackedTemplateArguments, packed_template_arguments)
 

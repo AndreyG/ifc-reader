@@ -252,6 +252,23 @@ namespace ifc
         PARTITION_NAME("expr.path");
     };
 
+    enum class ReadConversionSort : uint8_t
+    {
+        Identity,
+        Indirection,
+        Dereference,
+        LvalueToRvalue,
+        IntegralConversion,
+    };
+
+    struct ReadExpression : ExpressionBase
+    {
+        ExprIndex address;
+        ReadConversionSort sort;
+
+        PARTITION_NAME("expr.read");
+    };
+
     struct StringLiteral
     {
         TextOffset start;
