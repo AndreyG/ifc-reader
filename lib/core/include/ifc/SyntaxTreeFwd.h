@@ -13,4 +13,5 @@ namespace ifc
     struct DeclaratorSyntax;
     struct PointerDeclaratorSyntax;
     struct ExpressionSyntax;
+    struct TemplateIdSyntax;
 }

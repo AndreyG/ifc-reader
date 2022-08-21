@@ -150,6 +150,7 @@ namespace ifc
         DECLARE_SYNTAX_PARTITION_GETTER(DeclaratorSyntax,           declarator_syntax_trees)
         DECLARE_SYNTAX_PARTITION_GETTER(PointerDeclaratorSyntax,    pointer_declarator_syntax_trees)
         DECLARE_SYNTAX_PARTITION_GETTER(ExpressionSyntax,           expression_syntax_trees)
+        DECLARE_SYNTAX_PARTITION_GETTER(TemplateIdSyntax,           templateid_syntax_trees)
 
 #undef DECLARE_SYNTAX_PARTITION_GETTER
 

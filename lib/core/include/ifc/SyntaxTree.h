@@ -16,6 +16,7 @@ namespace ifc
         Declarator          = 0x14,
         PointerDeclarator   = 0x15,
         Expression          = 0x3A,
+        TemplateId          = 0x4A,
         // TODO
     };
 
@@ -92,5 +93,15 @@ namespace ifc
         ExprIndex expression;
 
         PARTITION_NAME("syntax.expression");
+    };
+
+    struct TemplateIdSyntax
+    {
+        SyntaxIndex name;
+        ExprIndex symbol;
+        SyntaxIndex arguments;
+        SourceLocation locus, template_;
+
+        PARTITION_NAME("syntax.template-id");
     };
 }
