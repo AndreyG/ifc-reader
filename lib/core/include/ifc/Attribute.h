@@ -26,7 +26,7 @@ namespace ifc
     {
         Word word;
 
-        static constexpr std::string_view PartitionName = "attr.basic";
+        PARTITION_NAME("attr.basic");
     };
 
     struct AttrScoped
@@ -34,7 +34,7 @@ namespace ifc
         Word scope;
         Word member;
 
-        static constexpr std::string_view PartitionName = "attr.scoped";
+        PARTITION_NAME("attr.scoped");
     };
 
     struct AttrLabeled
@@ -42,7 +42,7 @@ namespace ifc
         Word label;
         AttrIndex attribute;
 
-        static constexpr std::string_view PartitionName = "attr.labeled";
+        PARTITION_NAME("attr.labeled");
     };
 
     struct AttrCalled
@@ -50,14 +50,14 @@ namespace ifc
         AttrIndex function;
         AttrIndex arguments;
 
-        static constexpr std::string_view PartitionName = "attr.called";
+        PARTITION_NAME("attr.called");
     };
 
     struct AttrExpanded
     {
         AttrIndex operand;
 
-        static constexpr std::string_view PartitionName = "attr.expanded";
+        PARTITION_NAME("attr.expanded");
     };
 
     struct AttrFactored
@@ -65,14 +65,14 @@ namespace ifc
         Word factor;
         AttrIndex terms;
 
-        static constexpr std::string_view PartitionName = "attr.factored";
+        PARTITION_NAME("attr.factored");
     };
 
     struct AttrElaborated
     {
         ExprIndex expression;
 
-        static constexpr std::string_view PartitionName = "attr.elaborated";
+        PARTITION_NAME("attr.elaborated");
     };
 
     struct AttrTuple
@@ -80,6 +80,6 @@ namespace ifc
         Index start;
         Cardinality cardinality;
 
-        static constexpr std::string_view PartitionName = "attr.tuple";
+        PARTITION_NAME("attr.tuple");
     };
 }

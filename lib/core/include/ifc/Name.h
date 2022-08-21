@@ -33,6 +33,6 @@ namespace ifc
         TextOffset encoded;
         Operator operator_;
 
-        static constexpr std::string_view PartitionName = "name.operator";
+        PARTITION_NAME("name.operator");
     };
 }

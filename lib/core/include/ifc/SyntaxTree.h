@@ -25,7 +25,7 @@ namespace ifc
         ExprIndex expr;
         SourceLocation locus;
 
-        static constexpr std::string_view PartitionName = "syntax.simple-type-specifier";
+        PARTITION_NAME("syntax.simple-type-specifier");
     };
 
     struct TypeSpecifierSeq
@@ -36,7 +36,7 @@ namespace ifc
         Qualifiers qualifiers;
         bool unshashed;
 
-        static constexpr std::string_view PartitionName = "syntax.type-specifier-seq";
+        PARTITION_NAME("syntax.type-specifier-seq");
     };
 
     struct TypeIdSyntax
@@ -45,7 +45,7 @@ namespace ifc
         SyntaxIndex abstract_declarator;
         SourceLocation locus;
 
-        static constexpr std::string_view PartitionName = "syntax.type-id";
+        PARTITION_NAME("syntax.type-id");
     };
 
     struct DeclaratorSyntax
@@ -62,7 +62,7 @@ namespace ifc
         CallingConvention convention;
         bool callable;
 
-        static constexpr std::string_view PartitionName = "syntax.declarator";
+        PARTITION_NAME("syntax.declarator");
     };
 
     enum class PointerDeclaratorSort : uint8_t
@@ -84,13 +84,13 @@ namespace ifc
         CallingConvention convention;
         bool callable;
 
-        static constexpr std::string_view PartitionName = "syntax.pointer-declarator";
+        PARTITION_NAME("syntax.pointer-declarator");
     };
 
     struct ExpressionSyntax
     {
         ExprIndex expression;
 
-        static constexpr std::string_view PartitionName = "syntax.expression";
+        PARTITION_NAME("syntax.expression");
     };
 }
