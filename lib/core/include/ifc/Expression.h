@@ -269,6 +269,13 @@ namespace ifc
         PARTITION_NAME("expr.read");
     };
 
+    struct SyntaxTreeExpression
+    {
+        SyntaxIndex syntax;
+
+        PARTITION_NAME("expr.syntax-tree");
+    };
+
     struct StringLiteral
     {
         TextOffset start;

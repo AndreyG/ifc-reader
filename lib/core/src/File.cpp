@@ -285,6 +285,7 @@ namespace ifc
     DEFINE_EXPR_PARTITION_GETTER(TupleExpression,   tuple_expressions)
     DEFINE_EXPR_PARTITION_GETTER(PathExpression,    path_expressions)
     DEFINE_EXPR_PARTITION_GETTER(ReadExpression,    read_expressions)
+    DEFINE_EXPR_PARTITION_GETTER(SyntaxTreeExpression, syntax_tree_expressions)
 
     DEFINE_EXPR_PARTITION_GETTER(PackedTemplateArguments, packed_template_arguments)
 
