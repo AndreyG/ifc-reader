@@ -16,6 +16,8 @@ namespace ifc
         Declarator          = 0x14,
         PointerDeclarator   = 0x15,
         Expression          = 0x3A,
+        TypeTemplateArgument= 0x46,
+        TemplateArgumentList= 0x49,
         TemplateId          = 0x4A,
         // TODO
     };
@@ -93,6 +95,22 @@ namespace ifc
         ExprIndex expression;
 
         PARTITION_NAME("syntax.expression");
+    };
+
+    struct TypeTemplateArgumentSyntax
+    {
+        SyntaxIndex argument;
+        SourceLocation expander, comma;
+
+        PARTITION_NAME("syntax.type-template-argument");
+    };
+
+    struct TemplateArgumentListSyntax
+    {
+        SyntaxIndex arguments;
+        SourceLocation lt, gt;
+
+        PARTITION_NAME("syntax.template-argument-list");
     };
 
     struct TemplateIdSyntax

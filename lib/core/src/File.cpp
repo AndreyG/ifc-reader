@@ -308,6 +308,8 @@ namespace ifc
     DEFINE_SYNTAX_PARTITION_GETTER(DeclaratorSyntax,            declarator_syntax_trees)
     DEFINE_SYNTAX_PARTITION_GETTER(PointerDeclaratorSyntax,     pointer_declarator_syntax_trees)
     DEFINE_SYNTAX_PARTITION_GETTER(ExpressionSyntax,            expression_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(TypeTemplateArgumentSyntax,  type_template_argument_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(TemplateArgumentListSyntax,  template_argument_list_syntax_trees)
     DEFINE_SYNTAX_PARTITION_GETTER(TemplateIdSyntax,            templateid_syntax_trees)
 
 #undef DEFINE_SYNTAX_PARTITION_GETTER
