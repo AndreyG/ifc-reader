@@ -19,6 +19,7 @@ namespace ifc
         TypeTemplateArgument= 0x46,
         TemplateArgumentList= 0x49,
         TemplateId          = 0x4A,
+        Tuple               = 0x64,
         // TODO
     };
 
@@ -121,5 +122,10 @@ namespace ifc
         SourceLocation locus, template_;
 
         PARTITION_NAME("syntax.template-id");
+    };
+
+    struct TupleSyntax : Sequence
+    {
+        PARTITION_NAME("syntax.tuple");
     };
 }

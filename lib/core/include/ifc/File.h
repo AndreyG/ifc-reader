@@ -127,7 +127,8 @@ namespace ifc
         // Heaps
         DECLARE_PARTITION_GETTER(TypeIndex, Index, type_heap)
         DECLARE_PARTITION_GETTER(ExprIndex, Index, expr_heap)
-        DECLARE_PARTITION_GETTER(AttrIndex, Index, attr_heap);
+        DECLARE_PARTITION_GETTER(AttrIndex, Index, attr_heap)
+        DECLARE_PARTITION_GETTER(SyntaxIndex, Index, syntax_heap)
 
         // Names
         DECLARE_PARTITION_GETTER(OperatorFunctionName, NameIndex, operator_names)
@@ -153,6 +154,7 @@ namespace ifc
         DECLARE_SYNTAX_PARTITION_GETTER(TypeTemplateArgumentSyntax, type_template_argument_syntax_trees)
         DECLARE_SYNTAX_PARTITION_GETTER(TemplateArgumentListSyntax, template_argument_list_syntax_trees)
         DECLARE_SYNTAX_PARTITION_GETTER(TemplateIdSyntax,           templateid_syntax_trees)
+        DECLARE_SYNTAX_PARTITION_GETTER(TupleSyntax,                tuple_syntax_trees)
 
 #undef DECLARE_SYNTAX_PARTITION_GETTER
 

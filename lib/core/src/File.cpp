@@ -311,6 +311,7 @@ namespace ifc
     DEFINE_SYNTAX_PARTITION_GETTER(TypeTemplateArgumentSyntax,  type_template_argument_syntax_trees)
     DEFINE_SYNTAX_PARTITION_GETTER(TemplateArgumentListSyntax,  template_argument_list_syntax_trees)
     DEFINE_SYNTAX_PARTITION_GETTER(TemplateIdSyntax,            templateid_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(TupleSyntax,                 tuple_syntax_trees)
 
 #undef DEFINE_SYNTAX_PARTITION_GETTER
 
@@ -331,6 +332,11 @@ namespace ifc
     Partition<AttrIndex, Index> File::attr_heap() const
     {
         return impl_->get_partition<AttrIndex, Index>("heap.attr");
+    }
+
+    Partition<SyntaxIndex, Index> File::syntax_heap() const
+    {
+        return impl_->get_partition<SyntaxIndex, Index>("heap.syn");
     }
 
     Partition<DeclIndex> File::deduction_guides() const
