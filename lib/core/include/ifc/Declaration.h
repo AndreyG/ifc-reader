@@ -287,9 +287,25 @@ namespace ifc
         PARTITION_NAME("decl.destructor");
     };
 
-    struct FieldOrVariableDeclaration
+    struct VariableDeclaration
     {
         NameIndex name;
+        SourceLocation locus;
+        TypeIndex type;
+        DeclIndex home_scope; 
+        ExprIndex initializer;
+        ExprIndex alignment;
+        ObjectTraits traits;
+        BasicSpecifiers specifiers;
+        Access access;
+        ReachableProperties properties;
+
+        PARTITION_NAME("decl.variable");
+    };
+
+    struct FieldDeclaration
+    {
+        TextOffset name;
         SourceLocation locus;
         TypeIndex type;
         DeclIndex home_scope;
@@ -299,15 +315,7 @@ namespace ifc
         BasicSpecifiers specifiers;
         Access access;
         ReachableProperties properties;
-    };
 
-    struct VariableDeclaration : FieldOrVariableDeclaration
-    {
-        PARTITION_NAME("decl.variable");
-    };
-
-    struct FieldDeclaration : FieldOrVariableDeclaration
-    {
         PARTITION_NAME("decl.field");
     };
 
