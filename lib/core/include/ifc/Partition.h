@@ -66,6 +66,11 @@ namespace ifc
     class TypedPartition : public Partition<T, Index>
     {
     public:
+        explicit TypedPartition(Partition<T, Index> untyped)
+            : Partition<T, Index>(untyped)
+        {
+        }
+
         T const& operator[] (Index index) const
         {
             assert(index.sort() == T::Sort);
