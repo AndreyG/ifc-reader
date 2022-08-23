@@ -34,5 +34,6 @@ namespace ifc
         Operator operator_;
 
         PARTITION_NAME("name.operator");
+        PARTITION_SORT(NameSort::Operator);
     };
 }

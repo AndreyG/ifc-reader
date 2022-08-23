@@ -27,6 +27,7 @@ namespace ifc
         Word word;
 
         PARTITION_NAME("attr.basic");
+        PARTITION_SORT(AttrSort::Basic);
     };
 
     struct AttrScoped
@@ -35,6 +36,7 @@ namespace ifc
         Word member;
 
         PARTITION_NAME("attr.scoped");
+        PARTITION_SORT(AttrSort::Scoped);
     };
 
     struct AttrLabeled
@@ -43,6 +45,7 @@ namespace ifc
         AttrIndex attribute;
 
         PARTITION_NAME("attr.labeled");
+        PARTITION_SORT(AttrSort::Labeled);
     };
 
     struct AttrCalled
@@ -51,6 +54,7 @@ namespace ifc
         AttrIndex arguments;
 
         PARTITION_NAME("attr.called");
+        PARTITION_SORT(AttrSort::Called);
     };
 
     struct AttrExpanded
@@ -58,6 +62,7 @@ namespace ifc
         AttrIndex operand;
 
         PARTITION_NAME("attr.expanded");
+        PARTITION_SORT(AttrSort::Expanded);
     };
 
     struct AttrFactored
@@ -66,6 +71,7 @@ namespace ifc
         AttrIndex terms;
 
         PARTITION_NAME("attr.factored");
+        PARTITION_SORT(AttrSort::Factored);
     };
 
     struct AttrElaborated
@@ -73,6 +79,7 @@ namespace ifc
         ExprIndex expression;
 
         PARTITION_NAME("attr.elaborated");
+        PARTITION_SORT(AttrSort::Elaborated);
     };
 
     struct AttrTuple
@@ -81,5 +88,6 @@ namespace ifc
         Cardinality cardinality;
 
         PARTITION_NAME("attr.tuple");
+        PARTITION_SORT(AttrSort::Tuple);
     };
 }

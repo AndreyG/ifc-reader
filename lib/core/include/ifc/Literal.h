@@ -21,6 +21,7 @@ namespace ifc
         std::uint64_t value;
 
         PARTITION_NAME("const.i64");
+        PARTITION_SORT(LiteralSort::Integer);
     };
 
     struct alignas(4) FPLiteral
@@ -33,5 +34,6 @@ namespace ifc
         }
 
         PARTITION_NAME("const.f64");
+        PARTITION_SORT(LiteralSort::FloatingPoint);
     };
 }

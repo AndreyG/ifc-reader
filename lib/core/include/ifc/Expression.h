@@ -96,6 +96,7 @@ namespace ifc
         LitIndex value;
 
         PARTITION_NAME("expr.literal");
+        PARTITION_SORT(ExprSort::Literal);
     };
 
     struct NamedDecl : ExpressionBase
@@ -103,6 +104,7 @@ namespace ifc
         DeclIndex resolution;
 
         PARTITION_NAME("expr.decl");
+        PARTITION_SORT(ExprSort::NamedDecl);
     };
 
     struct UnqualifiedId : ExpressionBase
@@ -112,6 +114,7 @@ namespace ifc
         SourceLocation template_keyword;
 
         PARTITION_NAME("expr.unqualified-id");
+        PARTITION_SORT(ExprSort::UnqualifiedId);
     };
 
     struct TemplateId : ExpressionBase
@@ -120,6 +123,7 @@ namespace ifc
         ExprIndex arguments;
 
         PARTITION_NAME("expr.template-id");
+        PARTITION_SORT(ExprSort::TemplateId);
     };
 
     struct TupleExpression : ExpressionBase
@@ -127,6 +131,7 @@ namespace ifc
         Sequence seq;
 
         PARTITION_NAME("expr.tuple");
+        PARTITION_SORT(ExprSort::Tuple);
     };
 
     struct TypeExpression : ExpressionBase
@@ -134,6 +139,7 @@ namespace ifc
         TypeIndex denotation;
 
         PARTITION_NAME("expr.type");
+        PARTITION_SORT(ExprSort::Type);
     };
 
     struct PackedTemplateArguments : ExpressionBase
@@ -141,6 +147,7 @@ namespace ifc
         ExprIndex arguments;
 
         PARTITION_NAME("expr.packed-template-arguments");
+        PARTITION_SORT(ExprSort::PackedTemplateArguments);
     };
 
     enum class DyadicOperator
@@ -228,6 +235,7 @@ namespace ifc
         DyadicOperator op;
 
         PARTITION_NAME("expr.dyad");
+        PARTITION_SORT(ExprSort::Dyad);
     };
 
     struct SizeofExpression : ExpressionBase
@@ -235,6 +243,7 @@ namespace ifc
         TypeIndex operand;
 
         PARTITION_NAME("expr.sizeof-type");
+        PARTITION_SORT(ExprSort::SizeofType);
     };
 
     struct AlignofExpression : ExpressionBase
@@ -242,6 +251,7 @@ namespace ifc
         TypeIndex operand;
 
         PARTITION_NAME("expr.alignof");
+        PARTITION_SORT(ExprSort::Alignof);
     };
 
     struct PathExpression : ExpressionBase
@@ -250,6 +260,7 @@ namespace ifc
         ExprIndex member;
 
         PARTITION_NAME("expr.path");
+        PARTITION_SORT(ExprSort::Path);
     };
 
     enum class ReadConversionSort : uint8_t
@@ -267,6 +278,7 @@ namespace ifc
         ReadConversionSort sort;
 
         PARTITION_NAME("expr.read");
+        PARTITION_SORT(ExprSort::Read);
     };
 
     struct SyntaxTreeExpression
@@ -274,6 +286,7 @@ namespace ifc
         SyntaxIndex syntax;
 
         PARTITION_NAME("expr.syntax-tree");
+        PARTITION_SORT(ExprSort::SyntaxTree);
     };
 
     struct StringLiteral

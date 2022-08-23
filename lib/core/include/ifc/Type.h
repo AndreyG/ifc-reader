@@ -89,6 +89,7 @@ namespace ifc
         uint8_t _padding_;
 
         PARTITION_NAME("type.fundamental");
+        PARTITION_SORT(TypeSort::Fundamental);
     };
 
     struct DesignatedType
@@ -96,6 +97,7 @@ namespace ifc
         DeclIndex decl;
 
         PARTITION_NAME("type.designated");
+        PARTITION_SORT(TypeSort::Designated);
     };
 
     struct SyntacticType
@@ -103,6 +105,7 @@ namespace ifc
         ExprIndex expr;
 
         PARTITION_NAME("type.syntactic");
+        PARTITION_SORT(TypeSort::Syntactic);
     };
 
     enum class ExpansionMode : uint8_t
@@ -117,6 +120,7 @@ namespace ifc
         ExpansionMode mode;
 
         PARTITION_NAME("type.expansion");
+        PARTITION_SORT(TypeSort::Expansion);
     };
 
     struct PointerType
@@ -124,6 +128,7 @@ namespace ifc
         TypeIndex pointee;
 
         PARTITION_NAME("type.pointer");
+        PARTITION_SORT(TypeSort::Pointer);
     };
 
     enum class FunctionTypeTraits : uint8_t
@@ -149,6 +154,7 @@ namespace ifc
         FunctionTypeTraits traits;
 
         PARTITION_NAME("type.function");
+        PARTITION_SORT(TypeSort::Function);
     };
 
     struct MethodType
@@ -161,6 +167,7 @@ namespace ifc
         FunctionTypeTraits traits;
 
         PARTITION_NAME("type.nonstatic-member-function");
+        PARTITION_SORT(TypeSort::Method);
     };
 
     struct TorType
@@ -170,6 +177,7 @@ namespace ifc
         CallingConvention convention;
 
         PARTITION_NAME("type.tor");
+        PARTITION_SORT(TypeSort::Tor);
     };
 
     struct BaseType
@@ -186,11 +194,13 @@ namespace ifc
         Specifiers specifiers;
 
         PARTITION_NAME("type.base");
+        PARTITION_SORT(TypeSort::Base);
     };
 
     struct TupleType : Sequence
     {
         PARTITION_NAME("type.tuple");
+        PARTITION_SORT(TypeSort::Tuple);
     };
 
     struct LvalueReference
@@ -198,6 +208,7 @@ namespace ifc
         TypeIndex referee;
 
         PARTITION_NAME("type.lvalue-reference");
+        PARTITION_SORT(TypeSort::LvalueReference);
     };
 
     struct RvalueReference
@@ -205,6 +216,7 @@ namespace ifc
         TypeIndex referee;
 
         PARTITION_NAME("type.rvalue-reference");
+        PARTITION_SORT(TypeSort::RvalueReference);
     };
 
     enum class Qualifiers : uint8_t
@@ -226,6 +238,7 @@ namespace ifc
         Qualifiers qualifiers;
 
         PARTITION_NAME("type.qualified");
+        PARTITION_SORT(TypeSort::Qualified);
     };
 
     struct ForallType
@@ -234,6 +247,7 @@ namespace ifc
         TypeIndex subject;
 
         PARTITION_NAME("type.forall");
+        PARTITION_SORT(TypeSort::Forall);
     };
 
     struct SyntaxType
@@ -241,6 +255,7 @@ namespace ifc
         SyntaxIndex syntax;
 
         PARTITION_NAME("type.syntax-tree");
+        PARTITION_SORT(TypeSort::SyntaxTree);
     };
 
     struct PlaceholderType
@@ -250,6 +265,7 @@ namespace ifc
         TypeIndex elaboration;
 
         PARTITION_NAME("type.placeholder");
+        PARTITION_SORT(TypeSort::Placeholder);
     };
 
     struct TypenameType
@@ -257,5 +273,6 @@ namespace ifc
         ExprIndex path;
 
         PARTITION_NAME("type.typename");
+        PARTITION_SORT(TypeSort::Typename);
     };
 }

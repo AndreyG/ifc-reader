@@ -31,14 +31,20 @@ namespace ifc
 
         ScopePartition scope_descriptors() const;
 
+#define DECLARE_UNTYPED_PARTITION_GETTER(ElementType, IndexType, Property)  \
+    public:                                                                 \
+    Partition<ElementType, IndexType> Property() const;                     \
+    private:                                                                \
+        mutable std::optional<Partition<ElementType, IndexType>> cached_ ## Property ## _ ;
+
 #define DECLARE_PARTITION_GETTER(ElementType, IndexType, Property)  \
     public:                                                         \
-    Partition<ElementType, IndexType> Property() const;             \
+    TypedPartition<ElementType, IndexType> Property() const;        \
     private:                                                        \
         mutable std::optional<Partition<ElementType, IndexType>> cached_ ## Property ## _ ;
 
         // Declarations
-        DECLARE_PARTITION_GETTER(Declaration, Index, declarations)
+        DECLARE_UNTYPED_PARTITION_GETTER(Declaration, Index, declarations)
 
 #define DECLARE_DECL_PARTITION_GETTER(DeclType, DeclName) \
     DECLARE_PARTITION_GETTER(DeclType, DeclIndex, DeclName)
@@ -120,15 +126,15 @@ namespace ifc
 
         DECLARE_EXPR_PARTITION_GETTER(PackedTemplateArguments, packed_template_arguments)
 
-        DECLARE_PARTITION_GETTER(StringLiteral, StringIndex, string_literal_expressions)
+        DECLARE_UNTYPED_PARTITION_GETTER(StringLiteral, StringIndex, string_literal_expressions)
 
 #undef DECLARE_EXPR_PARTITION_GETTER
 
         // Heaps
-        DECLARE_PARTITION_GETTER(TypeIndex, Index, type_heap)
-        DECLARE_PARTITION_GETTER(ExprIndex, Index, expr_heap)
-        DECLARE_PARTITION_GETTER(AttrIndex, Index, attr_heap)
-        DECLARE_PARTITION_GETTER(SyntaxIndex, Index, syntax_heap)
+        DECLARE_UNTYPED_PARTITION_GETTER(TypeIndex, Index, type_heap)
+        DECLARE_UNTYPED_PARTITION_GETTER(ExprIndex, Index, expr_heap)
+        DECLARE_UNTYPED_PARTITION_GETTER(AttrIndex, Index, attr_heap)
+        DECLARE_UNTYPED_PARTITION_GETTER(SyntaxIndex, Index, syntax_heap)
 
         // Names
         DECLARE_PARTITION_GETTER(OperatorFunctionName, NameIndex, operator_names)
@@ -161,6 +167,7 @@ namespace ifc
         Partition<DeclIndex> deduction_guides() const;
 
 #undef DECLARE_PARTITION_GETTER
+#undef DECLARE_UNTYPED_PARTITION_GETTER
 
     public:
         // Traits

@@ -47,4 +47,6 @@ namespace ifc
 
 #define PARTITION_NAME(value) static constexpr std::string_view PartitionName = value
 
+#define PARTITION_SORT(value) static constexpr auto Sort = value
+
 }

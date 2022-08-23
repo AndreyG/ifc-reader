@@ -30,6 +30,7 @@ namespace ifc
         SourceLocation locus;
 
         PARTITION_NAME("syntax.simple-type-specifier");
+        PARTITION_SORT(SyntaxSort::SimpleTypeSpecifier);
     };
 
     struct TypeSpecifierSeq
@@ -41,6 +42,7 @@ namespace ifc
         bool unshashed;
 
         PARTITION_NAME("syntax.type-specifier-seq");
+        PARTITION_SORT(SyntaxSort::TypeSpecifierSeq);
     };
 
     struct TypeIdSyntax
@@ -50,6 +52,7 @@ namespace ifc
         SourceLocation locus;
 
         PARTITION_NAME("syntax.type-id");
+        PARTITION_SORT(SyntaxSort::TypeId);
     };
 
     struct DeclaratorSyntax
@@ -67,6 +70,7 @@ namespace ifc
         bool callable;
 
         PARTITION_NAME("syntax.declarator");
+        PARTITION_SORT(SyntaxSort::Declarator);
     };
 
     enum class PointerDeclaratorSort : uint8_t
@@ -89,6 +93,7 @@ namespace ifc
         bool callable;
 
         PARTITION_NAME("syntax.pointer-declarator");
+        PARTITION_SORT(SyntaxSort::PointerDeclarator);
     };
 
     struct ExpressionSyntax
@@ -96,6 +101,7 @@ namespace ifc
         ExprIndex expression;
 
         PARTITION_NAME("syntax.expression");
+        PARTITION_SORT(SyntaxSort::Expression);
     };
 
     struct TypeTemplateArgumentSyntax
@@ -104,6 +110,7 @@ namespace ifc
         SourceLocation expander, comma;
 
         PARTITION_NAME("syntax.type-template-argument");
+        PARTITION_SORT(SyntaxSort::TypeTemplateArgument);
     };
 
     struct TemplateArgumentListSyntax
@@ -112,6 +119,7 @@ namespace ifc
         SourceLocation lt, gt;
 
         PARTITION_NAME("syntax.template-argument-list");
+        PARTITION_SORT(SyntaxSort::TemplateArgumentList);
     };
 
     struct TemplateIdSyntax
@@ -122,10 +130,12 @@ namespace ifc
         SourceLocation locus, template_;
 
         PARTITION_NAME("syntax.template-id");
+        PARTITION_SORT(SyntaxSort::TemplateId);
     };
 
     struct TupleSyntax : Sequence
     {
         PARTITION_NAME("syntax.tuple");
+        PARTITION_SORT(SyntaxSort::Tuple);
     };
 }

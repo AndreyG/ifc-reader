@@ -118,6 +118,7 @@ namespace ifc
         bool hidden;
 
         PARTITION_NAME("decl.using-declaration");
+        PARTITION_SORT(DeclSort::UsingDeclaration);
     };
 
     struct ParameterizedEntity
@@ -141,6 +142,7 @@ namespace ifc
         ReachableProperties properties;
 
         PARTITION_NAME("decl.template");
+        PARTITION_SORT(DeclSort::Template);
     };
 
     struct Enumeration
@@ -157,6 +159,7 @@ namespace ifc
         ReachableProperties properties;
 
         PARTITION_NAME("decl.enum");
+        PARTITION_SORT(DeclSort::Enumeration);
     };
 
     struct Enumerator
@@ -169,6 +172,7 @@ namespace ifc
         Access access;
 
         PARTITION_NAME("decl.enumerator");
+        PARTITION_SORT(DeclSort::Enumerator);
     };
 
     struct AliasDeclaration
@@ -182,6 +186,7 @@ namespace ifc
         Access access;
 
         PARTITION_NAME("decl.alias");
+        PARTITION_SORT(DeclSort::Alias);
     };
 
     enum class PackSize : uint16_t {};
@@ -212,6 +217,7 @@ namespace ifc
         ReachableProperties properties;
 
         PARTITION_NAME("decl.scope");
+        PARTITION_SORT(DeclSort::Scope);
     };
 
     TypeBasis get_kind(ScopeDeclaration const &, File const &);
@@ -250,11 +256,13 @@ namespace ifc
     struct FunctionDeclaration : FunctionDeclarationBase
     {
         PARTITION_NAME("decl.function");
+        PARTITION_SORT(DeclSort::Function);
     };
 
     struct MethodDeclaration : FunctionDeclarationBase
     {
         PARTITION_NAME("decl.method");
+        PARTITION_SORT(DeclSort::Method);
     };
 
     struct Constructor
@@ -270,6 +278,7 @@ namespace ifc
         ReachableProperties properties;
 
         PARTITION_NAME("decl.constructor");
+        PARTITION_SORT(DeclSort::Constructor);
     };
 
     struct Destructor
@@ -285,6 +294,7 @@ namespace ifc
         ReachableProperties properties;
 
         PARTITION_NAME("decl.destructor");
+        PARTITION_SORT(DeclSort::Destructor);
     };
 
     struct VariableDeclaration
@@ -301,6 +311,7 @@ namespace ifc
         ReachableProperties properties;
 
         PARTITION_NAME("decl.variable");
+        PARTITION_SORT(DeclSort::Variable);
     };
 
     struct FieldDeclaration
@@ -317,6 +328,7 @@ namespace ifc
         ReachableProperties properties;
 
         PARTITION_NAME("decl.field");
+        PARTITION_SORT(DeclSort::Field);
     };
 
     enum class ParameterSort : uint8_t
@@ -341,6 +353,7 @@ namespace ifc
         bool pack;
 
         PARTITION_NAME("decl.parameter");
+        PARTITION_SORT(DeclSort::Parameter);
     };
 
     struct Concept
@@ -357,6 +370,7 @@ namespace ifc
         SentenceIndex body;
 
         PARTITION_NAME("decl.concept");
+        PARTITION_SORT(DeclSort::Concept);
     };
 
     struct IntrinsicDeclaration
@@ -369,6 +383,7 @@ namespace ifc
         Access access;
 
         PARTITION_NAME("decl.intrinsic");
+        PARTITION_SORT(DeclSort::Intrinsic);
     };
 
     struct DeclReference
@@ -377,5 +392,6 @@ namespace ifc
         DeclIndex local_index;
 
         PARTITION_NAME("decl.reference");
+        PARTITION_SORT(DeclSort::Reference);
     };
 }

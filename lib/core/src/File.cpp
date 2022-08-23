@@ -205,12 +205,18 @@ namespace ifc
         return impl_->get_partition<ScopeDescriptor, ScopeIndex>();
     }
 
-#define DEFINE_PARTITION_GETTER(ElementType, IndexType, Property)                           \
-    Partition<ElementType, IndexType> File::Property() const {                              \
-        return get_partition_with_cache<ElementType, IndexType>(cached_ ## Property ## _);  \
+    Partition<Declaration, Index> File::declarations() const
+    {
+        return get_partition_with_cache<Declaration, Index>(cached_declarations_);
     }
 
-    DEFINE_PARTITION_GETTER(Declaration, Index, declarations)
+#define DEFINE_PARTITION_GETTER(ElementType, IndexType, Property)   \
+    TypedPartition<ElementType, IndexType> File::Property() const { \
+        return static_cast<TypedPartition<ElementType, IndexType>>( \
+            get_partition_with_cache<ElementType, IndexType>(       \
+                cached_ ## Property ## _)                           \
+            );                                                      \
+    }
 
 #define DEFINE_DECL_PARTITION_GETTER(DeclType, DeclName) \
     DEFINE_PARTITION_GETTER(DeclType, DeclIndex, DeclName)
@@ -289,7 +295,10 @@ namespace ifc
 
     DEFINE_EXPR_PARTITION_GETTER(PackedTemplateArguments, packed_template_arguments)
 
-    DEFINE_PARTITION_GETTER(StringLiteral, StringIndex, string_literal_expressions)
+    Partition<StringLiteral, StringIndex> File::string_literal_expressions() const
+    {
+        return get_partition_with_cache<StringLiteral, StringIndex>(cached_string_literal_expressions_);
+    }
 
 #undef DEFINE_EXPR_PARTITION_GETTER
 

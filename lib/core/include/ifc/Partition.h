@@ -4,6 +4,8 @@
 
 #include "common_types.h"
 
+#include <cassert>
+
 namespace ifc
 {
     struct PartitionSummary
@@ -58,5 +60,16 @@ namespace ifc
     private:
         T const* data_;
         size_t size_;
+    };
+
+    template<typename T, typename Index>
+    class TypedPartition : public Partition<T, Index>
+    {
+    public:
+        T const& operator[] (Index index) const
+        {
+            assert(index.sort() == T::Sort);
+            return Partition<T, Index>::operator[](index);
+        }
     };
 }
