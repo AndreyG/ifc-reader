@@ -254,6 +254,14 @@ namespace ifc
         PARTITION_SORT(ExprSort::Alignof);
     };
 
+    struct RequiresExpression : ExpressionBase
+    {
+        SyntaxIndex parameters, body;
+
+        PARTITION_NAME("expr.requires");
+        PARTITION_SORT(ExprSort::Requires);
+    };
+
     struct PathExpression : ExpressionBase
     {
         ExprIndex scope;

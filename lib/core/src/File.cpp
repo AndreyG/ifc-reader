@@ -288,6 +288,7 @@ namespace ifc
     DEFINE_EXPR_PARTITION_GETTER(DyadExpression,    dyad_expressions)
     DEFINE_EXPR_PARTITION_GETTER(SizeofExpression,  sizeof_expressions)
     DEFINE_EXPR_PARTITION_GETTER(AlignofExpression, alignof_expressions)
+    DEFINE_EXPR_PARTITION_GETTER(RequiresExpression,requires_expressions)
     DEFINE_EXPR_PARTITION_GETTER(TupleExpression,   tuple_expressions)
     DEFINE_EXPR_PARTITION_GETTER(PathExpression,    path_expressions)
     DEFINE_EXPR_PARTITION_GETTER(ReadExpression,    read_expressions)

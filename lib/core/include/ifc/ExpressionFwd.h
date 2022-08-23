@@ -19,6 +19,7 @@ namespace ifc
     struct DyadExpression;
     struct SizeofExpression;
     struct AlignofExpression;
+    struct RequiresExpression;
     struct PathExpression;
     struct ReadExpression;
     struct SyntaxTreeExpression;
