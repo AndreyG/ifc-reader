@@ -75,6 +75,7 @@ private:
     void present(ifc::DyadExpression const &) const;
     void present(ifc::SizeofExpression const &) const;
     void present(ifc::AlignofExpression const &) const;
+    void present(ifc::RequiresExpression const&) const;
     void present(ifc::PackedTemplateArguments const &) const;
     void present(ifc::LitIndex) const;
     void present(ifc::ExprIndex) const;
@@ -105,6 +106,9 @@ private:
     void present(ifc::TypeIdSyntax              const &) const;
     void present(ifc::DeclaratorSyntax          const &) const;
     void present(ifc::PointerDeclaratorSyntax   const &) const;
+
+    void present_function_parameters(ifc::SyntaxIndex parameters) const;
+    void present_function_parameter (ifc::SyntaxIndex parameter ) const;
 
     template<typename T, typename Index>
     void present_heap_slice(ifc::Partition<T, Index>, ifc::Sequence) const;

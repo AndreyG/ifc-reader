@@ -15,6 +15,8 @@ namespace ifc
         TypeId              = 0x12,
         Declarator          = 0x14,
         PointerDeclarator   = 0x15,
+        FunctionDeclarator  = 0x17,
+        ParameterDeclarator = 0x19,
         Expression          = 0x3A,
         TypeTemplateArgument= 0x46,
         TemplateArgumentList= 0x49,
@@ -94,6 +96,29 @@ namespace ifc
 
         PARTITION_NAME("syntax.pointer-declarator");
         PARTITION_SORT(SyntaxSort::PointerDeclarator);
+    };
+
+    struct FunctionDeclaratorSyntax
+    {
+        SyntaxIndex parameters;
+        SyntaxIndex eh_spec;
+        SourceLocation left_paren, right_paren, ellipsis, ref;
+        FunctionTypeTraits traits;
+
+        PARTITION_NAME("syntax.function-declarator");
+        PARTITION_SORT(SyntaxSort::FunctionDeclarator);
+    };
+
+    struct ParameterDeclaratorSyntax
+    {
+        SyntaxIndex decl_specifiers;
+        SyntaxIndex declarator;
+        ExprIndex default_;
+        SourceLocation location;
+        ParameterSort sort;
+
+        PARTITION_NAME("syntax.parameter-declarator");
+        PARTITION_SORT(SyntaxSort::ParameterDeclarator);
     };
 
     struct ExpressionSyntax

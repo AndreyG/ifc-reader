@@ -317,6 +317,8 @@ namespace ifc
     DEFINE_SYNTAX_PARTITION_GETTER(TypeIdSyntax,                typeid_syntax_trees)
     DEFINE_SYNTAX_PARTITION_GETTER(DeclaratorSyntax,            declarator_syntax_trees)
     DEFINE_SYNTAX_PARTITION_GETTER(PointerDeclaratorSyntax,     pointer_declarator_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(FunctionDeclaratorSyntax,    function_declarator_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(ParameterDeclaratorSyntax,   parameter_declarator_syntax_trees)
     DEFINE_SYNTAX_PARTITION_GETTER(ExpressionSyntax,            expression_syntax_trees)
     DEFINE_SYNTAX_PARTITION_GETTER(TypeTemplateArgumentSyntax,  type_template_argument_syntax_trees)
     DEFINE_SYNTAX_PARTITION_GETTER(TemplateArgumentListSyntax,  template_argument_list_syntax_trees)

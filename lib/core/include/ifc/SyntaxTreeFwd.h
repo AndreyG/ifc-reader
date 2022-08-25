@@ -12,6 +12,8 @@ namespace ifc
     struct TypeIdSyntax;
     struct DeclaratorSyntax;
     struct PointerDeclaratorSyntax;
+    struct FunctionDeclaratorSyntax;
+    struct ParameterDeclaratorSyntax;
     struct ExpressionSyntax;
     struct TypeTemplateArgumentSyntax;
     struct TemplateArgumentListSyntax;

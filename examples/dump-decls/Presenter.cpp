@@ -273,6 +273,9 @@ void Presenter::present(ifc::ExprIndex expr) const
     case ifc::ExprSort::Alignof:
         present(file_.alignof_expressions()[expr]);
         break;
+    case ifc::ExprSort::Requires:
+        present(file_.requires_expressions()[expr]);
+        break;
     case ifc::ExprSort::Tuple:
         present(file_.tuple_expressions()[expr]);
         break;
@@ -407,6 +410,42 @@ void Presenter::present(ifc::AlignofExpression const& expr) const
     out_ << "alignof(";
     present(expr.operand);
     out_ << ")";
+}
+
+void Presenter::present(ifc::RequiresExpression const& expr) const
+{
+    out_ << "requires";
+    if (auto params = expr.parameters; !params.is_null())
+        present_function_parameters(file_.function_declarator_syntax_trees()[params].parameters);
+    out_ << " {...}";
+}
+
+void Presenter::present_function_parameters(ifc::SyntaxIndex parameters) const
+{
+    out_ << "(";
+    if (parameters.sort() == ifc::SyntaxSort::Tuple)
+    {
+        bool first = true;
+        for (auto param : file_.syntax_heap().slice(file_.tuple_syntax_trees()[parameters]))
+        {
+            if (first)
+                first = false;
+            else
+                out_ << ", ";
+            present_function_parameter(param);
+        }
+    }
+    else
+        present_function_parameter(parameters);
+    out_ << ")";
+}
+
+void Presenter::present_function_parameter(ifc::SyntaxIndex parameter) const
+{
+    assert(parameter.sort() == ifc::SyntaxSort::ParameterDeclarator);
+    auto declarator = file_.parameter_declarator_syntax_trees()[parameter].declarator;
+    assert(declarator.sort() == ifc::SyntaxSort::Declarator);
+    present(file_.declarator_syntax_trees()[declarator]);
 }
 
 void Presenter::present(ifc::PackedTemplateArguments const& templargs) const
