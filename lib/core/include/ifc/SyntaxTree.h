@@ -21,6 +21,7 @@ namespace ifc
         TypeTemplateArgument= 0x46,
         TemplateArgumentList= 0x49,
         TemplateId          = 0x4A,
+        TypeTraitIntrinsic  = 0x63,
         Tuple               = 0x64,
         // TODO
     };
@@ -156,6 +157,16 @@ namespace ifc
 
         PARTITION_NAME("syntax.template-id");
         PARTITION_SORT(SyntaxSort::TemplateId);
+    };
+
+    struct TypeTraitIntrinsicSyntax
+    {
+        SyntaxIndex arguments;
+        SourceLocation location;
+        Operator intrinsic;
+
+        PARTITION_NAME("syntax.type-trait-intrinsic");
+        PARTITION_SORT(SyntaxSort::TypeTraitIntrinsic);
     };
 
     struct TupleSyntax : Sequence

@@ -163,6 +163,7 @@ namespace ifc
         DECLARE_SYNTAX_PARTITION_GETTER(TypeTemplateArgumentSyntax, type_template_argument_syntax_trees)
         DECLARE_SYNTAX_PARTITION_GETTER(TemplateArgumentListSyntax, template_argument_list_syntax_trees)
         DECLARE_SYNTAX_PARTITION_GETTER(TemplateIdSyntax,           templateid_syntax_trees)
+        DECLARE_SYNTAX_PARTITION_GETTER(TypeTraitIntrinsicSyntax,   type_trait_intrinsic_syntax_trees)
         DECLARE_SYNTAX_PARTITION_GETTER(TupleSyntax,                tuple_syntax_trees)
 
 #undef DECLARE_SYNTAX_PARTITION_GETTER

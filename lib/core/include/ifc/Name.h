@@ -22,11 +22,44 @@ namespace ifc
 
     struct Operator
     {
-        uint16_t sort   : 4;
+        uint16_t tag    : 4;
         uint16_t index  : 12;
+
+        enum class Sort
+        {
+            Niladic = 0x00,
+            Monadic = 0x01,
+            Dyadic  = 0x02,
+            Triadic = 0x03,
+            Storage = 0x0E,
+            Variadic= 0x0F,
+        };
+
+        Sort sort() const
+        {
+            return static_cast<Sort>(tag);
+        }
     };
 
     static_assert(sizeof(Operator) == sizeof(uint16_t));
+
+    enum class MonadicOperatorSort
+    {
+        MsvcIsNothrowDestructible = 0x41B,
+        // TODO
+    };
+
+    enum class DyadicOperatorSort
+    {
+        MsvcIsConvertibleTo = 0x40B,
+        // TODO
+    };
+
+    enum class VariadicOperatorSort
+    {
+        MsvcIsConstructible = 0x402,
+        // TODO
+    };
 
     struct OperatorFunctionName
     {

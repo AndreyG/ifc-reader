@@ -18,5 +18,6 @@ namespace ifc
     struct TypeTemplateArgumentSyntax;
     struct TemplateArgumentListSyntax;
     struct TemplateIdSyntax;
+    struct TypeTraitIntrinsicSyntax;
     struct TupleSyntax;
 }
