@@ -103,6 +103,7 @@ private:
 
     void present(ifc::SimpleTypeSpecifier       const &) const;
     void present(ifc::TypeSpecifierSeq          const &) const;
+    void present(ifc::DeclSpecifierSeq          const &) const;
     void present(ifc::TypeIdSyntax              const &) const;
     void present(ifc::DeclaratorSyntax          const &) const;
     void present(ifc::PointerDeclaratorSyntax   const &) const;

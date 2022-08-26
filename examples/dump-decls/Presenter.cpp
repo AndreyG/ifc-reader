@@ -443,9 +443,17 @@ void Presenter::present_function_parameters(ifc::SyntaxIndex parameters) const
 void Presenter::present_function_parameter(ifc::SyntaxIndex parameter) const
 {
     assert(parameter.sort() == ifc::SyntaxSort::ParameterDeclarator);
-    auto declarator = file_.parameter_declarator_syntax_trees()[parameter].declarator;
-    assert(declarator.sort() == ifc::SyntaxSort::Declarator);
-    present(file_.declarator_syntax_trees()[declarator]);
+    auto const & param_declarator = file_.parameter_declarator_syntax_trees()[parameter];
+    assert(param_declarator.decl_specifiers.sort() == ifc::SyntaxSort::DeclSpecifierSeq);
+    assert(param_declarator.declarator     .sort() == ifc::SyntaxSort::Declarator);
+    present(file_.decl_specifier_seq_syntax_trees()[param_declarator.decl_specifiers]);
+    out_ << ' ';
+    present(file_.declarator_syntax_trees()[param_declarator.declarator]);
+}
+
+void Presenter::present(ifc::DeclSpecifierSeq const& declspecs) const
+{
+    present(declspecs.typename_);
 }
 
 void Presenter::present(ifc::PackedTemplateArguments const& templargs) const
@@ -1189,7 +1197,7 @@ void Presenter::present(ifc::DeclaratorSyntax const& declarator) const
         present(file_.pointer_declarator_syntax_trees()[ptr]);
     }
     else
-        out_ << "Unsupported declarator-syntax-tree";
+        present(declarator.name);
 }
 
 void Presenter::present(ifc::PointerDeclaratorSyntax const& pointer) const

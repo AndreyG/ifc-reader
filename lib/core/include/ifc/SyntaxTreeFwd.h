@@ -9,6 +9,7 @@ namespace ifc
 
     struct SimpleTypeSpecifier;
     struct TypeSpecifierSeq;
+    struct DeclSpecifierSeq;
     struct TypeIdSyntax;
     struct DeclaratorSyntax;
     struct PointerDeclaratorSyntax;

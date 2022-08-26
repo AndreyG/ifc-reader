@@ -12,6 +12,7 @@ namespace ifc
     {
         SimpleTypeSpecifier = 0x01,
         TypeSpecifierSeq    = 0x04,
+        DeclSpecifierSeq    = 0x05,
         TypeId              = 0x12,
         Declarator          = 0x14,
         PointerDeclarator   = 0x15,
@@ -46,6 +47,22 @@ namespace ifc
 
         PARTITION_NAME("syntax.type-specifier-seq");
         PARTITION_SORT(SyntaxSort::TypeSpecifierSeq);
+    };
+
+    enum class StorageClass : uint32_t {};
+
+    struct DeclSpecifierSeq
+    {
+        TypeIndex type;
+        SyntaxIndex typename_;
+        SourceLocation source;
+        StorageClass storage_class;
+        SentenceIndex declspec;
+        SyntaxIndex explicit_;
+        Qualifiers qualifiers;
+
+        PARTITION_NAME("syntax.decl-specifier-seq");
+        PARTITION_SORT(SyntaxSort::DeclSpecifierSeq);
     };
 
     struct TypeIdSyntax

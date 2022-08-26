@@ -154,6 +154,7 @@ namespace ifc
 
         DECLARE_SYNTAX_PARTITION_GETTER(SimpleTypeSpecifier,        simple_type_specifiers)
         DECLARE_SYNTAX_PARTITION_GETTER(TypeSpecifierSeq,           type_specifier_seq_syntax_trees)
+        DECLARE_SYNTAX_PARTITION_GETTER(DeclSpecifierSeq,           decl_specifier_seq_syntax_trees)
         DECLARE_SYNTAX_PARTITION_GETTER(TypeIdSyntax,               typeid_syntax_trees)
         DECLARE_SYNTAX_PARTITION_GETTER(DeclaratorSyntax,           declarator_syntax_trees)
         DECLARE_SYNTAX_PARTITION_GETTER(PointerDeclaratorSyntax,    pointer_declarator_syntax_trees)
