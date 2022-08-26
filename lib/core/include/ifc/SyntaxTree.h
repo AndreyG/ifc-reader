@@ -19,6 +19,11 @@ namespace ifc
         FunctionDeclarator  = 0x17,
         ParameterDeclarator = 0x19,
         Expression          = 0x3A,
+        SimpleRequirement   = 0x3F,
+        TypeRequirement     = 0x40,
+        CompoundRequirement = 0x41,
+        NestedRequirement   = 0x42,
+        RequirementBody     = 0x43,
         TypeTemplateArgument= 0x46,
         TemplateArgumentList= 0x49,
         TemplateId          = 0x4A,
@@ -145,6 +150,55 @@ namespace ifc
 
         PARTITION_NAME("syntax.expression");
         PARTITION_SORT(SyntaxSort::Expression);
+    };
+
+    struct SimpleRequirementSyntax
+    {
+        ExprIndex condition;
+        SourceLocation location;
+
+        PARTITION_NAME("syntax.simple-requirement");
+        PARTITION_SORT(SyntaxSort::SimpleRequirement);
+    };
+
+    struct TypeRequirementSyntax
+    {
+        ExprIndex type;
+        SourceLocation location;
+
+        PARTITION_NAME("syntax.type-requirement");
+        PARTITION_SORT(SyntaxSort::TypeRequirement);
+    };
+
+    struct CompoundRequirementSyntax
+    {
+        ExprIndex condition;
+        ExprIndex constraint;
+        SourceLocation location;
+        SourceLocation right_curly;
+        SourceLocation noexcept_;
+
+        PARTITION_NAME("syntax.compound-requirement");
+        PARTITION_SORT(SyntaxSort::CompoundRequirement);
+    };
+
+    struct NestedRequirementSyntax
+    {
+        ExprIndex condition;
+        SourceLocation location;
+
+        PARTITION_NAME("syntax.nested-requirement");
+        PARTITION_SORT(SyntaxSort::NestedRequirement);
+    };
+
+    struct RequirementBodySyntax
+    {
+        SyntaxIndex requirements;
+        SourceLocation location;
+        SourceLocation right_curly;
+
+        PARTITION_NAME("syntax.requirement-body");
+        PARTITION_SORT(SyntaxSort::RequirementBody);
     };
 
     struct TypeTemplateArgumentSyntax

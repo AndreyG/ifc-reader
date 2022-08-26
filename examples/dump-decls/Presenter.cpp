@@ -417,7 +417,11 @@ void Presenter::present(ifc::RequiresExpression const& expr) const
     out_ << "requires";
     if (auto params = expr.parameters; !params.is_null())
         present_function_parameters(file_.function_declarator_syntax_trees()[params].parameters);
-    out_ << " {...}";
+    out_ << " {\n";
+    indent_ += 2;
+    present_requirements(file_.requirement_body_syntax_trees()[expr.body].requirements);
+    indent_ -= 2;
+    out_ << "}";
 }
 
 void Presenter::present_function_parameters(ifc::SyntaxIndex parameters) const
@@ -449,6 +453,51 @@ void Presenter::present_function_parameter(ifc::SyntaxIndex parameter) const
     present(file_.decl_specifier_seq_syntax_trees()[param_declarator.decl_specifiers]);
     out_ << ' ';
     present(file_.declarator_syntax_trees()[param_declarator.declarator]);
+}
+
+void Presenter::present_requirements(ifc::SyntaxIndex requirements) const
+{
+    if (requirements.sort() == ifc::SyntaxSort::Tuple)
+    {
+        for (auto requirement : file_.syntax_heap().slice(file_.tuple_syntax_trees()[requirements]))
+            present_requirement(requirement);
+    }
+    else
+        present_requirement(requirements);
+}
+
+void Presenter::present_requirement(ifc::SyntaxIndex requirement) const
+{
+    insert_indent();
+    switch (requirement.sort())
+    {
+    case ifc::SyntaxSort::SimpleRequirement:
+        present(file_.simple_requirement_syntax_trees()[requirement].condition);
+        break;
+    case ifc::SyntaxSort::TypeRequirement:
+        out_ << "typename ";
+        present(file_.type_requirement_syntax_trees()[requirement].type);
+        break;
+    case ifc::SyntaxSort::CompoundRequirement:
+        present_compound_requirement(file_.compound_requirement_syntax_trees()[requirement]);
+        break;
+    case ifc::SyntaxSort::NestedRequirement:
+        out_ << "requires ";
+        present(file_.nested_requirement_syntax_trees()[requirement].condition);
+        break;
+    }
+    out_ << ";\n";
+}
+
+void Presenter::present_compound_requirement(ifc::CompoundRequirementSyntax const& compound) const
+{
+    out_ << "{ ";
+    present(compound.condition);
+    out_ << " }";
+    if (!compound.noexcept_.is_null())
+        out_ << " noexcept";
+    out_ << " -> ";
+    present(compound.constraint);
 }
 
 void Presenter::present(ifc::DeclSpecifierSeq const& declspecs) const

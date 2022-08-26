@@ -111,6 +111,10 @@ private:
     void present_function_parameters(ifc::SyntaxIndex parameters) const;
     void present_function_parameter (ifc::SyntaxIndex parameter ) const;
 
+    void present_requirements(ifc::SyntaxIndex requirements) const;
+    void present_requirement (ifc::SyntaxIndex requirement ) const;
+    void present_compound_requirement(ifc::CompoundRequirementSyntax const &) const;
+
     template<typename T, typename Index>
     void present_heap_slice(ifc::Partition<T, Index>, ifc::Sequence) const;
 
