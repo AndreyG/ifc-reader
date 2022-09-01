@@ -275,4 +275,12 @@ namespace ifc
         PARTITION_NAME("type.typename");
         PARTITION_SORT(TypeSort::Typename);
     };
+
+    struct DecltypeType
+    {
+        SyntaxIndex argument;
+
+        PARTITION_NAME("type.decltype");
+        PARTITION_SORT(TypeSort::Decltype);
+    };
 }

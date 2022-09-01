@@ -260,6 +260,7 @@ namespace ifc
     DEFINE_TYPE_PARTITION_GETTER(SyntaxType,         syntax_types)
     DEFINE_TYPE_PARTITION_GETTER(PlaceholderType,    placeholder_types)
     DEFINE_TYPE_PARTITION_GETTER(TypenameType,       typename_types)
+    DEFINE_TYPE_PARTITION_GETTER(DecltypeType,       decltype_types)
 
 #undef DEFINE_TYPE_PARTITION_GETTER
 
@@ -313,6 +314,7 @@ namespace ifc
     DEFINE_PARTITION_GETTER(SyntaxType, SyntaxIndex, SyntaxName)
 
     DEFINE_SYNTAX_PARTITION_GETTER(SimpleTypeSpecifier,         simple_type_specifiers)
+    DEFINE_SYNTAX_PARTITION_GETTER(DecltypeSpecifier,           decltype_specifiers)
     DEFINE_SYNTAX_PARTITION_GETTER(TypeSpecifierSeq,            type_specifier_seq_syntax_trees)
     DEFINE_SYNTAX_PARTITION_GETTER(DeclSpecifierSeq,            decl_specifier_seq_syntax_trees)
     DEFINE_SYNTAX_PARTITION_GETTER(TypeIdSyntax,                typeid_syntax_trees)

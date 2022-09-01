@@ -11,6 +11,7 @@ namespace ifc
     enum class SyntaxSort
     {
         SimpleTypeSpecifier = 0x01,
+        DecltypeSpecifier   = 0x02,
         TypeSpecifierSeq    = 0x04,
         DeclSpecifierSeq    = 0x05,
         TypeId              = 0x12,
@@ -40,6 +41,15 @@ namespace ifc
 
         PARTITION_NAME("syntax.simple-type-specifier");
         PARTITION_SORT(SyntaxSort::SimpleTypeSpecifier);
+    };
+
+    struct DecltypeSpecifier
+    {
+        ExprIndex argument;
+        SourceLocation decltype_keyword, left_paren, right_paren;
+
+        PARTITION_NAME("syntax.decltype-specifier");
+        PARTITION_SORT(SyntaxSort::DecltypeSpecifier);
     };
 
     struct TypeSpecifierSeq

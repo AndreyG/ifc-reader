@@ -24,6 +24,7 @@ namespace ifc
     struct SyntaxType;
     struct PlaceholderType;
     struct TypenameType;
+    struct DecltypeType;
     struct WordType;
 
     enum class Qualifiers : std::uint8_t;

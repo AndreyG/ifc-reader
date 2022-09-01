@@ -8,6 +8,7 @@ namespace ifc
     using SyntaxIndex = AbstractReference<7, SyntaxSort>;
 
     struct SimpleTypeSpecifier;
+    struct DecltypeSpecifier;
     struct TypeSpecifierSeq;
     struct DeclSpecifierSeq;
     struct TypeIdSyntax;
