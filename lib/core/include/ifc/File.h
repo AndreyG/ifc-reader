@@ -117,6 +117,7 @@ namespace ifc
         DECLARE_EXPR_PARTITION_GETTER(NamedDecl,         decl_expressions)
         DECLARE_EXPR_PARTITION_GETTER(UnqualifiedId,     unqualified_id_expressions)
         DECLARE_EXPR_PARTITION_GETTER(TemplateId,        template_ids)
+        DECLARE_EXPR_PARTITION_GETTER(MonadExpression,   monad_expressions)
         DECLARE_EXPR_PARTITION_GETTER(DyadExpression,    dyad_expressions)
         DECLARE_EXPR_PARTITION_GETTER(SizeofExpression,  sizeof_expressions)
         DECLARE_EXPR_PARTITION_GETTER(AlignofExpression, alignof_expressions)

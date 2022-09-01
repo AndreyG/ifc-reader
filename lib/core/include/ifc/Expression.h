@@ -150,6 +150,45 @@ namespace ifc
         PARTITION_SORT(ExprSort::PackedTemplateArguments);
     };
 
+    enum class MonadicOperator
+    {
+        Unknown     = 0x00,
+
+        Plus        = 0x01,
+        Negate      = 0x02,
+        Deref       = 0x03,
+        Address     = 0x04,
+        // TODO
+    };
+
+    inline const char * to_string(MonadicOperator op)
+    {
+        switch (op)
+        {
+        case MonadicOperator::Unknown:
+            return "Unknown";
+        case MonadicOperator::Plus:
+            return "+";
+        case MonadicOperator::Negate:
+            return "-";
+        case MonadicOperator::Deref:
+            return "*";
+        case MonadicOperator::Address:
+            return "&";
+        }
+        return "Unknown";
+    }
+
+    struct MonadExpression : ExpressionBase
+    {
+        DeclIndex impl;
+        ExprIndex argument;
+        MonadicOperator op;
+
+        PARTITION_NAME("expr.monad");
+        PARTITION_SORT(ExprSort::Monad);
+    };
+
     enum class DyadicOperator
     {
         Unknown     = 0x00,

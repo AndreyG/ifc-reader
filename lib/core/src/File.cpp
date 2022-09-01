@@ -286,6 +286,7 @@ namespace ifc
     DEFINE_EXPR_PARTITION_GETTER(NamedDecl,         decl_expressions)
     DEFINE_EXPR_PARTITION_GETTER(UnqualifiedId,     unqualified_id_expressions)
     DEFINE_EXPR_PARTITION_GETTER(TemplateId,        template_ids)
+    DEFINE_EXPR_PARTITION_GETTER(MonadExpression,   monad_expressions)
     DEFINE_EXPR_PARTITION_GETTER(DyadExpression,    dyad_expressions)
     DEFINE_EXPR_PARTITION_GETTER(SizeofExpression,  sizeof_expressions)
     DEFINE_EXPR_PARTITION_GETTER(AlignofExpression, alignof_expressions)

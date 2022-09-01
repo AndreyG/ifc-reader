@@ -16,6 +16,7 @@ namespace ifc
     struct NamedDecl;
     struct UnqualifiedId;
     struct TypeExpression;
+    struct MonadExpression;
     struct DyadExpression;
     struct SizeofExpression;
     struct AlignofExpression;
