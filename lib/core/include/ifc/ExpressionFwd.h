@@ -12,15 +12,18 @@ namespace ifc
 
     struct LiteralExpression;
     struct TupleExpression;
+    struct ExpressionListExpression;
     struct TemplateId;
     struct NamedDecl;
     struct UnqualifiedId;
     struct TypeExpression;
     struct MonadExpression;
     struct DyadExpression;
+    struct CallExpression;
     struct SizeofExpression;
     struct AlignofExpression;
     struct RequiresExpression;
+    struct QualifiedNameExpression;
     struct PathExpression;
     struct ReadExpression;
     struct SyntaxTreeExpression;

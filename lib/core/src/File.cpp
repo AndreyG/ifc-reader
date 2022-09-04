@@ -288,6 +288,7 @@ namespace ifc
     DEFINE_EXPR_PARTITION_GETTER(TemplateId,        template_ids)
     DEFINE_EXPR_PARTITION_GETTER(MonadExpression,   monad_expressions)
     DEFINE_EXPR_PARTITION_GETTER(DyadExpression,    dyad_expressions)
+    DEFINE_EXPR_PARTITION_GETTER(CallExpression,    call_expressions)
     DEFINE_EXPR_PARTITION_GETTER(SizeofExpression,  sizeof_expressions)
     DEFINE_EXPR_PARTITION_GETTER(AlignofExpression, alignof_expressions)
     DEFINE_EXPR_PARTITION_GETTER(RequiresExpression,requires_expressions)
@@ -296,6 +297,8 @@ namespace ifc
     DEFINE_EXPR_PARTITION_GETTER(ReadExpression,    read_expressions)
     DEFINE_EXPR_PARTITION_GETTER(SyntaxTreeExpression, syntax_tree_expressions)
 
+    DEFINE_EXPR_PARTITION_GETTER(ExpressionListExpression,expression_lists)
+    DEFINE_EXPR_PARTITION_GETTER(QualifiedNameExpression, qualified_name_expressions)
     DEFINE_EXPR_PARTITION_GETTER(PackedTemplateArguments, packed_template_arguments)
 
     Partition<StringLiteral, StringIndex> File::string_literal_expressions() const

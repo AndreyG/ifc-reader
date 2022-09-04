@@ -134,6 +134,22 @@ namespace ifc
         PARTITION_SORT(ExprSort::Tuple);
     };
 
+    struct ExpressionListExpression
+    {
+        SourceLocation left, right;
+        ExprIndex contents;
+
+        enum class DelimiterSort : uint8_t
+        {
+            Unknown = 0,
+            Brace = 1,
+            Parenthesis = 2,
+        } delimiter;
+
+        PARTITION_NAME("expr.expression-list");
+        PARTITION_SORT(ExprSort::ExpressionList);
+    };
+
     struct TypeExpression : ExpressionBase
     {
         TypeIndex denotation;
@@ -277,6 +293,15 @@ namespace ifc
         PARTITION_SORT(ExprSort::Dyad);
     };
 
+    struct CallExpression : ExpressionBase
+    {
+        ExprIndex operation;
+        ExprIndex arguments;
+
+        PARTITION_NAME("expr.call");
+        PARTITION_SORT(ExprSort::Call);
+    };
+
     struct SizeofExpression : ExpressionBase
     {
         TypeIndex operand;
@@ -299,6 +324,15 @@ namespace ifc
 
         PARTITION_NAME("expr.requires");
         PARTITION_SORT(ExprSort::Requires);
+    };
+
+    struct QualifiedNameExpression : ExpressionBase
+    {
+        ExprIndex elements;
+        SourceLocation template_keyword;
+
+        PARTITION_NAME("expr.qualified-name");
+        PARTITION_SORT(ExprSort::QualifiedName);
     };
 
     struct PathExpression : ExpressionBase

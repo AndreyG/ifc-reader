@@ -119,6 +119,7 @@ namespace ifc
         DECLARE_EXPR_PARTITION_GETTER(TemplateId,        template_ids)
         DECLARE_EXPR_PARTITION_GETTER(MonadExpression,   monad_expressions)
         DECLARE_EXPR_PARTITION_GETTER(DyadExpression,    dyad_expressions)
+        DECLARE_EXPR_PARTITION_GETTER(CallExpression,    call_expressions)
         DECLARE_EXPR_PARTITION_GETTER(SizeofExpression,  sizeof_expressions)
         DECLARE_EXPR_PARTITION_GETTER(AlignofExpression, alignof_expressions)
         DECLARE_EXPR_PARTITION_GETTER(RequiresExpression,requires_expressions)
@@ -127,6 +128,8 @@ namespace ifc
         DECLARE_EXPR_PARTITION_GETTER(ReadExpression,    read_expressions)
         DECLARE_EXPR_PARTITION_GETTER(SyntaxTreeExpression, syntax_tree_expressions)
 
+        DECLARE_EXPR_PARTITION_GETTER(ExpressionListExpression,expression_lists)
+        DECLARE_EXPR_PARTITION_GETTER(QualifiedNameExpression, qualified_name_expressions)
         DECLARE_EXPR_PARTITION_GETTER(PackedTemplateArguments, packed_template_arguments)
 
         DECLARE_UNTYPED_PARTITION_GETTER(StringLiteral, StringIndex, string_literal_expressions)
