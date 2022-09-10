@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cassert>
 #include <cstdint>
 #include <cstddef>
 #include <string_view>
@@ -43,6 +44,23 @@ namespace ifc
     {
         Index start;
         Cardinality cardinality;
+
+        Index last() const
+        {
+            return start + (raw_count(cardinality) - 1);
+        }
+
+        Sequence shift(size_t n) const
+        {
+            return { start + n, cardinality };
+        }
+
+        Sequence drop(uint32_t n) const
+        {
+            const auto size = static_cast<uint32_t>(cardinality);
+            assert(n <= size);
+            return { start + n, static_cast<Cardinality>(size - n) };
+        }
     };
 
 #define PARTITION_NAME(value) static constexpr std::string_view PartitionName = value
