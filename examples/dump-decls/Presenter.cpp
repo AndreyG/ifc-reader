@@ -208,6 +208,11 @@ void Presenter::present(ifc::PlaceholderType placeholder) const
     }
 }
 
+void Presenter::present(ifc::TypenameType typename_) const
+{
+    present(typename_.path);
+}
+
 void Presenter::present(ifc::QualifiedType qualType) const
 {
     present(qualType.qualifiers);
@@ -233,6 +238,9 @@ void Presenter::present(ifc::NamedDecl const& decl) const
     case ifc::DeclSort::Alias:
         out_ << file_.get_string(file_.alias_declarations()[decl.resolution].name);
         break;
+    case ifc::DeclSort::Parameter:
+        out_ << file_.get_string(file_.parameters()[decl.resolution].name);
+        break;
     default:
         out_ << "Declaration of unsupported kind '" << static_cast<int>(kind) << "'";
     }
@@ -246,6 +254,13 @@ void Presenter::present(ifc::UnqualifiedId const& expr) const
 void Presenter::present(ifc::TupleExpression const& tuple) const
 {
     present_heap_slice(file_.expr_heap(), tuple.seq);
+}
+
+void Presenter::present(ifc::PathExpression const& path) const
+{
+    present(path.scope);
+    out_ << "::";
+    present(path.member);
 }
 
 void Presenter::present(ifc::ExprIndex expr) const
@@ -281,6 +296,9 @@ void Presenter::present(ifc::ExprIndex expr) const
         break;
     case ifc::ExprSort::PackedTemplateArguments:
         present(file_.packed_template_arguments()[expr]);
+        break;
+    case ifc::ExprSort::Path:
+        present(file_.path_expressions()[expr]);
         break;
     default:
         out_ << "Unsupported ExprSort'" << static_cast<int>(expr_kind) << "'";
@@ -597,6 +615,9 @@ void Presenter::present(ifc::TypeIndex type) const
         break;
     case ifc::TypeSort::Placeholder:
         present(file_.placeholder_types()[type]);
+        break;
+    case ifc::TypeSort::Typename:
+        present(file_.typename_types()[type]);
         break;
     default:
         out_ << "Unsupported TypeSort '" << static_cast<int>(kind) << "'";
