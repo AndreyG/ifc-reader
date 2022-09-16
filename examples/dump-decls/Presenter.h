@@ -65,16 +65,19 @@ private:
     void present(ifc::Qualifiers) const;
     void present(ifc::PlaceholderType) const;
     void present(ifc::TypenameType) const;
+    void present(ifc::DecltypeType) const;
 
     void present(ifc::LvalueReference) const;
     void present(ifc::RvalueReference) const;
 
     void present(ifc::NamedDecl const &) const;
     void present(ifc::UnqualifiedId const &) const;
+    void present(ifc::QualifiedNameExpression const&) const;
     void present(ifc::TupleExpression const &) const;
     void present(ifc::PathExpression const&) const;
     void present(ifc::TemplateId const &) const;
     void present(ifc::DyadExpression const &) const;
+    void present(ifc::CallExpression const&) const;
     void present(ifc::SizeofExpression const &) const;
     void present(ifc::AlignofExpression const &) const;
     void present(ifc::RequiresExpression const&) const;

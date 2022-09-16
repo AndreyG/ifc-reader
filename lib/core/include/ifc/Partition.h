@@ -44,12 +44,19 @@ namespace ifc
 
         size_t size() const { return size_; }
 
-        T const * begin() { return data_; }
-        T const * end()   { return data_ + size_; }
+        T const * begin() const { return data_; }
+        T const * end()   const { return data_ + size_; }
+
+        T const& front() const { return *begin(); }
 
         Partition slice(Sequence seq)
         {
             return { data_ + static_cast<std::ptrdiff_t>(seq.start), raw_count(seq.cardinality) };
+        }
+
+        Partition drop(std::size_t n) const
+        {
+            return { data_ + n, size_ - n };
         }
 
         Partition(T const * data, size_t size)

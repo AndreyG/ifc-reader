@@ -213,6 +213,13 @@ void Presenter::present(ifc::TypenameType typename_) const
     present(typename_.path);
 }
 
+void Presenter::present(ifc::DecltypeType decltype_) const
+{
+    out_ << "decltype(";
+    present(decltype_.argument);
+    out_ << ')';
+}
+
 void Presenter::present(ifc::QualifiedType qualType) const
 {
     present(qualType.qualifiers);
@@ -251,6 +258,19 @@ void Presenter::present(ifc::UnqualifiedId const& expr) const
     present(expr.name);
 }
 
+void Presenter::present(ifc::QualifiedNameExpression const& qual_name) const
+{
+    bool first = true;
+    for (auto const & part : get_qualified_name_parts(file_, qual_name))
+    {
+        if (first)
+            first = false;
+        else
+            out_ << "::";
+        present(part);
+    }
+}
+
 void Presenter::present(ifc::TupleExpression const& tuple) const
 {
     present_heap_slice(file_.expr_heap(), tuple.seq);
@@ -279,8 +299,14 @@ void Presenter::present(ifc::ExprIndex expr) const
     case ifc::ExprSort::UnqualifiedId:
         present(file_.unqualified_id_expressions()[expr]);
         break;
+    case ifc::ExprSort::QualifiedName:
+        present(file_.qualified_name_expressions()[expr]);
+        break;
     case ifc::ExprSort::Dyad:
         present(file_.dyad_expressions()[expr]);
+        break;
+    case ifc::ExprSort::Call:
+        present(file_.call_expressions()[expr]);
         break;
     case ifc::ExprSort::SizeofType:
         present(file_.sizeof_expressions()[expr]);
@@ -414,6 +440,15 @@ void Presenter::present(ifc::DyadExpression const& dyad) const
     present(dyad.arguments[0]);
     out_ << " " << to_string(dyad.op) << " ";
     present(dyad.arguments[1]);
+}
+
+void Presenter::present(ifc::CallExpression const& call) const
+{
+    present(call.operation);
+    out_ << '(';
+    if (auto args = file_.expression_lists()[call.arguments].contents; !args.is_null())
+        present(args);
+    out_ << ')';
 }
 
 void Presenter::present(ifc::SizeofExpression const& expr) const
@@ -618,6 +653,12 @@ void Presenter::present(ifc::TypeIndex type) const
         break;
     case ifc::TypeSort::Typename:
         present(file_.typename_types()[type]);
+        break;
+    case ifc::TypeSort::Decltype:
+        present(file_.decltype_types()[type]);
+        break;
+    case ifc::TypeSort::Forall:
+        present(file_.forall_types()[type].subject);
         break;
     default:
         out_ << "Unsupported TypeSort '" << static_cast<int>(kind) << "'";
@@ -1189,7 +1230,9 @@ void Presenter::present(ifc::Enumeration const& enumeration) const
 
 void Presenter::present(ifc::AliasDeclaration const& alias) const
 {
-    out_ << "Alias '" << file_.get_string(alias.name) << "'\n";
+    out_ << "Alias '" << file_.get_string(alias.name) << "', type: ";
+    present(alias.aliasee);
+    out_ << "\n";
 }
 
 void Presenter::present(ifc::UsingDeclaration const& using_declaration) const
@@ -1223,6 +1266,9 @@ void Presenter::present(ifc::SyntaxIndex syntax) const
     {
     case ifc::SyntaxSort::SimpleTypeSpecifier:
         present(file_.simple_type_specifiers()[syntax]);
+        break;
+    case ifc::SyntaxSort::DecltypeSpecifier:
+        present(file_.decltype_specifiers()[syntax].argument);
         break;
     case ifc::SyntaxSort::TypeSpecifierSeq:
         present(file_.type_specifier_seq_syntax_trees()[syntax]);

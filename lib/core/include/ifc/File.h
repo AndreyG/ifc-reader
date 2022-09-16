@@ -210,4 +210,6 @@ namespace ifc
 
     ScopeDeclaration const &        get_scope       (File const&, DeclIndex);
     Partition<Declaration, Index>   get_declarations(File const&, ScopeDescriptor);
+
+    Partition<ExprIndex, Index>     get_qualified_name_parts(File const& ifc, QualifiedNameExpression const&);
 }

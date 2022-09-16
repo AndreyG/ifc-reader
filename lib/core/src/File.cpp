@@ -435,6 +435,12 @@ namespace ifc
         return file.declarations().slice(scope);
     }
 
+    Partition<ExprIndex, Index> get_qualified_name_parts(File const& ifc, QualifiedNameExpression const& qualified_name_expression)
+    {
+        assert(qualified_name_expression.elements.sort() == ifc::ExprSort::Tuple);
+        return ifc.expr_heap().slice(ifc.tuple_expressions()[qualified_name_expression.elements].seq);
+    }
+
     TypeBasis get_kind(ScopeDeclaration const & scope, File const & file)
     {
         return file.fundamental_types()[scope.type].basis;
