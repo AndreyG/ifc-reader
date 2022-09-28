@@ -293,6 +293,16 @@ namespace ifc
         PARTITION_SORT(ExprSort::Dyad);
     };
 
+    enum class StorageOperator
+    {
+        Unknown,
+        AllocateSingle,
+        AllocateArray,
+        DeallocateSingle,
+        DeallocateArray,
+        MSVC = 0x7DE,
+    };
+
     struct CallExpression : ExpressionBase
     {
         ExprIndex operation;
