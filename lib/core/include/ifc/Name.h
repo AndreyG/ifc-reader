@@ -22,9 +22,11 @@ namespace ifc
 
     struct Operator
     {
+    private:
         uint16_t tag    : 4;
         uint16_t index  : 12;
 
+    public:
         enum class Sort
         {
             Niladic = 0x00,
@@ -39,21 +41,15 @@ namespace ifc
         {
             return static_cast<Sort>(tag);
         }
+
+        template<typename E>
+        E value() const
+        {
+            return static_cast<E>(index);
+        }
     };
 
     static_assert(sizeof(Operator) == sizeof(uint16_t));
-
-    enum class MonadicOperatorSort
-    {
-        MsvcIsNothrowDestructible = 0x41B,
-        // TODO
-    };
-
-    enum class DyadicOperatorSort
-    {
-        MsvcIsConvertibleTo = 0x40B,
-        // TODO
-    };
 
     enum class VariadicOperatorSort
     {

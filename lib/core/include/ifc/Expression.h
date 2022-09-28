@@ -182,6 +182,7 @@ namespace ifc
         PostDecrement   = 0x0A,
         // TODO
 
+        MsvcIsNothrowDestructible = 0x41B,
         // TODO
     };
 
@@ -269,6 +270,7 @@ namespace ifc
         Index           = 0x27,
         // TODO
 
+        MsvcIsConvertibleTo = 0x40B,
         // TODO
     };
 
