@@ -220,7 +220,7 @@ namespace ifc
         Bitor           = 0x08,
         Bitxor          = 0x09,
         Lshift          = 0x0A,
-        Rshifh          = 0x0B,
+        Rshift          = 0x0B,
         // Comparison
         Equal           = 0x0C,
         NotEqual        = 0x0D,
@@ -259,7 +259,7 @@ namespace ifc
             return "^";
         case DyadicOperator::Lshift:
             return "<<";
-        case DyadicOperator::Rshifh:
+        case DyadicOperator::Rshift:
             return ">>";
         case DyadicOperator::Equal:
             return "==";
