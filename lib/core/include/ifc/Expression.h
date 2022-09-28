@@ -168,12 +168,20 @@ namespace ifc
 
     enum class MonadicOperator
     {
-        Unknown     = 0x00,
+        Unknown         = 0x00,
 
-        Plus        = 0x01,
-        Negate      = 0x02,
-        Deref       = 0x03,
-        Address     = 0x04,
+        Plus            = 0x01,
+        Negate          = 0x02,
+        Deref           = 0x03,
+        Address         = 0x04,
+        Complement      = 0x05,
+        Not             = 0x06,
+        PreIncrement    = 0x07,
+        PreDecrement    = 0x08,
+        PostIncrement   = 0x09,
+        PostDecrement   = 0x0A,
+        // TODO
+
         // TODO
     };
 
@@ -191,6 +199,18 @@ namespace ifc
             return "*";
         case MonadicOperator::Address:
             return "&";
+        case MonadicOperator::Complement:
+            return "~";
+        case MonadicOperator::Not:
+            return "!";
+        case MonadicOperator::PreIncrement:
+            return "(pre)++";
+        case MonadicOperator::PreDecrement:
+            return "(pre)--";
+        case MonadicOperator::PostIncrement:
+            return "(post)++";
+        case MonadicOperator::PostDecrement:
+            return "(post)--";
         }
         return "Unknown";
     }
@@ -232,6 +252,23 @@ namespace ifc
         // Logical
         LogicAnd        = 0x13,
         LogicOr         = 0x14,
+        // Assign
+        Assign          = 0x15,
+        PlusAssign      = 0x16,
+        MinusAssign     = 0x17,
+        MultAssign      = 0x18,
+        SlashAssign     = 0x19,
+        ModuloAssign    = 0x1A,
+        BitandAssign    = 0x1B,
+        BitorAssign     = 0x1C,
+        BitxorAssign    = 0x1D,
+        LshiftAssign    = 0x1E,
+        RshiftAssign    = 0x1F,
+
+        Arrow           = 0x22,
+        Index           = 0x27,
+        // TODO
+
         // TODO
     };
 
@@ -279,6 +316,28 @@ namespace ifc
             return "&&";
         case DyadicOperator::LogicOr:
             return "||";
+        case DyadicOperator::Assign:
+            return "=";
+        case DyadicOperator::PlusAssign:
+            return "+=";
+        case DyadicOperator::MinusAssign:
+            return "-=";
+        case DyadicOperator::MultAssign:
+            return "*=";
+        case DyadicOperator::SlashAssign:
+            return "/=";
+        case DyadicOperator::ModuloAssign:
+            return "%=";
+        case DyadicOperator::BitandAssign:
+            return "&=";
+        case DyadicOperator::BitorAssign:
+            return "|=";
+        case DyadicOperator::BitxorAssign:
+            return "^=";
+        case DyadicOperator::LshiftAssign:
+            return "<<=";
+        case DyadicOperator::RshiftAssign:
+            return ">>=";
         }
         return "Unknown";
     }
