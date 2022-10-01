@@ -327,6 +327,7 @@ namespace ifc
     DEFINE_SYNTAX_PARTITION_GETTER(FunctionDeclaratorSyntax,    function_declarator_syntax_trees)
     DEFINE_SYNTAX_PARTITION_GETTER(ParameterDeclaratorSyntax,   parameter_declarator_syntax_trees)
     DEFINE_SYNTAX_PARTITION_GETTER(ExpressionSyntax,            expression_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(RequiresClauseSyntax,        requires_clause_syntax_trees)
     DEFINE_SYNTAX_PARTITION_GETTER(SimpleRequirementSyntax,     simple_requirement_syntax_trees)
     DEFINE_SYNTAX_PARTITION_GETTER(TypeRequirementSyntax,       type_requirement_syntax_trees)
     DEFINE_SYNTAX_PARTITION_GETTER(NestedRequirementSyntax,     nested_requirement_syntax_trees)

@@ -20,6 +20,7 @@ namespace ifc
         FunctionDeclarator  = 0x17,
         ParameterDeclarator = 0x19,
         Expression          = 0x3A,
+        RequiresClause      = 0x3E,
         SimpleRequirement   = 0x3F,
         TypeRequirement     = 0x40,
         CompoundRequirement = 0x41,
@@ -160,6 +161,15 @@ namespace ifc
 
         PARTITION_NAME("syntax.expression");
         PARTITION_SORT(SyntaxSort::Expression);
+    };
+
+    struct RequiresClauseSyntax
+    {
+        ExprIndex condition;
+        SourceLocation location;
+
+        PARTITION_NAME("syntax.requires-clause");
+        PARTITION_SORT(SyntaxSort::RequiresClause);
     };
 
     struct SimpleRequirementSyntax

@@ -17,6 +17,7 @@ namespace ifc
     struct FunctionDeclaratorSyntax;
     struct ParameterDeclaratorSyntax;
     struct ExpressionSyntax;
+    struct RequiresClauseSyntax;
     struct SimpleRequirementSyntax;
     struct TypeRequirementSyntax;
     struct CompoundRequirementSyntax;
