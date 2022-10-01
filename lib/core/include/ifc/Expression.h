@@ -270,6 +270,7 @@ namespace ifc
         Index           = 0x27,
         // TODO
 
+        MsvcIsBaseOf        = 0x40A,
         MsvcIsConvertibleTo = 0x40B,
         // TODO
     };
