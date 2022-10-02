@@ -342,6 +342,7 @@ namespace ifc
 #undef DEFINE_SYNTAX_PARTITION_GETTER
 
     DEFINE_PARTITION_GETTER(OperatorFunctionName, NameIndex, operator_names)
+    DEFINE_PARTITION_GETTER(SpecializationName,   NameIndex, specialization_names)
 
 #undef DEFINE_PARTITION_GETTER
 

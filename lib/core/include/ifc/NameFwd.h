@@ -6,4 +6,5 @@ namespace ifc
     using NameIndex = AbstractReference<3, NameSort>;
 
     struct OperatorFunctionName;
+    struct SpecializationName;
 }

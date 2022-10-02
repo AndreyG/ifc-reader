@@ -65,4 +65,13 @@ namespace ifc
         PARTITION_NAME("name.operator");
         PARTITION_SORT(NameSort::Operator);
     };
+
+    struct SpecializationName
+    {
+        NameIndex primary;
+        ExprIndex arguments;
+
+        PARTITION_NAME("name.specialization");
+        PARTITION_SORT(NameSort::Specialization);
+    };
 }
