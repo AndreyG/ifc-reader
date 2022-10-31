@@ -442,6 +442,16 @@ namespace ifc
         PARTITION_SORT(ExprSort::SyntaxTree);
     };
 
+    struct ProductValueTypeExpression : ExpressionBase
+    {
+        TypeIndex structure;
+        ExprIndex members;
+        ExprIndex base_subobjects;
+
+        PARTITION_NAME("expr.product-type-value");
+        PARTITION_SORT(ExprSort::ProductTypeValue);
+    };
+
     struct StringLiteral
     {
         TextOffset start;

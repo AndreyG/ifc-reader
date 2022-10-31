@@ -300,6 +300,7 @@ namespace ifc
     DEFINE_EXPR_PARTITION_GETTER(ExpressionListExpression,expression_lists)
     DEFINE_EXPR_PARTITION_GETTER(QualifiedNameExpression, qualified_name_expressions)
     DEFINE_EXPR_PARTITION_GETTER(PackedTemplateArguments, packed_template_arguments)
+    DEFINE_EXPR_PARTITION_GETTER(ProductValueTypeExpression, product_value_type_expressions)
 
     Partition<StringLiteral, StringIndex> File::string_literal_expressions() const
     {

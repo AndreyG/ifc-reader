@@ -27,6 +27,7 @@ namespace ifc
     struct PathExpression;
     struct ReadExpression;
     struct SyntaxTreeExpression;
+    struct ProductValueTypeExpression;
     struct PackedTemplateArguments;
     struct StringLiteral;
 }
