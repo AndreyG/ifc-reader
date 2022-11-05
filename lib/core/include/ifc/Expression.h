@@ -180,6 +180,11 @@ namespace ifc
         PreDecrement    = 0x08,
         PostIncrement   = 0x09,
         PostDecrement   = 0x0A,
+        Truncate        = 0x0B,
+        Ceil            = 0x0C,
+        Floor           = 0x0D,
+        Paren           = 0x0E,
+        Brace           = 0x0F,
         // TODO
 
         MsvcIsNothrowDestructible = 0x41B,
@@ -212,6 +217,16 @@ namespace ifc
             return "(post)++";
         case MonadicOperator::PostDecrement:
             return "(post)--";
+        case MonadicOperator::Truncate:
+            return "(truncate)";
+        case MonadicOperator::Ceil:
+            return "(ceil)";
+        case MonadicOperator::Floor:
+            return "(floor)";
+        case MonadicOperator::Paren:
+            return "(paren)";
+        case MonadicOperator::Brace:
+            return "{brace}";
         }
         return "Unknown";
     }
