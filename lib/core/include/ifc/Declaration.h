@@ -220,6 +220,11 @@ namespace ifc
         PARTITION_SORT(DeclSort::Scope);
     };
 
+    constexpr bool is_inline(ScopeDeclaration const & scope)
+    {
+        return (static_cast<uint8_t>(scope.traits) & static_cast<uint8_t>(ScopeTraits::Inline)) != 0;
+    }
+
     TypeBasis get_kind(ScopeDeclaration const &, File const &);
 
     enum class FunctionTraits : uint16_t
