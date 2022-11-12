@@ -7,4 +7,5 @@ namespace ifc
 
     struct OperatorFunctionName;
     struct SpecializationName;
+    struct LiteralName;
 }

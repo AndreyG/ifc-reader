@@ -344,6 +344,7 @@ namespace ifc
 
     DEFINE_PARTITION_GETTER(OperatorFunctionName, NameIndex, operator_names)
     DEFINE_PARTITION_GETTER(SpecializationName,   NameIndex, specialization_names)
+    DEFINE_PARTITION_GETTER(LiteralName,          NameIndex, literal_names)
 
 #undef DEFINE_PARTITION_GETTER
 

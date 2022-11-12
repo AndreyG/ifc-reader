@@ -146,6 +146,7 @@ namespace ifc
         // Names
         DECLARE_PARTITION_GETTER(OperatorFunctionName, NameIndex, operator_names)
         DECLARE_PARTITION_GETTER(SpecializationName,   NameIndex, specialization_names)
+        DECLARE_PARTITION_GETTER(LiteralName,          NameIndex, literal_names)
 
         // Charts
         DECLARE_PARTITION_GETTER(ChartUnilevel,     ChartIndex, unilevel_charts)

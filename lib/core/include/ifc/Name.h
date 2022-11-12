@@ -74,4 +74,12 @@ namespace ifc
         PARTITION_NAME("name.specialization");
         PARTITION_SORT(NameSort::Specialization);
     };
+
+    struct LiteralName
+    {
+        TextOffset encoded;
+
+        PARTITION_NAME("name.literal");
+        PARTITION_SORT(NameSort::Literal);
+    };
 }
