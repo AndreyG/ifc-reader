@@ -281,7 +281,9 @@ namespace ifc
         LshiftAssign    = 0x1E,
         RshiftAssign    = 0x1F,
 
+        Dot             = 0x21,
         Arrow           = 0x22,
+        Apply           = 0x26,
         Index           = 0x27,
         // TODO
 
