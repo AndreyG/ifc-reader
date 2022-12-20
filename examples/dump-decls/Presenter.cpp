@@ -1075,6 +1075,11 @@ void Presenter::present_refered_declaration(ifc::DeclIndex decl) const
             out_ << file_.get_string(enumeration.name);
         }
         break;
+    case ifc::DeclSort::Friend:
+        {
+            out_ << "Friend!!!";
+        }
+        break;
     default:
         out_ << "Unsupported DeclSort '" << static_cast<int>(kind) << "'";
     }
@@ -1360,6 +1365,12 @@ void Presenter::present(ifc::DeclIndex decl) const
         out_ << "]] ";
     }
 
+    auto friends = file_.trait_friendship_of_class(decl);
+    for (auto scope_decl : file_.scope_declarations().slice(friends))
+    {
+        present(scope_decl.)
+    }
+
     switch (const auto kind = decl.sort())
     {
     case ifc::DeclSort::VendorExtension:
@@ -1403,6 +1414,9 @@ void Presenter::present(ifc::DeclIndex decl) const
         break;
     case ifc::DeclSort::Intrinsic:
         present(file_.intrinsic_declarations()[decl]);
+        break;
+    case ifc::DeclSort::Friend:
+        out_ << "Friend again!?! \n";
         break;
     default:
         out_ << "Unsupported DeclSort '" << static_cast<int>(kind) << "'\n";
