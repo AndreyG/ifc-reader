@@ -248,6 +248,9 @@ void Presenter::present(ifc::NamedDecl const& decl) const
     case ifc::DeclSort::Parameter:
         out_ << file_.get_string(file_.parameters()[decl.resolution].name);
         break;
+    case ifc::DeclSort::Scope:
+        present(file_.scope_declarations()[decl.resolution].name);
+        break;
     default:
         out_ << "Declaration of unsupported kind '" << static_cast<int>(kind) << "'";
     }
@@ -1085,7 +1088,7 @@ void Presenter::present_scope_members(ifc::ScopeDescriptor scope) const
     present_range(get_declarations(file_, scope), "\n");
 }
 
-void Presenter::present(ifc::ScopeDeclaration const& scope) const
+void Presenter::present(ifc::ScopeDeclaration const& scope, ifc::DeclIndex index) const
 {
     const auto type = scope.type;
     assert(type.sort() == ifc::TypeSort::Fundamental);
@@ -1125,7 +1128,13 @@ void Presenter::present(ifc::ScopeDeclaration const& scope) const
     {
         out_ << " {\n";
         indent_ += 2;
-        present_scope_members(file_.scope_descriptors()[def]);
+        {
+            auto friends = file_.trait_friendship_of_class(index);
+            auto friend_declarations = file_.declarations().slice(friends);
+            present_range(friend_declarations, "\n");
+
+            present_scope_members(file_.scope_descriptors()[def]);
+        }
         indent_ -= 2;
 
         insert_indent();
@@ -1260,6 +1269,13 @@ void Presenter::present(ifc::IntrinsicDeclaration const& intrinsic) const
     out_ << "\n";
 }
 
+void Presenter::present(ifc::FriendDeclaration const& friend_declaration) const
+{
+    out_ << "friend ";
+    present(friend_declaration.entity);
+    out_ << "\n";
+}
+
 void Presenter::present(ifc::SyntaxIndex syntax) const
 {
     switch (auto const kind = syntax.sort())
@@ -1372,7 +1388,7 @@ void Presenter::present(ifc::DeclIndex decl) const
         present(file_.fields()[decl]);
         break;
     case ifc::DeclSort::Scope:
-        present(get_scope(file_, decl));
+        present(get_scope(file_, decl), decl);
         break;
     case ifc::DeclSort::Enumeration:
         present(file_.enumerations()[decl]);
@@ -1403,6 +1419,9 @@ void Presenter::present(ifc::DeclIndex decl) const
         break;
     case ifc::DeclSort::Intrinsic:
         present(file_.intrinsic_declarations()[decl]);
+        break;
+    case ifc::DeclSort::Friend:
+        present(file_.friends()[decl]);
         break;
     default:
         out_ << "Unsupported DeclSort '" << static_cast<int>(kind) << "'\n";

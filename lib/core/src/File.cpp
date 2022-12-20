@@ -169,6 +169,23 @@ namespace ifc
             return *trait_deprecation_texts_;
         }
 
+        std::unordered_map<DeclIndex, Sequence> const& trait_friendship_of_class()
+        {
+            if (!trait_friendship_of_class_)
+            {
+                trait_friendship_of_class_.emplace();
+
+                if (auto friendships = try_get_partition<AssociatedTrait<Sequence>, Index>("trait.friend"))
+                {
+                    for (auto friendship : *friendships)
+                    {
+                        (*trait_friendship_of_class_)[friendship.decl] = friendship.trait;
+                    }
+                }
+            }
+            return *trait_friendship_of_class_;
+        }
+
     private:
         void fill_decl_attributes(std::string_view partition)
         {
@@ -183,6 +200,7 @@ namespace ifc
 
         std::optional<std::unordered_map<DeclIndex, TextOffset>> trait_deprecation_texts_;
         std::optional<std::unordered_map<DeclIndex, std::vector<AttrIndex>>> trait_declaration_attributes_;
+        std::optional<std::unordered_map<DeclIndex, Sequence>> trait_friendship_of_class_;
     };
 
     FileHeader const& File::header() const
@@ -236,6 +254,7 @@ namespace ifc
     DEFINE_DECL_PARTITION_GETTER(FieldDeclaration,      fields)
     DEFINE_DECL_PARTITION_GETTER(ParameterDeclaration,  parameters)
     DEFINE_DECL_PARTITION_GETTER(Concept,               concepts)
+    DEFINE_DECL_PARTITION_GETTER(FriendDeclaration,     friends)
     DEFINE_DECL_PARTITION_GETTER(IntrinsicDeclaration,  intrinsic_declarations)
 
 #undef DEFINE_DECL_PARTITION_GETTER
@@ -390,6 +409,11 @@ namespace ifc
     std::span<AttrIndex const> File::trait_declaration_attributes(DeclIndex declaration) const
     {
         return get_value<std::span<AttrIndex const>>(declaration, impl_->trait_declaration_attributes());
+    }
+
+    Sequence File::trait_friendship_of_class(DeclIndex declaration) const
+    {
+        return get_value<Sequence>(declaration, impl_->trait_friendship_of_class());
     }
 
     template<typename T, typename Index>

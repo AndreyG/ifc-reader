@@ -361,6 +361,14 @@ namespace ifc
         PARTITION_SORT(DeclSort::Parameter);
     };
 
+    struct FriendDeclaration
+    {
+        ExprIndex entity;
+
+        PARTITION_NAME("decl.friend");
+        PARTITION_SORT(DeclSort::Friend);
+    };
+
     struct Concept
     {
         TextOffset name;
