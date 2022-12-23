@@ -17,8 +17,6 @@
 #include <unordered_map>
 #include <optional>
 
-#include <iostream>
-
 namespace ifc
 {
     namespace
@@ -89,7 +87,6 @@ namespace ifc
 
             for (auto const& partition : table_of_contents())
             {
-                std::cout << get_string(partition.name) << "\n";
                 table_of_contents_.emplace(get_string(partition.name), &partition);
             }
         }
