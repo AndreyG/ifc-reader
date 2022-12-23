@@ -393,7 +393,7 @@ namespace ifc
     }
 
     template<typename RetType, typename Value>
-    Value get_value(DeclIndex declaration, std::unordered_map<DeclIndex, Value> const & map)
+    RetType get_value(DeclIndex declaration, std::unordered_map<DeclIndex, Value> const & map)
     {
         if (auto it = map.find(declaration); it != map.end())
             return it->second;
