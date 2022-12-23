@@ -90,7 +90,7 @@ private:
 
     void present_refered_declaration(ifc::DeclIndex) const;
 
-    void present(ifc::ScopeDeclaration      const &) const;
+    void present(ifc::ScopeDeclaration      const &, ifc::DeclIndex) const;
     void present(ifc::FunctionDeclaration   const &) const;
     void present(ifc::MethodDeclaration     const &) const;
     void present(ifc::Constructor           const &) const;
@@ -103,6 +103,7 @@ private:
     void present(ifc::UsingDeclaration      const &) const;
     void present(ifc::Concept               const &) const;
     void present(ifc::IntrinsicDeclaration  const &) const;
+    void present(ifc::FriendDeclaration     const &) const;
 
     void present(ifc::SyntaxIndex) const;
 

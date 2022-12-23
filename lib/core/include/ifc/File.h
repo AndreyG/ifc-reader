@@ -63,6 +63,7 @@ namespace ifc
         DECLARE_DECL_PARTITION_GETTER(VariableDeclaration,   variables)
         DECLARE_DECL_PARTITION_GETTER(ParameterDeclaration,  parameters)
         DECLARE_DECL_PARTITION_GETTER(FieldDeclaration,      fields)
+        DECLARE_DECL_PARTITION_GETTER(FriendDeclaration,     friends)   
         DECLARE_DECL_PARTITION_GETTER(Concept,               concepts)
         DECLARE_DECL_PARTITION_GETTER(IntrinsicDeclaration,  intrinsic_declarations)
 

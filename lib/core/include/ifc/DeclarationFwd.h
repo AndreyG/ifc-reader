@@ -21,6 +21,7 @@ namespace ifc
     struct Enumeration;
     struct Enumerator;
     struct UsingDeclaration;
+    struct FriendDeclaration;
     struct TemplateDeclaration;
     struct Concept;
     struct IntrinsicDeclaration;

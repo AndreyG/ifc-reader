@@ -257,6 +257,7 @@ namespace ifc
     DEFINE_DECL_PARTITION_GETTER(FieldDeclaration,      fields)
     DEFINE_DECL_PARTITION_GETTER(ParameterDeclaration,  parameters)
     DEFINE_DECL_PARTITION_GETTER(Concept,               concepts)
+    DEFINE_DECL_PARTITION_GETTER(FriendDeclaration,     friends)
     DEFINE_DECL_PARTITION_GETTER(IntrinsicDeclaration,  intrinsic_declarations)
 
 #undef DEFINE_DECL_PARTITION_GETTER
