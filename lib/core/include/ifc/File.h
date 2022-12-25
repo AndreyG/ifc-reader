@@ -197,7 +197,9 @@ namespace ifc
         Sequence                    trait_friendship_of_class   (DeclIndex) const; // A sequence that indexes into the "scope.member" partition
 
     public:
-        File(std::string const &, class Environment*);
+        using BlobView = std::span<std::byte const>;
+
+        File(BlobView, class Environment*);
         ~File();
 
         File           (File &&) noexcept;

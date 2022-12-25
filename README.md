@@ -20,9 +20,10 @@ To solve this problem library `ifc-core` uses interface [`Environment`](https://
 and library `ifc-msvc` provides its implementation [`MSVCEnvironment`](https://github.com/AndreyG/ifc-reader/blob/master/lib/msvc/include/ifc/MSVCEnvironment.h).
 
 # Dependecies
-`ifc-core` depends on [Boost::iostreams](https://www.boost.org/doc/libs/1_77_0/libs/iostreams/doc/index.html) for crossplatform implementation of file mapping.
+`ifc-core` doesn't have external dependencies, but requieres C++20 for compilation.
 
-`ifc-msvc` depends on [nlohmann::json](https://github.com/nlohmann/json) for reading `.d.json` configs produced by MSVC.
+`ifc-msvc` depends on [Boost::iostreams](https://www.boost.org/doc/libs/1_77_0/libs/iostreams/doc/index.html) for crossplatform implementation of file mapping
+and [nlohmann::json](https://github.com/nlohmann/json) for reading `.d.json` configs produced by MSVC.
 
 # Build
 Nothing special, just plain CMake, something like this should be enough (after installing [Boost::iostreams](https://www.boost.org/doc/libs/1_77_0/libs/iostreams/doc/index.html)

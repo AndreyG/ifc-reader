@@ -1,7 +1,5 @@
 project (ifc-core)
 
-find_package(Boost REQUIRED COMPONENTS iostreams)
-
 file(GLOB_RECURSE headers
   include/ifc/*.h
 )
@@ -19,5 +17,3 @@ target_include_directories(ifc-core
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
-
-target_link_libraries(ifc-core PRIVATE Boost::iostreams)

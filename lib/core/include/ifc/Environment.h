@@ -1,21 +1,22 @@
 #pragma once
 
-#include "File.h"
-
 #include <string>
 #include <unordered_map>
 #include <vector>
 
 namespace ifc
 {
+    class File;
+
     class Environment
     {
     public:
-        File const & get_module_by_bmi_path (std::string const &);
-        File const & get_module_by_name     (std::string const &);
+        virtual File const& get_module_by_bmi_path(std::string const &) = 0;
+
+        File const& get_module_by_name(std::string const &);
 
     protected:
-        ~Environment();
+        ~Environment() = default;
 
         struct Config
         {
@@ -38,7 +39,6 @@ namespace ifc
         Environment(Config);
 
     private:
-        std::unordered_map<std::string, File> cached_bmis_;
         std::unordered_map<std::string, std::string> module_name_to_bmi_path_;
     };
 }

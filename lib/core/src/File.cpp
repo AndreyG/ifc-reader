@@ -9,8 +9,6 @@
 #include "ifc/SyntaxTree.h"
 #include "ifc/Type.h"
 
-#include <boost/iostreams/device/mapped_file.hpp>
-
 #include <cassert>
 #include <span>
 #include <stdexcept>
@@ -40,12 +38,12 @@ namespace ifc
             FileHeader header;
         };
 
-        boost::iostreams::mapped_file_source fmap_;
+        std::span<std::byte const> blob_;
         std::unordered_map<std::string_view, PartitionSummary const*> table_of_contents_;
 
         Structure const * structure() const
         {
-            return reinterpret_cast<Structure const *>(fmap_.data());
+            return reinterpret_cast<Structure const *>(blob_.data());
         }
 
         size_t calc_size() const
@@ -72,17 +70,17 @@ namespace ifc
 
         void const* get_raw_pointer(ByteOffset offset) const
         {
-            return fmap_.data() + static_cast<size_t>(offset);
+            return &blob_[static_cast<std::underlying_type_t<ByteOffset>>(offset)];
         }
 
     public:
-        Impl(std::string const & path)
-            : fmap_(path)
+        Impl(BlobView blob)
+            : blob_(blob)
         {
             if (structure()->signature != CANONICAL_FILE_SIGNATURE)
                 throw std::invalid_argument("corrupted file signature");
 
-            if (calc_size() != fmap_.size())
+            if (calc_size() != blob_.size())
                 throw std::runtime_error("corrupted file");
 
             for (auto const& partition : table_of_contents())
@@ -442,9 +440,9 @@ namespace ifc
         }
     }
 
-    File::File(std::string const & path, Environment* env)
+    File::File(BlobView data, Environment* env)
         : env_(env)
-        , impl_(std::make_unique<Impl>(path))
+        , impl_(std::make_unique<Impl>(data))
     {
     }
 
