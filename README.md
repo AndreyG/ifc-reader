@@ -20,7 +20,7 @@ To solve this problem library `ifc-core` uses interface [`Environment`](https://
 and library `ifc-msvc` provides its implementation [`MSVCEnvironment`](https://github.com/AndreyG/ifc-reader/blob/master/lib/msvc/include/ifc/MSVCEnvironment.h).
 
 # Dependecies
-`ifc-core` doesn't have external dependencies, but requieres C++20 for compilation.
+`ifc-core` doesn't have external dependencies, but requires C++20 for compilation.
 
 `ifc-msvc` depends on [Boost::iostreams](https://www.boost.org/doc/libs/1_77_0/libs/iostreams/doc/index.html) for crossplatform implementation of file mapping
 and [nlohmann::json](https://github.com/nlohmann/json) for reading `.d.json` configs produced by MSVC.
