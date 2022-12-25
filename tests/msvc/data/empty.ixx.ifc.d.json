@@ -1,0 +1,9 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "ProvidedModule": "empty",
+        "Includes": [],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

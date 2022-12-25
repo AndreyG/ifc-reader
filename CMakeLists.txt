@@ -9,3 +9,9 @@ OPTION(BUILD_IFC_READER_EXAMPLES "Build library usage example apps" OFF)
 if (BUILD_IFC_READER_EXAMPLES)
     add_subdirectory(examples/dump-decls)
 endif()
+
+OPTION(BUILD_IFC_READER_TESTS "Build tests" OFF)
+
+if (BUILD_IFC_READER_TESTS)
+    add_subdirectory(tests)
+endif()
