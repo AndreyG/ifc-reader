@@ -103,6 +103,23 @@ TEST(SimpleTest, IFC_dependencies)
     }
 }
 
+TEST(SimpleTest, TransitiveImport)
+{
+    Reader reader("Transitive.ixx.ifc");
+    auto const& file = reader.get_main_ifc();
+    const auto functions = file.functions();
+    ASSERT_EQ(functions.size(), 1);
+    auto const& function = *functions.begin();
+    ASSERT_EQ(get_identifier(file, function.name), "f");
+    auto const& type = file.function_types()[function.type];
+    auto const& return_type = file.fundamental_types()[type.target];
+    ASSERT_EQ(return_type.basis, ifc::TypeBasis::Void);
+    const auto referenced_decl = file.designated_types()[type.source].decl;
+    const auto decl_ref = file.decl_references()[referenced_decl];
+    ASSERT_EQ(file.get_string(decl_ref.unit.owner), "C"sv);
+    check_class_with_name(file.get_imported_module(decl_ref.unit), decl_ref.local_index, "C");
+}
+
 int main(int argc, char* argv[])
 {
     testing::InitGoogleTest(&argc, argv);

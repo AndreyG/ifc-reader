@@ -1,0 +1,18 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "ProvidedModule": "A",
+        "Includes": [],
+        "ImportedModules": [
+            {
+                "Name": "B",
+                "BMI": "TransitiveB.ixx.ifc"
+            },
+            {
+                "Name": "C",
+                "BMI": "TransitiveC.ixx.ifc"
+            }
+        ],
+        "ImportedHeaderUnits": []
+    }
+}
