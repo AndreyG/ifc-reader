@@ -8,7 +8,7 @@
 #include <filesystem>
 #include <fstream>
 
-ifc::Environment::Config ifc::MSVCEnvironment::read_config(std::string const& path_to_metadata)
+ifc::Environment::Config ifc::MSVCEnvironment::read_config(std::string const& path_to_metadata, std::optional<std::filesystem::path> const& dir_for_relative_paths)
 {
     std::ifstream file(path_to_metadata);
     if (!file)
@@ -25,6 +25,9 @@ ifc::Environment::Config ifc::MSVCEnvironment::read_config(std::string const& pa
     {
         std::string header = unit["Header"];
         std::filesystem::path bmi = static_cast<std::string>(unit["BMI"]);
+        if (dir_for_relative_paths && bmi.is_relative())
+            bmi = *dir_for_relative_paths / bmi;
+
         if (!is_regular_file(bmi))
         {
             std::ostringstream ss;
@@ -40,6 +43,8 @@ ifc::Environment::Config ifc::MSVCEnvironment::read_config(std::string const& pa
     {
         std::string name = module["Name"];
         std::filesystem::path bmi = static_cast<std::string>(module["BMI"]);
+        if (dir_for_relative_paths && bmi.is_relative())
+            bmi = *dir_for_relative_paths / bmi;
         if (!is_regular_file(bmi))
         {
             std::ostringstream ss;
@@ -74,8 +79,8 @@ ifc::File const& ifc::MSVCEnvironment::get_module_by_bmi_path(std::filesystem::p
     return cached->second->ifc;
 }
 
-ifc::MSVCEnvironment::MSVCEnvironment(std::filesystem::path const& path_to_main_ifc)
-    : Environment(read_config(path_to_main_ifc.string() + ".d.json"))
+ifc::MSVCEnvironment::MSVCEnvironment(std::filesystem::path const& path_to_main_ifc, std::optional<std::filesystem::path> dir_for_relative_paths)
+    : Environment(read_config(path_to_main_ifc.string() + ".d.json", dir_for_relative_paths))
 {}
 
 ifc::MSVCEnvironment::~MSVCEnvironment() = default;
