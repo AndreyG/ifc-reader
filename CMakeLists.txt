@@ -13,5 +13,6 @@ endif()
 OPTION(BUILD_IFC_READER_TESTS "Build tests" OFF)
 
 if (BUILD_IFC_READER_TESTS)
+    include(CTest)
     add_subdirectory(tests)
 endif()

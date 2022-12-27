@@ -4,3 +4,4 @@ find_package(Boost REQUIRED COMPONENTS iostreams)
 add_executable(tests-core src/main.cpp)
 
 target_link_libraries(tests-core PRIVATE ifc-core GTest::gtest Boost::iostreams)
+add_test(NAME core COMMAND tests-core ${CMAKE_CURRENT_SOURCE_DIR}/data)
