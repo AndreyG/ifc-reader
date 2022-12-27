@@ -20,6 +20,16 @@ namespace ifc
         static Config read_config(std::string const& path, std::optional<std::filesystem::path> const& dir_for_relative_paths);
 
         struct BMI;
-        std::unordered_map<std::filesystem::path, std::unique_ptr<BMI>> cached_bmis_;
+
+        // See https://cplusplus.github.io/LWG/issue3657
+        struct PathHasher
+        {
+            size_t operator() (std::filesystem::path const & path) const noexcept
+            {
+                return hash_value(path);
+            }
+        };
+
+        std::unordered_map<std::filesystem::path, std::unique_ptr<BMI>, PathHasher> cached_bmis_;
     };
 }
