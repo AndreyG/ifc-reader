@@ -14,8 +14,8 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
-    std::string path_to_ifc = argv[1];
-    if (!is_regular_file(std::filesystem::path(path_to_ifc)))
+    const std::filesystem::path path_to_ifc = argv[1];
+    if (!is_regular_file(path_to_ifc))
     {
         std::cerr << path_to_ifc << " is not regular file\n";
         return EXIT_FAILURE;
@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
 
     try
     {
-        ifc::MSVCEnvironment env(path_to_ifc + ".d.json");
+        ifc::MSVCEnvironment env(path_to_ifc);
         ifc::File const & file = env.get_module_by_bmi_path(path_to_ifc);
 
         ifc::FileHeader const & header = file.header();

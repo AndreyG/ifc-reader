@@ -5,13 +5,13 @@
 
 #include <filesystem>
 
-static std::string data_dir;
+static std::filesystem::path data_dir;
 
 TEST(SimpleTest, metadata)
 {
-    const auto path_to_ifc = data_dir + "/empty.ixx.ifc";
-    ASSERT_TRUE(std::filesystem::is_regular_file(path_to_ifc));
-    ifc::MSVCEnvironment env(path_to_ifc + ".d.json");
+    const auto path_to_ifc = data_dir / "empty.ixx.ifc";
+    ASSERT_TRUE(is_regular_file(path_to_ifc));
+    ifc::MSVCEnvironment env(path_to_ifc);
     const auto& file = env.get_module_by_bmi_path(path_to_ifc);
     const auto& header = file.header();
     ASSERT_EQ(header.major_version, ifc::Version(0));
@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 {
     testing::InitGoogleTest(&argc, argv);
     data_dir = argv[1];
-    if (!std::filesystem::is_directory(data_dir))
+    if (!is_directory(data_dir))
     {
         std::cerr << data_dir << " is not directory\n";
         return EXIT_FAILURE;

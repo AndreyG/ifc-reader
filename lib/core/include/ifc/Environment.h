@@ -1,5 +1,6 @@
 #pragma once
 
+#include <filesystem>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -11,7 +12,7 @@ namespace ifc
     class Environment
     {
     public:
-        virtual File const& get_module_by_bmi_path(std::string const &) = 0;
+        virtual File const& get_module_by_bmi_path(std::filesystem::path const &) = 0;
 
         File const& get_module_by_name(std::string const &);
 
@@ -23,13 +24,13 @@ namespace ifc
             struct HeaderUnit
             {
                 std::string header;
-                std::string bmi;
+                std::filesystem::path bmi;
             };
 
             struct Module
             {
                 std::string name;
-                std::string bmi;
+                std::filesystem::path bmi;
             };
 
             std::vector<HeaderUnit> imported_header_units;
@@ -39,6 +40,6 @@ namespace ifc
         Environment(Config);
 
     private:
-        std::unordered_map<std::string, std::string> module_name_to_bmi_path_;
+        std::unordered_map<std::string, std::filesystem::path> module_name_to_bmi_path_;
     };
 }
