@@ -1,0 +1,18 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "ProvidedModule": "A",
+        "Includes": [],
+        "ImportedModules": [
+            {
+                "Name": "A:B",
+                "BMI": "A_B.ixx.ifc"
+            },
+            {
+                "Name": "C",
+                "BMI": "C.ixx.ifc"
+            }
+        ],
+        "ImportedHeaderUnits": []
+    }
+}
