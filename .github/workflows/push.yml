@@ -23,7 +23,8 @@ jobs:
               cmake \
               ninja-build \
               libboost-iostreams-dev \
-              nlohmann-json3-dev
+              nlohmann-json3-dev \
+              libgtest-dev
             echo "::endgroup::"
 
       - uses: actions/checkout@v2
@@ -42,7 +43,7 @@ jobs:
           CXX: ${{ matrix.compiler.CXX }}
         run: |
           echo "::group:: configure"
-          cmake -B build -G Ninja .
+          cmake -B build -G Ninja -DBUILD_IFC_READER_TESTS=ON .
           echo "::endgroup::"
 
       - name: build
@@ -51,11 +52,11 @@ jobs:
           cmake --build build
           echo "::endgroup::"
 
-       # No tests, but let's make sure the binary runs
       - name: test
+        working-directory: ${{github.workspace}}/build
         run: |
           echo "::group:: test"
-          ./build/examples/dump-decls/dump-decls || exit 0
+          ctest -C ${{env.BUILD_TYPE}}
           echo "::endgroup::"
 
 # EOF
