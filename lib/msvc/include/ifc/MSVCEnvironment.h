@@ -3,6 +3,7 @@
 #include "ifc/Environment.h"
 
 #include <memory>
+#include <optional>
 
 namespace ifc
 {
