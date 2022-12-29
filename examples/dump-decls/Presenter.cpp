@@ -276,7 +276,7 @@ void Presenter::present(ifc::QualifiedNameExpression const& qual_name) const
 
 void Presenter::present(ifc::TupleExpression const& tuple) const
 {
-    present_heap_slice(file_.expr_heap(), tuple.seq);
+    present_range(get_tuple_expression_elements(file_, tuple), ", ");
 }
 
 void Presenter::present(ifc::PathExpression const& path) const

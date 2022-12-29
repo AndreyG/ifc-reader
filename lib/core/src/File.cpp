@@ -461,10 +461,15 @@ namespace ifc
         return file.declarations().slice(scope);
     }
 
+    Partition<ExprIndex, Index> get_tuple_expression_elements(File const& file, TupleExpression const& tuple)
+    {
+        return file.expr_heap().slice(tuple.seq);
+    }
+
     Partition<ExprIndex, Index> get_qualified_name_parts(File const& ifc, QualifiedNameExpression const& qualified_name_expression)
     {
         assert(qualified_name_expression.elements.sort() == ifc::ExprSort::Tuple);
-        return ifc.expr_heap().slice(ifc.tuple_expressions()[qualified_name_expression.elements].seq);
+        return get_tuple_expression_elements(ifc, ifc.tuple_expressions()[qualified_name_expression.elements]);
     }
 
     TypeBasis get_kind(ScopeDeclaration const & scope, File const & file)
