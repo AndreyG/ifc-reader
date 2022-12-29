@@ -27,7 +27,7 @@ namespace ifc
 
         File const & get_imported_module(ModuleReference) const;
 
-        ScopeDescriptor global_scope() const;
+        Sequence global_scope() const;
 
         ScopePartition scope_descriptors() const;
 
@@ -220,7 +220,7 @@ namespace ifc
     };
 
     ScopeDeclaration const &        get_scope       (File const&, DeclIndex);
-    Partition<Declaration, Index>   get_declarations(File const&, ScopeDescriptor);
+    Partition<Declaration, Index>   get_declarations(File const&, Sequence);
 
     Partition<ExprIndex, Index>     get_qualified_name_parts(File const& ifc, QualifiedNameExpression const&);
 }

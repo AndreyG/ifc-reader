@@ -23,7 +23,7 @@ public:
         , out_(out)
     {}
 
-    void present_scope_members(ifc::ScopeDescriptor) const;
+    void present_scope_members(ifc::Sequence) const;
 
 private:
     void present(ifc::NameIndex)     const;

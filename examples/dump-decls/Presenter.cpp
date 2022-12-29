@@ -1083,7 +1083,7 @@ void Presenter::present_refered_declaration(ifc::DeclIndex decl) const
     }
 }
 
-void Presenter::present_scope_members(ifc::ScopeDescriptor scope) const
+void Presenter::present_scope_members(ifc::Sequence scope) const
 {
     present_range(get_declarations(file_, scope), "\n");
 }

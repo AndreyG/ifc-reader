@@ -128,12 +128,6 @@ namespace ifc
             return { get_pointer<T>(partition->offset), raw_count(partition->cardinality) };
         }
 
-        template<typename T, typename Index>
-        Partition<T, Index> get_partition() const
-        {
-            return get_partition<T, Index>(T::PartitionName);
-        }
-
         std::unordered_map<DeclIndex, std::vector<AttrIndex>> const & trait_declaration_attributes()
         {
             if (!trait_declaration_attributes_)
@@ -211,14 +205,14 @@ namespace ifc
         return impl_->get_string(index);
     }
 
-    ScopeDescriptor File::global_scope() const
+    Sequence File::global_scope() const
     {
         return scope_descriptors()[header().global_scope];
     }
 
     ScopePartition File::scope_descriptors() const
     {
-        return impl_->get_partition<ScopeDescriptor, ScopeIndex>();
+        return impl_->get_partition<Sequence, ScopeIndex>("scope.desc");
     }
 
     Partition<Declaration, Index> File::declarations() const
@@ -417,11 +411,7 @@ namespace ifc
     template<typename T, typename Index>
     Partition<T, Index> File::get_partition_with_cache(std::optional<Partition<T, Index>> & cache) const
     {
-        if (cache.has_value())
-            return *cache;
-        auto result = impl_->get_partition<T, Index>();
-        cache = result;
-        return result;
+        return get_partition_with_cache<T, Index>(cache, T::PartitionName);
     }
 
     template <typename T, typename Index>
@@ -466,7 +456,7 @@ namespace ifc
         return file.scope_declarations()[decl];
     }
 
-    Partition<Declaration, Index> get_declarations(File const& file, ScopeDescriptor scope)
+    Partition<Declaration, Index> get_declarations(File const& file, Sequence scope)
     {
         return file.declarations().slice(scope);
     }
