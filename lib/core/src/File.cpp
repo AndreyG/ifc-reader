@@ -367,22 +367,22 @@ namespace ifc
 
     Partition<TypeIndex, Index> File::type_heap() const
     {
-        return impl_->get_partition<TypeIndex, Index>("heap.type");
+        return get_partition_with_cache<TypeIndex, Index>(cached_type_heap_, "heap.type");
     }
 
     Partition<ExprIndex, Index> File::expr_heap() const
     {
-        return impl_->get_partition<ExprIndex, Index>("heap.expr");
+        return get_partition_with_cache<ExprIndex, Index>(cached_expr_heap_, "heap.expr");
     }
 
     Partition<AttrIndex, Index> File::attr_heap() const
     {
-        return impl_->get_partition<AttrIndex, Index>("heap.attr");
+        return get_partition_with_cache<AttrIndex, Index>(cached_attr_heap_, "heap.attr");
     }
 
     Partition<SyntaxIndex, Index> File::syntax_heap() const
     {
-        return impl_->get_partition<SyntaxIndex, Index>("heap.syn");
+        return get_partition_with_cache<SyntaxIndex, Index>(cached_syntax_heap_, "heap.syn");
     }
 
     Partition<DeclIndex> File::deduction_guides() const
@@ -420,6 +420,16 @@ namespace ifc
         if (cache.has_value())
             return *cache;
         auto result = impl_->get_partition<T, Index>();
+        cache = result;
+        return result;
+    }
+
+    template <typename T, typename Index>
+    Partition<T, Index> File::get_partition_with_cache(std::optional<Partition<T, Index>>& cache, std::string_view name) const
+    {
+        if (cache.has_value())
+            return *cache;
+        auto result = impl_->get_partition<T, Index>(name);
         cache = result;
         return result;
     }
