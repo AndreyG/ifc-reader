@@ -35,7 +35,7 @@ reading it from `.json` [produced by MSVC](https://docs.microsoft.com/en-us/cpp/
 
 `ifc-msvc` depends on [nlohmann::json](https://github.com/nlohmann/json) for reading `.json` configs produced by MSVC.
 
-Tests depends on [GoogleTest](https://github.com/google/googletest).
+Tests depend on [GoogleTest](https://github.com/google/googletest).
 # Build
   0. If tests or examples are needed, then install required dependencies, mentioned [above](#Dependencies). It not, then go to step 1.
   1. Just run CMake, something like this should be enough:
