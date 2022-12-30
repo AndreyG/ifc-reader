@@ -8,7 +8,7 @@ namespace ifc
     using ExprIndex = AbstractReference<6, ExprSort>;
 
     enum class StringSort : uint8_t;
-    using StringIndex = AbstractReference<4, StringSort>;
+    using StringIndex = AbstractReference<3, StringSort>;
 
     struct LiteralExpression;
     struct TupleExpression;
