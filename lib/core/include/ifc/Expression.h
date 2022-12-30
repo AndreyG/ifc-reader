@@ -373,6 +373,14 @@ namespace ifc
         PARTITION_SORT(ExprSort::Dyad);
     };
 
+    struct StringExpression : ExpressionBase
+    {
+        StringIndex string_index;
+
+        PARTITION_NAME("expr.strings");
+        PARTITION_SORT(ExprSort::String);
+    };
+
     enum class StorageOperator
     {
         Unknown,

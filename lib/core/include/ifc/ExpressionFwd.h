@@ -19,6 +19,7 @@ namespace ifc
     struct TypeExpression;
     struct MonadExpression;
     struct DyadExpression;
+    struct StringExpression;
     struct CallExpression;
     struct SizeofExpression;
     struct AlignofExpression;
