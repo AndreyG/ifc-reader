@@ -1,5 +1,4 @@
 #include "ifc/File.h"
-#include "ifc/Environment.h"
 #include "ifc/Trait.h"
 
 #include "ifc/Attribute.h"
@@ -424,25 +423,8 @@ namespace ifc
         return result;
     }
 
-    File const& File::get_imported_module(ModuleReference module) const
-    {
-        if (auto owner = module.owner; is_null(owner))
-        {
-            // global module
-            return env_->get_module_by_name(get_string(module.partition));
-        }
-        else
-        {
-            std::string name = get_string(owner);
-            if (auto partition = module.partition; !is_null(partition))
-                name.append(":").append(get_string(partition));
-            return env_->get_module_by_name(name);
-        }
-    }
-
-    File::File(BlobView data, Environment* env)
-        : env_(env)
-        , impl_(std::make_unique<Impl>(data))
+    File::File(BlobView data)
+        : impl_(std::make_unique<Impl>(data))
     {
     }
 

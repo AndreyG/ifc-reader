@@ -11,15 +11,16 @@
 #include "ifc/Partition.h"
 #include "ifc/Word.h"
 
-#include "ifc/FileFwd.h"
+#include "ifc/Environment.h"
 
 #include <iosfwd>
 
 class Presenter
 {
 public:
-    Presenter(ifc::File const & file, std::ostream& out)
+    Presenter(ifc::File const & file, ifc::Environment& env, std::ostream& out)
         : file_(file)
+        , env_(env)
         , out_(out)
     {}
 
@@ -131,6 +132,7 @@ private:
 
 private:
     ifc::File const & file_;
+    ifc::Environment& env_;
     std::ostream& out_;
     mutable size_t indent_ = 0;
 };

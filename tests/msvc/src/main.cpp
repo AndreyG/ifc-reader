@@ -29,17 +29,22 @@ namespace
             }
         } path_to_ifc;
 
-        ifc::MSVCEnvironment environment;
+        ifc::Environment environment;
 
     public:
         explicit Reader(const char* filename)
             : path_to_ifc(filename)
-            , environment(path_to_ifc.full_path, data_dir)
+            , environment(ifc::create_msvc_environment(path_to_ifc.full_path, data_dir))
         {}
 
         ifc::File const& get_main_ifc()
         {
             return environment.get_module_by_bmi_path(path_to_ifc.full_path);
+        }
+
+        ifc::File const& get_referenced_module(ifc::ModuleReference module, ifc::File const& file)
+        {
+            return environment.get_referenced_module(module, file);
         }
     };
 
@@ -93,13 +98,13 @@ TEST(SimpleTest, IFC_dependencies)
         const auto decl_ref = file.decl_references()[referenced_decl];
         ASSERT_EQ(file.get_string(decl_ref.unit.owner), "A"sv);
         ASSERT_EQ(file.get_string(decl_ref.unit.partition), "B"sv);
-        check_class_with_name(file.get_imported_module(decl_ref.unit), decl_ref.local_index, "B");
+        check_class_with_name(reader.get_referenced_module(decl_ref.unit, file), decl_ref.local_index, "B");
     }
     {
         const auto referenced_decl = file.designated_types()[params[ifc::Index{2}]].decl;
         const auto decl_ref = file.decl_references()[referenced_decl];
         ASSERT_EQ(file.get_string(decl_ref.unit.owner), "C"sv);
-        check_class_with_name(file.get_imported_module(decl_ref.unit), decl_ref.local_index, "C");
+        check_class_with_name(reader.get_referenced_module(decl_ref.unit, file), decl_ref.local_index, "C");
     }
 }
 
@@ -117,7 +122,7 @@ TEST(SimpleTest, TransitiveImport)
     const auto referenced_decl = file.designated_types()[type.source].decl;
     const auto decl_ref = file.decl_references()[referenced_decl];
     ASSERT_EQ(file.get_string(decl_ref.unit.owner), "C"sv);
-    check_class_with_name(file.get_imported_module(decl_ref.unit), decl_ref.local_index, "C");
+    check_class_with_name(reader.get_referenced_module(decl_ref.unit, file), decl_ref.local_index, "C");
 }
 
 int main(int argc, char* argv[])

@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
 
     try
     {
-        ifc::MSVCEnvironment env(path_to_ifc);
+        ifc::Environment env = ifc::create_msvc_environment(path_to_ifc);
         ifc::File const & file = env.get_module_by_bmi_path(path_to_ifc);
 
         ifc::FileHeader const & header = file.header();
@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
 
         std::cout << "-------------------------------------- Global Scope --------------------------------------\n";
 
-        Presenter presenter(file, std::cout);
+        Presenter presenter(file, env, std::cout);
         presenter.present_scope_members(file.global_scope());
 
         return EXIT_SUCCESS;

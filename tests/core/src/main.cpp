@@ -17,7 +17,7 @@ class FileWrapper
 {
     FileWrapper(std::filesystem::path const & path_to_ifc)
         : mapped_file_source(path_to_ifc.string())
-        , File(as_bytes(std::span(data(), size())), nullptr)
+        , File(as_bytes(std::span(data(), size())))
     {}
 
 public:

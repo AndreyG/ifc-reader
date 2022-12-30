@@ -228,8 +228,8 @@ void Presenter::present(ifc::QualifiedType qualType) const
 
 void Presenter::present(ifc::DeclReference decl_ref) const
 {
-    ifc::File const & imported_module = file_.get_imported_module(decl_ref.unit);
-    Presenter(imported_module, out_).present_refered_declaration(decl_ref.local_index);
+    ifc::File const & imported_module = env_.get_referenced_module(decl_ref.unit, file_);
+    Presenter(imported_module, env_, out_).present_refered_declaration(decl_ref.local_index);
 }
 
 void Presenter::present(ifc::NamedDecl const& decl) const

@@ -25,8 +25,6 @@ namespace ifc
 
         const char * get_string(TextOffset) const;
 
-        File const & get_imported_module(ModuleReference) const;
-
         Sequence global_scope() const;
 
         ScopePartition scope_descriptors() const;
@@ -199,7 +197,7 @@ namespace ifc
     public:
         using BlobView = std::span<std::byte const>;
 
-        File(BlobView, class Environment*);
+        explicit File(BlobView);
         ~File();
 
         File           (File &&) noexcept;
@@ -213,8 +211,6 @@ namespace ifc
         Partition<T, Index> get_partition_with_cache(std::optional<Partition<T, Index>> & cache, std::string_view) const;
 
     private:
-        Environment* env_;
-
         struct Impl;
         std::unique_ptr<Impl> impl_;
     };

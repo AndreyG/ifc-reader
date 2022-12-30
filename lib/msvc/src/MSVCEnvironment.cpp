@@ -8,7 +8,7 @@
 #include <filesystem>
 #include <fstream>
 
-ifc::Environment::Config ifc::MSVCEnvironment::read_config(std::string const& path_to_metadata, std::optional<std::filesystem::path> const& dir_for_relative_paths)
+static ifc::Environment::Config read_config(std::string const& path_to_metadata, std::optional<std::filesystem::path> const& dir_for_relative_paths)
 {
     std::ifstream file(path_to_metadata);
     if (!file)
@@ -18,7 +18,7 @@ ifc::Environment::Config ifc::MSVCEnvironment::read_config(std::string const& pa
     file >> metadata;
     auto const & data = metadata["Data"];
 
-    Config config;
+    ifc::Environment::Config config;
 
     auto const & imported_header_units = data["ImportedHeaderUnits"];
     for (auto const & unit : imported_header_units)
@@ -58,29 +58,26 @@ ifc::Environment::Config ifc::MSVCEnvironment::read_config(std::string const& pa
     return config;
 }
 
-struct ifc::MSVCEnvironment::BMI
+struct BlobHolderImpl : ifc::Environment::BlobHolder
 {
     boost::iostreams::mapped_file_source file_mapping;
-    File ifc;
 
-    BMI(std::filesystem::path const & path, Environment* env)
+    BlobHolderImpl(std::filesystem::path const& path)
         : file_mapping(path.string())
-        , ifc(as_bytes(std::span(file_mapping.data(), file_mapping.size())), env)
     {}
+
+    ifc::File::BlobView view() const override
+    {
+        return as_bytes(std::span(file_mapping.data(), file_mapping.size()));
+    }
 };
 
-ifc::File const& ifc::MSVCEnvironment::get_module_by_bmi_path(std::filesystem::path const & key)
+static ifc::Environment::BlobHolderPtr file_reader(std::filesystem::path const & path)
 {
-    auto cached = cached_bmis_.find(key);
-    if (cached == cached_bmis_.end())
-    {
-        cached = cached_bmis_.emplace_hint(cached, key, std::make_unique<BMI>(key, this));
-    }
-    return cached->second->ifc;
+    return std::make_unique<BlobHolderImpl>(path);
 }
 
-ifc::MSVCEnvironment::MSVCEnvironment(std::filesystem::path const& path_to_main_ifc, std::optional<std::filesystem::path> dir_for_relative_paths)
-    : Environment(read_config(path_to_main_ifc.string() + ".d.json", dir_for_relative_paths))
-{}
-
-ifc::MSVCEnvironment::~MSVCEnvironment() = default;
+ifc::Environment ifc::create_msvc_environment(std::filesystem::path const& path_to_main_ifc, std::optional<std::filesystem::path> dir_for_relative_paths)
+{
+    return Environment(read_config(path_to_main_ifc.string() + ".d.json", dir_for_relative_paths), file_reader);
+}
