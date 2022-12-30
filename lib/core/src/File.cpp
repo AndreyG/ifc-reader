@@ -55,12 +55,6 @@ namespace ifc
             return result;
         }
 
-        std::span<PartitionSummary const> table_of_contents() const
-        {
-            auto const & h = header();
-            return { get_pointer<PartitionSummary>(h.toc), raw_count(h.partition_count) };
-        }
-
         template<typename T>
         T const* get_pointer(ByteOffset offset) const
         {
@@ -91,6 +85,12 @@ namespace ifc
         FileHeader const & header() const
         {
             return structure()->header;
+        }
+
+        std::span<PartitionSummary const> table_of_contents() const
+        {
+            auto const & h = header();
+            return { get_pointer<PartitionSummary>(h.toc), raw_count(h.partition_count) };
         }
 
         const char* get_string(TextOffset index) const
@@ -197,6 +197,11 @@ namespace ifc
     FileHeader const& File::header() const
     {
         return impl_->header();
+    }
+
+    std::span<PartitionSummary const> File::table_of_contents() const
+    {
+        return impl_->table_of_contents();
     }
 
     const char* File::get_string(TextOffset index) const

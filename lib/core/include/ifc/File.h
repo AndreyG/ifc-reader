@@ -23,6 +23,8 @@ namespace ifc
     public:
         FileHeader const & header() const;
 
+        std::span<PartitionSummary const> table_of_contents() const;
+
         const char * get_string(TextOffset) const;
 
         Sequence global_scope() const;
