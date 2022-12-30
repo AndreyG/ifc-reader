@@ -35,7 +35,7 @@ namespace ifc
     }
 
     Environment::Environment(Config config, std::function<BlobHolderPtr(std::filesystem::path const &)> file_reader)
-        : file_reader_(file_reader)
+        : file_reader_(std::move(file_reader))
     {
         for (auto & [header, bmi] : config.imported_header_units)
             module_name_to_bmi_path_.emplace(std::move(header), std::move(bmi));
