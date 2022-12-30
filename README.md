@@ -26,7 +26,7 @@ How to do it is not specified in [IFC specification](https://github.com/microsof
 In `ifc-core` this is done via class [Environment](https://github.com/AndreyG/ifc-reader/blob/master/lib/core/include/ifc/Environment.h#L13)
 receiving [Config](https://github.com/AndreyG/ifc-reader/blob/master/lib/core/include/ifc/Environment.h#L25)
 and library `ifc-msvc` [provides](https://github.com/AndreyG/ifc-reader/blob/master/lib/core/include/ifc/Environment.h#L25) such config,
-reading it from `.json` [produced by MSVC](https://learn.microsoft.com/en-us/cpp/build/reference/sourcedependencies-directives).
+reading it from `.json` [produced by MSVC](https://docs.microsoft.com/en-us/cpp/build/reference/sourcedependencies).
 
 # Dependecies
 `ifc-core` doesn't have external dependencies, but requires C++20 for compilation.
