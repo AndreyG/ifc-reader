@@ -1,7 +1,6 @@
 project (ifc-msvc)
 
 find_package(nlohmann_json)
-find_package(Boost REQUIRED COMPONENTS iostreams)
 
 set(headers
   include/ifc/MSVCEnvironment.h
@@ -18,4 +17,4 @@ target_include_directories(ifc-msvc
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
-target_link_libraries(ifc-msvc PUBLIC ifc-core PRIVATE nlohmann_json::nlohmann_json Boost::iostreams)
+target_link_libraries(ifc-msvc PUBLIC ifc-core PRIVATE nlohmann_json::nlohmann_json)

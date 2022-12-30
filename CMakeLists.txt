@@ -8,6 +8,7 @@ add_subdirectory(lib/core)
 
 if (BUILD_IFC_READER_EXAMPLES OR BUILD_IFC_READER_TESTS)
     add_subdirectory(lib/msvc)
+    add_subdirectory(lib/blob-reader)
 endif()
 
 if (BUILD_IFC_READER_EXAMPLES)

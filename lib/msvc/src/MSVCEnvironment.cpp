@@ -1,9 +1,6 @@
 #include "ifc/MSVCEnvironment.h"
-#include "ifc/File.h"
 
 #include <nlohmann/json.hpp>
-
-#include <boost/iostreams/device/mapped_file.hpp>
 
 #include <filesystem>
 #include <fstream>
@@ -58,26 +55,7 @@ static ifc::Environment::Config read_config(std::string const& path_to_config, s
     return config;
 }
 
-struct BlobHolderImpl : ifc::Environment::BlobHolder
+ifc::Environment::Config ifc::read_msvc_config(std::string const& path_to_config, std::optional<std::filesystem::path> dir_for_relative_paths)
 {
-    boost::iostreams::mapped_file_source file_mapping;
-
-    BlobHolderImpl(std::filesystem::path const& path)
-        : file_mapping(path.string())
-    {}
-
-    ifc::File::BlobView view() const override
-    {
-        return as_bytes(std::span(file_mapping.data(), file_mapping.size()));
-    }
-};
-
-static ifc::Environment::BlobHolderPtr file_reader(std::filesystem::path const & path)
-{
-    return std::make_unique<BlobHolderImpl>(path);
-}
-
-ifc::Environment ifc::create_msvc_environment(std::string const& path_to_config, std::optional<std::filesystem::path> dir_for_relative_paths)
-{
-    return Environment(read_config(path_to_config, dir_for_relative_paths), file_reader);
+    return read_config(path_to_config, dir_for_relative_paths);
 }

@@ -4,5 +4,5 @@
 
 namespace ifc
 {
-    Environment create_msvc_environment(std::string const& path_to_config, std::optional<std::filesystem::path> dir_for_relative_paths = std::nullopt);
+    Environment::Config read_msvc_config(std::string const& path_to_config, std::optional<std::filesystem::path> dir_for_relative_paths = std::nullopt);
 }

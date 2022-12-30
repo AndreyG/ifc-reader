@@ -2,8 +2,7 @@
 
 #include "ifc/File.h"
 #include "ifc/MSVCEnvironment.h"
-
-#include <boost/iostreams/device/mapped_file.hpp>
+#include "ifc/blob_reader.h"
 
 #include <filesystem>
 #include <iostream>
@@ -56,13 +55,13 @@ int main(int argc, char* argv[])
     {
         if (std::filesystem::is_regular_file(path_to_config))
         {
-            ifc::Environment env = ifc::create_msvc_environment(path_to_config);
+            ifc::Environment env(ifc::read_msvc_config(path_to_config), ifc::read_blob);
             dump_ifc(env.get_module_by_bmi_path(path_to_ifc), &env);
         }
         else
         {
-            boost::iostreams::mapped_file_source file_mapping;
-            dump_ifc(ifc::File(as_bytes(std::span(file_mapping.data(), file_mapping.size()))));
+            auto blob = ifc::read_blob(path_to_ifc);
+            dump_ifc(ifc::File(blob->view()));
         }
         return EXIT_SUCCESS;
     }

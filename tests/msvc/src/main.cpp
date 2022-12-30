@@ -1,4 +1,5 @@
 ﻿#include <ifc/MSVCEnvironment.h>
+#include <ifc/blob_reader.h>
 #include <ifc/File.h>
 #include <ifc/Declaration.h>
 #include <ifc/Type.h>
@@ -43,7 +44,7 @@ namespace
     public:
         explicit Reader(const char* filename)
             : paths(filename)
-            , environment(ifc::create_msvc_environment(paths.config_file.string(), data_dir))
+            , environment(ifc::read_msvc_config(paths.config_file.string(), data_dir), ifc::read_blob)
         {}
 
         ifc::File const& get_main_ifc()
