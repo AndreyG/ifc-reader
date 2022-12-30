@@ -4,6 +4,7 @@
 
 #include "Literal.h"
 #include "SourceLocation.h"
+#include "SyntaxTreeFwd.h"
 
 #include "common_types.h"
 
