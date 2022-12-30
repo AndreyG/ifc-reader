@@ -9,37 +9,46 @@
 
 static std::filesystem::path data_dir;
 
+using namespace std::literals;
+
 namespace
 {
     class Reader
     {
-        struct PathToIFC
+        struct Paths
         {
-            std::filesystem::path full_path;
+            std::filesystem::path ifc_file, config_file;
 
-            explicit PathToIFC(const char* filename)
-                : full_path(data_dir / filename)
+            static void check_is_regular_file(std::filesystem::path const & path)
             {
-                if (!is_regular_file(full_path))
+                if (!is_regular_file(path))
                 {
                     std::ostringstream ss;
-                    ss << full_path << " is not regular file";
+                    ss << path << " is not regular file";
                     throw std::logic_error(std::move(ss).str());
                 }
             }
-        } path_to_ifc;
+
+            explicit Paths(const char* filename)
+                : ifc_file(data_dir / filename)
+                , config_file(data_dir / (filename + ".d.json"s))
+            {
+                check_is_regular_file(ifc_file);
+                check_is_regular_file(config_file);
+            }
+        } paths;
 
         ifc::Environment environment;
 
     public:
         explicit Reader(const char* filename)
-            : path_to_ifc(filename)
-            , environment(ifc::create_msvc_environment(path_to_ifc.full_path, data_dir))
+            : paths(filename)
+            , environment(ifc::create_msvc_environment(paths.config_file.string(), data_dir))
         {}
 
         ifc::File const& get_main_ifc()
         {
-            return environment.get_module_by_bmi_path(path_to_ifc.full_path);
+            return environment.get_module_by_bmi_path(paths.ifc_file);
         }
 
         ifc::File const& get_referenced_module(ifc::ModuleReference module, ifc::File const& file)
@@ -72,8 +81,6 @@ static void check_class_with_name(ifc::File const& file, ifc::DeclIndex referenc
     ASSERT_EQ(get_kind(scope, file), ifc::TypeBasis::Class);
     ASSERT_EQ(get_identifier(file, scope.name), class_name);
 }
-
-using namespace std::string_view_literals;
 
 TEST(SimpleTest, IFC_dependencies)
 {

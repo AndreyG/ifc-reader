@@ -8,11 +8,11 @@
 #include <filesystem>
 #include <fstream>
 
-static ifc::Environment::Config read_config(std::string const& path_to_metadata, std::optional<std::filesystem::path> const& dir_for_relative_paths)
+static ifc::Environment::Config read_config(std::string const& path_to_config, std::optional<std::filesystem::path> const& dir_for_relative_paths)
 {
-    std::ifstream file(path_to_metadata);
+    std::ifstream file(path_to_config);
     if (!file)
-        throw std::runtime_error("metadata is not found by path '" + path_to_metadata + "'");
+        throw std::runtime_error("metadata is not found by path '" + path_to_config + "'");
 
     nlohmann::json metadata;
     file >> metadata;
@@ -77,7 +77,7 @@ static ifc::Environment::BlobHolderPtr file_reader(std::filesystem::path const &
     return std::make_unique<BlobHolderImpl>(path);
 }
 
-ifc::Environment ifc::create_msvc_environment(std::filesystem::path const& path_to_main_ifc, std::optional<std::filesystem::path> dir_for_relative_paths)
+ifc::Environment ifc::create_msvc_environment(std::string const& path_to_config, std::optional<std::filesystem::path> dir_for_relative_paths)
 {
-    return Environment(read_config(path_to_main_ifc.string() + ".d.json", dir_for_relative_paths), file_reader);
+    return Environment(read_config(path_to_config, dir_for_relative_paths), file_reader);
 }
