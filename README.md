@@ -1,8 +1,14 @@
 # IFC Reader
-This is C++ library for reading [ifc](https://github.com/microsoft/ifc-spec)-files.
-Actually there are 2 separate libraries: `ifc-core` and `ifc-msvc`.
+This is C++ library for reading [ifc](https://github.com/microsoft/ifc-spec)-files (`ifc-core`) and 2 optional extra tiny libraries,
+namely `ifc-msvc` and `ifc-blob-reader`.
+The reason for this separation is the following: `ifc-core` doesn't want to know anything about files, configs and so on.
+The entry point for IFC-reading -- `ifc::File` -- is constructed from [BlobView](https://github.com/AndreyG/ifc-reader/blob/master/lib/core/include/ifc/File.h#L200) 
+and how to get `BlobView` is responsibility of library users.
 
-The reason for this is the following: ifc could contain references to other modules.
+Tests and examples do it via single-function library [ifc-blob-reader](https://github.com/AndreyG/ifc-reader/tree/master/lib/blob-reader)
+wrapping [Boost::iostreams](https://www.boost.org/doc/libs/1_81_0/libs/iostreams/doc/index.html).
+
+One more issue arising during inspecting IFC is how to process cross-module references.
 For example, [the following module interface](https://github.com/Klaim/cxx20-modules-examples/blob/master/hello-module/hello/hello.mxx)
 ```
 export module hello;
@@ -13,22 +19,26 @@ export namespace hello {
   void say_hello(std::string_view name);
 }
 ```
-depends on type `std::string_view` defined in outer header unit `<string_view>` (see `struct` [DeclReference](https://github.com/AndreyG/ifc-reader/blob/master/lib/core/include/ifc/Declaration.h#L402)).
-Conseqeuntly for reading and understanding of some ifc-file it's needed to be able to find and read other ifc-files.
+depends on type `std::string_view` defined in outer header unit `<string_view>`
+(see [`struct DeclReference`](https://github.com/AndreyG/ifc-reader/blob/master/lib/core/include/ifc/Declaration.h#L402)).
+Conseqeuntly during inspecting some ifc-file it may be necessary to find other ifc-files.
 How to do it is not specified in [IFC specification](https://github.com/microsoft/ifc-spec) itself and depends on a compiler/build system.
-To solve this problem library `ifc-core` uses interface [`Environment`](https://github.com/AndreyG/ifc-reader/blob/master/lib/core/include/ifc/Environment.h)
-and library `ifc-msvc` provides its implementation [`MSVCEnvironment`](https://github.com/AndreyG/ifc-reader/blob/master/lib/msvc/include/ifc/MSVCEnvironment.h).
+In `ifc-core` this is done via class [Environment](https://github.com/AndreyG/ifc-reader/blob/master/lib/core/include/ifc/Environment.h#L13)
+receiving [Config](https://github.com/AndreyG/ifc-reader/blob/master/lib/core/include/ifc/Environment.h#L25)
+and library `ifc-msvc` [provides](https://github.com/AndreyG/ifc-reader/blob/master/lib/core/include/ifc/Environment.h#L25) such config,
+reading it from `.json` [produced by MSVC](https://learn.microsoft.com/en-us/cpp/build/reference/sourcedependencies-directives).
 
 # Dependecies
 `ifc-core` doesn't have external dependencies, but requires C++20 for compilation.
 
-`ifc-msvc` depends on [Boost::iostreams](https://www.boost.org/doc/libs/1_81_0/libs/iostreams/doc/index.html) for crossplatform implementation of file mapping
-and [nlohmann::json](https://github.com/nlohmann/json) for reading `.d.json` configs produced by MSVC.
+`ifc-blob-reader` depends on [Boost::iostreams](https://www.boost.org/doc/libs/1_81_0/libs/iostreams/doc/index.html) for crossplatform implementation of file mapping.
+
+`ifc-msvc` depends on [nlohmann::json](https://github.com/nlohmann/json) for reading `.json` configs produced by MSVC.
 
 Tests depends on [GoogleTest](https://github.com/google/googletest).
 # Build
-Nothing special, just plain CMake, something like this should be enough (after installing [Boost::iostreams](https://www.boost.org/doc/libs/1_81_0/libs/iostreams/doc/index.html)
-and [nlohmann::json](https://github.com/nlohmann/json) mentioned [above](#Dependencies), and optionally [GoogleTest](https://github.com/google/googletest)):
+  0. If tests or examples are needed, then install required dependencies, mentioned [above](#Dependencies). It not, then go to step 1.
+  1. Just run CMake, something like this should be enough:
 ```
 mkdir build
 cd build
@@ -36,18 +46,18 @@ cmake ..
 ```
 To build tests switch on CMake option `BUILD_IFC_READER_TESTS`, to build examples -- `BUILD_IFC_READER_EXAMPLES` (see top-level [CMakeLists.txt](https://github.com/AndreyG/ifc-reader/blob/master/CMakeLists.txt)).
 ### Windows
-[Vcpkg](https://github.com/microsoft/vcpkg) could be used for fetching required dependencies. If it's not installed yet, you could run the following commands for pulling package manager itself:
+[Vcpkg](https://github.com/microsoft/vcpkg) could be used for fetching dependencies. If it's not installed yet, you could run the following commands for pulling package manager itself:
 
     git clone https://github.com/microsoft/vcpkg
     cd vcpkg
     bootstrap-vcpkg.bat
     
-And then install required dependencies: 
+And then install dependencies (required for both tests and examples): 
 
     vcpkg.exe install boost-iostreams:x64-windows
     vcpkg.exe install nlohmann-json:x64-windows
     
-for tests (optionally):
+and `GoogleTest` required only for tests:
 
     vcpkg.exe install gtest:x64-windows
 
