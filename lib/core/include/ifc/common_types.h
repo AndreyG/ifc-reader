@@ -3,7 +3,6 @@
 #include <cassert>
 #include <cstdint>
 #include <cstddef>
-#include <string_view>
 
 namespace ifc
 {
@@ -63,7 +62,7 @@ namespace ifc
         }
     };
 
-#define PARTITION_NAME(value) static constexpr std::string_view PartitionName = value
+#define PARTITION_NAME(value) static constexpr auto PartitionName = value
 
 #define PARTITION_SORT(value) static constexpr auto Sort = value
 
