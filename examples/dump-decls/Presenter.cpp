@@ -228,7 +228,10 @@ void Presenter::present(ifc::QualifiedType qualType) const
 
 void Presenter::present(ifc::DeclReference decl_ref) const
 {
-    ifc::File const & imported_module = env_.get_referenced_module(decl_ref.unit, file_);
+    if (!env_)
+        throw std::runtime_error("impossible to get referenced module in single-file mode");
+
+    ifc::File const & imported_module = env_->get_referenced_module(decl_ref.unit, file_);
     Presenter(imported_module, env_, out_).present_refered_declaration(decl_ref.local_index);
 }
 

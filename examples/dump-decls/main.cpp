@@ -3,8 +3,36 @@
 #include "ifc/File.h"
 #include "ifc/MSVCEnvironment.h"
 
+#include <boost/iostreams/device/mapped_file.hpp>
+
 #include <filesystem>
 #include <iostream>
+
+static void dump_ifc(ifc::File const& file, ifc::Environment* env = nullptr)
+{
+    ifc::FileHeader const & header = file.header();
+    std::cout << "IFC Version: " << header.major_version << "." << header.minor_version << "\n"
+              << "File contains " << raw_count(header.partition_count) << " partitions\n"
+              << "Global Scope Index: " << static_cast<int>(header.global_scope) << "\n"
+        ;
+
+    auto declarations = file.declarations();
+    std::cout << "Total declarations count: " << declarations.size() << "\n";
+
+    auto scopes = file.scope_descriptors();
+    std::cout << "Scopes count: " << scopes.size() << "\n";
+
+    size_t number_of_decls_from_all_scopes = 0;
+    for (auto scope : scopes)
+        number_of_decls_from_all_scopes += raw_count(scope.cardinality);
+
+    std::cout << "Count of declarations from all scopes: " << number_of_decls_from_all_scopes << "\n";
+
+    std::cout << "-------------------------------------- Global Scope --------------------------------------\n";
+
+    Presenter presenter(file, env, std::cout);
+    presenter.present_scope_members(file.global_scope());
+}
 
 int main(int argc, char* argv[])
 {
@@ -21,34 +49,21 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
+    using namespace std::string_literals;
+    const auto path_to_config = argv[1] + ".d.json"s;
+
     try
     {
-        ifc::Environment env = ifc::create_msvc_environment(path_to_ifc.string() + ".d.json");
-        ifc::File const & file = env.get_module_by_bmi_path(path_to_ifc);
-
-        ifc::FileHeader const & header = file.header();
-        std::cout << "IFC Version: " << header.major_version << "." << header.minor_version << "\n"
-                  << "File contains " << raw_count(header.partition_count) << " partitions\n"
-                  << "Global Scope Index: " << static_cast<int>(header.global_scope) << "\n"
-            ;
-
-        auto declarations = file.declarations();
-        std::cout << "Total declarations count: " << declarations.size() << "\n";
-
-        auto scopes = file.scope_descriptors();
-        std::cout << "Scopes count: " << scopes.size() << "\n";
-
-        size_t number_of_decls_from_all_scopes = 0;
-        for (auto scope : scopes)
-            number_of_decls_from_all_scopes += raw_count(scope.cardinality);
-
-        std::cout << "Count of declarations from all scopes: " << number_of_decls_from_all_scopes << "\n";
-
-        std::cout << "-------------------------------------- Global Scope --------------------------------------\n";
-
-        Presenter presenter(file, env, std::cout);
-        presenter.present_scope_members(file.global_scope());
-
+        if (std::filesystem::is_regular_file(path_to_config))
+        {
+            ifc::Environment env = ifc::create_msvc_environment(path_to_config);
+            dump_ifc(env.get_module_by_bmi_path(path_to_ifc), &env);
+        }
+        else
+        {
+            boost::iostreams::mapped_file_source file_mapping;
+            dump_ifc(ifc::File(as_bytes(std::span(file_mapping.data(), file_mapping.size()))));
+        }
         return EXIT_SUCCESS;
     }
     catch (std::exception const & e)
