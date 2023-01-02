@@ -2,7 +2,7 @@
 This is C++ library for reading [ifc](https://github.com/microsoft/ifc-spec)-files (`ifc-core`) and 2 optional extra tiny libraries,
 namely `ifc-msvc` and `ifc-blob-reader`.
 The reason for this separation is the following: `ifc-core` doesn't want to know anything about files, configs and so on.
-The entry point for IFC-reading -- `ifc::File` -- is constructed from [BlobView](https://github.com/AndreyG/ifc-reader/blob/master/lib/core/include/ifc/File.h#L200) 
+The entry point for IFC-reading -- `ifc::File` -- is constructed from [BlobView](https://github.com/AndreyG/ifc-reader/blob/master/lib/core/include/ifc/File.h#L202) 
 and how to get `BlobView` is responsibility of library users.
 
 Tests and examples do it via single-function library [ifc-blob-reader](https://github.com/AndreyG/ifc-reader/tree/master/lib/blob-reader)
@@ -25,7 +25,7 @@ Conseqeuntly during inspecting some ifc-file it may be necessary to find other i
 How to do it is not specified in [IFC specification](https://github.com/microsoft/ifc-spec) itself and depends on a compiler/build system.
 In `ifc-core` this is done via class [Environment](https://github.com/AndreyG/ifc-reader/blob/master/lib/core/include/ifc/Environment.h#L13)
 receiving [Config](https://github.com/AndreyG/ifc-reader/blob/master/lib/core/include/ifc/Environment.h#L25)
-and library `ifc-msvc` [provides](https://github.com/AndreyG/ifc-reader/blob/master/lib/core/include/ifc/Environment.h#L25) such config,
+and library `ifc-msvc` [provides](https://github.com/AndreyG/ifc-reader/blob/master/lib/msvc/include/ifc/MSVCEnvironment.h#L7) such config,
 reading it from `.json` [produced by MSVC](https://docs.microsoft.com/en-us/cpp/build/reference/sourcedependencies).
 
 # Dependecies
