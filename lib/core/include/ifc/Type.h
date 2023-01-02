@@ -23,11 +23,12 @@ namespace ifc
         RvalueReference = 0x09,
         Function        = 0x0A,
         Method          = 0x0B,
+        Array           = 0x0C,
         Typename        = 0x0D,
+        Qualified       = 0x0E,
         Base            = 0x0F,
         Decltype        = 0x10,
         Placeholder     = 0x11,
-        Qualified       = 0x0E,
         Tuple           = 0x12,
         Forall          = 0x13,
         Unaligned       = 0x14,
@@ -217,6 +218,15 @@ namespace ifc
 
         PARTITION_NAME("type.rvalue-reference");
         PARTITION_SORT(TypeSort::RvalueReference);
+    };
+
+    struct ArrayType
+    {
+        TypeIndex element;
+        ExprIndex extent;
+
+        PARTITION_NAME("type.array");
+        PARTITION_SORT(TypeSort::Array);
     };
 
     enum class Qualifiers : uint8_t

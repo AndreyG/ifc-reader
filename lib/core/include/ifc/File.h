@@ -81,6 +81,7 @@ namespace ifc
         DECLARE_TYPE_PARTITION_GETTER(PointerType,        pointer_types)
         DECLARE_TYPE_PARTITION_GETTER(FunctionType,       function_types)
         DECLARE_TYPE_PARTITION_GETTER(MethodType,         method_types)
+        DECLARE_TYPE_PARTITION_GETTER(ArrayType,          array_types)
         DECLARE_TYPE_PARTITION_GETTER(BaseType,           base_types)
         DECLARE_TYPE_PARTITION_GETTER(TupleType,          tuple_types)
         DECLARE_TYPE_PARTITION_GETTER(LvalueReference,    lvalue_references)

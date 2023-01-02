@@ -16,6 +16,7 @@ namespace ifc
     struct QualifiedType;
     struct RvalueReference;
     struct LvalueReference;
+    struct ArrayType;
     struct TupleType;
     struct BaseType;
     struct FunctionType;

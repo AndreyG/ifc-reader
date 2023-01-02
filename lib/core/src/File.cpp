@@ -266,6 +266,7 @@ namespace ifc
     DEFINE_TYPE_PARTITION_GETTER(PointerType,        pointer_types)
     DEFINE_TYPE_PARTITION_GETTER(FunctionType,       function_types)
     DEFINE_TYPE_PARTITION_GETTER(MethodType,         method_types)
+    DEFINE_TYPE_PARTITION_GETTER(ArrayType,          array_types)
     DEFINE_TYPE_PARTITION_GETTER(BaseType,           base_types)
     DEFINE_TYPE_PARTITION_GETTER(TupleType,          tuple_types)
     DEFINE_TYPE_PARTITION_GETTER(LvalueReference,    lvalue_references)
