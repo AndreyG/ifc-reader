@@ -58,12 +58,7 @@ namespace ifc
         template<typename T>
         T const* get_pointer(ByteOffset offset) const
         {
-            return static_cast<T const*>(get_raw_pointer(offset));
-        }
-
-        void const* get_raw_pointer(ByteOffset offset) const
-        {
-            return &blob_[static_cast<std::underlying_type_t<ByteOffset>>(offset)];
+            return reinterpret_cast<T const*>(get_raw_pointer(offset));
         }
 
     public:
@@ -96,6 +91,11 @@ namespace ifc
         const char* get_string(TextOffset index) const
         {
             return get_pointer<char>(header().string_table_bytes) + static_cast<size_t>(index);
+        }
+
+        std::byte const* get_raw_pointer(ByteOffset offset) const
+        {
+            return blob_.data() + static_cast<std::underlying_type_t<ByteOffset>>(offset);
         }
 
         template<typename T, typename Index>
@@ -217,6 +217,11 @@ namespace ifc
     ScopePartition File::scope_descriptors() const
     {
         return impl_->get_partition<Sequence, ScopeIndex>("scope.desc");
+    }
+
+    std::byte const* File::get_data_pointer(PartitionSummary const& partition) const
+    {
+        return impl_->get_raw_pointer(partition.offset);
     }
 
     Partition<Declaration, Index> File::declarations() const

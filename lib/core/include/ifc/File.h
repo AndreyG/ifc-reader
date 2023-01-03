@@ -31,6 +31,8 @@ namespace ifc
 
         ScopePartition scope_descriptors() const;
 
+        std::byte const* get_data_pointer(PartitionSummary const&) const;
+
 #define DECLARE_UNTYPED_PARTITION_GETTER(ElementType, IndexType, Property)  \
     public:                                                                 \
     Partition<ElementType, IndexType> Property() const;                     \
