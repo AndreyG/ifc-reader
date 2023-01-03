@@ -355,7 +355,6 @@ namespace ifc
         ParameterPosition position;
         ParameterSort sort;
         ReachableProperties properties;
-        bool pack;
 
         PARTITION_NAME("decl.parameter");
         PARTITION_SORT(DeclSort::Parameter);
