@@ -419,8 +419,6 @@ void Presenter::present(ifc::ChartIndex chart) const
                     out_ << "typename";
                     break;
                 }
-                if (param.pack)
-                    out_ << "...";
                 if (!is_null(param.name))
                     out_ << " " << file_.get_string(param.name);
             }
