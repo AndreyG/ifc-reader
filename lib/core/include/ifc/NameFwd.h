@@ -1,5 +1,7 @@
 #pragma once
 
+#include "AbstractReference.h"
+
 namespace ifc
 {
     enum class NameSort;

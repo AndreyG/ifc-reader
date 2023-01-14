@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AbstractReference.h"
+#include "common_types.h"
 
 #include <cstdint>
 #include <string_view>

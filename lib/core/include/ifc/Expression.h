@@ -1,6 +1,9 @@
 #pragma once
 
 #include "ExpressionFwd.h"
+#include "DeclarationFwd.h"
+#include "NameFwd.h"
+#include "TypeFwd.h"
 
 #include "Literal.h"
 #include "SourceLocation.h"
