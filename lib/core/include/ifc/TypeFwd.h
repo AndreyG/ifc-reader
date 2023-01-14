@@ -1,5 +1,7 @@
 #pragma once
 
+#include "AbstractReference.h"
+
 #include <cstdint>
 
 namespace ifc
