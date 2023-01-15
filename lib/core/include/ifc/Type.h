@@ -5,6 +5,7 @@
 #include "CallingConvention.h"
 #include "ChartFwd.h"
 #include "DeclarationFwd.h"
+#include "ExpressionFwd.h"
 #include "NoexceptSpecification.h"
 #include "SyntaxTreeFwd.h"
 
