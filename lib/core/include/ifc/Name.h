@@ -1,10 +1,9 @@
 #pragma once
 
 #include "NameFwd.h"
+#include "ExpressionFwd.h"
 
 #include "common_types.h"
-
-#include <string_view>
 
 namespace ifc
 {
