@@ -3,8 +3,7 @@
 #include "SyntaxTreeFwd.h"
 
 #include "ExpressionFwd.h"
-
-#include <string_view>
+#include "Name.h"
 
 namespace ifc
 {
@@ -142,6 +141,8 @@ namespace ifc
         PARTITION_NAME("syntax.function-declarator");
         PARTITION_SORT(SyntaxSort::FunctionDeclarator);
     };
+
+    enum class ParameterSort : uint8_t;
 
     struct ParameterDeclaratorSyntax
     {
