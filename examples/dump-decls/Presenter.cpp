@@ -168,7 +168,7 @@ void Presenter::present_range(Range range, std::string_view separator) const
 
 void Presenter::present(ifc::TupleType tuple) const
 {
-    present_heap_slice(file_.type_heap(), tuple);
+    present_heap_slice(file_.type_heap(), tuple.seq);
 }
 
 void Presenter::present(ifc::LvalueReference ref) const

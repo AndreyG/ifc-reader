@@ -94,7 +94,7 @@ TEST(SimpleTest, IFC_dependencies)
     auto const& type = file.function_types()[function.type];
     auto const& return_type = file.fundamental_types()[type.target];
     ASSERT_EQ(return_type.basis, ifc::TypeBasis::Void);
-    auto const& params_type = file.tuple_types()[type.source];
+    auto params_type = file.tuple_types()[type.source].seq;
     ASSERT_EQ(raw_count(params_type.cardinality), 3);
     auto params = file.type_heap().slice(params_type);
     {

@@ -200,8 +200,10 @@ namespace ifc
         PARTITION_SORT(TypeSort::Base);
     };
 
-    struct TupleType : Sequence
+    struct TupleType
     {
+        Sequence seq;
+
         PARTITION_NAME("type.tuple");
         PARTITION_SORT(TypeSort::Tuple);
     };
