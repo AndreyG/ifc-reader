@@ -6,10 +6,12 @@
 
 namespace ifc
 {
-    template<int N, typename Sort>
-        requires std::is_enum_v<Sort>
+    template<int N, typename _Sort>
+        requires std::is_enum_v<_Sort>
     struct AbstractReference
     {
+        using Sort = _Sort;
+
         uint32_t tag    : N;
         uint32_t index  : 32 - N;
 
