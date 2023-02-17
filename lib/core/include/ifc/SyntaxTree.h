@@ -2,8 +2,11 @@
 
 #include "SyntaxTreeFwd.h"
 
+#include "CallingConvention.h"
 #include "ExpressionFwd.h"
 #include "Name.h"
+#include "SourceLocation.h"
+#include "TypeFwd.h"
 
 namespace ifc
 {
