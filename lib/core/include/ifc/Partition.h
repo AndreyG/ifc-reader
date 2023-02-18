@@ -5,6 +5,7 @@
 #include "common_types.h"
 
 #include <cassert>
+#include <ranges>
 
 namespace ifc
 {
@@ -34,7 +35,7 @@ namespace ifc
     }
 
     template<typename T, typename Index = uint32_t>
-    class Partition
+    class Partition : public std::ranges::view_base
     {
     public:
         T const & operator[] (Index index) const
