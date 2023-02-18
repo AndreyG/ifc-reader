@@ -5,6 +5,7 @@ OPTION(BUILD_IFC_READER_EXAMPLES "Build library usage example apps" OFF)
 OPTION(BUILD_IFC_READER_TESTS "Build tests" OFF)
 
 add_subdirectory(lib/core)
+add_subdirectory(lib/reflifc)
 
 if (BUILD_IFC_READER_EXAMPLES OR BUILD_IFC_READER_TESTS)
     add_subdirectory(lib/msvc)
