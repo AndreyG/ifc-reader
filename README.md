@@ -1,8 +1,8 @@
 # IFC Reader
-This is C++ library for reading [ifc](https://github.com/microsoft/ifc-spec)-files (`ifc-core`) and 2 optional extra tiny libraries,
+This is C++ library for reading [ifc](https://github.com/microsoft/ifc-spec)-files (`ifc-core` and its more user friendly interface `reflifc`) and 2 optional extra tiny libraries,
 namely `ifc-msvc` and `ifc-blob-reader`.
-The reason for this separation is the following: `ifc-core` doesn't want to know anything about files, configs and so on.
-The entry point for IFC-reading -- `ifc::File` -- is constructed from [BlobView](https://github.com/AndreyG/ifc-reader/blob/master/lib/core/include/ifc/File.h#L202) 
+The reason for this separation is the following: `ifc-core` and `reflifc` don't want to know anything about files, configs and so on.
+The entry point for IFC-reading -- `ifc::File` -- is constructed from [BlobView](https://github.com/AndreyG/ifc-reader/blob/master/lib/core/include/ifc/File.h#L204)
 and how to get `BlobView` is responsibility of library users.
 
 Tests and examples do it via single-function library [ifc-blob-reader](https://github.com/AndreyG/ifc-reader/tree/master/lib/blob-reader)
@@ -20,7 +20,7 @@ export namespace hello {
 }
 ```
 depends on type `std::string_view` defined in outer header unit `<string_view>`
-(see [`struct DeclReference`](https://github.com/AndreyG/ifc-reader/blob/master/lib/core/include/ifc/Declaration.h#L402)).
+(see [`struct DeclReference`](https://github.com/AndreyG/ifc-reader/blob/master/lib/core/include/ifc/Declaration.h#L401)).
 Conseqeuntly during inspecting some ifc-file it may be necessary to find other ifc-files.
 How to do it is not specified in [IFC specification](https://github.com/microsoft/ifc-spec) itself and depends on a compiler/build system.
 In `ifc-core` this is done via class [Environment](https://github.com/AndreyG/ifc-reader/blob/master/lib/core/include/ifc/Environment.h#L13)
@@ -29,7 +29,7 @@ and library `ifc-msvc` [provides](https://github.com/AndreyG/ifc-reader/blob/mas
 reading it from `.json` [produced by MSVC](https://docs.microsoft.com/en-us/cpp/build/reference/sourcedependencies).
 
 # Dependecies
-`ifc-core` doesn't have external dependencies, but requires C++20 for compilation.
+`ifc-core` and `reflifc` don't have external dependencies, but require C++20 for compilation.
 
 `ifc-blob-reader` depends on [Boost::iostreams](https://www.boost.org/doc/libs/1_81_0/libs/iostreams/doc/index.html) for crossplatform implementation of file mapping.
 
