@@ -264,8 +264,10 @@ namespace ifc
         PARTITION_SORT(SyntaxSort::TypeTraitIntrinsic);
     };
 
-    struct TupleSyntax : Sequence
+    struct TupleSyntax
     {
+        Sequence seq;
+
         PARTITION_NAME("syntax.tuple");
         PARTITION_SORT(SyntaxSort::Tuple);
     };

@@ -487,7 +487,7 @@ void Presenter::present_function_parameters(ifc::SyntaxIndex parameters) const
     if (parameters.sort() == ifc::SyntaxSort::Tuple)
     {
         bool first = true;
-        for (auto param : file_.syntax_heap().slice(file_.tuple_syntax_trees()[parameters]))
+        for (auto param : file_.syntax_heap().slice(file_.tuple_syntax_trees()[parameters].seq))
         {
             if (first)
                 first = false;
@@ -516,7 +516,7 @@ void Presenter::present_requirements(ifc::SyntaxIndex requirements) const
 {
     if (requirements.sort() == ifc::SyntaxSort::Tuple)
     {
-        for (auto requirement : file_.syntax_heap().slice(file_.tuple_syntax_trees()[requirements]))
+        for (auto requirement : file_.syntax_heap().slice(file_.tuple_syntax_trees()[requirements].seq))
             present_requirement(requirement);
     }
     else

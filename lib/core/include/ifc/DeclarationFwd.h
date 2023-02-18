@@ -27,4 +27,5 @@ namespace ifc
     struct IntrinsicDeclaration;
 
     enum class Access : uint8_t;
+    enum class ObjectTraits : uint8_t;
 }
