@@ -2,7 +2,7 @@
 
 #include "Attribute.h"
 #include "Expression.h"
-#include "RangeOf.h"
+#include "ViewOf.h"
 
 #include <ifc/File.h>
 #include <ifc/Declaration.h>
@@ -82,13 +82,13 @@ namespace reflifc
         bool                 is_intrinsic() const;
         IntrinsicDeclaration as_intrinsic() const;
 
-        RangeOf<Attribute> auto attributes() const
+        ViewOf<Attribute> auto attributes() const
         {
             return ifc_.trait_declaration_attributes(index_)
                 | std::views::transform([&ifc = ifc_] (ifc::AttrIndex attr) { return Attribute(ifc, attr); });
         }
 
-        RangeOf<Expression> auto friends() const
+        ViewOf<Expression> auto friends() const
         {
             return ifc_.declarations().slice(ifc_.trait_friendship_of_class(index_))
                 | std::views::transform([&ifc = ifc_] (ifc::Declaration decl) {

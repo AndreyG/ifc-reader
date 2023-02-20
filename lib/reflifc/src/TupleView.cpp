@@ -4,7 +4,7 @@
 #include "reflifc/Syntax.h"
 #include "reflifc/Type.h"
 
-#include "reflifc/RangeOf.h"
+#include "reflifc/ViewOf.h"
 
 #include <ifc/File.h>
 #include <ifc/Expression.h>
@@ -129,7 +129,7 @@ namespace reflifc
     template struct TupleView<TupleSyntaxTraits>;
     template struct TupleView<TupleTypeTraits>;
 
-    static_assert(RangeOf<TupleExpressionView,  Expression>);
-    static_assert(RangeOf<TupleSyntaxView,      Syntax>);
-    static_assert(RangeOf<TupleTypeView,        Type>);
+    static_assert(ViewOf<TupleExpressionView,  Expression>);
+    static_assert(ViewOf<TupleSyntaxView,      Syntax>);
+    static_assert(ViewOf<TupleTypeView,        Type>);
 }

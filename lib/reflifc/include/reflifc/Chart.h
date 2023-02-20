@@ -2,7 +2,7 @@
 
 #include "reflifc/decl/Parameter.h"
 
-#include "RangeOf.h"
+#include "ViewOf.h"
 
 #include <ifc/Chart.h>
 #include <ifc/File.h>
@@ -38,7 +38,7 @@ namespace reflifc
         {
         }
 
-        RangeOf<Parameter> auto parameters() const
+        ViewOf<Parameter> auto parameters() const
         {
             return ifc_.parameters().slice(params_sequence())
                 | std::views::transform([&ifc = ifc_] (ifc::ParameterDeclaration const & param) { return Parameter(ifc, param); });

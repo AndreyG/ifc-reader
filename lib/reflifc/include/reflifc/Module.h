@@ -29,7 +29,7 @@ namespace reflifc
         {
         }
 
-        RangeOf<ScopeDeclaration> auto scope_declarations() const
+        ViewOf<ScopeDeclaration> auto scope_declarations() const
         {
             return ifc_.scope_declarations()
                 | std::views::transform([&ifc = ifc_] (ifc::ScopeDeclaration const & scope) {

@@ -10,21 +10,21 @@ namespace reflifc
 {
     using namespace std::views;
 
-    inline RangeOf<ScopeDeclaration> auto get_scope_declarations(Scope scope)
+    inline ViewOf<ScopeDeclaration> auto get_scope_declarations(Scope scope)
     {
         return scope.get_declarations()
             | filter(&Declaration::is_scope)
             | transform(&Declaration::as_scope);
     }
 
-    inline RangeOf<ClassOrStruct> auto get_classes_and_structs(Module module)
+    inline ViewOf<ClassOrStruct> auto get_classes_and_structs(Module module)
     {
         return module.scope_declarations()
             | filter(&ScopeDeclaration::is_class_or_struct)
             | transform(&ScopeDeclaration::as_class_or_struct);
     }
 
-    inline RangeOf<ClassOrStruct> auto get_classes_and_structs(Scope scope)
+    inline ViewOf<ClassOrStruct> auto get_classes_and_structs(Scope scope)
     {
         return get_scope_declarations(scope)
             | filter(&ScopeDeclaration::is_class_or_struct)

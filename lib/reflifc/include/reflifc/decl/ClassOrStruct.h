@@ -26,13 +26,13 @@ namespace reflifc
 
         ifc::TypeBasis kind() const;
 
-        RangeOf<Declaration> auto members() const
+        ViewOf<Declaration> auto members() const
         {
             assert(is_complete());
             return Scope(ifc_, scope_.initializer).get_declarations();
         }
 
-        RangeOf<BaseType> auto bases() const
+        ViewOf<BaseType> auto bases() const
         {
             return TupleTypeView(ifc_, scope_.base) | std::views::transform(&Type::as_base);
         }
@@ -42,14 +42,14 @@ namespace reflifc
         ifc::ScopeDeclaration const& scope_;
     };
 
-    inline RangeOf<Field> auto fields(ClassOrStruct strct)
+    inline ViewOf<Field> auto fields(ClassOrStruct strct)
     {
         return strct.members()
             | std::views::filter(&Declaration::is_field)
             | std::views::transform(&Declaration::as_field);
     }
 
-    inline RangeOf<Variable> auto static_variables(ClassOrStruct strct)
+    inline ViewOf<Variable> auto static_variables(ClassOrStruct strct)
     {
         return strct.members()
             | std::views::filter(&Declaration::is_variable)

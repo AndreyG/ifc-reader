@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "reflifc/Declaration.h"
-#include "reflifc/RangeOf.h"
+#include "reflifc/ViewOf.h"
 
 #include <ifc/File.h>
 #include <ifc/Declaration.h>
@@ -16,7 +16,7 @@ namespace reflifc
         {
         }
 
-        RangeOf<Declaration> auto get_declarations() const
+        ViewOf<Declaration> auto get_declarations() const
         {
             const auto scope_members = ifc_.scope_descriptors()[scope_];
             return ifc::get_declarations(ifc_, scope_members)

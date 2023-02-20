@@ -2,7 +2,7 @@
 
 #include "Enumerator.h"
 
-#include "reflifc/RangeOf.h"
+#include "reflifc/ViewOf.h"
 
 #include <ifc/Declaration.h>
 #include <ifc/File.h>
@@ -24,7 +24,7 @@ namespace reflifc
 
         char const* name() const;
 
-        RangeOf<Enumerator> auto enumerators() const
+        ViewOf<Enumerator> auto enumerators() const
         {
             return ifc_.enumerators().slice(enumerators_sequence())
                 | std::views::transform([&ifc = ifc_] (ifc::Enumerator const& enumerator) { return Enumerator(ifc, enumerator); });

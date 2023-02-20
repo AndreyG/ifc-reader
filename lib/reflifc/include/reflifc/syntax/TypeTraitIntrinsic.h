@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "reflifc/RangeOf.h"
+#include "reflifc/ViewOf.h"
 #include "reflifc/Syntax.h"
 #include "reflifc/TupleView.h"
 
@@ -23,7 +23,7 @@ namespace reflifc
             return syntax_.intrinsic;
         }
 
-        RangeOf<Syntax> auto arguments() const
+        ViewOf<Syntax> auto arguments() const
         {
             return TupleSyntaxView(ifc_, syntax_.arguments)
                 | std::views::transform([] (Syntax syntax) { return syntax.as_type_template_argument(); });
