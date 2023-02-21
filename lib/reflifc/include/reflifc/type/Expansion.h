@@ -9,16 +9,16 @@ namespace reflifc
 
     struct ExpansionType
     {
-        ExpansionType(ifc::File const& ifc, ifc::ExpansionType const& expansion)
+        ExpansionType(ifc::File const* ifc, ifc::ExpansionType const& expansion)
             : ifc_(ifc)
-            , expansion_(expansion)
+            , expansion_(&expansion)
         {
         }
 
         Type pack() const;
 
     private:
-        ifc::File const& ifc_;
-        ifc::ExpansionType const& expansion_;
+        ifc::File const* ifc_;
+        ifc::ExpansionType const* expansion_;
     };
 }

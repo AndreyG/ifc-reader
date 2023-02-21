@@ -8,11 +8,11 @@ namespace reflifc
 {
     Declaration UsingDeclaration::resolution() const
     {
-        return { ifc_, using_decl_.resolution };
+        return { ifc_, using_decl_->resolution };
     }
 
     Declaration UsingDeclaration::home_scope() const
     {
-        return { ifc_, using_decl_.home_scope };
+        return { ifc_, using_decl_->home_scope };
     }
 }

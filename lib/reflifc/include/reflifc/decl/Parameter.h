@@ -10,9 +10,9 @@ namespace reflifc
 
     struct Parameter
     {
-        Parameter(ifc::File const& ifc, ifc::ParameterDeclaration const& param)
+        Parameter(ifc::File const* ifc, ifc::ParameterDeclaration const& param)
             : ifc_(ifc)
-            , param_(param)
+            , param_(&param)
         {
         }
 
@@ -21,10 +21,10 @@ namespace reflifc
 
         Chart template_parameters() const;
 
-        ifc::ParameterSort sort() const { return param_.sort; }
+        ifc::ParameterSort sort() const { return param_->sort; }
 
     private:
-        ifc::File const & ifc_;
-        ifc::ParameterDeclaration const& param_;
+        ifc::File const* ifc_;
+        ifc::ParameterDeclaration const* param_;
     };
 }

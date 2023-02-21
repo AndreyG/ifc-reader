@@ -26,7 +26,7 @@ namespace reflifc
 
     struct Expression
     {
-        Expression(ifc::File const& ifc, ifc::ExprIndex index)
+        Expression(ifc::File const* ifc, ifc::ExprIndex index)
             : ifc_(ifc)
             , index_(index)
         {
@@ -89,7 +89,7 @@ namespace reflifc
         ifc::ExprSort sort() const { return index_.sort(); }
 
     private:
-        ifc::File const& ifc_;
+        ifc::File const* ifc_;
         ifc::ExprIndex index_;
     };
 }

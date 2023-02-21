@@ -10,9 +10,9 @@ namespace reflifc
 
     struct TemplateIdSyntax
     {
-        TemplateIdSyntax(ifc::File const& ifc, ifc::TemplateIdSyntax const& syntax)
+        TemplateIdSyntax(ifc::File const* ifc, ifc::TemplateIdSyntax const& syntax)
             : ifc_(ifc)
-            , syntax_(syntax)
+            , syntax_(&syntax)
         {
         }
 
@@ -20,7 +20,7 @@ namespace reflifc
         TupleSyntaxView arguments() const;
 
     private:
-        ifc::File const & ifc_;
-        ifc::TemplateIdSyntax const& syntax_;
+        ifc::File const* ifc_;
+        ifc::TemplateIdSyntax const* syntax_;
     };
 }

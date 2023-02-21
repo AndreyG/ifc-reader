@@ -18,9 +18,9 @@ namespace reflifc
 
     struct Function
     {
-        Function(ifc::File const& ifc, ifc::FunctionDeclaration const& func)
+        Function(ifc::File const* ifc, ifc::FunctionDeclaration const& func)
             : ifc_(ifc)
-            , func_(func)
+            , func_(&func)
         {
         }
 
@@ -31,15 +31,15 @@ namespace reflifc
         ifc::Access access() const;
 
     private:
-        ifc::File const & ifc_;
-        ifc::FunctionDeclaration const& func_;
+        ifc::File const* ifc_;
+        ifc::FunctionDeclaration const* func_;
     };
 
     struct Method
     {
-        Method(ifc::File const& ifc, ifc::MethodDeclaration const& method)
+        Method(ifc::File const* ifc, ifc::MethodDeclaration const& method)
             : ifc_(ifc)
-            , method_(method)
+            , method_(&method)
         {
         }
 
@@ -50,15 +50,15 @@ namespace reflifc
         ifc::Access access() const;
 
     private:
-        ifc::File const & ifc_;
-        ifc::MethodDeclaration const& method_;
+        ifc::File const* ifc_;
+        ifc::MethodDeclaration const* method_;
     };
 
     struct Constructor
     {
-        Constructor(ifc::File const& ifc, ifc::Constructor const& ctor)
+        Constructor(ifc::File const* ifc, ifc::Constructor const& ctor)
             : ifc_(ifc)
-            , ctor_(ctor)
+            , ctor_(&ctor)
         {
         }
 
@@ -75,15 +75,15 @@ namespace reflifc
         ifc::TorType const& tor_type() const;
 
     private:
-        ifc::File const & ifc_;
-        ifc::Constructor const& ctor_;
+        ifc::File const* ifc_;
+        ifc::Constructor const* ctor_;
     };
 
     struct Destructor
     {
-        Destructor(ifc::File const& ifc, ifc::Destructor const& dtor)
+        Destructor(ifc::File const* ifc, ifc::Destructor const& dtor)
             : ifc_(ifc)
-            , dtor_(dtor)
+            , dtor_(&dtor)
         {
         }
 
@@ -91,7 +91,7 @@ namespace reflifc
         Declaration home_scope() const;
 
     private:
-        ifc::File const & ifc_;
-        ifc::Destructor const& dtor_;
+        ifc::File const* ifc_;
+        ifc::Destructor const* dtor_;
     };
 }

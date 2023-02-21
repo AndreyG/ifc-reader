@@ -8,6 +8,6 @@ namespace reflifc
 {
     Expression ReadExpression::address() const
     {
-        return { ifc_, expr_.address };
+        return { ifc_, expr_->address };
     }
 }

@@ -13,9 +13,9 @@ namespace reflifc
 
     struct ScopeDeclaration
     {
-        ScopeDeclaration(ifc::File const& ifc, ifc::ScopeDeclaration const& scope)
+        ScopeDeclaration(ifc::File const* ifc, ifc::ScopeDeclaration const& scope)
             : ifc_(ifc)
-            , scope_(scope)
+            , scope_(&scope)
         {
         }
 
@@ -32,7 +32,7 @@ namespace reflifc
         ifc::TypeBasis kind() const;
 
     private:
-        ifc::File const & ifc_;
-        ifc::ScopeDeclaration const& scope_;
+        ifc::File const* ifc_;
+        ifc::ScopeDeclaration const* scope_;
     };
 }

@@ -4,7 +4,7 @@
 
 namespace reflifc
 {
-    SizeofExpression::SizeofExpression(ifc::File const& ifc, ifc::SizeofExpression const& expr)
+    SizeofExpression::SizeofExpression(ifc::File const* ifc, ifc::SizeofExpression const& expr)
         : operand(ifc, expr.operand)
     {
     }

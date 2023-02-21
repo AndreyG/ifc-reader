@@ -8,6 +8,6 @@ namespace reflifc
 {
     Type ExpansionType::pack() const
     {
-        return { ifc_, expansion_.pack };
+        return { ifc_, expansion_->pack };
     }
 }

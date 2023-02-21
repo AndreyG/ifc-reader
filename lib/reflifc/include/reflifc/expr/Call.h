@@ -11,9 +11,9 @@ namespace reflifc
 
     struct CallExpression
     {
-        CallExpression(ifc::File const& ifc, ifc::CallExpression const& expr)
+        CallExpression(ifc::File const* ifc, ifc::CallExpression const& expr)
             : ifc_(ifc)
-            , expr_(expr)
+            , expr_(&expr)
         {
         }
 
@@ -21,7 +21,7 @@ namespace reflifc
         TupleExpressionView arguments() const;
 
     private:
-        ifc::File const & ifc_;
-        ifc::CallExpression const& expr_;
+        ifc::File const* ifc_;
+        ifc::CallExpression const* expr_;
     };
 }

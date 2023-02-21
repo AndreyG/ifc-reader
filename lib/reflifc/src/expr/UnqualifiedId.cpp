@@ -9,11 +9,11 @@ namespace reflifc
 {
     Name UnqualifiedIdExpression::name() const
     {
-        return { ifc_, expr_.name };
+        return { ifc_, expr_->name };
     }
 
     Expression UnqualifiedIdExpression::resolution() const
     {
-        return { ifc_, expr_.resolution };
+        return { ifc_, expr_->resolution };
     }
 }

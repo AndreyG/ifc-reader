@@ -9,6 +9,6 @@ namespace reflifc
 {
     TypeSpecifierSyntax TypeIdSyntax::type_specifier() const
     {
-        return Syntax(ifc_, syntax_.type_specifier).as_type_specifier();
+        return Syntax(ifc_, syntax_->type_specifier).as_type_specifier();
     }
 }

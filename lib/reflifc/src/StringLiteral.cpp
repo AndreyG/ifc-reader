@@ -6,6 +6,6 @@ namespace reflifc
 {
     std::string_view StringLiteral::value() const
     {
-        return { ifc_.get_string(literal_.start), raw_count(literal_.length) - 1 };
+        return { ifc_->get_string(literal_.start), raw_count(literal_.length) - 1 };
     }
 }

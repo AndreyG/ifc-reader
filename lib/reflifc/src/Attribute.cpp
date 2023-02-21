@@ -14,7 +14,7 @@ namespace reflifc
     Word Attribute::as_basic() const
     {
         assert(is_basic());
-        return { ifc_, ifc_.basic_attributes()[index_].word };
+        return { ifc_, ifc_->basic_attributes()[index_].word };
     }
 
     bool Attribute::is_called() const
@@ -25,16 +25,16 @@ namespace reflifc
     AttributeCalled Attribute::as_called() const
     {
         assert(is_called());
-        return { ifc_, ifc_.called_attributes()[index_] };
+        return { ifc_, ifc_->called_attributes()[index_] };
     }
 
     Attribute AttributeCalled::function() const
     {
-        return { ifc_, attr_.function };
+        return { ifc_, attr_->function };
     }
 
     Attribute AttributeCalled::arguments() const
     {
-        return { ifc_, attr_.arguments };
+        return { ifc_, attr_->arguments };
     }
 }

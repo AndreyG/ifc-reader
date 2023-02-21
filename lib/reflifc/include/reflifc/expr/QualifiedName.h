@@ -12,20 +12,20 @@ namespace reflifc
 
     struct QualifiedNameExpression
     {
-        QualifiedNameExpression(ifc::File const& ifc, ifc::QualifiedNameExpression const& expr)
+        QualifiedNameExpression(ifc::File const* ifc, ifc::QualifiedNameExpression const& expr)
             : ifc_(ifc)
-            , expr_(expr)
+            , expr_(&expr)
         {
         }
 
         ViewOf<Expression> auto parts() const
         {
-            return get_qualified_name_parts(ifc_, expr_)
-                | std::views::transform([&ifc = ifc_] (ifc::ExprIndex part) { return Expression(ifc, part); });
+            return get_qualified_name_parts(*ifc_, *expr_)
+                | std::views::transform([ifc = ifc_] (ifc::ExprIndex part) { return Expression(ifc, part); });
         }
 
     private:
-        ifc::File const & ifc_;
-        ifc::QualifiedNameExpression const& expr_;
+        ifc::File const* ifc_;
+        ifc::QualifiedNameExpression const* expr_;
     };
 }

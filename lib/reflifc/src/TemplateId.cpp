@@ -9,11 +9,11 @@ namespace reflifc
 {
     Expression TemplateId::primary() const
     {
-        return Expression(ifc_, template_id_.primary);
+        return Expression(ifc_, template_id_->primary);
     }
 
     TupleExpressionView TemplateId::arguments() const
     {
-        return { ifc_, template_id_.arguments };
+        return { ifc_, template_id_->arguments };
     }
 }

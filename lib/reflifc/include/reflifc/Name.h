@@ -12,7 +12,7 @@ namespace reflifc
 
     struct Name
     {
-        Name(ifc::File const& ifc, ifc::NameIndex index)
+        Name(ifc::File const* ifc, ifc::NameIndex index)
             : ifc_(ifc)
             , index_(index)
         {
@@ -40,15 +40,15 @@ namespace reflifc
         ifc::NameSort sort() const { return index_.sort(); }
 
     private:
-        ifc::File const & ifc_;
+        ifc::File const* ifc_;
         ifc::NameIndex index_;
     };
 
     struct SpecializationName
     {
-        SpecializationName(ifc::File const& ifc, ifc::SpecializationName const& specialization)
+        SpecializationName(ifc::File const* ifc, ifc::SpecializationName const& specialization)
             : ifc_(ifc)
-            , specialization_(specialization)
+            , specialization_(&specialization)
         {
         }
 
@@ -56,8 +56,8 @@ namespace reflifc
         TupleExpressionView template_arguments()    const;
 
     private:
-        ifc::File const & ifc_;
-        ifc::SpecializationName const& specialization_;
+        ifc::File const* ifc_;
+        ifc::SpecializationName const* specialization_;
     };
 
     inline bool is_identifier(Name name, std::string_view s)

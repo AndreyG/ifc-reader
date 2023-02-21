@@ -9,7 +9,7 @@ namespace reflifc
 {
     struct SizeofExpression
     {
-        SizeofExpression(ifc::File const& ifc, ifc::SizeofExpression const& expr);
+        SizeofExpression(ifc::File const* ifc, ifc::SizeofExpression const& expr);
 
         Type operand;
     };

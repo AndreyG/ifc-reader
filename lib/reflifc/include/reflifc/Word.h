@@ -7,9 +7,9 @@ namespace reflifc
 {
     struct Word
     {
-        Word(ifc::File const& ifc, ifc::Word const& word)
+        Word(ifc::File const* ifc, ifc::Word const& word)
             : ifc_(ifc)
-            , word_(word)
+            , word_(&word)
         {
         }
 
@@ -17,7 +17,7 @@ namespace reflifc
         char const* as_identifier() const;
 
     private:
-        ifc::File const& ifc_;
-        ifc::Word const& word_;
+        ifc::File const* ifc_;
+        ifc::Word const* word_;
     };
 }

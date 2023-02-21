@@ -31,7 +31,7 @@ public:
     ModuleWrapper(std::filesystem::path const & path_to_ifc)
         : blob_(ifc::read_blob(path_to_ifc))
         , file_(blob_->view())
-        , module(file_)
+        , module(&file_)
     {}
 
 public:

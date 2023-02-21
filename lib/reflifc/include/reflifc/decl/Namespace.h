@@ -11,7 +11,7 @@ namespace reflifc
 {
     struct Namespace
     {
-        Namespace(ifc::File const& ifc, ifc::ScopeDeclaration const& scope)
+        Namespace(ifc::File const* ifc, ifc::ScopeDeclaration const& scope)
             : ifc_(ifc)
             , scope_(scope)
         {
@@ -23,7 +23,7 @@ namespace reflifc
         bool is_inline() const { return ifc::is_inline(scope_); }
 
     private:
-        ifc::File const & ifc_;
+        ifc::File const* ifc_;
         ifc::ScopeDeclaration const& scope_;
     };
 }

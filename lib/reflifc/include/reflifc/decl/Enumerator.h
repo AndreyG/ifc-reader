@@ -9,9 +9,9 @@ namespace reflifc
 {
     struct Enumerator
     {
-        Enumerator(ifc::File const& ifc, ifc::Enumerator const& enumerator)
+        Enumerator(ifc::File const* ifc, ifc::Enumerator const& enumerator)
             : ifc_(ifc)
-            , enumerator_(enumerator)
+            , enumerator_(&enumerator)
         {
         }
 
@@ -20,8 +20,8 @@ namespace reflifc
         Expression value() const;
 
     private:
-        ifc::File const & ifc_;
-        ifc::Enumerator const& enumerator_;
+        ifc::File const* ifc_;
+        ifc::Enumerator const* enumerator_;
     };
 
     inline auto int_value(Enumerator enumerator)

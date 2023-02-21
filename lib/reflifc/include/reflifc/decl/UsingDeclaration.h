@@ -9,9 +9,9 @@ namespace reflifc
 
     struct UsingDeclaration
     {
-        UsingDeclaration(ifc::File const& ifc, ifc::UsingDeclaration const& using_decl)
+        UsingDeclaration(ifc::File const* ifc, ifc::UsingDeclaration const& using_decl)
             : ifc_(ifc)
-            , using_decl_(using_decl)
+            , using_decl_(&using_decl)
         {
         }
 
@@ -19,7 +19,7 @@ namespace reflifc
         Declaration home_scope() const;
 
     private:
-        ifc::File const & ifc_;
-        ifc::UsingDeclaration const& using_decl_;
+        ifc::File const* ifc_;
+        ifc::UsingDeclaration const* using_decl_;
     };
 }

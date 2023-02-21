@@ -14,36 +14,36 @@ namespace reflifc
 {
     TemplateIdSyntax Syntax::as_template_id() const
     {
-        return { ifc_, ifc_.templateid_syntax_trees()[index_] };
+        return { ifc_, ifc_->templateid_syntax_trees()[index_] };
     }
 
     Expression Syntax::as_expression() const
     {
-        return { ifc_, ifc_.expression_syntax_trees()[index_].expression };
+        return { ifc_, ifc_->expression_syntax_trees()[index_].expression };
     }
 
     TypeIdSyntax Syntax::as_type_id() const
     {
-        return { ifc_, ifc_.typeid_syntax_trees()[index_] };
+        return { ifc_, ifc_->typeid_syntax_trees()[index_] };
     }
 
     TypeSpecifierSyntax Syntax::as_type_specifier() const
     {
-        return { ifc_, ifc_.type_specifier_seq_syntax_trees()[index_] };
+        return { ifc_, ifc_->type_specifier_seq_syntax_trees()[index_] };
     }
 
     Syntax Syntax::as_type_template_argument() const
     {
-        return { ifc_, ifc_.type_template_argument_syntax_trees()[index_].argument };
+        return { ifc_, ifc_->type_template_argument_syntax_trees()[index_].argument };
     }
 
     TypeTraitIntrinsicSyntax Syntax::as_type_trait_intrinsic() const
     {
-        return { ifc_, ifc_.type_trait_intrinsic_syntax_trees()[index_] };
+        return { ifc_, ifc_->type_trait_intrinsic_syntax_trees()[index_] };
     }
 
     Expression Syntax::requires_clause_condition() const
     {
-        return { ifc_, ifc_.requires_clause_syntax_trees()[index_].condition };
+        return { ifc_, ifc_->requires_clause_syntax_trees()[index_].condition };
     }
 }

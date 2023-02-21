@@ -10,9 +10,9 @@ namespace reflifc
 
     struct TemplateId
     {
-        TemplateId(ifc::File const& ifc, ifc::TemplateId const& template_id)
+        TemplateId(ifc::File const* ifc, ifc::TemplateId const& template_id)
             : ifc_(ifc)
-            , template_id_(template_id)
+            , template_id_(&template_id)
         {
         }
 
@@ -21,7 +21,7 @@ namespace reflifc
         TupleExpressionView arguments() const;
 
     private:
-        ifc::File const& ifc_;
-        ifc::TemplateId const& template_id_;
+        ifc::File const* ifc_;
+        ifc::TemplateId const* template_id_;
     };
 }

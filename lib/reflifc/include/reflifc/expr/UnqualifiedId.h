@@ -10,9 +10,9 @@ namespace reflifc
 
     struct UnqualifiedIdExpression
     {
-        UnqualifiedIdExpression(ifc::File const& ifc, ifc::UnqualifiedId const& expr)
+        UnqualifiedIdExpression(ifc::File const* ifc, ifc::UnqualifiedId const& expr)
             : ifc_(ifc)
-            , expr_(expr)
+            , expr_(&expr)
         {
         }
 
@@ -21,7 +21,7 @@ namespace reflifc
         Expression resolution() const;
 
     private:
-        ifc::File const & ifc_;
-        ifc::UnqualifiedId const& expr_;
+        ifc::File const* ifc_;
+        ifc::UnqualifiedId const* expr_;
     };
 }

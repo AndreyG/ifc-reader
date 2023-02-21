@@ -22,7 +22,7 @@ namespace reflifc
 
     ScopeDeclaration Declaration::as_scope() const
     {
-        return { ifc_, ifc_.scope_declarations()[index_] };
+        return { ifc_, ifc_->scope_declarations()[index_] };
     }
 
     ClassOrStruct Declaration::as_class_or_struct() const
@@ -37,7 +37,7 @@ namespace reflifc
 
     Enumeration Declaration::as_enumeration() const
     {
-        return { ifc_, ifc_.enumerations()[index_] };
+        return { ifc_, ifc_->enumerations()[index_] };
     }
 
     bool Declaration::is_alias() const
@@ -47,7 +47,7 @@ namespace reflifc
 
     AliasDeclaration Declaration::as_alias() const
     {
-        return { ifc_, ifc_.alias_declarations()[index_] };
+        return { ifc_, ifc_->alias_declarations()[index_] };
     }
 
     bool Declaration::is_using() const
@@ -57,7 +57,7 @@ namespace reflifc
 
     UsingDeclaration Declaration::as_using() const
     {
-        return { ifc_, ifc_.using_declarations()[index_] };
+        return { ifc_, ifc_->using_declarations()[index_] };
     }
 
     bool Declaration::is_template() const
@@ -67,7 +67,7 @@ namespace reflifc
 
     TemplateDeclaration Declaration::as_template() const
     {
-        return { ifc_, ifc_.template_declarations()[index_] };
+        return { ifc_, ifc_->template_declarations()[index_] };
     }
 
     bool Declaration::is_concept() const
@@ -77,7 +77,7 @@ namespace reflifc
 
     Concept Declaration::as_concept() const
     {
-        return { ifc_, ifc_.concepts()[index_] };
+        return { ifc_, ifc_->concepts()[index_] };
     }
 
     bool Declaration::is_variable() const
@@ -87,7 +87,7 @@ namespace reflifc
 
     Variable Declaration::as_variable() const
     {
-        return { ifc_, ifc_.variables()[index_] };
+        return { ifc_, ifc_->variables()[index_] };
     }
 
     bool Declaration::is_field() const
@@ -97,7 +97,7 @@ namespace reflifc
 
     Field Declaration::as_field() const
     {
-        return { ifc_, ifc_.fields()[index_] };
+        return { ifc_, ifc_->fields()[index_] };
     }
 
     bool Declaration::is_parameter() const
@@ -108,7 +108,7 @@ namespace reflifc
     Parameter Declaration::as_parameter() const
     {
         assert(is_parameter());
-        return { ifc_, ifc_.parameters()[index_] };
+        return { ifc_, ifc_->parameters()[index_] };
     }
 
     bool Declaration::is_function() const
@@ -119,7 +119,7 @@ namespace reflifc
     Function Declaration::as_function() const
     {
         assert(is_function());
-        return { ifc_, ifc_.functions()[index_] };
+        return { ifc_, ifc_->functions()[index_] };
     }
 
     bool Declaration::is_method() const
@@ -129,7 +129,7 @@ namespace reflifc
 
     Method Declaration::as_method() const
     {
-        return { ifc_, ifc_.methods()[index_] };
+        return { ifc_, ifc_->methods()[index_] };
     }
 
     bool Declaration::is_constructor() const
@@ -139,7 +139,7 @@ namespace reflifc
 
     Constructor Declaration::as_constructor() const
     {
-        return { ifc_, ifc_.constructors()[index_] };
+        return { ifc_, ifc_->constructors()[index_] };
     }
 
     bool Declaration::is_destructor() const
@@ -149,7 +149,7 @@ namespace reflifc
 
     Destructor Declaration::as_destructor() const
     {
-        return { ifc_, ifc_.destructors()[index_] };
+        return { ifc_, ifc_->destructors()[index_] };
     }
 
     bool Declaration::is_intrinsic() const
@@ -159,6 +159,6 @@ namespace reflifc
 
     IntrinsicDeclaration Declaration::as_intrinsic() const
     {
-        return { ifc_, ifc_.intrinsic_declarations()[index_] };
+        return { ifc_, ifc_->intrinsic_declarations()[index_] };
     }
 }

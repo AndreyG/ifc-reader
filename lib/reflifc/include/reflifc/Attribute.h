@@ -11,7 +11,7 @@ namespace reflifc
 
     struct Attribute
     {
-        Attribute(ifc::File const& ifc, ifc::AttrIndex index)
+        Attribute(ifc::File const* ifc, ifc::AttrIndex index)
             : ifc_(ifc)
             , index_(index)
         {
@@ -24,15 +24,15 @@ namespace reflifc
         AttributeCalled as_called() const;
 
     private:
-        ifc::File const& ifc_;
+        ifc::File const* ifc_;
         ifc::AttrIndex index_;
     };
 
     struct AttributeCalled
     {
-        AttributeCalled(ifc::File const& ifc, ifc::AttrCalled const& attr)
+        AttributeCalled(ifc::File const* ifc, ifc::AttrCalled const& attr)
             : ifc_(ifc)
-            , attr_(attr)
+            , attr_(&attr)
         {
         }
 
@@ -40,7 +40,7 @@ namespace reflifc
         Attribute arguments() const;
 
     private:
-        ifc::File const& ifc_;
-        ifc::AttrCalled const& attr_;
+        ifc::File const* ifc_;
+        ifc::AttrCalled const* attr_;
     };
 }

@@ -9,9 +9,9 @@ namespace reflifc
 
     struct PathExpression
     {
-        PathExpression(ifc::File const& ifc, ifc::PathExpression const& expr)
+        PathExpression(ifc::File const* ifc, ifc::PathExpression const& expr)
             : ifc_(ifc)
-            , expr_(expr)
+            , expr_(&expr)
         {
         }
 
@@ -19,7 +19,7 @@ namespace reflifc
         Expression member() const;
 
     private:
-        ifc::File const & ifc_;
-        ifc::PathExpression const& expr_;
+        ifc::File const* ifc_;
+        ifc::PathExpression const* expr_;
     };
 }

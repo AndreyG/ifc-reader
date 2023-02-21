@@ -9,11 +9,11 @@ namespace reflifc
 {
     Chart ForallType::chart() const
     {
-        return { ifc_, forall_.chart };
+        return { ifc_, forall_->chart };
     }
 
     Type ForallType::subject() const
     {
-        return { ifc_, forall_.subject };
+        return { ifc_, forall_->subject };
     }
 }

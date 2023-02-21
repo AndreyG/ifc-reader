@@ -13,12 +13,12 @@ namespace reflifc
 {
     const char* Parameter::name() const
     {
-        return ifc_.get_string(param_.name);
+        return ifc_->get_string(param_->name);
     }
 
     Type Parameter::type() const
     {
-        return { ifc_, param_.type };
+        return { ifc_, param_->type };
     }
 
     Chart Parameter::template_parameters() const

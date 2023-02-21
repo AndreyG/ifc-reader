@@ -39,7 +39,7 @@ namespace reflifc
 
     ArrayType Type::as_array() const
     {
-        return { *ifc_, ifc_->array_types()[index_] };
+        return { ifc_, ifc_->array_types()[index_] };
     }
 
     bool Type::is_designated() const
@@ -49,7 +49,7 @@ namespace reflifc
 
     Declaration Type::designation() const
     {
-        return { *ifc_, ifc_->designated_types()[index_].decl };
+        return { ifc_, ifc_->designated_types()[index_].decl };
     }
 
     bool Type::is_syntactic() const
@@ -59,7 +59,7 @@ namespace reflifc
 
     TemplateId Type::as_syntactic() const
     {
-        return Expression(*ifc_, ifc_->syntactic_types()[index_].expr).as_template_id();
+        return Expression(ifc_, ifc_->syntactic_types()[index_].expr).as_template_id();
     }
 
     bool Type::is_base() const
@@ -69,7 +69,7 @@ namespace reflifc
 
     BaseType Type::as_base() const
     {
-        return { *ifc_, ifc_->base_types()[index_] };
+        return { ifc_, ifc_->base_types()[index_] };
     }
 
     bool Type::is_lvalue_reference() const
@@ -79,7 +79,7 @@ namespace reflifc
 
     LvalueReference Type::as_lvalue_reference() const
     {
-        return { *ifc_, ifc_->lvalue_references()[index_] };
+        return { ifc_, ifc_->lvalue_references()[index_] };
     }
 
     bool Type::is_rvalue_reference() const
@@ -89,7 +89,7 @@ namespace reflifc
 
     RvalueReference Type::as_rvalue_reference() const
     {
-        return { *ifc_, ifc_->rvalue_references()[index_] };
+        return { ifc_, ifc_->rvalue_references()[index_] };
     }
 
     bool Type::is_pointer() const
@@ -99,7 +99,7 @@ namespace reflifc
 
     PointerType Type::as_pointer() const
     {
-        return { *ifc_, ifc_->pointer_types()[index_] };
+        return { ifc_, ifc_->pointer_types()[index_] };
     }
 
     bool Type::is_function() const
@@ -109,7 +109,7 @@ namespace reflifc
 
     FunctionType Type::as_function() const
     {
-        return { *ifc_, ifc_->function_types()[index_] };
+        return { ifc_, ifc_->function_types()[index_] };
     }
 
     bool Type::is_method() const
@@ -119,7 +119,7 @@ namespace reflifc
 
     MethodType Type::as_method() const
     {
-        return { *ifc_, ifc_->method_types()[index_] };
+        return { ifc_, ifc_->method_types()[index_] };
     }
 
     bool Type::is_qualified() const
@@ -129,7 +129,7 @@ namespace reflifc
 
     QualifiedType Type::as_qualified() const
     {
-        return { *ifc_, ifc_->qualified_types()[index_] };
+        return { ifc_, ifc_->qualified_types()[index_] };
     }
 
     bool Type::is_expansion() const
@@ -139,7 +139,7 @@ namespace reflifc
 
     ExpansionType Type::as_expansion() const
     {
-        return { *ifc_, ifc_->expansion_types()[index_] };
+        return { ifc_, ifc_->expansion_types()[index_] };
     }
 
     bool Type::is_forall() const
@@ -150,7 +150,7 @@ namespace reflifc
     ForallType Type::as_forall() const
     {
         assert(is_forall());
-        return { *ifc_, ifc_->forall_types()[index_] };
+        return { ifc_, ifc_->forall_types()[index_] };
     }
 
     bool Type::is_decltype() const
@@ -160,7 +160,7 @@ namespace reflifc
 
     Expression Type::decltype_argument() const
     {
-        return { *ifc_, ifc_->decltype_specifiers()[ifc_->decltype_types()[index_].argument].argument };
+        return { ifc_, ifc_->decltype_specifiers()[ifc_->decltype_types()[index_].argument].argument };
     }
 
     bool Type::is_placeholder() const
@@ -170,7 +170,7 @@ namespace reflifc
 
     PlaceholderType Type::as_placeholder() const
     {
-        return { *ifc_, ifc_->placeholder_types()[index_] };
+        return { ifc_, ifc_->placeholder_types()[index_] };
     }
 
     bool Type::is_typename() const
@@ -180,6 +180,6 @@ namespace reflifc
 
     PathExpression Type::typename_path() const
     {
-        return Expression(*ifc_, ifc_->typename_types()[index_].path).as_path();
+        return Expression(ifc_, ifc_->typename_types()[index_].path).as_path();
     }
 }

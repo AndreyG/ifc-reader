@@ -10,11 +10,11 @@ namespace reflifc
 {
     Expression CallExpression::operation() const
     {
-        return { ifc_, expr_.operation };
+        return { ifc_, expr_->operation };
     }
 
     TupleExpressionView CallExpression::arguments() const
     {
-        return { ifc_, ifc_.expression_lists()[expr_.arguments].contents };
+        return { ifc_, ifc_->expression_lists()[expr_->arguments].contents };
     }
 }

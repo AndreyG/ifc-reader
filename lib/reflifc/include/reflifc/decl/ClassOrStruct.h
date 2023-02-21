@@ -14,9 +14,9 @@ namespace reflifc
 {
     struct ClassOrStruct
     {
-        ClassOrStruct(ifc::File const& ifc, ifc::ScopeDeclaration const& scope)
+        ClassOrStruct(ifc::File const* ifc, ifc::ScopeDeclaration const& scope)
             : ifc_(ifc)
-            , scope_(scope)
+            , scope_(&scope)
         {
         }
 
@@ -29,17 +29,17 @@ namespace reflifc
         ViewOf<Declaration> auto members() const
         {
             assert(is_complete());
-            return Scope(ifc_, scope_.initializer).get_declarations();
+            return Scope(ifc_, scope_->initializer).get_declarations();
         }
 
         ViewOf<BaseType> auto bases() const
         {
-            return TupleTypeView(ifc_, scope_.base) | std::views::transform(&Type::as_base);
+            return TupleTypeView(ifc_, scope_->base) | std::views::transform(&Type::as_base);
         }
 
     private:
-        ifc::File const & ifc_;
-        ifc::ScopeDeclaration const& scope_;
+        ifc::File const* ifc_;
+        ifc::ScopeDeclaration const* scope_;
     };
 
     inline ViewOf<Field> auto fields(ClassOrStruct strct)

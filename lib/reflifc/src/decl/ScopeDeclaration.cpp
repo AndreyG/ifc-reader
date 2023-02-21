@@ -9,12 +9,12 @@ namespace reflifc
 {
     Name ScopeDeclaration::name() const
     {
-        return { ifc_, scope_.name };
+        return { ifc_, scope_->name };
     }
 
     Declaration ScopeDeclaration::home_scope() const
     {
-        return { ifc_, scope_.home_scope };
+        return { ifc_, scope_->home_scope };
     }
 
     bool ScopeDeclaration::is_namespace() const
@@ -24,7 +24,7 @@ namespace reflifc
 
     Namespace ScopeDeclaration::as_namespace() const
     {
-        return { ifc_, scope_ };
+        return { ifc_, *scope_ };
     }
 
     bool ScopeDeclaration::is_class_or_struct() const
@@ -36,16 +36,16 @@ namespace reflifc
     ClassOrStruct ScopeDeclaration::as_class_or_struct() const
     {
         assert(is_class_or_struct());
-        return { ifc_, scope_ };
+        return { ifc_, *scope_ };
     }
 
     ifc::BasicSpecifiers ScopeDeclaration::specifiers() const
     {
-        return scope_.specifiers;
+        return scope_->specifiers;
     }
 
     ifc::TypeBasis ScopeDeclaration::kind() const
     {
-        return get_kind(scope_, ifc_);
+        return get_kind(*scope_, *ifc_);
     }
 }

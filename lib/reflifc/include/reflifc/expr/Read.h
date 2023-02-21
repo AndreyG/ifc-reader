@@ -9,16 +9,16 @@ namespace reflifc
 
     struct ReadExpression
     {
-        ReadExpression(ifc::File const& ifc, ifc::ReadExpression const& expr)
+        ReadExpression(ifc::File const* ifc, ifc::ReadExpression const& expr)
             : ifc_(ifc)
-            , expr_(expr)
+            , expr_(&expr)
         {
         }
 
         Expression address() const;
 
     private:
-        ifc::File const & ifc_;
-        ifc::ReadExpression const& expr_;
+        ifc::File const* ifc_;
+        ifc::ReadExpression const* expr_;
     };
 }

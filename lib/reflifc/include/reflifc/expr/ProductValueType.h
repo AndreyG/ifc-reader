@@ -10,9 +10,9 @@ namespace reflifc
 
     struct ProductValueTypeExpression
     {
-        ProductValueTypeExpression(ifc::File const& ifc, ifc::ProductValueTypeExpression const& expr)
+        ProductValueTypeExpression(ifc::File const* ifc, ifc::ProductValueTypeExpression const& expr)
             : ifc_(ifc)
-            , expr_(expr)
+            , expr_(&expr)
         {
         }
 
@@ -20,7 +20,7 @@ namespace reflifc
         TupleExpressionView members() const;
 
     private:
-        ifc::File const & ifc_;
-        ifc::ProductValueTypeExpression const& expr_;
+        ifc::File const* ifc_;
+        ifc::ProductValueTypeExpression const* expr_;
     };
 }

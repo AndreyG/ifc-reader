@@ -11,9 +11,9 @@ namespace reflifc
 
     struct Field
     {
-        Field(ifc::File const& ifc, ifc::FieldDeclaration const& field)
+        Field(ifc::File const* ifc, ifc::FieldDeclaration const& field)
             : ifc_(ifc)
-            , field_(field)
+            , field_(&field)
         {
         }
 
@@ -29,7 +29,7 @@ namespace reflifc
         Expression initializer() const;
 
     private:
-        ifc::File const & ifc_;
-        ifc::FieldDeclaration const& field_;
+        ifc::File const* ifc_;
+        ifc::FieldDeclaration const* field_;
     };
 }

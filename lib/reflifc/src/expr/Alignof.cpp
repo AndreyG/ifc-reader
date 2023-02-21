@@ -4,7 +4,7 @@
 
 namespace reflifc
 {
-    AlignofExpression::AlignofExpression(ifc::File const& ifc, ifc::AlignofExpression const& expr)
+    AlignofExpression::AlignofExpression(ifc::File const* ifc, ifc::AlignofExpression const& expr)
         : operand(ifc, expr.operand)
     {
     }

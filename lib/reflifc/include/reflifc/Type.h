@@ -25,8 +25,8 @@ namespace reflifc
 
     struct Type
     {
-        Type(ifc::File const& ifc, ifc::TypeIndex index)
-            : ifc_(&ifc)
+        Type(ifc::File const* ifc, ifc::TypeIndex index)
+            : ifc_(ifc)
             , index_(index)
         {
         }

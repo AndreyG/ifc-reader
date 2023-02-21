@@ -11,37 +11,37 @@ namespace reflifc
 {
     Name Variable::name() const
     {
-        return { ifc_, var_.name };
+        return { ifc_, var_->name };
     }
 
     Type Variable::type() const
     {
-        return { ifc_, var_.type };
+        return { ifc_, var_->type };
     }
 
     ifc::Access Variable::access() const
     {
-        return var_.access;
+        return var_->access;
     }
 
     ifc::ObjectTraits Variable::traits() const
     {
-        return var_.traits;
+        return var_->traits;
     }
 
     Declaration Variable::home_scope() const
     {
-        return { ifc_, var_.home_scope };
+        return { ifc_, var_->home_scope };
     }
 
     bool Variable::has_initializer() const
     {
-        return !var_.initializer.is_null();
+        return !var_->initializer.is_null();
     }
 
     Expression Variable::initializer() const
     {
         assert(has_initializer());
-        return { ifc_, var_.initializer };
+        return { ifc_, var_->initializer };
     }
 }

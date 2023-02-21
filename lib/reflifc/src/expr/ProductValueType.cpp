@@ -9,11 +9,11 @@ namespace reflifc
 {
     Type ProductValueTypeExpression::structure() const
     {
-        return { ifc_, expr_.structure };
+        return { ifc_, expr_->structure };
     }
 
     TupleExpressionView ProductValueTypeExpression::members() const
     {
-        return { ifc_, expr_.members };
+        return { ifc_, expr_->members };
     }
 }

@@ -8,6 +8,6 @@ namespace reflifc
 {
     Syntax TypeSpecifierSyntax::typename_() const
     {
-        return { ifc_, syntax_.typename_ };
+        return { ifc_, syntax_->typename_ };
     }
 }

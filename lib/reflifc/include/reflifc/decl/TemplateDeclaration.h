@@ -12,7 +12,7 @@ namespace reflifc
 
     struct TemplateDeclaration
     {
-        TemplateDeclaration(ifc::File const& ifc, ifc::TemplateDeclaration const& template_)
+        TemplateDeclaration(ifc::File const* ifc, ifc::TemplateDeclaration const& template_)
             : ifc_(ifc)
             , template_(template_)
         {
@@ -26,7 +26,7 @@ namespace reflifc
         ifc::BasicSpecifiers specifiers() const;
 
     private:
-        ifc::File const & ifc_;
+        ifc::File const* ifc_;
         ifc::TemplateDeclaration const& template_;
     };
 }

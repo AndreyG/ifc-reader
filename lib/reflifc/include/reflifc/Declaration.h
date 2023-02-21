@@ -27,7 +27,7 @@ namespace reflifc
 
     struct Declaration
     {
-        Declaration(ifc::File const& ifc, ifc::DeclIndex index)
+        Declaration(ifc::File const* ifc, ifc::DeclIndex index)
             : ifc_(ifc)
             , index_(index)
         {
@@ -84,15 +84,15 @@ namespace reflifc
 
         ViewOf<Attribute> auto attributes() const
         {
-            return ifc_.trait_declaration_attributes(index_)
-                | std::views::transform([&ifc = ifc_] (ifc::AttrIndex attr) { return Attribute(ifc, attr); });
+            return ifc_->trait_declaration_attributes(index_)
+                | std::views::transform([ifc = ifc_] (ifc::AttrIndex attr) { return Attribute(ifc, attr); });
         }
 
         ViewOf<Expression> auto friends() const
         {
-            return ifc_.declarations().slice(ifc_.trait_friendship_of_class(index_))
-                | std::views::transform([&ifc = ifc_] (ifc::Declaration decl) {
-                      return Expression(ifc, ifc.friends()[decl.index].entity);
+            return ifc_->declarations().slice(ifc_->trait_friendship_of_class(index_))
+                | std::views::transform([ifc = ifc_] (ifc::Declaration decl) {
+                      return Expression(ifc, ifc->friends()[decl.index].entity);
                   });
         }
 
@@ -100,7 +100,7 @@ namespace reflifc
         ifc::DeclIndex index() const { return index_; }
 
     private:
-        ifc::File const &ifc_;
+        ifc::File const* ifc_;
         ifc::DeclIndex index_;
     };
 }

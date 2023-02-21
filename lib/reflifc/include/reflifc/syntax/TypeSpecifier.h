@@ -9,16 +9,16 @@ namespace reflifc
 
     struct TypeSpecifierSyntax
     {
-        TypeSpecifierSyntax(ifc::File const& ifc, ifc::TypeSpecifierSeq const& syntax)
+        TypeSpecifierSyntax(ifc::File const* ifc, ifc::TypeSpecifierSeq const& syntax)
             : ifc_(ifc)
-            , syntax_(syntax)
+            , syntax_(&syntax)
         {
         }
 
         Syntax typename_() const;
 
     private:
-        ifc::File const & ifc_;
-        ifc::TypeSpecifierSeq const& syntax_;
+        ifc::File const* ifc_;
+        ifc::TypeSpecifierSeq const* syntax_;
     };
 }

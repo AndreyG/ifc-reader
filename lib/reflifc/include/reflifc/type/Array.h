@@ -10,9 +10,9 @@ namespace reflifc
 
     struct ArrayType
     {
-        ArrayType(ifc::File const& ifc, ifc::ArrayType const& array)
+        ArrayType(ifc::File const* ifc, ifc::ArrayType const& array)
             : ifc_(ifc)
-            , array_(array)
+            , array_(&array)
         {
         }
 
@@ -20,8 +20,8 @@ namespace reflifc
         Expression  extent() const;
 
     private:
-        ifc::File const& ifc_;
-        ifc::ArrayType const& array_;
+        ifc::File const* ifc_;
+        ifc::ArrayType const* array_;
     };
 
     std::uint32_t extent_value(ArrayType);

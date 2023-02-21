@@ -9,7 +9,7 @@ namespace reflifc
 {
     struct AlignofExpression
     {
-        AlignofExpression(ifc::File const& ifc, ifc::AlignofExpression const& expr);
+        AlignofExpression(ifc::File const* ifc, ifc::AlignofExpression const& expr);
 
         Type operand;
     };

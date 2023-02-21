@@ -10,9 +10,9 @@ namespace reflifc
 
     struct MonadExpression
     {
-        MonadExpression(ifc::File const& ifc, ifc::MonadExpression const& expr)
+        MonadExpression(ifc::File const* ifc, ifc::MonadExpression const& expr)
             : ifc_(ifc)
-            , expr_(expr)
+            , expr_(&expr)
         {
         }
 
@@ -23,7 +23,7 @@ namespace reflifc
         Declaration resolve() const;
 
     private:
-        ifc::File const & ifc_;
-        ifc::MonadExpression const& expr_;
+        ifc::File const* ifc_;
+        ifc::MonadExpression const* expr_;
     };
 }

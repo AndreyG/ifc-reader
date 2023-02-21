@@ -10,9 +10,9 @@ namespace reflifc
 
     struct AliasDeclaration
     {
-        AliasDeclaration(ifc::File const& ifc, ifc::AliasDeclaration const& alias)
+        AliasDeclaration(ifc::File const* ifc, ifc::AliasDeclaration const& alias)
             : ifc_(ifc)
-            , alias_(alias)
+            , alias_(&alias)
         {
         }
 
@@ -22,7 +22,7 @@ namespace reflifc
         ifc::Access access()    const;
 
     private:
-        ifc::File const & ifc_;
-        ifc::AliasDeclaration const& alias_;
+        ifc::File const* ifc_;
+        ifc::AliasDeclaration const* alias_;
     };
 }

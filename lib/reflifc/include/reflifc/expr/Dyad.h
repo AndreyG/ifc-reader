@@ -10,9 +10,9 @@ namespace reflifc
 
     struct DyadExpression
     {
-        DyadExpression(ifc::File const& ifc, ifc::DyadExpression const& expr)
+        DyadExpression(ifc::File const* ifc, ifc::DyadExpression const& expr)
             : ifc_(ifc)
-            , expr_(expr)
+            , expr_(&expr)
         {
         }
 
@@ -24,7 +24,7 @@ namespace reflifc
         Declaration resolve() const;
 
     private:
-        ifc::File const & ifc_;
-        ifc::DyadExpression const& expr_;
+        ifc::File const* ifc_;
+        ifc::DyadExpression const* expr_;
     };
 }

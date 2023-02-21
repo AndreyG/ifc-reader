@@ -9,16 +9,16 @@ namespace reflifc
 
     struct TypeIdSyntax
     {
-        TypeIdSyntax(ifc::File const& ifc, ifc::TypeIdSyntax const& syntax)
+        TypeIdSyntax(ifc::File const* ifc, ifc::TypeIdSyntax const& syntax)
             : ifc_(ifc)
-            , syntax_(syntax)
+            , syntax_(&syntax)
         {
         }
 
         TypeSpecifierSyntax type_specifier() const;
 
     private:
-        ifc::File const & ifc_;
-        ifc::TypeIdSyntax const& syntax_;
+        ifc::File const* ifc_;
+        ifc::TypeIdSyntax const* syntax_;
     };
 }

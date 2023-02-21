@@ -13,7 +13,7 @@ namespace reflifc
 
     struct Chart
     {
-        Chart(ifc::File const& ifc, ifc::ChartIndex index)
+        Chart(ifc::File const* ifc, ifc::ChartIndex index)
             : ifc_(ifc),
               index_(index)
         {
@@ -24,7 +24,7 @@ namespace reflifc
         ifc::ChartSort sort() const { return index_.sort(); }
 
     private:
-        ifc::File const& ifc_;
+        ifc::File const* ifc_;
         ifc::ChartIndex index_;
     };
 
@@ -32,16 +32,16 @@ namespace reflifc
 
     struct ChartUnilevel
     {
-        ChartUnilevel(ifc::File const& ifc, ifc::ChartUnilevel const& unilevel)
+        ChartUnilevel(ifc::File const* ifc, ifc::ChartUnilevel const& unilevel)
             : ifc_(ifc),
-              unilevel_(unilevel)
+              unilevel_(&unilevel)
         {
         }
 
         ViewOf<Parameter> auto parameters() const
         {
-            return ifc_.parameters().slice(params_sequence())
-                | std::views::transform([&ifc = ifc_] (ifc::ParameterDeclaration const & param) { return Parameter(ifc, param); });
+            return ifc_->parameters().slice(params_sequence())
+                | std::views::transform([ifc = ifc_] (ifc::ParameterDeclaration const & param) { return Parameter(ifc, param); });
         }
 
         ifc::Sequence params_sequence() const;
@@ -50,7 +50,7 @@ namespace reflifc
         Expression  constraint()        const;
 
     private:
-        ifc::File const& ifc_;
-        ifc::ChartUnilevel const& unilevel_;
+        ifc::File const* ifc_;
+        ifc::ChartUnilevel const* unilevel_;
     };
 }

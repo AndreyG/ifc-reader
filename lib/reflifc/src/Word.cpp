@@ -7,11 +7,11 @@ namespace reflifc
 {
     bool Word::is_identifier() const
     {
-        return word_.sort == ifc::WordSort::Identifier;
+        return word_->sort == ifc::WordSort::Identifier;
     }
 
     char const* Word::as_identifier() const
     {
-        return ifc_.get_string(static_cast<ifc::TextOffset>(word_.index));
+        return ifc_->get_string(static_cast<ifc::TextOffset>(word_->index));
     }
 }

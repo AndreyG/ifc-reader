@@ -16,9 +16,9 @@ namespace reflifc
 
     struct Enumeration
     {
-        Enumeration(ifc::File const& ifc, ifc::Enumeration const& enum_)
+        Enumeration(ifc::File const* ifc, ifc::Enumeration const& enum_)
             : ifc_(ifc)
-            , enum_(enum_)
+            , enum_(&enum_)
         {
         }
 
@@ -26,8 +26,8 @@ namespace reflifc
 
         ViewOf<Enumerator> auto enumerators() const
         {
-            return ifc_.enumerators().slice(enumerators_sequence())
-                | std::views::transform([&ifc = ifc_] (ifc::Enumerator const& enumerator) { return Enumerator(ifc, enumerator); });
+            return ifc_->enumerators().slice(enumerators_sequence())
+                | std::views::transform([ifc = ifc_] (ifc::Enumerator const& enumerator) { return Enumerator(ifc, enumerator); });
         }
 
         Type underlying_type() const;
@@ -38,11 +38,11 @@ namespace reflifc
 
         ifc::BasicSpecifiers specifiers() const;
 
-        ifc::Sequence enumerators_sequence() const { return enum_.initializer; }
+        ifc::Sequence enumerators_sequence() const { return enum_->initializer; }
 
     private:
-        ifc::File const & ifc_;
-        ifc::Enumeration const& enum_;
+        ifc::File const* ifc_;
+        ifc::Enumeration const* enum_;
     };
 
     std::optional<Enumerator> find_enumerator_by_value(Enumeration, std::uint32_t value);

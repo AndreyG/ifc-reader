@@ -10,7 +10,7 @@ namespace reflifc
 
     struct FunctionType
     {
-        FunctionType(ifc::File const& ifc, ifc::FunctionType const& function)
+        FunctionType(ifc::File const* ifc, ifc::FunctionType const& function)
             : ifc_(ifc)
             , function_(function)
         {
@@ -20,13 +20,13 @@ namespace reflifc
         Type            return_type()   const;
 
     private:
-        ifc::File const& ifc_;
+        ifc::File const* ifc_;
         ifc::FunctionType const& function_;
     };
 
     struct MethodType
     {
-        MethodType(ifc::File const& ifc, ifc::MethodType const& method)
+        MethodType(ifc::File const* ifc, ifc::MethodType const& method)
             : ifc_(ifc)
             , method_(method)
         {
@@ -39,7 +39,7 @@ namespace reflifc
         ifc::FunctionTypeTraits traits() const;
 
     private:
-        ifc::File const& ifc_;
+        ifc::File const* ifc_;
         ifc::MethodType const& method_;
     };
 }

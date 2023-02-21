@@ -8,11 +8,11 @@ namespace reflifc
 {
     ifc::TypeBasis PlaceholderType::basis() const
     {
-        return placeholder_.basis;
+        return placeholder_->basis;
     }
 
     Type PlaceholderType::elaboration() const
     {
-        return { ifc_, placeholder_.elaboration };
+        return { ifc_, placeholder_->elaboration };
     }
 }

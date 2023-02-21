@@ -8,7 +8,7 @@ namespace reflifc
 {
     struct LvalueReference
     {
-        LvalueReference(ifc::File const& ifc, ifc::LvalueReference ref)
+        LvalueReference(ifc::File const* ifc, ifc::LvalueReference ref)
             : referee(ifc, ref.referee)
         {
         }
@@ -18,7 +18,7 @@ namespace reflifc
 
     struct RvalueReference
     {
-        RvalueReference(ifc::File const& ifc, ifc::RvalueReference ref)
+        RvalueReference(ifc::File const* ifc, ifc::RvalueReference ref)
             : referee(ifc, ref.referee)
         {
         }

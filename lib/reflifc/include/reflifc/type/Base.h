@@ -9,7 +9,7 @@ namespace reflifc
 {
     struct BaseType
     {
-        BaseType(ifc::File const& ifc, ifc::BaseType base)
+        BaseType(ifc::File const* ifc, ifc::BaseType base)
             : type(ifc, base.type)
             , access(base.access)
             , specifiers(base.specifiers)

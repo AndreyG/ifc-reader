@@ -9,9 +9,9 @@ namespace reflifc
 
     struct PlaceholderType
     {
-        PlaceholderType(ifc::File const& ifc, ifc::PlaceholderType const& placeholder)
+        PlaceholderType(ifc::File const* ifc, ifc::PlaceholderType const& placeholder)
             : ifc_(ifc),
-              placeholder_(placeholder)
+              placeholder_(&placeholder)
         {
         }
 
@@ -19,7 +19,7 @@ namespace reflifc
         Type elaboration() const;
 
     private:
-        ifc::File const& ifc_;
-        ifc::PlaceholderType const& placeholder_;
+        ifc::File const* ifc_;
+        ifc::PlaceholderType const* placeholder_;
     };
 }

@@ -12,9 +12,9 @@ namespace reflifc
 
     struct Variable
     {
-        Variable(ifc::File const& ifc, ifc::VariableDeclaration const& var)
+        Variable(ifc::File const* ifc, ifc::VariableDeclaration const& var)
             : ifc_(ifc)
-            , var_(var)
+            , var_(&var)
         {
         }
 
@@ -30,7 +30,7 @@ namespace reflifc
         Expression initializer() const;
 
     private:
-        ifc::File const & ifc_;
-        ifc::VariableDeclaration const& var_;
+        ifc::File const* ifc_;
+        ifc::VariableDeclaration const* var_;
     };
 }

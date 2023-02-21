@@ -8,7 +8,7 @@ namespace reflifc
 {
     struct PointerType
     {
-        PointerType(ifc::File const& ifc, ifc::PointerType pointer)
+        PointerType(ifc::File const* ifc, ifc::PointerType pointer)
             : pointee(ifc, pointer.pointee)
         {
         }

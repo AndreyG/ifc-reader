@@ -11,9 +11,9 @@ namespace reflifc
 
     struct Concept
     {
-        Concept(ifc::File const& ifc, ifc::Concept const& c)
+        Concept(ifc::File const* ifc, ifc::Concept const& c)
             : ifc_(ifc)
-            , c_(c)
+            , c_(&c)
         {
         }
 
@@ -23,7 +23,7 @@ namespace reflifc
         Declaration home_scope()    const;
 
     private:
-        ifc::File const & ifc_;
-        ifc::Concept const& c_;
+        ifc::File const* ifc_;
+        ifc::Concept const* c_;
     };
 }

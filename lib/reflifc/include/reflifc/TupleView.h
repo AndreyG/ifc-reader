@@ -57,9 +57,9 @@ namespace reflifc
 
         TupleView() = default;
 
-        TupleView(ifc::File const& ifc, Index const& index)
+        TupleView(ifc::File const* ifc, Index const& index)
             : index_(&index)
-            , ifc_(&ifc)
+            , ifc_(ifc)
         {
         }
 

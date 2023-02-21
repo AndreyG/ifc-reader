@@ -13,7 +13,7 @@ namespace reflifc
 
     struct Syntax
     {
-        Syntax(ifc::File const& ifc, ifc::SyntaxIndex index)
+        Syntax(ifc::File const* ifc, ifc::SyntaxIndex index)
             : ifc_(ifc)
             , index_(index)
         {
@@ -30,7 +30,7 @@ namespace reflifc
         Expression                  requires_clause_condition() const;
 
     private:
-        ifc::File const& ifc_;
+        ifc::File const* ifc_;
         ifc::SyntaxIndex index_;
     };
 }

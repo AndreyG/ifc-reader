@@ -18,7 +18,7 @@ namespace reflifc
     template<typename Traits>
     typename Traits::Element TupleView<Traits>::Iterator::operator*() const
     {
-        return { *ifc_, *index_ };
+        return { ifc_, *index_ };
     }
 
     template<typename Traits>
@@ -67,7 +67,7 @@ namespace reflifc
         if (index > 0)
             throw std::out_of_range("single element TupleView");
 
-        return { *ifc_, *index_ };
+        return { ifc_, *index_ };
     }
 
     template<typename Traits>

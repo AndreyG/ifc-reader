@@ -9,7 +9,7 @@ namespace reflifc
 
     struct QualifiedType
     {
-        QualifiedType(ifc::File const& ifc, ifc::QualifiedType const& qualified)
+        QualifiedType(ifc::File const* ifc, ifc::QualifiedType const& qualified)
             : ifc_(ifc),
               qualified_(qualified)
         {
@@ -19,7 +19,7 @@ namespace reflifc
         ifc::Qualifiers qualifiers()    const;
 
     private:
-        ifc::File const& ifc_;
+        ifc::File const* ifc_;
         ifc::QualifiedType const& qualified_;
     };
 }

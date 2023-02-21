@@ -10,9 +10,9 @@ namespace reflifc
 
     struct ForallType
     {
-        ForallType(ifc::File const& ifc, ifc::ForallType const& forall)
+        ForallType(ifc::File const* ifc, ifc::ForallType const& forall)
             : ifc_(ifc)
-            , forall_(forall)
+            , forall_(&forall)
         {
         }
 
@@ -20,7 +20,7 @@ namespace reflifc
         Type    subject()   const;
 
     private:
-        ifc::File const& ifc_;
-        ifc::ForallType const& forall_;
+        ifc::File const* ifc_;
+        ifc::ForallType const* forall_;
     };
 }

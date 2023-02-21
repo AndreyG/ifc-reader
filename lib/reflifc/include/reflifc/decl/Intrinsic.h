@@ -10,18 +10,18 @@ namespace reflifc
 {
     struct IntrinsicDeclaration
     {
-        IntrinsicDeclaration(ifc::File const& ifc, ifc::IntrinsicDeclaration const& intrinsic)
+        IntrinsicDeclaration(ifc::File const* ifc, ifc::IntrinsicDeclaration const& intrinsic)
             : ifc_(ifc)
-            , intrinsic_(intrinsic)
+            , intrinsic_(&intrinsic)
         {
         }
 
-        const char* name()          const { return ifc_.get_string(intrinsic_.name); }
-        Type        type()          const { return { ifc_, intrinsic_.type }; }
-        Declaration home_scope()    const { return { ifc_, intrinsic_.home_scope }; }
+        const char* name()          const { return ifc_->get_string(intrinsic_->name); }
+        Type        type()          const { return { ifc_, intrinsic_->type }; }
+        Declaration home_scope()    const { return { ifc_, intrinsic_->home_scope }; }
 
     private:
-        ifc::File const & ifc_;
-        ifc::IntrinsicDeclaration const& intrinsic_;
+        ifc::File const* ifc_;
+        ifc::IntrinsicDeclaration const* intrinsic_;
     };
 }

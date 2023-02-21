@@ -7,7 +7,7 @@ namespace reflifc
 {
     struct Literal
     {
-        Literal(ifc::File const& ifc, ifc::LitIndex index)
+        Literal(ifc::File const* ifc, ifc::LitIndex index)
             : ifc_(ifc)
             , index_(index)
         {
@@ -24,7 +24,7 @@ namespace reflifc
         ifc::LiteralSort sort() const { return index_.sort(); }
 
     private:
-        ifc::File const& ifc_;
+        ifc::File const* ifc_;
         ifc::LitIndex index_;
     };
 }

@@ -9,11 +9,11 @@ namespace reflifc
 {
     const char* Enumerator::name() const
     {
-        return ifc_.get_string(enumerator_.name);
+        return ifc_->get_string(enumerator_->name);
     }
 
     Expression Enumerator::value() const
     {
-        return { ifc_, enumerator_.initializer };
+        return { ifc_, enumerator_->initializer };
     }
 }
