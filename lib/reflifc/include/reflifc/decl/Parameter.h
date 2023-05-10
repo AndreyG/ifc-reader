@@ -22,6 +22,7 @@ namespace reflifc
         Chart template_parameters() const;
 
         ifc::ParameterSort sort() const { return param_->sort; }
+        ifc::ParameterPosition position() const { return param_->position; }
 
     private:
         ifc::File const* ifc_;
