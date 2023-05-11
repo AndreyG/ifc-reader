@@ -1,4 +1,4 @@
-#include "reflifc/decl/DeclarationReference.h".
+#include "reflifc/decl/DeclarationReference.h"
 
 #include "ifc/File.h"
 #include "ifc/Declaration.h"
