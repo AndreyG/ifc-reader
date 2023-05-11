@@ -12,6 +12,7 @@ namespace reflifc
     struct AliasDeclaration;
     struct ScopeDeclaration;
     struct ClassOrStruct;
+    struct DeclarationReference;
     struct Function;
     struct Method;
     struct Constructor;
@@ -81,6 +82,9 @@ namespace reflifc
 
         bool                 is_intrinsic() const;
         IntrinsicDeclaration as_intrinsic() const;
+
+        bool                 is_reference() const;
+        DeclarationReference as_reference() const;
 
         ViewOf<Attribute> auto attributes() const
         {
