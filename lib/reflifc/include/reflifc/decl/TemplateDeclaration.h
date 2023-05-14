@@ -14,7 +14,7 @@ namespace reflifc
     {
         TemplateDeclaration(ifc::File const* ifc, ifc::TemplateDeclaration const& template_)
             : ifc_(ifc)
-            , template_(template_)
+            , template_(&template_)
         {
         }
 
@@ -27,6 +27,6 @@ namespace reflifc
 
     private:
         ifc::File const* ifc_;
-        ifc::TemplateDeclaration const& template_;
+        ifc::TemplateDeclaration const* template_;
     };
 }
