@@ -39,6 +39,12 @@ namespace reflifc
 
         ifc::NameSort sort() const { return index_.sort(); }
 
+        bool operator==(Name other) const
+        {
+            assert(ifc_ == other.ifc_);
+            return index_ == other.index_;
+        }
+
     private:
         ifc::File const* ifc_;
         ifc::NameIndex index_;

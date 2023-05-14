@@ -100,6 +100,12 @@ namespace reflifc
         ifc::DeclSort sort() const { return index_.sort(); }
         ifc::DeclIndex index() const { return index_; }
 
+        bool operator==(Declaration other) const
+        {
+            assert(ifc_ == other.ifc_);
+            return index_ == other.index_;
+        }
+
     private:
         ifc::File const* ifc_;
         ifc::DeclIndex index_;
