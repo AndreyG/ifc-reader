@@ -53,6 +53,8 @@ namespace ifc
 
         DECLARE_DECL_PARTITION_GETTER(ScopeDeclaration,      scope_declarations)
         DECLARE_DECL_PARTITION_GETTER(TemplateDeclaration,   template_declarations)
+        DECLARE_DECL_PARTITION_GETTER(PartialSpecialization, partial_specializations)
+        DECLARE_DECL_PARTITION_GETTER(Specialization,        specializations)
         DECLARE_DECL_PARTITION_GETTER(UsingDeclaration,      using_declarations)
         DECLARE_DECL_PARTITION_GETTER(Enumeration,           enumerations)
         DECLARE_DECL_PARTITION_GETTER(Enumerator,            enumerators)

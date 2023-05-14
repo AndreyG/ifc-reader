@@ -1,6 +1,7 @@
 ﻿#include "reflifc/Module.h"
 #include "reflifc/Expression.h"
 #include "reflifc/Query.h"
+#include "reflifc/TemplateId.h"
 #include "reflifc/Type.h"
 #include "reflifc/TupleView.h"
 #include "reflifc/Word.h"
@@ -8,6 +9,7 @@
 #include "reflifc/decl/Variable.h"
 #include "reflifc/decl/Parameter.h"
 #include "reflifc/decl/TemplateDeclaration.h"
+#include "reflifc/decl/Specialization.h"
 #include "reflifc/expr/Call.h"
 #include "reflifc/type/Function.h"
 #include "reflifc/type/Base.h"
@@ -207,6 +209,59 @@ TEST(Class, bases)
     }
 
     ASSERT_EQ(it, classes.end());
+}
+
+static void check_is_var_of_instantiation_type(reflifc::Declaration decl, std::string_view var_name, reflifc::Declaration type_primary_template)
+{
+    ASSERT_TRUE(decl.is_variable());
+    auto var = decl.as_variable();
+    ASSERT_TRUE(is_identifier(var.name(), var_name));
+    auto type = var.type();
+    ASSERT_TRUE(type.is_syntactic());
+    auto syntactic_type = type.as_syntactic();
+    ASSERT_EQ(syntactic_type.primary().referenced_decl(), type_primary_template);
+}
+
+TEST(Class, specialization)
+{
+    const auto wrapper = ModuleWrapper::create("class-specialization.ixx.ifc");
+    auto declarations = wrapper.module.global_namespace().get_declarations();
+
+    auto it = declarations.begin();
+
+    const auto X_primary_template = *it++;
+    ASSERT_TRUE(X_primary_template.is_template());
+
+    {
+        auto templ = X_primary_template.as_template();
+        ASSERT_TRUE(is_identifier(templ.name(), "X"));
+        ASSERT_TRUE(templ.entity().is_class_or_struct());
+    }
+
+    {
+        auto decl = *it++;
+        ASSERT_TRUE(decl.is_partial_specialization());
+        auto spec = decl.as_partial_specialization();
+        auto name = spec.name();
+        ASSERT_TRUE(name.is_identifier());
+        auto entity = spec.entity();
+        ASSERT_TRUE(entity.is_class_or_struct());
+        ASSERT_TRUE(entity.as_class_or_struct().name() == name);
+    }
+
+    {
+        auto decl = *it++;
+        ASSERT_TRUE(decl.is_specialization());
+        auto spec = decl.as_specialization();
+        ASSERT_TRUE(spec.entity().is_class_or_struct());
+        ASSERT_EQ(spec.sort(), ifc::SpecializationSort::Explicit);
+    }
+
+    check_is_var_of_instantiation_type(*it++, "x1", X_primary_template);
+    check_is_var_of_instantiation_type(*it++, "x2", X_primary_template);
+    check_is_var_of_instantiation_type(*it++, "x3", X_primary_template);
+
+    ASSERT_EQ(it, declarations.end());
 }
 
 int main(int argc, char* argv[])

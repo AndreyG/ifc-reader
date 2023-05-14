@@ -145,6 +145,39 @@ namespace ifc
         PARTITION_SORT(DeclSort::Template);
     };
 
+    struct PartialSpecialization
+    {
+        NameIndex name;
+        SourceLocation locus;
+        DeclIndex home_scope;
+        ChartIndex chart;
+        ParameterizedEntity entity;
+        Index form;
+        BasicSpecifiers specifiers;
+        Access access;
+        ReachableProperties properties;
+
+        PARTITION_NAME("decl.partial-specialization");
+        PARTITION_SORT(DeclSort::PartialSpecialization);
+    };
+
+    enum class SpecializationSort : uint8_t
+    {
+        Implicit        = 0x0,
+        Explicit        = 0x1,
+        Instantiation   = 0x2,
+    };
+
+    struct Specialization
+    {
+        Index form;
+        DeclIndex decl;
+        SpecializationSort sort;
+
+        PARTITION_NAME("decl.specialization");
+        PARTITION_SORT(DeclSort::Specialization);
+    };
+
     struct Enumeration
     {
         TextOffset name;

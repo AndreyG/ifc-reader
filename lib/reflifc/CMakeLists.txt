@@ -26,6 +26,7 @@ set(sources
     src/decl/ScopeDeclaration.cpp
     src/decl/ClassOrStruct.cpp
     src/decl/TemplateDeclaration.cpp
+    src/decl/Specialization.cpp
     src/decl/UsingDeclaration.cpp
     src/decl/Variable.cpp
     src/expr/Alignof.cpp

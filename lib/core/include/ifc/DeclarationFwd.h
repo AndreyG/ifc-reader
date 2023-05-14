@@ -23,10 +23,13 @@ namespace ifc
     struct UsingDeclaration;
     struct FriendDeclaration;
     struct TemplateDeclaration;
+    struct PartialSpecialization;
+    struct Specialization;
     struct Concept;
     struct IntrinsicDeclaration;
 
     enum class Access : uint8_t;
     enum class ObjectTraits : uint8_t;
     enum class BasicSpecifiers : uint8_t;
+    enum class SpecializationSort : uint8_t;
 }

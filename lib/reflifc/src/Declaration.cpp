@@ -10,6 +10,7 @@
 #include "reflifc/decl/Parameter.h"
 #include "reflifc/decl/ScopeDeclaration.h"
 #include "reflifc/decl/TemplateDeclaration.h"
+#include "reflifc/decl/Specialization.h"
 #include "reflifc/decl/UsingDeclaration.h"
 #include "reflifc/decl/Variable.h"
 
@@ -73,6 +74,26 @@ namespace reflifc
     TemplateDeclaration Declaration::as_template() const
     {
         return { ifc_, ifc_->template_declarations()[index_] };
+    }
+
+    bool Declaration::is_specialization() const
+    {
+        return sort() == ifc::DeclSort::Specialization;
+    }
+
+    Specialization Declaration::as_specialization() const
+    {
+        return { ifc_, ifc_->specializations()[index_] };
+    }
+
+    bool Declaration::is_partial_specialization() const
+    {
+        return sort() == ifc::DeclSort::PartialSpecialization;
+    }
+
+    PartialSpecialization Declaration::as_partial_specialization() const
+    {
+        return { ifc_, ifc_->partial_specializations()[index_] };
     }
 
     bool Declaration::is_concept() const

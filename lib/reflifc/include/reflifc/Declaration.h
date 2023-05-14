@@ -18,6 +18,8 @@ namespace reflifc
     struct Destructor;
     struct Enumeration;
     struct TemplateDeclaration;
+    struct PartialSpecialization;
+    struct Specialization;
     struct UsingDeclaration;
     struct Variable;
     struct Field;
@@ -55,6 +57,12 @@ namespace reflifc
 
         bool                is_template() const;
         TemplateDeclaration as_template() const;
+
+        bool                is_specialization() const;
+        Specialization      as_specialization() const;
+
+        bool                    is_partial_specialization() const;
+        PartialSpecialization   as_partial_specialization() const;
 
         bool                is_concept() const;
         Concept             as_concept() const;
