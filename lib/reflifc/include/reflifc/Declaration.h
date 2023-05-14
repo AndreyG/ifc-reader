@@ -41,6 +41,7 @@ namespace reflifc
         bool                is_scope() const;
         ScopeDeclaration    as_scope() const;
 
+        bool                is_class_or_struct() const;
         ClassOrStruct       as_class_or_struct() const;
 
         bool                is_enumeration() const;

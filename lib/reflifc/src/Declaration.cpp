@@ -25,6 +25,11 @@ namespace reflifc
         return { ifc_, ifc_->scope_declarations()[index_] };
     }
 
+    bool Declaration::is_class_or_struct() const
+    {
+        return is_scope() && as_scope().is_class_or_struct();
+    }
+
     ClassOrStruct Declaration::as_class_or_struct() const
     {
         return as_scope().as_class_or_struct();
