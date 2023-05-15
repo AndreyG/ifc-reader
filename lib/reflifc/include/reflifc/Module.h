@@ -2,9 +2,26 @@
 
 #include "decl/Scope.h"
 #include "decl/ScopeDeclaration.h"
+#include "ifc/Module.h"
 
 namespace reflifc
 {
+    struct ModuleReference
+    {
+        ModuleReference(ifc::File const* ifc, ifc::ModuleReference const& module_reference)
+            : module_reference_(&module_reference)
+            , ifc_(ifc)
+        {
+        }
+
+        const char* owner() const { return ifc_->get_string(module_reference_->owner); }
+        const char* partition() const { return ifc_->get_string(module_reference_->partition); }
+
+    private:
+        ifc::ModuleReference const* module_reference_;
+        ifc::File const* ifc_;
+    };
+
     struct UnitDescription
     {
         UnitDescription(ifc::File const* ifc, ifc::UnitIndex unit)

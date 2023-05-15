@@ -18,6 +18,7 @@ set(sources
     src/Word.cpp
     src/decl/AliasDeclaration.cpp
     src/decl/Concept.cpp
+    src/decl/DeclarationReference.cpp
     src/decl/Enumeration.cpp
     src/decl/Enumerator.cpp
     src/decl/Field.cpp

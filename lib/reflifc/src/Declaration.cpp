@@ -3,6 +3,7 @@
 #include "reflifc/decl/AliasDeclaration.h"
 #include "reflifc/decl/ClassOrStruct.h"
 #include "reflifc/decl/Concept.h"
+#include "reflifc/decl/DeclarationReference.h"
 #include "reflifc/decl/Enumeration.h"
 #include "reflifc/decl/Field.h"
 #include "reflifc/decl/Function.h"
@@ -186,5 +187,15 @@ namespace reflifc
     IntrinsicDeclaration Declaration::as_intrinsic() const
     {
         return { ifc_, ifc_->intrinsic_declarations()[index_] };
+    }
+
+    bool Declaration::is_reference() const
+    {
+        return sort() == ifc::DeclSort::Reference;
+    }
+
+    DeclarationReference Declaration::as_reference() const
+    {
+        return { ifc_, ifc_->decl_references()[index_] };
     }
 }
