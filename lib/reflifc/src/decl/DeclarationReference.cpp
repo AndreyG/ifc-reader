@@ -5,19 +5,9 @@
 
 namespace reflifc
 {
-	const char* DeclarationReference::owner() const
+	reflifc::ModuleReference DeclarationReference::module_reference() const
 	{
-		return ifc_->get_string(decl_reference_->unit.owner);
-	}
-
-	const char* DeclarationReference::partition() const
-	{
-		return ifc_->get_string(decl_reference_->unit.partition);
-	}
-
-	ifc::DeclIndex DeclarationReference::local_index() const
-	{
-		return decl_reference_->local_index;
+		return reflifc::ModuleReference(ifc_, decl_reference_->unit);
 	}
 
 	reflifc::Declaration DeclarationReference::referenced_declaration(ifc::Environment& environment) const

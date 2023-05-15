@@ -1,6 +1,7 @@
 #pragma once
 
 #include "reflifc/Declaration.h"
+#include "reflifc/Module.h"
 
 #include "ifc/FileFwd.h"
 #include "ifc/DeclarationFwd.h"
@@ -15,10 +16,8 @@ namespace reflifc
             , decl_reference_(&decl_reference)
         {
         }
-
-        const char* owner() const;
-        const char* partition() const;
-        ifc::DeclIndex local_index() const;
+        
+        reflifc::ModuleReference module_reference() const;
         reflifc::Declaration referenced_declaration(ifc::Environment& environment) const;
 
     private:
