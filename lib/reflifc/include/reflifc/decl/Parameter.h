@@ -23,6 +23,7 @@ namespace reflifc
 
         ifc::ParameterSort sort() const { return param_->sort; }
         ifc::ParameterPosition position() const { return param_->position; }
+        ifc::ParameterLevel level() const { return param_->level; }
 
     private:
         ifc::File const* ifc_;

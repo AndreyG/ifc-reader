@@ -26,6 +26,8 @@ namespace reflifc
 
         ifc::TypeBasis kind() const;
 
+        ifc::Access access() const { return scope_->access; }
+
         ViewOf<Declaration> auto members() const
         {
             assert(is_complete());
