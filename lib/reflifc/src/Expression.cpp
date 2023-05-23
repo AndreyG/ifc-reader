@@ -124,6 +124,16 @@ namespace reflifc
         return { ifc_, ifc_->template_ids()[index_] };
     }
 
+    bool Expression::is_template_reference() const
+    {
+        return sort() == ifc::ExprSort::TemplateReference;
+    }
+
+    TemplateReference Expression::as_template_reference() const
+    {
+        return { ifc_, ifc_->template_references()[index_] };
+    }
+
     bool Expression::is_path() const
     {
         return sort() == ifc::ExprSort::Path;

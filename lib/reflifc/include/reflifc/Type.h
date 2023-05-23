@@ -8,7 +8,6 @@ namespace reflifc
     struct ArrayType;
     struct BaseType;
     struct Declaration;
-    struct TemplateId;
     struct LvalueReference;
     struct RvalueReference;
     struct PointerType;
@@ -46,7 +45,7 @@ namespace reflifc
         Declaration     designation()   const;
 
         bool            is_syntactic() const;
-        TemplateId      as_syntactic() const;
+        Expression      as_syntactic() const;
 
         bool            is_base() const;
         BaseType        as_base() const;

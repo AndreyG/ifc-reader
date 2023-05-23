@@ -219,7 +219,8 @@ static void check_is_var_of_instantiation_type(reflifc::Declaration decl, std::s
     auto type = var.type();
     ASSERT_TRUE(type.is_syntactic());
     auto syntactic_type = type.as_syntactic();
-    ASSERT_EQ(syntactic_type.primary().referenced_decl(), type_primary_template);
+    ASSERT_TRUE(syntactic_type.is_template_id());
+    ASSERT_EQ(syntactic_type.as_template_id().primary().referenced_decl(), type_primary_template);
 }
 
 TEST(Class, specialization)
@@ -262,6 +263,39 @@ TEST(Class, specialization)
     check_is_var_of_instantiation_type(*it++, "x3", X_primary_template);
 
     ASSERT_EQ(it, declarations.end());
+}
+
+TEST(Expression, TemplateReference)
+{
+    const auto wrapper = ModuleWrapper::create("template-reference.ixx.ifc");
+    auto declarations = wrapper.module.global_namespace().get_declarations();
+
+    auto it = declarations.begin();
+
+    const auto X = *it++;
+    ASSERT_TRUE(X.is_template());
+
+    auto templ = X.as_template();
+    ASSERT_TRUE(is_identifier(templ.name(), "X"));
+    ASSERT_TRUE(templ.entity().is_class_or_struct());
+
+    auto decl = *it++;
+    ASSERT_TRUE(decl.is_variable());
+    auto var = decl.as_variable();
+    ASSERT_TRUE(is_identifier(var.name(), "a"));
+    auto type = var.type();
+    ASSERT_TRUE(type.is_syntactic());
+    auto syntactic_type = type.as_syntactic();
+    ASSERT_TRUE(syntactic_type.is_template_reference());
+    auto template_ref = syntactic_type.as_template_reference();
+    auto member_name = template_ref.member_name();
+    ASSERT_TRUE(is_identifier(member_name, "A"));
+    ASSERT_TRUE(template_ref.arguments().empty());
+    auto member = template_ref.member();
+    ASSERT_TRUE(member.is_class_or_struct());
+    auto member_class = member.as_class_or_struct();
+    ASSERT_EQ(member_class.name(), member_name);
+    ASSERT_EQ(member_class.home_scope(), X);
 }
 
 int main(int argc, char* argv[])

@@ -130,6 +130,17 @@ namespace ifc
         PARTITION_SORT(ExprSort::TemplateId);
     };
 
+    struct TemplateReference : ExpressionBase
+    {
+        DeclIndex member;
+        NameIndex member_name;
+        TypeIndex scope;
+        ExprIndex arguments;
+
+        PARTITION_NAME("expr.template-reference");
+        PARTITION_SORT(ExprSort::TemplateReference);
+    };
+
     struct TupleExpression : ExpressionBase
     {
         Sequence seq;

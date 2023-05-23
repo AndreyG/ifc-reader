@@ -23,6 +23,7 @@ namespace reflifc
     struct Syntax;
     struct Type;
     struct TemplateId;
+    struct TemplateReference;
 
     struct Expression
     {
@@ -66,6 +67,9 @@ namespace reflifc
 
         bool            is_template_id() const;
         TemplateId      as_template_id() const;
+
+        bool                is_template_reference() const;
+        TemplateReference   as_template_reference() const;
 
         bool            is_path() const;
         PathExpression  as_path() const;

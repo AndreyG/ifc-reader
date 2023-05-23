@@ -57,9 +57,9 @@ namespace reflifc
         return sort() == ifc::TypeSort::Syntactic;
     }
 
-    TemplateId Type::as_syntactic() const
+    Expression Type::as_syntactic() const
     {
-        return Expression(ifc_, ifc_->syntactic_types()[index_].expr).as_template_id();
+        return Expression(ifc_, ifc_->syntactic_types()[index_].expr);
     }
 
     bool Type::is_base() const

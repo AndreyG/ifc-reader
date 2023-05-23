@@ -14,6 +14,7 @@ namespace ifc
     struct TupleExpression;
     struct ExpressionListExpression;
     struct TemplateId;
+    struct TemplateReference;
     struct NamedDecl;
     struct UnqualifiedId;
     struct TypeExpression;

@@ -309,6 +309,7 @@ namespace ifc
     DEFINE_EXPR_PARTITION_GETTER(NamedDecl,         decl_expressions)
     DEFINE_EXPR_PARTITION_GETTER(UnqualifiedId,     unqualified_id_expressions)
     DEFINE_EXPR_PARTITION_GETTER(TemplateId,        template_ids)
+    DEFINE_EXPR_PARTITION_GETTER(TemplateReference, template_references)
     DEFINE_EXPR_PARTITION_GETTER(MonadExpression,   monad_expressions)
     DEFINE_EXPR_PARTITION_GETTER(DyadExpression,    dyad_expressions)
     DEFINE_EXPR_PARTITION_GETTER(StringExpression,  string_expressions)
