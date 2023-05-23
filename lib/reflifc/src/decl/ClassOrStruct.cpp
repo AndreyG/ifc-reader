@@ -18,4 +18,9 @@ namespace reflifc
     {
         return ifc_->fundamental_types()[scope_->type].basis;
     }
+
+    Declaration ClassOrStruct::home_scope() const
+    {
+        return { ifc_, scope_->home_scope };
+    }
 }

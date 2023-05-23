@@ -39,6 +39,8 @@ namespace reflifc
             return TupleTypeView(ifc_, scope_->base) | std::views::transform(&Type::as_base);
         }
 
+        Declaration home_scope() const;
+
     private:
         ifc::File const* ifc_;
         ifc::ScopeDeclaration const* scope_;
