@@ -4,19 +4,24 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         compiler:
           - { compiler: gcc,  CC: gcc-11,   CXX: g++-11 }
+          - { compiler: clang, CC: clang-16, CXX: clang++-16 }
     steps:
       - name: deps
         run: |
           echo "::group:: deps"
+            wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+            sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-16 main"
             sudo apt-get update -y
             sudo apt-get install -y \
               gcc-11 \
               g++-11 \
+              clang-16 \
+              clang++-16 \
               cmake \
               ninja-build \
               libboost-iostreams-dev \
