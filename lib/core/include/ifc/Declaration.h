@@ -145,6 +145,14 @@ namespace ifc
         PARTITION_SORT(DeclSort::Template);
     };
 
+    struct SpecializationForm
+    {
+        DeclIndex primary;
+        ExprIndex arguments;
+
+        PARTITION_NAME("form.spec");
+    };
+
     struct PartialSpecialization
     {
         NameIndex name;
@@ -152,7 +160,7 @@ namespace ifc
         DeclIndex home_scope;
         ChartIndex chart;
         ParameterizedEntity entity;
-        Index form;
+        SpecFormIndex form;
         BasicSpecifiers specifiers;
         Access access;
         ReachableProperties properties;
@@ -170,7 +178,7 @@ namespace ifc
 
     struct Specialization
     {
-        Index form;
+        SpecFormIndex form;
         DeclIndex decl;
         SpecializationSort sort;
 

@@ -73,6 +73,8 @@ namespace ifc
 
 #undef DECLARE_DECL_PARTITION_GETTER
 
+        DECLARE_UNTYPED_PARTITION_GETTER(SpecializationForm, SpecFormIndex, specialization_forms)
+
         // Types
 #define DECLARE_TYPE_PARTITION_GETTER(Type, TypeName) \
     DECLARE_PARTITION_GETTER(Type, TypeIndex, TypeName)

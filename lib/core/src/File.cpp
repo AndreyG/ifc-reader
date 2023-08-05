@@ -262,6 +262,11 @@ namespace ifc
 
 #undef DEFINE_DECL_PARTITION_GETTER
 
+    Partition<SpecializationForm, SpecFormIndex> File::specialization_forms() const
+    {
+        return get_partition_with_cache<SpecializationForm, SpecFormIndex>( cached_specialization_forms_);
+    }
+
 #define DEFINE_TYPE_PARTITION_GETTER(Type, TypeName) \
     DEFINE_PARTITION_GETTER(Type, TypeIndex, TypeName)
 

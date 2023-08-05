@@ -10,6 +10,21 @@ namespace reflifc
     struct Chart;
     struct Declaration;
 
+    struct SpecializationForm
+    {
+        SpecializationForm(ifc::File const* ifc, ifc::SpecializationForm const& form)
+            : ifc_(ifc)
+            , form_(&form)
+        {}
+
+        Declaration primary_template()  const;
+        TupleExpressionView arguments() const;
+
+    private:
+        ifc::File const* ifc_;
+        ifc::SpecializationForm const* form_;
+    };
+
     struct PartialSpecialization
     {
         PartialSpecialization(ifc::File const* ifc, ifc::PartialSpecialization const& spec)
@@ -21,6 +36,7 @@ namespace reflifc
         Name name() const;
         Declaration entity() const;
         Chart chart() const;
+        SpecializationForm form() const;
         Declaration home_scope() const;
         ifc::Access access() const;
         ifc::BasicSpecifiers specifiers() const;
@@ -40,6 +56,7 @@ namespace reflifc
 
         Declaration entity() const;
         ifc::SpecializationSort sort() const;
+        SpecializationForm form() const;
 
     private:
         ifc::File const* ifc_;

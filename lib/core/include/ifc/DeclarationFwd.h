@@ -32,4 +32,7 @@ namespace ifc
     enum class ObjectTraits : uint8_t;
     enum class BasicSpecifiers : uint8_t;
     enum class SpecializationSort : uint8_t;
+
+    enum class SpecFormIndex : uint32_t {};
+    struct SpecializationForm;
 }

@@ -13,6 +13,7 @@
 #include "reflifc/expr/Call.h"
 #include "reflifc/type/Function.h"
 #include "reflifc/type/Base.h"
+#include "reflifc/type/Pointer.h"
 
 #include <ifc/blob_reader.h>
 
@@ -223,6 +224,8 @@ static void check_is_var_of_instantiation_type(reflifc::Declaration decl, std::s
     ASSERT_EQ(syntactic_type.as_template_id().primary().referenced_decl(), type_primary_template);
 }
 
+using namespace std::string_view_literals;
+
 TEST(Class, specialization)
 {
     const auto wrapper = ModuleWrapper::create("class-specialization.ixx.ifc");
@@ -245,6 +248,19 @@ TEST(Class, specialization)
         auto spec = decl.as_partial_specialization();
         auto name = spec.name();
         ASSERT_TRUE(name.is_identifier());
+        auto form = spec.form();
+        ASSERT_EQ(form.primary_template(), X_primary_template);
+        auto tempargs = form.arguments();
+        ASSERT_EQ(tempargs.size(), 1);
+        auto templarg = tempargs.front();
+        ASSERT_TRUE(templarg.is_type());
+        auto typearg = templarg.as_type();
+        ASSERT_TRUE(typearg.is_pointer());
+        auto pointee = typearg.as_pointer().pointee;
+        ASSERT_TRUE(pointee.is_designated());
+        auto designation = pointee.designation();
+        ASSERT_TRUE(designation.is_parameter());
+        ASSERT_EQ(designation.as_parameter().name(), "T"sv);
         auto entity = spec.entity();
         ASSERT_TRUE(entity.is_class_or_struct());
         ASSERT_TRUE(entity.as_class_or_struct().name() == name);
@@ -254,6 +270,15 @@ TEST(Class, specialization)
         auto decl = *it++;
         ASSERT_TRUE(decl.is_specialization());
         auto spec = decl.as_specialization();
+        auto form = spec.form();
+        ASSERT_EQ(form.primary_template(), X_primary_template);
+        auto tempargs = form.arguments();
+        ASSERT_EQ(tempargs.size(), 1);
+        auto templarg = tempargs.front();
+        ASSERT_TRUE(templarg.is_type());
+        auto typearg = templarg.as_type();
+        ASSERT_TRUE(typearg.is_fundamental());
+        ASSERT_EQ(typearg.as_fundamental().basis, ifc::TypeBasis::Void);
         ASSERT_TRUE(spec.entity().is_class_or_struct());
         ASSERT_EQ(spec.sort(), ifc::SpecializationSort::Explicit);
     }

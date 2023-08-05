@@ -2,11 +2,22 @@
 
 #include "reflifc/Chart.h"
 #include "reflifc/Declaration.h"
+#include "reflifc/TupleView.h"
 
 #include <ifc/Declaration.h>
 
 namespace reflifc
 {
+    Declaration SpecializationForm::primary_template() const
+    {
+        return { ifc_, form_->primary };
+    }
+
+    TupleExpressionView SpecializationForm::arguments() const
+    {
+        return { ifc_, form_->arguments };
+    }
+
     Name PartialSpecialization::name() const
     {
         return { ifc_, spec_->name };
@@ -20,6 +31,11 @@ namespace reflifc
     Chart PartialSpecialization::chart() const
     {
         return { ifc_, spec_->chart };
+    }
+
+    SpecializationForm PartialSpecialization::form() const
+    {
+        return { ifc_, ifc_->specialization_forms()[spec_->form] };
     }
 
     Declaration PartialSpecialization::home_scope() const
@@ -45,5 +61,10 @@ namespace reflifc
     ifc::SpecializationSort Specialization::sort() const
     {
         return spec_->sort;
+    }
+
+    SpecializationForm Specialization::form() const
+    {
+        return { ifc_, ifc_->specialization_forms()[spec_->form] };
     }
 }
