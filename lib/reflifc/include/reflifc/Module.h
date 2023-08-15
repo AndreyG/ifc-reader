@@ -3,6 +3,7 @@
 #include "decl/Scope.h"
 #include "decl/ScopeDeclaration.h"
 #include "ifc/Module.h"
+#include "ifc/Environment.h"
 
 namespace reflifc
 {
@@ -14,8 +15,18 @@ namespace reflifc
         {
         }
 
-        const char* owner() const { return ifc_->get_string(module_reference_->owner); }
-        const char* partition() const { return ifc_->get_string(module_reference_->partition); }
+        const char* owner() const {
+            if (ifc::is_null(module_reference_->owner)) {
+                return nullptr;
+            }
+            return ifc_->get_string(module_reference_->owner); 
+        }
+        const char* partition() const { 
+            if (ifc::is_null(module_reference_->partition)) {
+                return nullptr;
+            }
+            return ifc_->get_string(module_reference_->partition); 
+        }
 
     private:
         ifc::ModuleReference const* module_reference_;
@@ -51,6 +62,24 @@ namespace reflifc
             return ifc_->scope_declarations()
                 | std::views::transform([ifc = ifc_] (ifc::ScopeDeclaration const & scope) {
                     return ScopeDeclaration(ifc, scope);
+                });
+        }
+
+        ViewOf<Module> auto exported_modules(ifc::Environment& environment) const
+        {
+            return ifc_->exported_modules()
+                | std::views::transform([ifc = ifc_, &environment] (ifc::ModuleReference const & module_reference) {
+                    const auto& other_ifc = environment.get_referenced_module(module_reference, *ifc);
+                    return Module(&other_ifc);
+                });
+        }
+
+        ViewOf<Module> auto imported_modules(ifc::Environment& environment) const
+        {
+            return ifc_->imported_modules()
+                | std::views::transform([ifc = ifc_, &environment] (ifc::ModuleReference const & module_reference) {
+                    const auto& other_ifc = environment.get_referenced_module(module_reference, *ifc);
+                    return Module(&other_ifc);
                 });
         }
 
