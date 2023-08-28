@@ -7,6 +7,12 @@
 #include <ifc/File.h>
 #include <ifc/Declaration.h>
 
+namespace std
+{
+    template<typename T>
+    struct hash;
+}
+
 namespace reflifc
 {
     struct AliasDeclaration;
@@ -27,6 +33,8 @@ namespace reflifc
     struct Parameter;
     struct Concept;
     struct IntrinsicDeclaration;
+
+    struct Module;
 
     struct Declaration
     {
@@ -112,14 +120,27 @@ namespace reflifc
         ifc::DeclSort sort() const { return index_.sort(); }
         ifc::DeclIndex index() const { return index_; }
 
+        Module declaring_module() const;
+
         bool operator==(Declaration other) const
         {
             assert(ifc_ == other.ifc_);
             return index_ == other.index_;
         }
 
+        friend std::hash<Declaration>;
+
     private:
         ifc::File const* ifc_;
         ifc::DeclIndex index_;
+    };
+}
+
+namespace std
+{
+    template<>
+    struct hash<reflifc::Declaration>
+    {
+        size_t operator()(const reflifc::Declaration&) const;
     };
 }
