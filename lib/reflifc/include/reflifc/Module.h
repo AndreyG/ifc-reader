@@ -16,19 +16,20 @@ namespace reflifc
         }
 
         const char* owner() const {
-            if (ifc::is_null(module_reference_->owner)) {
-                return nullptr;
-            }
-            return ifc_->get_string(module_reference_->owner); 
+            return get_string_or_null(module_reference_->owner);
         }
         const char* partition() const { 
-            if (ifc::is_null(module_reference_->partition)) {
-                return nullptr;
-            }
-            return ifc_->get_string(module_reference_->partition); 
+            return get_string_or_null(module_reference_->partition);
         }
 
     private:
+        const char* get_string_or_null(ifc::TextOffset text) const {
+            if (ifc::is_null(text)) {
+                return nullptr;
+            }
+            return ifc_->get_string(text);
+        }
+
         ifc::ModuleReference const* module_reference_;
         ifc::File const* ifc_;
     };
@@ -52,6 +53,17 @@ namespace reflifc
 
     struct Module
     {
+    private:
+        ViewOf<Module> auto dereference(ifc::Partition<ifc::ModuleReference, ifc::Index> partition, ifc::Environment& environment) const 
+        {
+            return partition
+                | std::views::transform([ifc = ifc_, &environment] (ifc::ModuleReference const & module_reference) {
+                    const auto& other_ifc = environment.get_referenced_module(module_reference, *ifc);
+                    return Module(&other_ifc);
+                });
+        }
+
+    public:
         explicit Module(ifc::File const* ifc)
             : ifc_(ifc)
         {
@@ -67,20 +79,12 @@ namespace reflifc
 
         ViewOf<Module> auto exported_modules(ifc::Environment& environment) const
         {
-            return ifc_->exported_modules()
-                | std::views::transform([ifc = ifc_, &environment] (ifc::ModuleReference const & module_reference) {
-                    const auto& other_ifc = environment.get_referenced_module(module_reference, *ifc);
-                    return Module(&other_ifc);
-                });
+            return dereference(ifc_->exported_modules(), environment);
         }
 
         ViewOf<Module> auto imported_modules(ifc::Environment& environment) const
         {
-            return ifc_->imported_modules()
-                | std::views::transform([ifc = ifc_, &environment] (ifc::ModuleReference const & module_reference) {
-                    const auto& other_ifc = environment.get_referenced_module(module_reference, *ifc);
-                    return Module(&other_ifc);
-                });
+            return dereference(ifc_->imported_modules(), environment);
         }
 
         Scope global_namespace() const
