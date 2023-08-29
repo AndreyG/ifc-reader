@@ -127,20 +127,6 @@ namespace ifc
             return { get_pointer<T>(partition->offset), raw_count(partition->cardinality) };
         }
 
-        template<typename T, typename Index>
-        Partition<T, Index> get_and_cache_partition() const
-        {
-            return get_and_cache_partition<T, Index>(T::PartitionName);
-        }
-
-        template<typename T, typename Index>
-        Partition<T, Index> get_and_cache_partition(std::string_view name) const
-        {
-            static Partition<T, Index> partition = try_get_partition<T, Index>(name)
-                .value_or(Partition<T, Index>{nullptr, 0});
-            return partition;
-        }
-
         std::unordered_map<DeclIndex, std::vector<AttrIndex>> const & trait_declaration_attributes()
         {
             if (!trait_declaration_attributes_)
@@ -208,8 +194,6 @@ namespace ifc
         std::optional<std::unordered_map<DeclIndex, Sequence>> trait_friendship_of_class_;
     };
 
-    // ------------------------------------------------------------------------
-
     FileHeader const& File::header() const
     {
         return impl_->header();
@@ -240,558 +224,194 @@ namespace ifc
         return impl_->get_raw_pointer(partition.offset);
     }
 
-    // ------------------------------------------------------------------------
-
     Partition<Declaration, Index> File::declarations() const
     {
-        return impl_->get_and_cache_partition<Declaration, Index>();
+        return get_partition_with_cache<Declaration, Index>(cached_declarations_);
     }
 
-    // ------------------------------------------------------------------------
-
-    Partition<ScopeDeclaration, DeclIndex>      File::scope_declarations() const
-    {
-        return impl_->get_and_cache_partition<ScopeDeclaration, DeclIndex>();
+#define DEFINE_PARTITION_GETTER(ElementType, IndexType, Property)   \
+    TypedPartition<ElementType, IndexType> File::Property() const { \
+        return static_cast<TypedPartition<ElementType, IndexType>>( \
+            get_partition_with_cache<ElementType, IndexType>(       \
+                cached_ ## Property ## _)                           \
+            );                                                      \
     }
 
-    Partition<TemplateDeclaration, DeclIndex>   File::template_declarations() const
-    {
-        return impl_->get_and_cache_partition<TemplateDeclaration, DeclIndex>();
-    }
+#define DEFINE_DECL_PARTITION_GETTER(DeclType, DeclName) \
+    DEFINE_PARTITION_GETTER(DeclType, DeclIndex, DeclName)
 
-    Partition<PartialSpecialization, DeclIndex> File::partial_specializations() const
-    {
-        return impl_->get_and_cache_partition<PartialSpecialization, DeclIndex>();
-    }
+    DEFINE_DECL_PARTITION_GETTER(ScopeDeclaration,      scope_declarations)
+    DEFINE_DECL_PARTITION_GETTER(TemplateDeclaration,   template_declarations)
+    DEFINE_DECL_PARTITION_GETTER(PartialSpecialization, partial_specializations)
+    DEFINE_DECL_PARTITION_GETTER(Specialization,        specializations)
+    DEFINE_DECL_PARTITION_GETTER(UsingDeclaration,      using_declarations)
+    DEFINE_DECL_PARTITION_GETTER(Enumeration,           enumerations)
+    DEFINE_DECL_PARTITION_GETTER(Enumerator,            enumerators)
+    DEFINE_DECL_PARTITION_GETTER(AliasDeclaration,      alias_declarations)
+    DEFINE_DECL_PARTITION_GETTER(DeclReference,         decl_references)
+    DEFINE_DECL_PARTITION_GETTER(FunctionDeclaration,   functions)
+    DEFINE_DECL_PARTITION_GETTER(MethodDeclaration,     methods)
+    DEFINE_DECL_PARTITION_GETTER(Constructor,           constructors)
+    DEFINE_DECL_PARTITION_GETTER(Destructor,            destructors)
+    DEFINE_DECL_PARTITION_GETTER(VariableDeclaration,   variables)
+    DEFINE_DECL_PARTITION_GETTER(FieldDeclaration,      fields)
+    DEFINE_DECL_PARTITION_GETTER(ParameterDeclaration,  parameters)
+    DEFINE_DECL_PARTITION_GETTER(Concept,               concepts)
+    DEFINE_DECL_PARTITION_GETTER(FriendDeclaration,     friends)
+    DEFINE_DECL_PARTITION_GETTER(IntrinsicDeclaration,  intrinsic_declarations)
 
-    Partition<Specialization, DeclIndex>        File::specializations() const
-    {
-        return impl_->get_and_cache_partition<Specialization, DeclIndex>();
-    }
-
-    Partition<UsingDeclaration, DeclIndex>      File::using_declarations() const
-    {
-        return impl_->get_and_cache_partition<UsingDeclaration, DeclIndex>();
-    }
-
-    Partition<Enumeration, DeclIndex>           File::enumerations() const
-    {
-        return impl_->get_and_cache_partition<Enumeration, DeclIndex>();
-    }
-
-    Partition<Enumerator, DeclIndex>            File::enumerators() const
-    {
-        return impl_->get_and_cache_partition<Enumerator, DeclIndex>();
-    }
-
-    Partition<AliasDeclaration, DeclIndex>      File::alias_declarations() const
-    {
-        return impl_->get_and_cache_partition<AliasDeclaration, DeclIndex>();
-    }
-
-    Partition<DeclReference, DeclIndex>         File::decl_references() const
-    {
-        return impl_->get_and_cache_partition<DeclReference, DeclIndex>();
-    }
-
-    Partition<FunctionDeclaration, DeclIndex>   File::functions() const
-    {
-        return impl_->get_and_cache_partition<FunctionDeclaration, DeclIndex>();
-    }
-
-    Partition<MethodDeclaration, DeclIndex>     File::methods() const
-    {
-        return impl_->get_and_cache_partition<MethodDeclaration, DeclIndex>();
-    }
-
-    Partition<Constructor, DeclIndex>           File::constructors() const
-    {
-        return impl_->get_and_cache_partition<Constructor, DeclIndex>();
-    }
-
-    Partition<Destructor, DeclIndex>            File::destructors() const
-    {
-        return impl_->get_and_cache_partition<Destructor, DeclIndex>();
-    }
-
-    Partition<VariableDeclaration, DeclIndex>   File::variables() const
-    {
-        return impl_->get_and_cache_partition<VariableDeclaration, DeclIndex>();
-    }
-
-    Partition<ParameterDeclaration, DeclIndex>  File::parameters() const
-    {
-        return impl_->get_and_cache_partition<ParameterDeclaration, DeclIndex>();
-    }
-
-    Partition<FieldDeclaration, DeclIndex>      File::fields() const
-    {
-        return impl_->get_and_cache_partition<FieldDeclaration, DeclIndex>();
-    }
-
-    Partition<FriendDeclaration, DeclIndex>     File::friends() const
-    {
-        return impl_->get_and_cache_partition<FriendDeclaration, DeclIndex>();
-    }
-
-    Partition<Concept, DeclIndex>               File::concepts() const
-    {
-        return impl_->get_and_cache_partition<Concept, DeclIndex>();
-    }
-
-    Partition<IntrinsicDeclaration, DeclIndex>  File::intrinsic_declarations() const
-    {
-        return impl_->get_and_cache_partition<IntrinsicDeclaration, DeclIndex>();
-    }
-
-    // ------------------------------------------------------------------------
+#undef DEFINE_DECL_PARTITION_GETTER
 
     Partition<SpecializationForm, SpecFormIndex> File::specialization_forms() const
     {
-        return impl_->get_and_cache_partition<SpecializationForm, SpecFormIndex>();
+        return get_partition_with_cache<SpecializationForm, SpecFormIndex>( cached_specialization_forms_);
     }
 
-    // ------------------------------------------------------------------------
+#define DEFINE_TYPE_PARTITION_GETTER(Type, TypeName) \
+    DEFINE_PARTITION_GETTER(Type, TypeIndex, TypeName)
 
-    Partition<FundamentalType, TypeIndex>    File::fundamental_types() const 
-    {
-        return impl_->get_and_cache_partition<FundamentalType, TypeIndex>();
-    }
-    
-    Partition<DesignatedType, TypeIndex>     File::designated_types() const 
-    {
-        return impl_->get_and_cache_partition<DesignatedType, TypeIndex>();
-    }
-    
-    Partition<TorType, TypeIndex>            File::tor_types() const 
-    {
-        return impl_->get_and_cache_partition<TorType, TypeIndex>();
-    }
-    
-    Partition<SyntacticType, TypeIndex>      File::syntactic_types() const 
-    {
-        return impl_->get_and_cache_partition<SyntacticType, TypeIndex>();
-    }
-    
-    Partition<ExpansionType, TypeIndex>      File::expansion_types() const 
-    {
-        return impl_->get_and_cache_partition<ExpansionType, TypeIndex>();
-    }
-    
-    Partition<PointerType, TypeIndex>        File::pointer_types() const 
-    {
-        return impl_->get_and_cache_partition<PointerType, TypeIndex>();
-    }
-    
-    Partition<FunctionType, TypeIndex>       File::function_types() const 
-    {
-        return impl_->get_and_cache_partition<FunctionType, TypeIndex>();
-    }
-    
-    Partition<MethodType, TypeIndex>         File::method_types() const 
-    {
-        return impl_->get_and_cache_partition<MethodType, TypeIndex>();
-    }
-    
-    Partition<ArrayType, TypeIndex>          File::array_types() const 
-    {
-        return impl_->get_and_cache_partition<ArrayType, TypeIndex>();
-    }
-    
-    Partition<BaseType, TypeIndex>           File::base_types() const 
-    {
-        return impl_->get_and_cache_partition<BaseType, TypeIndex>();
-    }
-    
-    Partition<TupleType, TypeIndex>          File::tuple_types() const 
-    {
-        return impl_->get_and_cache_partition<TupleType, TypeIndex>();
-    }
-    
-    Partition<LvalueReference, TypeIndex>    File::lvalue_references() const 
-    {
-        return impl_->get_and_cache_partition<LvalueReference, TypeIndex>();
-    }
-    
-    Partition<RvalueReference, TypeIndex>    File::rvalue_references() const 
-    {
-        return impl_->get_and_cache_partition<RvalueReference, TypeIndex>();
-    }
-    
-    Partition<QualifiedType, TypeIndex>      File::qualified_types() const 
-    {
-        return impl_->get_and_cache_partition<QualifiedType, TypeIndex>();
-    }
-    
-    Partition<ForallType, TypeIndex>         File::forall_types() const 
-    {
-        return impl_->get_and_cache_partition<ForallType, TypeIndex>();
-    }
-    
-    Partition<SyntaxType, TypeIndex>         File::syntax_types() const 
-    {
-        return impl_->get_and_cache_partition<SyntaxType, TypeIndex>();
-    }
-    
-    Partition<PlaceholderType, TypeIndex>    File::placeholder_types() const 
-    {
-        return impl_->get_and_cache_partition<PlaceholderType, TypeIndex>();
-    }
-    
-    Partition<TypenameType, TypeIndex>       File::typename_types() const 
-    {
-        return impl_->get_and_cache_partition<TypenameType, TypeIndex>();
-    }
-    
-    Partition<DecltypeType, TypeIndex>       File::decltype_types() const 
-    {
-        return impl_->get_and_cache_partition<DecltypeType, TypeIndex>();
-    }
+    DEFINE_TYPE_PARTITION_GETTER(FundamentalType,    fundamental_types)
+    DEFINE_TYPE_PARTITION_GETTER(DesignatedType,     designated_types)
+    DEFINE_TYPE_PARTITION_GETTER(TorType,            tor_types)
+    DEFINE_TYPE_PARTITION_GETTER(SyntacticType,      syntactic_types)
+    DEFINE_TYPE_PARTITION_GETTER(ExpansionType,      expansion_types)
+    DEFINE_TYPE_PARTITION_GETTER(PointerType,        pointer_types)
+    DEFINE_TYPE_PARTITION_GETTER(FunctionType,       function_types)
+    DEFINE_TYPE_PARTITION_GETTER(MethodType,         method_types)
+    DEFINE_TYPE_PARTITION_GETTER(ArrayType,          array_types)
+    DEFINE_TYPE_PARTITION_GETTER(BaseType,           base_types)
+    DEFINE_TYPE_PARTITION_GETTER(TupleType,          tuple_types)
+    DEFINE_TYPE_PARTITION_GETTER(LvalueReference,    lvalue_references)
+    DEFINE_TYPE_PARTITION_GETTER(RvalueReference,    rvalue_references)
+    DEFINE_TYPE_PARTITION_GETTER(QualifiedType,      qualified_types)
+    DEFINE_TYPE_PARTITION_GETTER(ForallType,         forall_types)
+    DEFINE_TYPE_PARTITION_GETTER(SyntaxType,         syntax_types)
+    DEFINE_TYPE_PARTITION_GETTER(PlaceholderType,    placeholder_types)
+    DEFINE_TYPE_PARTITION_GETTER(TypenameType,       typename_types)
+    DEFINE_TYPE_PARTITION_GETTER(DecltypeType,       decltype_types)
 
-    // ------------------------------------------------------------------------
+#undef DEFINE_TYPE_PARTITION_GETTER
 
-    Partition<AttrBasic, AttrIndex> File::basic_attributes() const
-    {
-        return impl_->get_and_cache_partition<AttrBasic, AttrIndex>();
-    }
+#define DEFINE_ATTR_PARTITION_GETTER(DeclType, DeclName) \
+    DEFINE_PARTITION_GETTER(DeclType, AttrIndex, DeclName)
 
-    Partition<AttrScoped, AttrIndex> File::scoped_attributes() const
-    {
-        return impl_->get_and_cache_partition<AttrScoped, AttrIndex>();
-    }
+        DEFINE_ATTR_PARTITION_GETTER(AttrBasic, basic_attributes)
+        DEFINE_ATTR_PARTITION_GETTER(AttrScoped, scoped_attributes)
+        DEFINE_ATTR_PARTITION_GETTER(AttrLabeled, labeled_attributes)
+        DEFINE_ATTR_PARTITION_GETTER(AttrCalled, called_attributes)
+        DEFINE_ATTR_PARTITION_GETTER(AttrExpanded, expanded_attributes)
+        DEFINE_ATTR_PARTITION_GETTER(AttrFactored, factored_attributes)
+        DEFINE_ATTR_PARTITION_GETTER(AttrElaborated, elaborated_attributes)
+        DEFINE_ATTR_PARTITION_GETTER(AttrTuple, tuple_attributes)
 
-    Partition<AttrLabeled, AttrIndex> File::labeled_attributes() const
-    {
-        return impl_->get_and_cache_partition<AttrLabeled, AttrIndex>();
-    }
+#undef DEFINE_ATTR_PARTITION_GETTER
 
-    Partition<AttrCalled, AttrIndex> File::called_attributes() const
-    {
-        return impl_->get_and_cache_partition<AttrCalled, AttrIndex>();
-    }
+#define DEFINE_EXPR_PARTITION_GETTER(ExprType, ExprName) \
+    DEFINE_PARTITION_GETTER(ExprType, ExprIndex, ExprName)
 
-    Partition<AttrExpanded, AttrIndex> File::expanded_attributes() const
-    {
-        return impl_->get_and_cache_partition<AttrExpanded, AttrIndex>();
-    }
+    DEFINE_EXPR_PARTITION_GETTER(LiteralExpression, literal_expressions)
+    DEFINE_EXPR_PARTITION_GETTER(TypeExpression,    type_expressions)
+    DEFINE_EXPR_PARTITION_GETTER(NamedDecl,         decl_expressions)
+    DEFINE_EXPR_PARTITION_GETTER(UnqualifiedId,     unqualified_id_expressions)
+    DEFINE_EXPR_PARTITION_GETTER(TemplateId,        template_ids)
+    DEFINE_EXPR_PARTITION_GETTER(TemplateReference, template_references)
+    DEFINE_EXPR_PARTITION_GETTER(MonadExpression,   monad_expressions)
+    DEFINE_EXPR_PARTITION_GETTER(DyadExpression,    dyad_expressions)
+    DEFINE_EXPR_PARTITION_GETTER(StringExpression,  string_expressions)
+    DEFINE_EXPR_PARTITION_GETTER(CallExpression,    call_expressions)
+    DEFINE_EXPR_PARTITION_GETTER(SizeofExpression,  sizeof_expressions)
+    DEFINE_EXPR_PARTITION_GETTER(AlignofExpression, alignof_expressions)
+    DEFINE_EXPR_PARTITION_GETTER(RequiresExpression,requires_expressions)
+    DEFINE_EXPR_PARTITION_GETTER(TupleExpression,   tuple_expressions)
+    DEFINE_EXPR_PARTITION_GETTER(PathExpression,    path_expressions)
+    DEFINE_EXPR_PARTITION_GETTER(ReadExpression,    read_expressions)
+    DEFINE_EXPR_PARTITION_GETTER(SyntaxTreeExpression, syntax_tree_expressions)
 
-    Partition<AttrFactored, AttrIndex> File::factored_attributes() const
-    {
-        return impl_->get_and_cache_partition<AttrFactored, AttrIndex>();
-    }
-
-    Partition<AttrElaborated, AttrIndex> File::elaborated_attributes() const
-    {
-        return impl_->get_and_cache_partition<AttrElaborated, AttrIndex>();
-    }
-
-    Partition<AttrTuple, AttrIndex> File::tuple_attributes() const
-    {
-        return impl_->get_and_cache_partition<AttrTuple, AttrIndex>();
-    }
-
-    // ------------------------------------------------------------------------
-
-    Partition<LiteralExpression, ExprIndex>  File::literal_expressions() const
-    {
-        return impl_->get_and_cache_partition<LiteralExpression, ExprIndex>();
-    }
-
-    Partition<TypeExpression, ExprIndex>     File::type_expressions() const
-    {
-        return impl_->get_and_cache_partition<TypeExpression, ExprIndex>();
-    }
-
-    Partition<NamedDecl, ExprIndex>          File::decl_expressions() const
-    {
-        return impl_->get_and_cache_partition<NamedDecl, ExprIndex>();
-    }
-
-    Partition<UnqualifiedId, ExprIndex>      File::unqualified_id_expressions() const
-    {
-        return impl_->get_and_cache_partition<UnqualifiedId, ExprIndex>();
-    }
-
-    Partition<TemplateId, ExprIndex>         File::template_ids() const
-    {
-        return impl_->get_and_cache_partition<TemplateId, ExprIndex>();
-    }
-
-    Partition<TemplateReference, ExprIndex>  File::template_references() const
-    {
-        return impl_->get_and_cache_partition<TemplateReference, ExprIndex>();
-    }
-
-    Partition<MonadExpression, ExprIndex>    File::monad_expressions() const
-    {
-        return impl_->get_and_cache_partition<MonadExpression, ExprIndex>();
-    }
-
-    Partition<DyadExpression, ExprIndex>     File::dyad_expressions() const
-    {
-        return impl_->get_and_cache_partition<DyadExpression, ExprIndex>();
-    }
-
-    Partition<StringExpression, ExprIndex>   File::string_expressions() const
-    {
-        return impl_->get_and_cache_partition<StringExpression, ExprIndex>();
-    }
-
-    Partition<CallExpression, ExprIndex>     File::call_expressions() const
-    {
-        return impl_->get_and_cache_partition<CallExpression, ExprIndex>();
-    }
-
-    Partition<SizeofExpression, ExprIndex>   File::sizeof_expressions() const
-    {
-        return impl_->get_and_cache_partition<SizeofExpression, ExprIndex>();
-    }
-
-    Partition<AlignofExpression, ExprIndex>  File::alignof_expressions() const
-    {
-        return impl_->get_and_cache_partition<AlignofExpression, ExprIndex>();
-    }
-
-    Partition<RequiresExpression, ExprIndex> File::requires_expressions() const
-    {
-        return impl_->get_and_cache_partition<RequiresExpression, ExprIndex>();
-    }
-
-    Partition<TupleExpression, ExprIndex>    File::tuple_expressions() const
-    {
-        return impl_->get_and_cache_partition<TupleExpression, ExprIndex>();
-    }
-
-    Partition<PathExpression, ExprIndex>     File::path_expressions() const
-    {
-        return impl_->get_and_cache_partition<PathExpression, ExprIndex>();
-    }
-
-    Partition<ReadExpression, ExprIndex>     File::read_expressions() const
-    {
-        return impl_->get_and_cache_partition<ReadExpression, ExprIndex>();
-    }
-
-    Partition<SyntaxTreeExpression, ExprIndex>  File::syntax_tree_expressions() const
-    {
-        return impl_->get_and_cache_partition<SyntaxTreeExpression, ExprIndex>();
-    }
-
-    // ------------------------------------------------------------------------
-
-    Partition<ExpressionListExpression, ExprIndex> File::expression_lists() const
-    {
-        return impl_->get_and_cache_partition<ExpressionListExpression, ExprIndex>();
-    }
-
-    Partition<QualifiedNameExpression, ExprIndex>  File::qualified_name_expressions() const
-    {
-        return impl_->get_and_cache_partition<QualifiedNameExpression, ExprIndex>();
-    }
-
-    Partition<PackedTemplateArguments, ExprIndex>  File::packed_template_arguments() const
-    {
-        return impl_->get_and_cache_partition<PackedTemplateArguments, ExprIndex>();
-    }
-
-    Partition<ProductValueTypeExpression, ExprIndex>  File::product_value_type_expressions() const
-    {
-        return impl_->get_and_cache_partition<ProductValueTypeExpression, ExprIndex>();
-    }
-
-    // ------------------------------------------------------------------------
+    DEFINE_EXPR_PARTITION_GETTER(ExpressionListExpression,expression_lists)
+    DEFINE_EXPR_PARTITION_GETTER(QualifiedNameExpression, qualified_name_expressions)
+    DEFINE_EXPR_PARTITION_GETTER(PackedTemplateArguments, packed_template_arguments)
+    DEFINE_EXPR_PARTITION_GETTER(ProductValueTypeExpression, product_value_type_expressions)
 
     Partition<StringLiteral, StringIndex> File::string_literal_expressions() const
     {
-        return impl_->get_and_cache_partition<StringLiteral, StringIndex>();
+        return get_partition_with_cache<StringLiteral, StringIndex>(cached_string_literal_expressions_);
     }
 
-    // ------------------------------------------------------------------------
+#undef DEFINE_EXPR_PARTITION_GETTER
 
-    Partition<ChartUnilevel, ChartIndex>    File::unilevel_charts() const
-    {
-        return impl_->get_and_cache_partition<ChartUnilevel, ChartIndex>();
-    }
+    DEFINE_PARTITION_GETTER(ChartUnilevel,   ChartIndex, unilevel_charts)
+    DEFINE_PARTITION_GETTER(ChartMultilevel, ChartIndex, multilevel_charts)
 
-    Partition<ChartMultilevel, ChartIndex>  File::multilevel_charts() const
-    {
-        return impl_->get_and_cache_partition<ChartMultilevel, ChartIndex>();
+    DEFINE_PARTITION_GETTER(IntegerLiteral,  LitIndex,   integer_literals)
+    DEFINE_PARTITION_GETTER(FPLiteral,       LitIndex,   fp_literals)
 
-    }
+#define DEFINE_SYNTAX_PARTITION_GETTER(SyntaxType, SyntaxName) \
+    DEFINE_PARTITION_GETTER(SyntaxType, SyntaxIndex, SyntaxName)
 
-    Partition<IntegerLiteral, LitIndex> File::integer_literals() const 
-    {
-        return impl_->get_and_cache_partition<IntegerLiteral, LitIndex>();
-    }
-    Partition<FPLiteral, LitIndex>      File::fp_literals() const 
-    {
-        return impl_->get_and_cache_partition<FPLiteral, LitIndex>();
-    }
+    DEFINE_SYNTAX_PARTITION_GETTER(SimpleTypeSpecifier,         simple_type_specifiers)
+    DEFINE_SYNTAX_PARTITION_GETTER(DecltypeSpecifier,           decltype_specifiers)
+    DEFINE_SYNTAX_PARTITION_GETTER(TypeSpecifierSeq,            type_specifier_seq_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(DeclSpecifierSeq,            decl_specifier_seq_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(TypeIdSyntax,                typeid_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(DeclaratorSyntax,            declarator_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(PointerDeclaratorSyntax,     pointer_declarator_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(FunctionDeclaratorSyntax,    function_declarator_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(ParameterDeclaratorSyntax,   parameter_declarator_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(ExpressionSyntax,            expression_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(RequiresClauseSyntax,        requires_clause_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(SimpleRequirementSyntax,     simple_requirement_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(TypeRequirementSyntax,       type_requirement_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(NestedRequirementSyntax,     nested_requirement_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(CompoundRequirementSyntax,   compound_requirement_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(RequirementBodySyntax,       requirement_body_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(TypeTemplateArgumentSyntax,  type_template_argument_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(TemplateArgumentListSyntax,  template_argument_list_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(TemplateIdSyntax,            templateid_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(TypeTraitIntrinsicSyntax,    type_trait_intrinsic_syntax_trees)
+    DEFINE_SYNTAX_PARTITION_GETTER(TupleSyntax,                 tuple_syntax_trees)
 
-    // ------------------------------------------------------------------------
+#undef DEFINE_SYNTAX_PARTITION_GETTER
 
-    Partition<SimpleTypeSpecifier, SyntaxIndex>         File::simple_type_specifiers() const
-    {
-        return impl_->get_and_cache_partition<SimpleTypeSpecifier, SyntaxIndex>();
-    }
+    DEFINE_PARTITION_GETTER(OperatorFunctionName, NameIndex, operator_names)
+    DEFINE_PARTITION_GETTER(SpecializationName,   NameIndex, specialization_names)
+    DEFINE_PARTITION_GETTER(LiteralName,          NameIndex, literal_names)
 
-    Partition<DecltypeSpecifier, SyntaxIndex>           File::decltype_specifiers() const
-    {
-        return impl_->get_and_cache_partition<DecltypeSpecifier, SyntaxIndex>();
-    }
-
-    Partition<TypeSpecifierSeq, SyntaxIndex>            File::type_specifier_seq_syntax_trees() const
-    {
-        return impl_->get_and_cache_partition<TypeSpecifierSeq, SyntaxIndex>();
-    }
-
-    Partition<DeclSpecifierSeq, SyntaxIndex>            File::decl_specifier_seq_syntax_trees() const
-    {
-        return impl_->get_and_cache_partition<DeclSpecifierSeq, SyntaxIndex>();
-    }
-
-    Partition<TypeIdSyntax, SyntaxIndex>                File::typeid_syntax_trees() const
-    {
-        return impl_->get_and_cache_partition<TypeIdSyntax, SyntaxIndex>();
-    }
-
-    Partition<DeclaratorSyntax, SyntaxIndex>            File::declarator_syntax_trees() const
-    {
-        return impl_->get_and_cache_partition<DeclaratorSyntax, SyntaxIndex>();
-    }
-
-    Partition<PointerDeclaratorSyntax, SyntaxIndex>     File::pointer_declarator_syntax_trees() const
-    {
-        return impl_->get_and_cache_partition<PointerDeclaratorSyntax, SyntaxIndex>();
-    }
-
-    Partition<FunctionDeclaratorSyntax, SyntaxIndex>    File::function_declarator_syntax_trees() const
-    {
-        return impl_->get_and_cache_partition<FunctionDeclaratorSyntax, SyntaxIndex>();
-    }
-
-    Partition<ParameterDeclaratorSyntax, SyntaxIndex>   File::parameter_declarator_syntax_trees() const
-    {
-        return impl_->get_and_cache_partition<ParameterDeclaratorSyntax, SyntaxIndex>();
-    }
-
-    Partition<ExpressionSyntax, SyntaxIndex>            File::expression_syntax_trees() const
-    {
-        return impl_->get_and_cache_partition<ExpressionSyntax, SyntaxIndex>();
-    }
-
-    Partition<RequiresClauseSyntax, SyntaxIndex>        File::requires_clause_syntax_trees() const
-    {
-        return impl_->get_and_cache_partition<RequiresClauseSyntax, SyntaxIndex>();
-    }
-
-    Partition<SimpleRequirementSyntax, SyntaxIndex>     File::simple_requirement_syntax_trees() const
-    {
-        return impl_->get_and_cache_partition<SimpleRequirementSyntax, SyntaxIndex>();
-    }
-
-    Partition<TypeRequirementSyntax, SyntaxIndex>       File::type_requirement_syntax_trees() const
-    {
-        return impl_->get_and_cache_partition<TypeRequirementSyntax, SyntaxIndex>();
-    }
-
-    Partition<NestedRequirementSyntax, SyntaxIndex>     File::nested_requirement_syntax_trees() const
-    {
-        return impl_->get_and_cache_partition<NestedRequirementSyntax, SyntaxIndex>();
-    }
-
-    Partition<CompoundRequirementSyntax, SyntaxIndex>   File::compound_requirement_syntax_trees() const
-    {
-        return impl_->get_and_cache_partition<CompoundRequirementSyntax, SyntaxIndex>();
-    }
-
-    Partition<RequirementBodySyntax, SyntaxIndex>       File::requirement_body_syntax_trees() const
-    {
-        return impl_->get_and_cache_partition<RequirementBodySyntax, SyntaxIndex>();
-    }
-
-    Partition<TypeTemplateArgumentSyntax, SyntaxIndex>  File::type_template_argument_syntax_trees() const
-    {
-        return impl_->get_and_cache_partition<TypeTemplateArgumentSyntax, SyntaxIndex>();
-    }
-
-    Partition<TemplateArgumentListSyntax, SyntaxIndex>  File::template_argument_list_syntax_trees() const
-    {
-        return impl_->get_and_cache_partition<TemplateArgumentListSyntax, SyntaxIndex>();
-    }
-
-    Partition<TemplateIdSyntax, SyntaxIndex>            File::templateid_syntax_trees() const
-    {
-        return impl_->get_and_cache_partition<TemplateIdSyntax, SyntaxIndex>();
-    }
-
-    Partition<TypeTraitIntrinsicSyntax, SyntaxIndex>    File::type_trait_intrinsic_syntax_trees() const
-    {
-        return impl_->get_and_cache_partition<TypeTraitIntrinsicSyntax, SyntaxIndex>();
-    }
-
-    Partition<TupleSyntax, SyntaxIndex>                 File::tuple_syntax_trees() const
-    {
-        return impl_->get_and_cache_partition<TupleSyntax, SyntaxIndex>();
-    }
-
-    // ------------------------------------------------------------------------
-
-    Partition<OperatorFunctionName, NameIndex> File::operator_names() const
-    {
-        return impl_->get_and_cache_partition<OperatorFunctionName, NameIndex>();
-    }
-
-    Partition<SpecializationName, NameIndex> File::specialization_names() const
-    {
-        return impl_->get_and_cache_partition<SpecializationName, NameIndex>();
-    }
-
-    Partition<LiteralName, NameIndex> File::literal_names() const
-    {
-        return impl_->get_and_cache_partition<LiteralName, NameIndex>();
-    }
-
-    // ------------------------------------------------------------------------
+#undef DEFINE_PARTITION_GETTER
 
     Partition<TypeIndex, Index> File::type_heap() const
     {
-        return impl_->get_and_cache_partition<TypeIndex, Index>("heap.type");
+        return get_partition_with_cache<TypeIndex, Index>(cached_type_heap_, "heap.type");
     }
 
     Partition<ExprIndex, Index> File::expr_heap() const
     {
-        return impl_->get_and_cache_partition<ExprIndex, Index>("heap.expr");
+        return get_partition_with_cache<ExprIndex, Index>(cached_expr_heap_, "heap.expr");
     }
 
     Partition<AttrIndex, Index> File::attr_heap() const
     {
-        return impl_->get_and_cache_partition<AttrIndex, Index>("heap.attr");
+        return get_partition_with_cache<AttrIndex, Index>(cached_attr_heap_, "heap.attr");
     }
 
     Partition<SyntaxIndex, Index> File::syntax_heap() const
     {
-        return impl_->get_and_cache_partition<SyntaxIndex, Index>("heap.syn");
+        return get_partition_with_cache<SyntaxIndex, Index>(cached_syntax_heap_, "heap.syn");
     }
 
     Partition<ModuleReference, Index> File::imported_modules() const
     {
-        return impl_->get_and_cache_partition<ModuleReference, Index>("module.imported");
+        return get_partition_with_cache<ModuleReference, Index>(cached_imported_modules_, "module.imported");
     }
 
     Partition<ModuleReference, Index> File::exported_modules() const
     {
-        return impl_->get_and_cache_partition<ModuleReference, Index>("module.exported");
+        return get_partition_with_cache<ModuleReference, Index>(cached_exported_modules_, "module.exported");
     }
-
-    // ------------------------------------------------------------------------
 
     Partition<DeclIndex> File::deduction_guides() const
     {
-        return impl_->get_and_cache_partition<DeclIndex, uint32_t>("name.guide");
+        return impl_->get_partition<DeclIndex, uint32_t>("name.guide");
     }
-
-    // ------------------------------------------------------------------------
 
     template<typename RetType, typename Value>
     RetType get_value(DeclIndex declaration, std::unordered_map<DeclIndex, Value> const & map)
@@ -817,7 +437,21 @@ namespace ifc
         return get_value<Sequence>(declaration, impl_->trait_friendship_of_class());
     }
 
-    // ------------------------------------------------------------------------
+    template<typename T, typename Index>
+    Partition<T, Index> File::get_partition_with_cache(std::optional<Partition<T, Index>> & cache) const
+    {
+        return get_partition_with_cache<T, Index>(cache, T::PartitionName);
+    }
+
+    template <typename T, typename Index>
+    Partition<T, Index> File::get_partition_with_cache(std::optional<Partition<T, Index>>& cache, std::string_view name) const
+    {
+        if (cache.has_value())
+            return *cache;
+        auto result = impl_->get_partition<T, Index>(name);
+        cache = result;
+        return result;
+    }
 
     File::File(BlobView data)
         : impl_(std::make_unique<Impl>(data))
@@ -828,8 +462,6 @@ namespace ifc
 
     File::File           (File&&) noexcept = default;
     File& File::operator=(File&&) noexcept = default;
-
-    // ------------------------------------------------------------------------
 
     ScopeDeclaration const& get_scope(File const& file, DeclIndex decl)
     {
