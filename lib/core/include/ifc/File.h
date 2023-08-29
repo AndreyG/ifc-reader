@@ -11,6 +11,7 @@
 #include "NameFwd.h"
 #include "SyntaxTreeFwd.h"
 #include "TypeFwd.h"
+#include "Module.h"
 
 #include <memory>
 #include <optional>
@@ -193,6 +194,10 @@ namespace ifc
         DECLARE_SYNTAX_PARTITION_GETTER(TupleSyntax,                tuple_syntax_trees)
 
 #undef DECLARE_SYNTAX_PARTITION_GETTER
+
+        // Module References
+        DECLARE_UNTYPED_PARTITION_GETTER(ModuleReference, Index, imported_modules);
+        DECLARE_UNTYPED_PARTITION_GETTER(ModuleReference, Index, exported_modules);
 
         Partition<DeclIndex> deduction_guides() const;
 

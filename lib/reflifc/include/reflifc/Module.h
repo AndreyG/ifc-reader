@@ -3,6 +3,7 @@
 #include "decl/Scope.h"
 #include "decl/ScopeDeclaration.h"
 #include "ifc/Module.h"
+#include "ifc/Environment.h"
 
 namespace reflifc
 {
@@ -14,10 +15,21 @@ namespace reflifc
         {
         }
 
-        const char* owner() const { return ifc_->get_string(module_reference_->owner); }
-        const char* partition() const { return ifc_->get_string(module_reference_->partition); }
+        const char* owner() const {
+            return get_string_or_null(module_reference_->owner);
+        }
+        const char* partition() const { 
+            return get_string_or_null(module_reference_->partition);
+        }
 
     private:
+        const char* get_string_or_null(ifc::TextOffset text) const {
+            if (ifc::is_null(text)) {
+                return nullptr;
+            }
+            return ifc_->get_string(text);
+        }
+
         ifc::ModuleReference const* module_reference_;
         ifc::File const* ifc_;
     };
@@ -41,6 +53,17 @@ namespace reflifc
 
     struct Module
     {
+    private:
+        ViewOf<Module> auto dereference(ifc::Partition<ifc::ModuleReference, ifc::Index> partition, ifc::Environment& environment) const 
+        {
+            return partition
+                | std::views::transform([ifc = ifc_, &environment] (ifc::ModuleReference const & module_reference) {
+                    const auto& other_ifc = environment.get_referenced_module(module_reference, *ifc);
+                    return Module(&other_ifc);
+                });
+        }
+
+    public:
         explicit Module(ifc::File const* ifc)
             : ifc_(ifc)
         {
@@ -52,6 +75,16 @@ namespace reflifc
                 | std::views::transform([ifc = ifc_] (ifc::ScopeDeclaration const & scope) {
                     return ScopeDeclaration(ifc, scope);
                 });
+        }
+
+        ViewOf<Module> auto exported_modules(ifc::Environment& environment) const
+        {
+            return dereference(ifc_->exported_modules(), environment);
+        }
+
+        ViewOf<Module> auto imported_modules(ifc::Environment& environment) const
+        {
+            return dereference(ifc_->imported_modules(), environment);
         }
 
         Scope global_namespace() const

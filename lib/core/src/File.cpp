@@ -398,6 +398,16 @@ namespace ifc
         return get_partition_with_cache<SyntaxIndex, Index>(cached_syntax_heap_, "heap.syn");
     }
 
+    Partition<ModuleReference, Index> File::imported_modules() const
+    {
+        return get_partition_with_cache<ModuleReference, Index>(cached_imported_modules_, "module.imported");
+    }
+
+    Partition<ModuleReference, Index> File::exported_modules() const
+    {
+        return get_partition_with_cache<ModuleReference, Index>(cached_exported_modules_, "module.exported");
+    }
+
     Partition<DeclIndex> File::deduction_guides() const
     {
         return impl_->get_partition<DeclIndex, uint32_t>("name.guide");
