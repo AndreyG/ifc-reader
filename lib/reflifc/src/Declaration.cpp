@@ -14,7 +14,6 @@
 #include "reflifc/decl/Specialization.h"
 #include "reflifc/decl/UsingDeclaration.h"
 #include "reflifc/decl/Variable.h"
-#include "reflifc/Module.h"
 
 namespace reflifc
 {
@@ -199,24 +198,4 @@ namespace reflifc
     {
         return { ifc_, ifc_->decl_references()[index_] };
     }
-
-    Module Declaration::declaring_module() const
-    {
-        return Module{ ifc_ };
-    }
-}
-
-template <class T>
-void hash_combine(std::size_t& seed, const T& v)
-{
-    std::hash<T> hasher;
-    seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-}
-
-size_t std::hash<reflifc::Declaration>::operator()(const reflifc::Declaration& decl) const
-{
-    size_t seed = 0;
-    hash_combine(seed, decl.ifc_);
-    hash_combine(seed, decl.index_);
-    return seed;
 }
