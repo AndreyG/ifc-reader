@@ -5,7 +5,6 @@
 #include "common_types.h"
 
 #include <cassert>
-#include <concepts>
 #include <ranges>
 
 namespace ifc
