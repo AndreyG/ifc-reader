@@ -1,5 +1,6 @@
 #pragma once
 
+#include "reflifc/HashCombine.h"
 #include "reflifc/Name.h"
 
 #include <ifc/DeclarationFwd.h>
@@ -20,7 +21,11 @@ namespace reflifc
         Declaration primary_template()  const;
         TupleExpressionView arguments() const;
 
+        auto operator<=>(SpecializationForm const& other) const = default;
+
     private:
+        friend std::hash<SpecializationForm>;
+
         ifc::File const* ifc_;
         ifc::SpecializationForm const* form_;
     };
@@ -41,7 +46,11 @@ namespace reflifc
         ifc::Access access() const;
         ifc::BasicSpecifiers specifiers() const;
 
+        auto operator<=>(PartialSpecialization const& other) const = default;
+
     private:
+        friend std::hash<PartialSpecialization>;
+
         ifc::File const* ifc_;
         ifc::PartialSpecialization const* spec_;
     };
@@ -58,8 +67,39 @@ namespace reflifc
         ifc::SpecializationSort sort() const;
         SpecializationForm form() const;
 
+        auto operator<=>(Specialization const& other) const = default;
+
     private:
+        friend std::hash<Specialization>;
+
         ifc::File const* ifc_;
         ifc::Specialization const* spec_;
     };
 }
+
+template<>
+struct std::hash<reflifc::SpecializationForm>
+{
+    size_t operator()(reflifc::SpecializationForm const& specialization) const noexcept
+    {
+        return reflifc::hash_combine(0, specialization.ifc_, specialization.form_);
+    }
+};
+
+template<>
+struct std::hash<reflifc::PartialSpecialization>
+{
+    size_t operator()(reflifc::PartialSpecialization const& specialization) const noexcept
+    {
+        return reflifc::hash_combine(0, specialization.ifc_, specialization.spec_);
+    }
+};
+
+template<>
+struct std::hash<reflifc::Specialization>
+{
+    size_t operator()(reflifc::Specialization const& specialization) const noexcept
+    {
+        return reflifc::hash_combine(0, specialization.ifc_, specialization.spec_);
+    }
+};

@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include "HashCombine.h"
+
 #include <ifc/FileFwd.h>
 #include <ifc/TypeFwd.h>
 
@@ -85,8 +87,21 @@ namespace reflifc
 
         ifc::TypeSort sort() const { return index_.sort(); }
 
+        auto operator<=>(Type const& other) const = default;
+
     private:
+        friend std::hash<Type>;
+
         ifc::File const* ifc_;
         ifc::TypeIndex index_;
     };
 }
+
+template<>
+struct std::hash<reflifc::Type>
+{
+    size_t operator()(reflifc::Type const& object) const noexcept
+    {
+        return reflifc::hash_combine(0, object.ifc_, object.index_);
+    }
+};

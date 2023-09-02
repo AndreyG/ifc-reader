@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include "HashCombine.h"
+
 #include <ifc/ExpressionFwd.h>
 #include <ifc/FileFwd.h>
 
@@ -92,8 +94,21 @@ namespace reflifc
 
         ifc::ExprSort sort() const { return index_.sort(); }
 
+        auto operator<=>(Expression const& other) const = default;
+
     private:
+        friend std::hash<Expression>;
+
         ifc::File const* ifc_;
         ifc::ExprIndex index_;
     };
 }
+
+template<>
+struct std::hash<reflifc::Expression>
+{
+    size_t operator()(reflifc::Expression const& object) const noexcept
+    {
+        return reflifc::hash_combine(0, object.ifc_, object.index_);
+    }
+};

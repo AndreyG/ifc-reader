@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include "reflifc/HashCombine.h"
+
 #include <ifc/DeclarationFwd.h>
 #include <ifc/FileFwd.h>
 
@@ -29,8 +31,21 @@ namespace reflifc
         bool has_initializer() const;
         Expression initializer() const;
 
+        auto operator<=>(Variable const& other) const = default;
+
     private:
+        friend std::hash<Variable>;
+
         ifc::File const* ifc_;
         ifc::VariableDeclaration const* var_;
     };
 }
+
+template<>
+struct std::hash<reflifc::Variable>
+{
+    size_t operator()(reflifc::Variable const& variable) const noexcept
+    {
+        return reflifc::hash_combine(0, variable.ifc_, variable.var_);
+    }
+};

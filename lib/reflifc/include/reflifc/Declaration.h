@@ -3,6 +3,7 @@
 #include "Attribute.h"
 #include "Expression.h"
 #include "ViewOf.h"
+#include "HashCombine.h"
 
 #include <ifc/File.h>
 #include <ifc/Declaration.h>
@@ -112,14 +113,21 @@ namespace reflifc
         ifc::DeclSort sort() const { return index_.sort(); }
         ifc::DeclIndex index() const { return index_; }
 
-        bool operator==(Declaration other) const
-        {
-            assert(ifc_ == other.ifc_);
-            return index_ == other.index_;
-        }
+        auto operator<=>(Declaration const& other) const = default;
 
     private:
+        friend std::hash<Declaration>;
+
         ifc::File const* ifc_;
         ifc::DeclIndex index_;
     };
 }
+
+template<>
+struct std::hash<reflifc::Declaration>
+{
+    size_t operator()(reflifc::Declaration const& decl) const noexcept
+    {
+        return reflifc::hash_combine(0, decl.ifc_, decl.index_);
+    }
+};

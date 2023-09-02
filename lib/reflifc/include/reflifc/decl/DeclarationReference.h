@@ -2,6 +2,7 @@
 
 #include "reflifc/Declaration.h"
 #include "reflifc/Module.h"
+#include "reflifc/HashCombine.h"
 
 #include "ifc/FileFwd.h"
 #include "ifc/DeclarationFwd.h"
@@ -20,8 +21,21 @@ namespace reflifc
         reflifc::ModuleReference module_reference() const;
         reflifc::Declaration referenced_declaration(ifc::Environment& environment) const;
 
+        auto operator<=>(DeclarationReference const& other) const = default;
+
     private:
+        friend std::hash<DeclarationReference>;
+
         ifc::File const* ifc_;
         ifc::DeclReference const* decl_reference_;
 	};
 }
+
+template<>
+struct std::hash<reflifc::DeclarationReference>
+{
+    size_t operator()(reflifc::DeclarationReference const& decl_ref) const noexcept
+    {
+        return reflifc::hash_combine(0, decl_ref.ifc_, decl_ref.decl_reference_);
+    }
+};

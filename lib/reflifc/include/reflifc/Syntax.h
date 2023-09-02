@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include "HashCombine.h"
+
 #include <ifc/SyntaxTreeFwd.h>
 #include <ifc/FileFwd.h>
 
@@ -29,8 +31,21 @@ namespace reflifc
         TypeTraitIntrinsicSyntax    as_type_trait_intrinsic()   const;
         Expression                  requires_clause_condition() const;
 
+        auto operator<=>(Syntax const& other) const = default;
+
     private:
+        friend std::hash<Syntax>;
+
         ifc::File const* ifc_;
         ifc::SyntaxIndex index_;
     };
 }
+
+template<>
+struct std::hash<reflifc::Syntax>
+{
+    size_t operator()(reflifc::Syntax const& object) const noexcept
+    {
+        return reflifc::hash_combine(0, object.ifc_, object.index_);
+    }
+};

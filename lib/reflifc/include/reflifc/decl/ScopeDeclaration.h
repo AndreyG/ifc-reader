@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include "reflifc/HashCombine.h"
+
 #include <ifc/FileFwd.h>
 #include <ifc/DeclarationFwd.h>
 #include <ifc/TypeFwd.h>
@@ -31,8 +33,21 @@ namespace reflifc
         ifc::BasicSpecifiers specifiers() const;
         ifc::TypeBasis kind() const;
 
+        auto operator<=>(ScopeDeclaration const& other) const = default;
+
     private:
+        friend std::hash<ScopeDeclaration>;
+
         ifc::File const* ifc_;
         ifc::ScopeDeclaration const* scope_;
     };
 }
+
+template<>
+struct std::hash<reflifc::ScopeDeclaration>
+{
+    size_t operator()(reflifc::ScopeDeclaration const& scope_decl) const noexcept
+    {
+        return reflifc::hash_combine(0, scope_decl.ifc_, scope_decl.scope_);
+    }
+};

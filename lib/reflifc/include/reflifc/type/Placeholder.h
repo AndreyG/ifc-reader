@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include "reflifc/HashCombine.h"
+
 #include <ifc/FileFwd.h>
 #include <ifc/TypeFwd.h>
 
@@ -18,8 +20,21 @@ namespace reflifc
         ifc::TypeBasis basis() const;
         Type elaboration() const;
 
+        auto operator<=>(PlaceholderType const& other) const = default;
+
     private:
+        friend std::hash<PlaceholderType>;
+
         ifc::File const* ifc_;
         ifc::PlaceholderType const* placeholder_;
     };
 }
+
+template<>
+struct std::hash<reflifc::PlaceholderType>
+{
+    size_t operator()(reflifc::PlaceholderType const& object) const noexcept
+    {
+        return reflifc::hash_combine(0, object.ifc_, object.placeholder_);
+    }
+};

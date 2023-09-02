@@ -6,6 +6,7 @@
 #include "reflifc/type/Base.h"
 #include "reflifc/TupleView.h"
 #include "reflifc/Type.h"
+#include "reflifc/HashCombine.h"
 
 #include <ifc/File.h>
 #include <ifc/Declaration.h>
@@ -41,7 +42,11 @@ namespace reflifc
 
         Declaration home_scope() const;
 
+        auto operator<=>(ClassOrStruct const& other) const = default;
+
     private:
+        friend std::hash<ClassOrStruct>;
+
         ifc::File const* ifc_;
         ifc::ScopeDeclaration const* scope_;
     };
@@ -60,3 +65,12 @@ namespace reflifc
             | std::views::transform(&Declaration::as_variable);
     }
 }
+
+template<>
+struct std::hash<reflifc::ClassOrStruct>
+{
+    size_t operator()(reflifc::ClassOrStruct const& class_or_struct) const noexcept
+    {
+        return reflifc::hash_combine(0, class_or_struct.ifc_, class_or_struct.scope_);
+    }
+};
