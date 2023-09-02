@@ -25,6 +25,8 @@ namespace reflifc
         ifc::ParameterPosition position() const { return param_->position; }
         ifc::ParameterLevel level() const { return param_->level; }
 
+        ifc::File const* containing_file() const { return ifc_; }
+
     private:
         ifc::File const* ifc_;
         ifc::ParameterDeclaration const* param_;

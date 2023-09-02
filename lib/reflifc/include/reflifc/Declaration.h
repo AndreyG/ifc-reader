@@ -118,6 +118,8 @@ namespace reflifc
             return index_ == other.index_;
         }
 
+        ifc::File const* containing_file() const { return ifc_; }
+
     private:
         ifc::File const* ifc_;
         ifc::DeclIndex index_;

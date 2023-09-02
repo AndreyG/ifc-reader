@@ -21,6 +21,8 @@ namespace reflifc
         Declaration home_scope()const;
         ifc::Access access()    const;
 
+        ifc::File const* containing_file() const { return ifc_; }
+
     private:
         ifc::File const* ifc_;
         ifc::AliasDeclaration const* alias_;
