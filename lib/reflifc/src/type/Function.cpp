@@ -9,31 +9,31 @@ namespace reflifc
 {
     TupleTypeView FunctionType::parameters() const
     {
-        return { ifc_, function_.source };
+        return { ifc_, function_->source };
     }
 
     Type FunctionType::return_type() const
     {
-        return { ifc_, function_.target };
+        return { ifc_, function_->target };
     }
 
     TupleTypeView MethodType::parameters() const
     {
-        return { ifc_, method_.source };
+        return { ifc_, method_->source };
     }
 
     Type MethodType::return_type() const
     {
-        return { ifc_, method_.target };
+        return { ifc_, method_->target };
     }
 
     Type MethodType::scope() const
     {
-        return { ifc_, method_.scope };
+        return { ifc_, method_->scope };
     }
 
     ifc::FunctionTypeTraits MethodType::traits() const
     {
-        return method_.traits;
+        return method_->traits;
     }
 }

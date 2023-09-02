@@ -14,7 +14,7 @@ namespace reflifc
     {
         FunctionType(ifc::File const* ifc, ifc::FunctionType const& function)
             : ifc_(ifc)
-            , function_(function)
+            , function_(&function)
         {
         }
 
@@ -27,14 +27,14 @@ namespace reflifc
         friend std::hash<FunctionType>;
 
         ifc::File const* ifc_;
-        ifc::FunctionType const& function_;
+        ifc::FunctionType const* function_;
     };
 
     struct MethodType
     {
         MethodType(ifc::File const* ifc, ifc::MethodType const& method)
             : ifc_(ifc)
-            , method_(method)
+            , method_(&method)
         {
         }
 
@@ -50,7 +50,7 @@ namespace reflifc
         friend std::hash<MethodType>;
 
         ifc::File const* ifc_;
-        ifc::MethodType const& method_;
+        ifc::MethodType const* method_;
     };
 }
 

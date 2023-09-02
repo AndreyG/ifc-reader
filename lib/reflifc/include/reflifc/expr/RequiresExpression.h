@@ -11,7 +11,7 @@ namespace reflifc
     {
         RequiresExpression(ifc::File const* ifc, ifc::RequiresExpression const& expr)
             : ifc_(ifc)
-            , expr_(expr)
+            , expr_(&expr)
         {
         }
 
@@ -21,7 +21,7 @@ namespace reflifc
         friend std::hash<RequiresExpression>;
 
         ifc::File const* ifc_;
-        ifc::RequiresExpression const& expr_;
+        ifc::RequiresExpression const* expr_;
     };
 }
 

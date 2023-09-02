@@ -22,6 +22,8 @@ namespace reflifc
         auto operator<=>(TypeSpecifierSyntax const& other) const = default;
 
     private:
+        friend std::hash<TypeSpecifierSyntax>;
+
         ifc::File const* ifc_;
         ifc::TypeSpecifierSeq const* syntax_;
     };

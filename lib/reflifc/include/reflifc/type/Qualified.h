@@ -13,7 +13,7 @@ namespace reflifc
     {
         QualifiedType(ifc::File const* ifc, ifc::QualifiedType const& qualified)
             : ifc_(ifc),
-              qualified_(qualified)
+              qualified_(&qualified)
         {
         }
 
@@ -26,7 +26,7 @@ namespace reflifc
         friend std::hash<QualifiedType>;
 
         ifc::File const* ifc_;
-        ifc::QualifiedType const& qualified_;
+        ifc::QualifiedType const* qualified_;
     };
 }
 

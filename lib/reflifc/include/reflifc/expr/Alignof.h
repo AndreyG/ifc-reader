@@ -20,9 +20,9 @@ namespace reflifc
 }
 
 template<>
-struct std::hash<reflifc::Expression>
+struct std::hash<reflifc::AlignofExpression>
 {
-    size_t operator()(reflifc::Expression const& object) const noexcept
+    size_t operator()(reflifc::AlignofExpression const& object) const noexcept
     {
         return std::hash<reflifc::Type>{}(object.operand);
     }
