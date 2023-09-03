@@ -34,12 +34,23 @@ namespace ifc
         return ref.index;
     }
 
+    template<typename T, typename Index>
+    concept CanValidateIndexSort = requires(Index index)
+    {
+        { T::Sort };
+        { index.sort() };
+    };
+
     template<typename T, typename Index = uint32_t>
     class Partition : public std::ranges::view_base
     {
     public:
         T const & operator[] (Index index) const
         {
+            if constexpr (CanValidateIndexSort<T, Index>)
+            {
+                assert(index.sort() == T::Sort);
+            }
             return data_[static_cast<size_t>(get_raw_index(index))];
         }
 
@@ -68,21 +79,5 @@ namespace ifc
     private:
         T const* data_;
         size_t size_;
-    };
-
-    template<typename T, typename Index>
-    class TypedPartition : public Partition<T, Index>
-    {
-    public:
-        explicit TypedPartition(Partition<T, Index> untyped)
-            : Partition<T, Index>(untyped)
-        {
-        }
-
-        T const& operator[] (Index index) const
-        {
-            assert(index.sort() == T::Sort);
-            return Partition<T, Index>::operator[](index);
-        }
     };
 }

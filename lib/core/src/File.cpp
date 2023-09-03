@@ -224,160 +224,94 @@ namespace ifc
         return impl_->get_raw_pointer(partition.offset);
     }
 
-    Partition<Declaration, Index> File::declarations() const
-    {
-        return get_partition_with_cache<Declaration, Index>(cached_declarations_);
+#define DEFINE_PARTITION_GETTER(ElementType, IndexType, Property)                           \
+    Partition<ElementType, IndexType> File::Property() const {                              \
+        return get_partition_with_cache<ElementType, IndexType>(cached_ ## Property ## _);  \
     }
 
-#define DEFINE_PARTITION_GETTER(ElementType, IndexType, Property)   \
-    TypedPartition<ElementType, IndexType> File::Property() const { \
-        return static_cast<TypedPartition<ElementType, IndexType>>( \
-            get_partition_with_cache<ElementType, IndexType>(       \
-                cached_ ## Property ## _)                           \
-            );                                                      \
-    }
+    // Declarations
+    DEFINE_PARTITION_GETTER(Declaration,            Index,          declarations)
+    
+    DEFINE_PARTITION_GETTER(ScopeDeclaration,       DeclIndex,      scope_declarations)
+    DEFINE_PARTITION_GETTER(TemplateDeclaration,    DeclIndex,      template_declarations)
+    DEFINE_PARTITION_GETTER(PartialSpecialization,  DeclIndex,      partial_specializations)
+    DEFINE_PARTITION_GETTER(Specialization,         DeclIndex,      specializations)
+    DEFINE_PARTITION_GETTER(UsingDeclaration,       DeclIndex,      using_declarations)
+    DEFINE_PARTITION_GETTER(Enumeration,            DeclIndex,      enumerations)
+    DEFINE_PARTITION_GETTER(Enumerator,             DeclIndex,      enumerators)
+    DEFINE_PARTITION_GETTER(AliasDeclaration,       DeclIndex,      alias_declarations)
+    DEFINE_PARTITION_GETTER(DeclReference,          DeclIndex,      decl_references)
+    DEFINE_PARTITION_GETTER(FunctionDeclaration,    DeclIndex,      functions)
+    DEFINE_PARTITION_GETTER(MethodDeclaration,      DeclIndex,      methods)
+    DEFINE_PARTITION_GETTER(Constructor,            DeclIndex,      constructors)
+    DEFINE_PARTITION_GETTER(Destructor,             DeclIndex,      destructors)
+    DEFINE_PARTITION_GETTER(VariableDeclaration,    DeclIndex,      variables)
+    DEFINE_PARTITION_GETTER(FieldDeclaration,       DeclIndex,      fields)
+    DEFINE_PARTITION_GETTER(ParameterDeclaration,   DeclIndex,      parameters)
+    DEFINE_PARTITION_GETTER(Concept,                DeclIndex,      concepts)
+    DEFINE_PARTITION_GETTER(FriendDeclaration,      DeclIndex,      friends)
+    DEFINE_PARTITION_GETTER(IntrinsicDeclaration,   DeclIndex,      intrinsic_declarations)
 
-#define DEFINE_DECL_PARTITION_GETTER(DeclType, DeclName) \
-    DEFINE_PARTITION_GETTER(DeclType, DeclIndex, DeclName)
+    DEFINE_PARTITION_GETTER(SpecializationForm,     SpecFormIndex,  specialization_forms)
 
-    DEFINE_DECL_PARTITION_GETTER(ScopeDeclaration,      scope_declarations)
-    DEFINE_DECL_PARTITION_GETTER(TemplateDeclaration,   template_declarations)
-    DEFINE_DECL_PARTITION_GETTER(PartialSpecialization, partial_specializations)
-    DEFINE_DECL_PARTITION_GETTER(Specialization,        specializations)
-    DEFINE_DECL_PARTITION_GETTER(UsingDeclaration,      using_declarations)
-    DEFINE_DECL_PARTITION_GETTER(Enumeration,           enumerations)
-    DEFINE_DECL_PARTITION_GETTER(Enumerator,            enumerators)
-    DEFINE_DECL_PARTITION_GETTER(AliasDeclaration,      alias_declarations)
-    DEFINE_DECL_PARTITION_GETTER(DeclReference,         decl_references)
-    DEFINE_DECL_PARTITION_GETTER(FunctionDeclaration,   functions)
-    DEFINE_DECL_PARTITION_GETTER(MethodDeclaration,     methods)
-    DEFINE_DECL_PARTITION_GETTER(Constructor,           constructors)
-    DEFINE_DECL_PARTITION_GETTER(Destructor,            destructors)
-    DEFINE_DECL_PARTITION_GETTER(VariableDeclaration,   variables)
-    DEFINE_DECL_PARTITION_GETTER(FieldDeclaration,      fields)
-    DEFINE_DECL_PARTITION_GETTER(ParameterDeclaration,  parameters)
-    DEFINE_DECL_PARTITION_GETTER(Concept,               concepts)
-    DEFINE_DECL_PARTITION_GETTER(FriendDeclaration,     friends)
-    DEFINE_DECL_PARTITION_GETTER(IntrinsicDeclaration,  intrinsic_declarations)
+    // Types
+    DEFINE_PARTITION_GETTER(FundamentalType,    TypeIndex,  fundamental_types)
+    DEFINE_PARTITION_GETTER(DesignatedType,     TypeIndex,  designated_types)
+    DEFINE_PARTITION_GETTER(TorType,            TypeIndex,  tor_types)
+    DEFINE_PARTITION_GETTER(SyntacticType,      TypeIndex,  syntactic_types)
+    DEFINE_PARTITION_GETTER(ExpansionType,      TypeIndex,  expansion_types)
+    DEFINE_PARTITION_GETTER(PointerType,        TypeIndex,  pointer_types)
+    DEFINE_PARTITION_GETTER(FunctionType,       TypeIndex,  function_types)
+    DEFINE_PARTITION_GETTER(MethodType,         TypeIndex,  method_types)
+    DEFINE_PARTITION_GETTER(ArrayType,          TypeIndex,  array_types)
+    DEFINE_PARTITION_GETTER(BaseType,           TypeIndex,  base_types)
+    DEFINE_PARTITION_GETTER(TupleType,          TypeIndex,  tuple_types)
+    DEFINE_PARTITION_GETTER(LvalueReference,    TypeIndex,  lvalue_references)
+    DEFINE_PARTITION_GETTER(RvalueReference,    TypeIndex,  rvalue_references)
+    DEFINE_PARTITION_GETTER(QualifiedType,      TypeIndex,  qualified_types)
+    DEFINE_PARTITION_GETTER(ForallType,         TypeIndex,  forall_types)
+    DEFINE_PARTITION_GETTER(SyntaxType,         TypeIndex,  syntax_types)
+    DEFINE_PARTITION_GETTER(PlaceholderType,    TypeIndex,  placeholder_types)
+    DEFINE_PARTITION_GETTER(TypenameType,       TypeIndex,  typename_types)
+    DEFINE_PARTITION_GETTER(DecltypeType,       TypeIndex,  decltype_types)
 
-#undef DEFINE_DECL_PARTITION_GETTER
+    // Attributes
+    DEFINE_PARTITION_GETTER(AttrBasic,      AttrIndex,  basic_attributes)
+    DEFINE_PARTITION_GETTER(AttrScoped,     AttrIndex,  scoped_attributes)
+    DEFINE_PARTITION_GETTER(AttrLabeled,    AttrIndex,  labeled_attributes)
+    DEFINE_PARTITION_GETTER(AttrCalled,     AttrIndex,  called_attributes)
+    DEFINE_PARTITION_GETTER(AttrExpanded,   AttrIndex,  expanded_attributes)
+    DEFINE_PARTITION_GETTER(AttrFactored,   AttrIndex,  factored_attributes)
+    DEFINE_PARTITION_GETTER(AttrElaborated, AttrIndex,  elaborated_attributes)
+    DEFINE_PARTITION_GETTER(AttrTuple,      AttrIndex,  tuple_attributes)
 
-    Partition<SpecializationForm, SpecFormIndex> File::specialization_forms() const
-    {
-        return get_partition_with_cache<SpecializationForm, SpecFormIndex>( cached_specialization_forms_);
-    }
+    // Expressions
+    DEFINE_PARTITION_GETTER(LiteralExpression,          ExprIndex,      literal_expressions)
+    DEFINE_PARTITION_GETTER(TypeExpression,             ExprIndex,      type_expressions)
+    DEFINE_PARTITION_GETTER(NamedDecl,                  ExprIndex,      decl_expressions)
+    DEFINE_PARTITION_GETTER(UnqualifiedId,              ExprIndex,      unqualified_id_expressions)
+    DEFINE_PARTITION_GETTER(TemplateId,                 ExprIndex,      template_ids)
+    DEFINE_PARTITION_GETTER(TemplateReference,          ExprIndex,      template_references)
+    DEFINE_PARTITION_GETTER(MonadExpression,            ExprIndex,      monad_expressions)
+    DEFINE_PARTITION_GETTER(DyadExpression,             ExprIndex,      dyad_expressions)
+    DEFINE_PARTITION_GETTER(StringExpression,           ExprIndex,      string_expressions)
+    DEFINE_PARTITION_GETTER(CallExpression,             ExprIndex,      call_expressions)
+    DEFINE_PARTITION_GETTER(SizeofExpression,           ExprIndex,      sizeof_expressions)
+    DEFINE_PARTITION_GETTER(AlignofExpression,          ExprIndex,      alignof_expressions)
+    DEFINE_PARTITION_GETTER(RequiresExpression,         ExprIndex,      requires_expressions)
+    DEFINE_PARTITION_GETTER(TupleExpression,            ExprIndex,      tuple_expressions)
+    DEFINE_PARTITION_GETTER(PathExpression,             ExprIndex,      path_expressions)
+    DEFINE_PARTITION_GETTER(ReadExpression,             ExprIndex,      read_expressions)
+    DEFINE_PARTITION_GETTER(SyntaxTreeExpression,       ExprIndex,      syntax_tree_expressions)
 
-#define DEFINE_TYPE_PARTITION_GETTER(Type, TypeName) \
-    DEFINE_PARTITION_GETTER(Type, TypeIndex, TypeName)
+    DEFINE_PARTITION_GETTER(ExpressionListExpression,   ExprIndex,      expression_lists)
+    DEFINE_PARTITION_GETTER(QualifiedNameExpression,    ExprIndex,      qualified_name_expressions)
+    DEFINE_PARTITION_GETTER(PackedTemplateArguments,    ExprIndex,      packed_template_arguments)
+    DEFINE_PARTITION_GETTER(ProductValueTypeExpression, ExprIndex,      product_value_type_expressions)
 
-    DEFINE_TYPE_PARTITION_GETTER(FundamentalType,    fundamental_types)
-    DEFINE_TYPE_PARTITION_GETTER(DesignatedType,     designated_types)
-    DEFINE_TYPE_PARTITION_GETTER(TorType,            tor_types)
-    DEFINE_TYPE_PARTITION_GETTER(SyntacticType,      syntactic_types)
-    DEFINE_TYPE_PARTITION_GETTER(ExpansionType,      expansion_types)
-    DEFINE_TYPE_PARTITION_GETTER(PointerType,        pointer_types)
-    DEFINE_TYPE_PARTITION_GETTER(FunctionType,       function_types)
-    DEFINE_TYPE_PARTITION_GETTER(MethodType,         method_types)
-    DEFINE_TYPE_PARTITION_GETTER(ArrayType,          array_types)
-    DEFINE_TYPE_PARTITION_GETTER(BaseType,           base_types)
-    DEFINE_TYPE_PARTITION_GETTER(TupleType,          tuple_types)
-    DEFINE_TYPE_PARTITION_GETTER(LvalueReference,    lvalue_references)
-    DEFINE_TYPE_PARTITION_GETTER(RvalueReference,    rvalue_references)
-    DEFINE_TYPE_PARTITION_GETTER(QualifiedType,      qualified_types)
-    DEFINE_TYPE_PARTITION_GETTER(ForallType,         forall_types)
-    DEFINE_TYPE_PARTITION_GETTER(SyntaxType,         syntax_types)
-    DEFINE_TYPE_PARTITION_GETTER(PlaceholderType,    placeholder_types)
-    DEFINE_TYPE_PARTITION_GETTER(TypenameType,       typename_types)
-    DEFINE_TYPE_PARTITION_GETTER(DecltypeType,       decltype_types)
+    DEFINE_PARTITION_GETTER(StringLiteral,              StringIndex,    string_literal_expressions)
 
-#undef DEFINE_TYPE_PARTITION_GETTER
-
-#define DEFINE_ATTR_PARTITION_GETTER(DeclType, DeclName) \
-    DEFINE_PARTITION_GETTER(DeclType, AttrIndex, DeclName)
-
-        DEFINE_ATTR_PARTITION_GETTER(AttrBasic, basic_attributes)
-        DEFINE_ATTR_PARTITION_GETTER(AttrScoped, scoped_attributes)
-        DEFINE_ATTR_PARTITION_GETTER(AttrLabeled, labeled_attributes)
-        DEFINE_ATTR_PARTITION_GETTER(AttrCalled, called_attributes)
-        DEFINE_ATTR_PARTITION_GETTER(AttrExpanded, expanded_attributes)
-        DEFINE_ATTR_PARTITION_GETTER(AttrFactored, factored_attributes)
-        DEFINE_ATTR_PARTITION_GETTER(AttrElaborated, elaborated_attributes)
-        DEFINE_ATTR_PARTITION_GETTER(AttrTuple, tuple_attributes)
-
-#undef DEFINE_ATTR_PARTITION_GETTER
-
-#define DEFINE_EXPR_PARTITION_GETTER(ExprType, ExprName) \
-    DEFINE_PARTITION_GETTER(ExprType, ExprIndex, ExprName)
-
-    DEFINE_EXPR_PARTITION_GETTER(LiteralExpression, literal_expressions)
-    DEFINE_EXPR_PARTITION_GETTER(TypeExpression,    type_expressions)
-    DEFINE_EXPR_PARTITION_GETTER(NamedDecl,         decl_expressions)
-    DEFINE_EXPR_PARTITION_GETTER(UnqualifiedId,     unqualified_id_expressions)
-    DEFINE_EXPR_PARTITION_GETTER(TemplateId,        template_ids)
-    DEFINE_EXPR_PARTITION_GETTER(TemplateReference, template_references)
-    DEFINE_EXPR_PARTITION_GETTER(MonadExpression,   monad_expressions)
-    DEFINE_EXPR_PARTITION_GETTER(DyadExpression,    dyad_expressions)
-    DEFINE_EXPR_PARTITION_GETTER(StringExpression,  string_expressions)
-    DEFINE_EXPR_PARTITION_GETTER(CallExpression,    call_expressions)
-    DEFINE_EXPR_PARTITION_GETTER(SizeofExpression,  sizeof_expressions)
-    DEFINE_EXPR_PARTITION_GETTER(AlignofExpression, alignof_expressions)
-    DEFINE_EXPR_PARTITION_GETTER(RequiresExpression,requires_expressions)
-    DEFINE_EXPR_PARTITION_GETTER(TupleExpression,   tuple_expressions)
-    DEFINE_EXPR_PARTITION_GETTER(PathExpression,    path_expressions)
-    DEFINE_EXPR_PARTITION_GETTER(ReadExpression,    read_expressions)
-    DEFINE_EXPR_PARTITION_GETTER(SyntaxTreeExpression, syntax_tree_expressions)
-
-    DEFINE_EXPR_PARTITION_GETTER(ExpressionListExpression,expression_lists)
-    DEFINE_EXPR_PARTITION_GETTER(QualifiedNameExpression, qualified_name_expressions)
-    DEFINE_EXPR_PARTITION_GETTER(PackedTemplateArguments, packed_template_arguments)
-    DEFINE_EXPR_PARTITION_GETTER(ProductValueTypeExpression, product_value_type_expressions)
-
-    Partition<StringLiteral, StringIndex> File::string_literal_expressions() const
-    {
-        return get_partition_with_cache<StringLiteral, StringIndex>(cached_string_literal_expressions_);
-    }
-
-#undef DEFINE_EXPR_PARTITION_GETTER
-
-    DEFINE_PARTITION_GETTER(ChartUnilevel,   ChartIndex, unilevel_charts)
-    DEFINE_PARTITION_GETTER(ChartMultilevel, ChartIndex, multilevel_charts)
-
-    DEFINE_PARTITION_GETTER(IntegerLiteral,  LitIndex,   integer_literals)
-    DEFINE_PARTITION_GETTER(FPLiteral,       LitIndex,   fp_literals)
-
-#define DEFINE_SYNTAX_PARTITION_GETTER(SyntaxType, SyntaxName) \
-    DEFINE_PARTITION_GETTER(SyntaxType, SyntaxIndex, SyntaxName)
-
-    DEFINE_SYNTAX_PARTITION_GETTER(SimpleTypeSpecifier,         simple_type_specifiers)
-    DEFINE_SYNTAX_PARTITION_GETTER(DecltypeSpecifier,           decltype_specifiers)
-    DEFINE_SYNTAX_PARTITION_GETTER(TypeSpecifierSeq,            type_specifier_seq_syntax_trees)
-    DEFINE_SYNTAX_PARTITION_GETTER(DeclSpecifierSeq,            decl_specifier_seq_syntax_trees)
-    DEFINE_SYNTAX_PARTITION_GETTER(TypeIdSyntax,                typeid_syntax_trees)
-    DEFINE_SYNTAX_PARTITION_GETTER(DeclaratorSyntax,            declarator_syntax_trees)
-    DEFINE_SYNTAX_PARTITION_GETTER(PointerDeclaratorSyntax,     pointer_declarator_syntax_trees)
-    DEFINE_SYNTAX_PARTITION_GETTER(FunctionDeclaratorSyntax,    function_declarator_syntax_trees)
-    DEFINE_SYNTAX_PARTITION_GETTER(ParameterDeclaratorSyntax,   parameter_declarator_syntax_trees)
-    DEFINE_SYNTAX_PARTITION_GETTER(ExpressionSyntax,            expression_syntax_trees)
-    DEFINE_SYNTAX_PARTITION_GETTER(RequiresClauseSyntax,        requires_clause_syntax_trees)
-    DEFINE_SYNTAX_PARTITION_GETTER(SimpleRequirementSyntax,     simple_requirement_syntax_trees)
-    DEFINE_SYNTAX_PARTITION_GETTER(TypeRequirementSyntax,       type_requirement_syntax_trees)
-    DEFINE_SYNTAX_PARTITION_GETTER(NestedRequirementSyntax,     nested_requirement_syntax_trees)
-    DEFINE_SYNTAX_PARTITION_GETTER(CompoundRequirementSyntax,   compound_requirement_syntax_trees)
-    DEFINE_SYNTAX_PARTITION_GETTER(RequirementBodySyntax,       requirement_body_syntax_trees)
-    DEFINE_SYNTAX_PARTITION_GETTER(TypeTemplateArgumentSyntax,  type_template_argument_syntax_trees)
-    DEFINE_SYNTAX_PARTITION_GETTER(TemplateArgumentListSyntax,  template_argument_list_syntax_trees)
-    DEFINE_SYNTAX_PARTITION_GETTER(TemplateIdSyntax,            templateid_syntax_trees)
-    DEFINE_SYNTAX_PARTITION_GETTER(TypeTraitIntrinsicSyntax,    type_trait_intrinsic_syntax_trees)
-    DEFINE_SYNTAX_PARTITION_GETTER(TupleSyntax,                 tuple_syntax_trees)
-
-#undef DEFINE_SYNTAX_PARTITION_GETTER
-
-    DEFINE_PARTITION_GETTER(OperatorFunctionName, NameIndex, operator_names)
-    DEFINE_PARTITION_GETTER(SpecializationName,   NameIndex, specialization_names)
-    DEFINE_PARTITION_GETTER(LiteralName,          NameIndex, literal_names)
-
-#undef DEFINE_PARTITION_GETTER
-
+    // Heaps
     Partition<TypeIndex, Index> File::type_heap() const
     {
         return get_partition_with_cache<TypeIndex, Index>(cached_type_heap_, "heap.type");
@@ -398,6 +332,43 @@ namespace ifc
         return get_partition_with_cache<SyntaxIndex, Index>(cached_syntax_heap_, "heap.syn");
     }
 
+    // Names
+    DEFINE_PARTITION_GETTER(OperatorFunctionName,   NameIndex,  operator_names)
+    DEFINE_PARTITION_GETTER(SpecializationName,     NameIndex,  specialization_names)
+    DEFINE_PARTITION_GETTER(LiteralName,            NameIndex,  literal_names)
+
+    // Charts
+    DEFINE_PARTITION_GETTER(ChartUnilevel,      ChartIndex, unilevel_charts)
+    DEFINE_PARTITION_GETTER(ChartMultilevel,    ChartIndex, multilevel_charts)
+
+    // Literals
+    DEFINE_PARTITION_GETTER(IntegerLiteral, LitIndex,   integer_literals)
+    DEFINE_PARTITION_GETTER(FPLiteral,      LitIndex,   fp_literals)
+    
+    // Syntax Trees
+    DEFINE_PARTITION_GETTER(SimpleTypeSpecifier,        SyntaxIndex,    simple_type_specifiers)
+    DEFINE_PARTITION_GETTER(DecltypeSpecifier,          SyntaxIndex,    decltype_specifiers)
+    DEFINE_PARTITION_GETTER(TypeSpecifierSeq,           SyntaxIndex,    type_specifier_seq_syntax_trees)
+    DEFINE_PARTITION_GETTER(DeclSpecifierSeq,           SyntaxIndex,    decl_specifier_seq_syntax_trees)
+    DEFINE_PARTITION_GETTER(TypeIdSyntax,               SyntaxIndex,    typeid_syntax_trees)
+    DEFINE_PARTITION_GETTER(DeclaratorSyntax,           SyntaxIndex,    declarator_syntax_trees)
+    DEFINE_PARTITION_GETTER(PointerDeclaratorSyntax,    SyntaxIndex,    pointer_declarator_syntax_trees)
+    DEFINE_PARTITION_GETTER(FunctionDeclaratorSyntax,   SyntaxIndex,    function_declarator_syntax_trees)
+    DEFINE_PARTITION_GETTER(ParameterDeclaratorSyntax,  SyntaxIndex,    parameter_declarator_syntax_trees)
+    DEFINE_PARTITION_GETTER(ExpressionSyntax,           SyntaxIndex,    expression_syntax_trees)
+    DEFINE_PARTITION_GETTER(RequiresClauseSyntax,       SyntaxIndex,    requires_clause_syntax_trees)
+    DEFINE_PARTITION_GETTER(SimpleRequirementSyntax,    SyntaxIndex,    simple_requirement_syntax_trees)
+    DEFINE_PARTITION_GETTER(TypeRequirementSyntax,      SyntaxIndex,    type_requirement_syntax_trees)
+    DEFINE_PARTITION_GETTER(NestedRequirementSyntax,    SyntaxIndex,    nested_requirement_syntax_trees)
+    DEFINE_PARTITION_GETTER(CompoundRequirementSyntax,  SyntaxIndex,    compound_requirement_syntax_trees)
+    DEFINE_PARTITION_GETTER(RequirementBodySyntax,      SyntaxIndex,    requirement_body_syntax_trees)
+    DEFINE_PARTITION_GETTER(TypeTemplateArgumentSyntax, SyntaxIndex,    type_template_argument_syntax_trees)
+    DEFINE_PARTITION_GETTER(TemplateArgumentListSyntax, SyntaxIndex,    template_argument_list_syntax_trees)
+    DEFINE_PARTITION_GETTER(TemplateIdSyntax,           SyntaxIndex,    templateid_syntax_trees)
+    DEFINE_PARTITION_GETTER(TypeTraitIntrinsicSyntax,   SyntaxIndex,    type_trait_intrinsic_syntax_trees)
+    DEFINE_PARTITION_GETTER(TupleSyntax,                SyntaxIndex,    tuple_syntax_trees)
+
+    // Module References
     Partition<ModuleReference, Index> File::imported_modules() const
     {
         return get_partition_with_cache<ModuleReference, Index>(cached_imported_modules_, "module.imported");
@@ -408,10 +379,13 @@ namespace ifc
         return get_partition_with_cache<ModuleReference, Index>(cached_exported_modules_, "module.exported");
     }
 
+    // Deduction Guides
     Partition<DeclIndex> File::deduction_guides() const
     {
-        return impl_->get_partition<DeclIndex, uint32_t>("name.guide");
+        return get_partition_with_cache<DeclIndex, uint32_t>(cached_deduction_guides_, "name.guide");
     }
+
+#undef DEFINE_PARTITION_GETTER
 
     template<typename RetType, typename Value>
     RetType get_value(DeclIndex declaration, std::unordered_map<DeclIndex, Value> const & map)
