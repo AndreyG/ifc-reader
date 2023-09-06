@@ -37,7 +37,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::MonadExpression>
 {
-    size_t operator()(reflifc::MonadExpression const& object) const noexcept
+    size_t operator()(reflifc::MonadExpression object) const noexcept
     {
         return reflifc::hash_combine(0, object.ifc_, object.expr_);
     }

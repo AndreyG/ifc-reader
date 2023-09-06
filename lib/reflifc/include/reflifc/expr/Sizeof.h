@@ -22,7 +22,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::SizeofExpression>
 {
-    size_t operator()(reflifc::SizeofExpression const& object) const noexcept
+    size_t operator()(reflifc::SizeofExpression object) const noexcept
     {
         return std::hash<reflifc::Type>{}(object.operand);
     }

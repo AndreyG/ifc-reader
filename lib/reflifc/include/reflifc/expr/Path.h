@@ -33,7 +33,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::PathExpression>
 {
-    size_t operator()(reflifc::PathExpression const& object) const noexcept
+    size_t operator()(reflifc::PathExpression object) const noexcept
     {
         return reflifc::hash_combine(0, object.ifc_, object.expr_);
     }

@@ -67,7 +67,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::Chart>
 {
-    size_t operator()(reflifc::Chart const& object) const noexcept
+    size_t operator()(reflifc::Chart object) const noexcept
     {
         return reflifc::hash_combine(0, object.ifc_, object.index_);
     }
@@ -76,7 +76,7 @@ struct std::hash<reflifc::Chart>
 template<>
 struct std::hash<reflifc::ChartUnilevel>
 {
-    size_t operator()(reflifc::ChartUnilevel const& object) const noexcept
+    size_t operator()(reflifc::ChartUnilevel object) const noexcept
     {
         return reflifc::hash_combine(0, object.ifc_, object.unilevel_);
     }

@@ -43,7 +43,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::TypeTraitIntrinsicSyntax>
 {
-    size_t operator()(reflifc::TypeTraitIntrinsicSyntax const& object) const noexcept
+    size_t operator()(reflifc::TypeTraitIntrinsicSyntax object) const noexcept
     {
         return reflifc::hash_combine(0, object.ifc_, object.syntax_);
     }

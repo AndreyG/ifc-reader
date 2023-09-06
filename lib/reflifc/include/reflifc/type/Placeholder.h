@@ -33,7 +33,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::PlaceholderType>
 {
-    size_t operator()(reflifc::PlaceholderType const& object) const noexcept
+    size_t operator()(reflifc::PlaceholderType object) const noexcept
     {
         return reflifc::hash_combine(0, object.ifc_, object.placeholder_);
     }

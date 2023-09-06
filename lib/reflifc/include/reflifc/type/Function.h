@@ -66,7 +66,7 @@ struct std::hash<reflifc::FunctionType>
 template<>
 struct std::hash<reflifc::MethodType>
 {
-    size_t operator()(reflifc::MethodType const& object) const noexcept
+    size_t operator()(reflifc::MethodType object) const noexcept
     {
         return reflifc::hash_combine(0, object.ifc_, object.method_);
     }

@@ -24,7 +24,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::PointerType>
 {
-    size_t operator()(reflifc::PointerType const& object) const noexcept
+    size_t operator()(reflifc::PointerType object) const noexcept
     {
         return std::hash<reflifc::Type>{}(object.pointee);
     }

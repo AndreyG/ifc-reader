@@ -37,7 +37,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::LvalueReference>
 {
-    size_t operator()(reflifc::LvalueReference const& object) const noexcept
+    size_t operator()(reflifc::LvalueReference object) const noexcept
     {
         return std::hash<reflifc::Type>{}(object.referee);
     }
@@ -46,7 +46,7 @@ struct std::hash<reflifc::LvalueReference>
 template<>
 struct std::hash<reflifc::RvalueReference>
 {
-    size_t operator()(reflifc::RvalueReference const& object) const noexcept
+    size_t operator()(reflifc::RvalueReference object) const noexcept
     {
         return std::hash<reflifc::Type>{}(object.referee);
     }

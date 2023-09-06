@@ -38,7 +38,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::DyadExpression>
 {
-    size_t operator()(reflifc::DyadExpression const& object) const noexcept
+    size_t operator()(reflifc::DyadExpression object) const noexcept
     {
         return reflifc::hash_combine(0, object.ifc_, object.expr_);
     }

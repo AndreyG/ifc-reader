@@ -30,7 +30,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::StringLiteral>
 {
-    size_t operator()(reflifc::StringLiteral const& object) const noexcept
+    size_t operator()(reflifc::StringLiteral object) const noexcept
     {
         return reflifc::hash_combine(0, object.ifc_, object.literal_.start, object.literal_.length, object.literal_.suffix);
     }

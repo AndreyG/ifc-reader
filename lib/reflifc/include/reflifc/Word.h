@@ -31,7 +31,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::Word>
 {
-    size_t operator()(reflifc::Word const& word) const noexcept
+    size_t operator()(reflifc::Word word) const noexcept
     {
         return reflifc::hash_combine(0, word.ifc_, word.word_);
     }

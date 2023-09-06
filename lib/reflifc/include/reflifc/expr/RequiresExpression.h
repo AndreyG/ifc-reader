@@ -28,7 +28,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::RequiresExpression>
 {
-    size_t operator()(reflifc::RequiresExpression const& object) const noexcept
+    size_t operator()(reflifc::RequiresExpression object) const noexcept
     {
         return reflifc::hash_combine(0, object.ifc_, object.expr_);
     }

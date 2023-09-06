@@ -32,7 +32,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::TypeIdSyntax>
 {
-    size_t operator()(reflifc::TypeIdSyntax const& object) const noexcept
+    size_t operator()(reflifc::TypeIdSyntax object) const noexcept
     {
         return reflifc::hash_combine(0, object.ifc_, object.syntax_);
     }

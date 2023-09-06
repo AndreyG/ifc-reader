@@ -39,7 +39,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::QualifiedNameExpression>
 {
-    size_t operator()(reflifc::QualifiedNameExpression const& object) const noexcept
+    size_t operator()(reflifc::QualifiedNameExpression object) const noexcept
     {
         return reflifc::hash_combine(0, object.ifc_, object.expr_);
     }

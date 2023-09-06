@@ -35,7 +35,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::UnqualifiedIdExpression>
 {
-    size_t operator()(reflifc::UnqualifiedIdExpression const& object) const noexcept
+    size_t operator()(reflifc::UnqualifiedIdExpression object) const noexcept
     {
         return reflifc::hash_combine(0, object.ifc_, object.expr_);
     }

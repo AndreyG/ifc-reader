@@ -36,7 +36,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::ArrayType>
 {
-    size_t operator()(reflifc::ArrayType const& object) const noexcept
+    size_t operator()(reflifc::ArrayType object) const noexcept
     {
         return reflifc::hash_combine(0, object.ifc_, object.array_);
     }

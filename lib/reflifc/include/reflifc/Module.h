@@ -119,7 +119,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::ModuleReference>
 {
-    size_t operator()(reflifc::ModuleReference const& object) const noexcept
+    size_t operator()(reflifc::ModuleReference object) const noexcept
     {
         return reflifc::hash_combine(0, object.ifc_, object.module_reference_);
     }
@@ -128,7 +128,7 @@ struct std::hash<reflifc::ModuleReference>
 template<>
 struct std::hash<reflifc::UnitDescription>
 {
-    size_t operator()(reflifc::UnitDescription const& object) const noexcept
+    size_t operator()(reflifc::UnitDescription object) const noexcept
     {
         return reflifc::hash_combine(0, object.ifc_, object.unit_);
     }
@@ -137,7 +137,7 @@ struct std::hash<reflifc::UnitDescription>
 template<>
 struct std::hash<reflifc::Module>
 {
-    size_t operator()(reflifc::Module const& object) const noexcept
+    size_t operator()(reflifc::Module object) const noexcept
     {
         return reflifc::hash_combine(0, object.ifc_);
     }

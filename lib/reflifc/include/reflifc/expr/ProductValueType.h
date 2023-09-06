@@ -34,7 +34,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::ProductValueTypeExpression>
 {
-    size_t operator()(reflifc::ProductValueTypeExpression const& object) const noexcept
+    size_t operator()(reflifc::ProductValueTypeExpression object) const noexcept
     {
         return reflifc::hash_combine(0, object.ifc_, object.expr_);
     }

@@ -58,7 +58,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::Attribute>
 {
-    size_t operator()(reflifc::Attribute const& attribute) const noexcept
+    size_t operator()(reflifc::Attribute attribute) const noexcept
     {
         return reflifc::hash_combine(0, attribute.ifc_, attribute.index_);
     }
@@ -67,7 +67,7 @@ struct std::hash<reflifc::Attribute>
 template<>
 struct std::hash<reflifc::AttributeCalled>
 {
-    size_t operator()(reflifc::AttributeCalled const& attribute_called) const noexcept
+    size_t operator()(reflifc::AttributeCalled attribute_called) const noexcept
     {
         return reflifc::hash_combine(0, attribute_called.ifc_, attribute_called.attr_);
     }

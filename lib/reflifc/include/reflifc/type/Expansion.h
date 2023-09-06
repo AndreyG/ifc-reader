@@ -32,7 +32,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::ExpansionType>
 {
-    size_t operator()(reflifc::ExpansionType const& object) const noexcept
+    size_t operator()(reflifc::ExpansionType object) const noexcept
     {
         return reflifc::hash_combine(0, object.ifc_, object.expansion_);
     }

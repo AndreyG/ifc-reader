@@ -33,7 +33,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::QualifiedType>
 {
-    size_t operator()(reflifc::QualifiedType const& object) const noexcept
+    size_t operator()(reflifc::QualifiedType object) const noexcept
     {
         return reflifc::hash_combine(0, object.ifc_, object.qualified_);
     }
