@@ -19,6 +19,8 @@ namespace reflifc
 
         Expression value() const;
 
+        ifc::File const* containing_file() const { return ifc_; }
+
     private:
         ifc::File const* ifc_;
         ifc::Enumerator const* enumerator_;

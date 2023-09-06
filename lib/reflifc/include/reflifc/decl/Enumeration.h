@@ -40,6 +40,8 @@ namespace reflifc
 
         ifc::Sequence enumerators_sequence() const { return enum_->initializer; }
 
+        ifc::File const* containing_file() const { return ifc_; }
+
     private:
         ifc::File const* ifc_;
         ifc::Enumeration const* enum_;

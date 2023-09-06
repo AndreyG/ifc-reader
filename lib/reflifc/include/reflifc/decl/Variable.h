@@ -29,6 +29,8 @@ namespace reflifc
         bool has_initializer() const;
         Expression initializer() const;
 
+        ifc::File const* containing_file() const { return ifc_; }
+
     private:
         ifc::File const* ifc_;
         ifc::VariableDeclaration const* var_;

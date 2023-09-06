@@ -20,6 +20,8 @@ namespace reflifc
         Declaration primary_template()  const;
         TupleExpressionView arguments() const;
 
+        ifc::File const* containing_file() const { return ifc_; }
+
     private:
         ifc::File const* ifc_;
         ifc::SpecializationForm const* form_;
@@ -41,6 +43,8 @@ namespace reflifc
         ifc::Access access() const;
         ifc::BasicSpecifiers specifiers() const;
 
+        ifc::File const* containing_file() const { return ifc_; }
+
     private:
         ifc::File const* ifc_;
         ifc::PartialSpecialization const* spec_;
@@ -57,6 +61,8 @@ namespace reflifc
         Declaration entity() const;
         ifc::SpecializationSort sort() const;
         SpecializationForm form() const;
+
+        ifc::File const* containing_file() const { return ifc_; }
 
     private:
         ifc::File const* ifc_;

@@ -22,6 +22,8 @@ namespace reflifc
 
         bool is_inline() const { return ifc::is_inline(scope_); }
 
+        ifc::File const* containing_file() const { return &ifc_; }
+
     private:
         ifc::File const* ifc_;
         ifc::ScopeDeclaration const& scope_;

@@ -30,6 +30,8 @@ namespace reflifc
 
         ifc::Access access() const;
 
+        ifc::File const* containing_file() const { return ifc_; }
+
     private:
         ifc::File const* ifc_;
         ifc::FunctionDeclaration const* func_;
@@ -48,6 +50,8 @@ namespace reflifc
         Declaration home_scope() const;
 
         ifc::Access access() const;
+
+        ifc::File const* containing_file() const { return ifc_; }
 
     private:
         ifc::File const* ifc_;
@@ -71,6 +75,8 @@ namespace reflifc
         ifc::NoexceptSpecification  eh_spec()       const;
         ifc::CallingConvention      convention()    const;
 
+        ifc::File const* containing_file() const { return ifc_; }
+
     private:
         ifc::TorType const& tor_type() const;
 
@@ -89,6 +95,8 @@ namespace reflifc
 
         ifc::Access access() const;
         Declaration home_scope() const;
+
+        ifc::File const* containing_file() const { return ifc_; }
 
     private:
         ifc::File const* ifc_;

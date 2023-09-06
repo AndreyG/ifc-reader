@@ -25,6 +25,8 @@ namespace reflifc
         ifc::Access access() const;
         ifc::BasicSpecifiers specifiers() const;
 
+        ifc::File const* containing_file() const { return ifc_; }
+
     private:
         ifc::File const* ifc_;
         ifc::TemplateDeclaration const* template_;
