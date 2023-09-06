@@ -33,7 +33,7 @@ namespace reflifc
 
         ifc::File const* containing_file() const { return ifc_; }
 
-        auto operator<=>(Function other) const = default;
+        auto operator<=>(Function const& other) const = default;
 
     private:
         friend std::hash<Function>;
@@ -58,7 +58,7 @@ namespace reflifc
 
         ifc::File const* containing_file() const { return ifc_; }
 
-        auto operator<=>(Method other) const = default;
+        auto operator<=>(Method const& other) const = default;
 
     private:
         friend std::hash<Method>;
@@ -86,7 +86,7 @@ namespace reflifc
 
         ifc::File const* containing_file() const { return ifc_; }
 
-        auto operator<=>(Constructor other) const = default;
+        auto operator<=>(Constructor const& other) const = default;
 
     private:
         ifc::TorType const& tor_type() const;
@@ -111,7 +111,7 @@ namespace reflifc
 
         ifc::File const* containing_file() const { return ifc_; }
 
-        auto operator<=>(Destructor other) const = default;
+        auto operator<=>(Destructor const& other) const = default;
 
     private:
         friend std::hash<Destructor>;

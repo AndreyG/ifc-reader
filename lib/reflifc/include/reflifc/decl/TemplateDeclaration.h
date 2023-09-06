@@ -28,7 +28,7 @@ namespace reflifc
 
         ifc::File const* containing_file() const { return ifc_; }
 
-        auto operator<=>(TemplateDeclaration other) const = default;
+        auto operator<=>(TemplateDeclaration const& other) const = default;
 
     private:
         friend std::hash<TemplateDeclaration>;

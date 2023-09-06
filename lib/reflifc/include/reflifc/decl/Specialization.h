@@ -23,7 +23,7 @@ namespace reflifc
 
         ifc::File const* containing_file() const { return ifc_; }
 
-        auto operator<=>(SpecializationForm other) const = default;
+        auto operator<=>(SpecializationForm const& other) const = default;
 
     private:
         friend std::hash<SpecializationForm>;
@@ -50,7 +50,7 @@ namespace reflifc
 
         ifc::File const* containing_file() const { return ifc_; }
 
-        auto operator<=>(PartialSpecialization other) const = default;
+        auto operator<=>(PartialSpecialization const& other) const = default;
 
     private:
         friend std::hash<PartialSpecialization>;
@@ -73,7 +73,7 @@ namespace reflifc
 
         ifc::File const* containing_file() const { return ifc_; }
 
-        auto operator<=>(Specialization other) const = default;
+        auto operator<=>(Specialization const& other) const = default;
 
     private:
         friend std::hash<Specialization>;

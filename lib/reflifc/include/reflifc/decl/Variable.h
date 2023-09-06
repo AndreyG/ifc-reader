@@ -33,7 +33,7 @@ namespace reflifc
 
         ifc::File const* containing_file() const { return ifc_; }
 
-        auto operator<=>(Variable other) const = default;
+        auto operator<=>(Variable const& other) const = default;
 
     private:
         friend std::hash<Variable>;

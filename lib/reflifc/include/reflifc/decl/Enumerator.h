@@ -22,7 +22,7 @@ namespace reflifc
 
         ifc::File const* containing_file() const { return ifc_; }
 
-        auto operator<=>(Enumerator other) const = default;
+        auto operator<=>(Enumerator const& other) const = default;
 
     private:
         friend std::hash<Enumerator>;

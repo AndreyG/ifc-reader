@@ -23,9 +23,9 @@ namespace reflifc
 
         bool is_inline() const { return ifc::is_inline(*scope_); }
 
-        ifc::File const* containing_file() const { return &ifc_; }
+        ifc::File const* containing_file() const { return ifc_; }
 
-        auto operator<=>(Namespace other) const = default;
+        auto operator<=>(Namespace const& other) const = default;
 
     private:
         friend std::hash<Namespace>;

@@ -43,7 +43,7 @@ namespace reflifc
 
         ifc::File const* containing_file() const { return ifc_; }
 
-        auto operator<=>(Enumeration other) const = default;
+        auto operator<=>(Enumeration const& other) const = default;
 
     private:
         friend std::hash<Enumeration>;

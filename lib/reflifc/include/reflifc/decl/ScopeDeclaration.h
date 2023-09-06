@@ -35,7 +35,7 @@ namespace reflifc
 
         ifc::File const* containing_file() const { return ifc_; }
 
-        auto operator<=>(ScopeDeclaration other) const = default;
+        auto operator<=>(ScopeDeclaration const& other) const = default;
 
     private:
         friend std::hash<ScopeDeclaration>;

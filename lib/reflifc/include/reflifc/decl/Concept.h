@@ -26,7 +26,7 @@ namespace reflifc
 
         ifc::File const* containing_file() const { return ifc_; }
         
-        auto operator<=>(Concept other) const = default;
+        auto operator<=>(Concept const& other) const = default;
 
     private:
         friend std::hash<Concept>;
