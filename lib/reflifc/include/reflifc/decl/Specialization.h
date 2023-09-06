@@ -21,7 +21,9 @@ namespace reflifc
         Declaration primary_template()  const;
         TupleExpressionView arguments() const;
 
-        auto operator<=>(SpecializationForm const& other) const = default;
+        ifc::File const* containing_file() const { return ifc_; }
+
+        auto operator<=>(SpecializationForm other) const = default;
 
     private:
         friend std::hash<SpecializationForm>;
@@ -46,7 +48,9 @@ namespace reflifc
         ifc::Access access() const;
         ifc::BasicSpecifiers specifiers() const;
 
-        auto operator<=>(PartialSpecialization const& other) const = default;
+        ifc::File const* containing_file() const { return ifc_; }
+
+        auto operator<=>(PartialSpecialization other) const = default;
 
     private:
         friend std::hash<PartialSpecialization>;
@@ -67,7 +71,9 @@ namespace reflifc
         ifc::SpecializationSort sort() const;
         SpecializationForm form() const;
 
-        auto operator<=>(Specialization const& other) const = default;
+        ifc::File const* containing_file() const { return ifc_; }
+
+        auto operator<=>(Specialization other) const = default;
 
     private:
         friend std::hash<Specialization>;
@@ -80,7 +86,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::SpecializationForm>
 {
-    size_t operator()(reflifc::SpecializationForm const& specialization) const noexcept
+    size_t operator()(reflifc::SpecializationForm specialization) const noexcept
     {
         return reflifc::hash_combine(0, specialization.ifc_, specialization.form_);
     }
@@ -89,7 +95,7 @@ struct std::hash<reflifc::SpecializationForm>
 template<>
 struct std::hash<reflifc::PartialSpecialization>
 {
-    size_t operator()(reflifc::PartialSpecialization const& specialization) const noexcept
+    size_t operator()(reflifc::PartialSpecialization specialization) const noexcept
     {
         return reflifc::hash_combine(0, specialization.ifc_, specialization.spec_);
     }
@@ -98,7 +104,7 @@ struct std::hash<reflifc::PartialSpecialization>
 template<>
 struct std::hash<reflifc::Specialization>
 {
-    size_t operator()(reflifc::Specialization const& specialization) const noexcept
+    size_t operator()(reflifc::Specialization specialization) const noexcept
     {
         return reflifc::hash_combine(0, specialization.ifc_, specialization.spec_);
     }

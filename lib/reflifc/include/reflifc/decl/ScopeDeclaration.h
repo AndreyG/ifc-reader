@@ -33,7 +33,9 @@ namespace reflifc
         ifc::BasicSpecifiers specifiers() const;
         ifc::TypeBasis kind() const;
 
-        auto operator<=>(ScopeDeclaration const& other) const = default;
+        ifc::File const* containing_file() const { return ifc_; }
+
+        auto operator<=>(ScopeDeclaration other) const = default;
 
     private:
         friend std::hash<ScopeDeclaration>;
@@ -46,7 +48,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::ScopeDeclaration>
 {
-    size_t operator()(reflifc::ScopeDeclaration const& scope_decl) const noexcept
+    size_t operator()(reflifc::ScopeDeclaration scope_decl) const noexcept
     {
         return reflifc::hash_combine(0, scope_decl.ifc_, scope_decl.scope_);
     }

@@ -21,7 +21,9 @@ namespace reflifc
         reflifc::ModuleReference module_reference() const;
         reflifc::Declaration referenced_declaration(ifc::Environment& environment) const;
 
-        auto operator<=>(DeclarationReference const& other) const = default;
+        ifc::File const* containing_file() const { return ifc_; }
+
+        auto operator<=>(DeclarationReference other) const = default;
 
     private:
         friend std::hash<DeclarationReference>;
@@ -34,7 +36,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::DeclarationReference>
 {
-    size_t operator()(reflifc::DeclarationReference const& decl_ref) const noexcept
+    size_t operator()(reflifc::DeclarationReference decl_ref) const noexcept
     {
         return reflifc::hash_combine(0, decl_ref.ifc_, decl_ref.decl_reference_);
     }

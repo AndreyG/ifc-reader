@@ -24,7 +24,9 @@ namespace reflifc
                 | std::views::transform([ifc = ifc_] (ifc::Declaration decl) { return Declaration(ifc, decl.index); });
         }
 
-        auto operator<=>(Scope const& other) const = default;
+        ifc::File const* containing_file() const { return ifc_; }
+
+        auto operator<=>(Scope other) const = default;
         
     private:
         friend std::hash<Scope>;
@@ -37,7 +39,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::Scope>
 {
-    size_t operator()(reflifc::Scope const& scope) const noexcept
+    size_t operator()(reflifc::Scope scope) const noexcept
     {
         return reflifc::hash_combine(0, scope.ifc_, static_cast<uint32_t>(scope.scope_));
     }

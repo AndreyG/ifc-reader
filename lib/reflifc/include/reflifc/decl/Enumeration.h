@@ -41,7 +41,9 @@ namespace reflifc
 
         ifc::Sequence enumerators_sequence() const { return enum_->initializer; }
 
-        auto operator<=>(Enumeration const& other) const = default;
+        ifc::File const* containing_file() const { return ifc_; }
+
+        auto operator<=>(Enumeration other) const = default;
 
     private:
         friend std::hash<Enumeration>;
@@ -57,7 +59,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::Enumeration>
 {
-    size_t operator()(reflifc::Enumeration const& enumeration) const noexcept
+    size_t operator()(reflifc::Enumeration enumeration) const noexcept
     {
         return reflifc::hash_combine(0, enumeration.ifc_, enumeration.enum_);
     }

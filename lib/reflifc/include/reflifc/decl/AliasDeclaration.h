@@ -23,7 +23,9 @@ namespace reflifc
         Declaration home_scope()const;
         ifc::Access access()    const;
 
-        auto operator<=>(AliasDeclaration const& other) const = default;
+        ifc::File const* containing_file() const { return ifc_; }
+
+        auto operator<=>(AliasDeclaration other) const = default;
 
     private:
         friend std::hash<AliasDeclaration>;
@@ -36,7 +38,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::AliasDeclaration>
 {
-    size_t operator()(reflifc::AliasDeclaration const& alias) const noexcept
+    size_t operator()(reflifc::AliasDeclaration alias) const noexcept
     {
         return reflifc::hash_combine(0, alias.ifc_, alias.alias_);
     }

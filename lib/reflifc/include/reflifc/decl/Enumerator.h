@@ -20,7 +20,9 @@ namespace reflifc
 
         Expression value() const;
 
-        auto operator<=>(Enumerator const& other) const = default;
+        ifc::File const* containing_file() const { return ifc_; }
+
+        auto operator<=>(Enumerator other) const = default;
 
     private:
         friend std::hash<Enumerator>;
@@ -38,7 +40,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::Enumerator>
 {
-    size_t operator()(reflifc::Enumerator const& enumerator) const noexcept
+    size_t operator()(reflifc::Enumerator enumerator) const noexcept
     {
         return reflifc::hash_combine(0, enumerator.ifc_, enumerator.enumerator_);
     }

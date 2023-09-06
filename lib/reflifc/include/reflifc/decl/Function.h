@@ -31,7 +31,9 @@ namespace reflifc
 
         ifc::Access access() const;
 
-        auto operator<=>(Function const& other) const = default;
+        ifc::File const* containing_file() const { return ifc_; }
+
+        auto operator<=>(Function other) const = default;
 
     private:
         friend std::hash<Function>;
@@ -54,7 +56,9 @@ namespace reflifc
 
         ifc::Access access() const;
 
-        auto operator<=>(Method const& other) const = default;
+        ifc::File const* containing_file() const { return ifc_; }
+
+        auto operator<=>(Method other) const = default;
 
     private:
         friend std::hash<Method>;
@@ -80,7 +84,9 @@ namespace reflifc
         ifc::NoexceptSpecification  eh_spec()       const;
         ifc::CallingConvention      convention()    const;
 
-        auto operator<=>(Constructor const& other) const = default;
+        ifc::File const* containing_file() const { return ifc_; }
+
+        auto operator<=>(Constructor other) const = default;
 
     private:
         ifc::TorType const& tor_type() const;
@@ -103,7 +109,9 @@ namespace reflifc
         ifc::Access access() const;
         Declaration home_scope() const;
 
-        auto operator<=>(Destructor const& other) const = default;
+        ifc::File const* containing_file() const { return ifc_; }
+
+        auto operator<=>(Destructor other) const = default;
 
     private:
         friend std::hash<Destructor>;
@@ -116,7 +124,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::Function>
 {
-    size_t operator()(reflifc::Function const& func) const noexcept
+    size_t operator()(reflifc::Function func) const noexcept
     {
         return reflifc::hash_combine(0, func.ifc_, func.func_);
     }
@@ -125,7 +133,7 @@ struct std::hash<reflifc::Function>
 template<>
 struct std::hash<reflifc::Method>
 {
-    size_t operator()(reflifc::Method const& method) const noexcept
+    size_t operator()(reflifc::Method method) const noexcept
     {
         return reflifc::hash_combine(0, method.ifc_, method.method_);
     }
@@ -134,7 +142,7 @@ struct std::hash<reflifc::Method>
 template<>
 struct std::hash<reflifc::Constructor>
 {
-    size_t operator()(reflifc::Constructor const& constructor) const noexcept
+    size_t operator()(reflifc::Constructor constructor) const noexcept
     {
         return reflifc::hash_combine(0, constructor.ifc_, constructor.ctor_);
     }
@@ -143,7 +151,7 @@ struct std::hash<reflifc::Constructor>
 template<>
 struct std::hash<reflifc::Destructor>
 {
-    size_t operator()(reflifc::Destructor const& destructor) const noexcept
+    size_t operator()(reflifc::Destructor destructor) const noexcept
     {
         return reflifc::hash_combine(0, destructor.ifc_, destructor.dtor_);
     }

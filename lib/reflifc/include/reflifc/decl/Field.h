@@ -30,7 +30,9 @@ namespace reflifc
         bool has_initializer() const;
         Expression initializer() const;
 
-        auto operator<=>(Field const& other) const = default;
+        ifc::File const* containing_file() const { return ifc_; }
+
+        auto operator<=>(Field other) const = default;
 
     private:
         friend std::hash<Field>;
@@ -43,7 +45,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::Field>
 {
-    size_t operator()(reflifc::Field const& field) const noexcept
+    size_t operator()(reflifc::Field field) const noexcept
     {
         return reflifc::hash_combine(0, field.ifc_, field.field_);
     }

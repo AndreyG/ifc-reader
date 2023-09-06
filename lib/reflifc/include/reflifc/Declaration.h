@@ -113,7 +113,9 @@ namespace reflifc
         ifc::DeclSort sort() const { return index_.sort(); }
         ifc::DeclIndex index() const { return index_; }
 
-        auto operator<=>(Declaration const& other) const = default;
+        ifc::File const* containing_file() const { return ifc_; }
+
+        auto operator<=>(Declaration other) const = default;
 
     private:
         friend std::hash<Declaration>;
@@ -126,7 +128,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::Declaration>
 {
-    size_t operator()(reflifc::Declaration const& decl) const noexcept
+    size_t operator()(reflifc::Declaration decl) const noexcept
     {
         return reflifc::hash_combine(0, decl.ifc_, decl.index_);
     }

@@ -24,7 +24,9 @@ namespace reflifc
         Chart       chart()         const;
         Declaration home_scope()    const;
 
-        auto operator<=>(Concept const& other) const = default;
+        ifc::File const* containing_file() const { return ifc_; }
+        
+        auto operator<=>(Concept other) const = default;
 
     private:
         friend std::hash<Concept>;
@@ -37,7 +39,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::Concept>
 {
-    size_t operator()(reflifc::Concept const& concept_) const noexcept
+    size_t operator()(reflifc::Concept concept_) const noexcept
     {
         return reflifc::hash_combine(0, concept_.ifc_, concept_.c_);
     }

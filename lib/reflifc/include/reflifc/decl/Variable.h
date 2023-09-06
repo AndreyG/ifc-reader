@@ -31,7 +31,9 @@ namespace reflifc
         bool has_initializer() const;
         Expression initializer() const;
 
-        auto operator<=>(Variable const& other) const = default;
+        ifc::File const* containing_file() const { return ifc_; }
+
+        auto operator<=>(Variable other) const = default;
 
     private:
         friend std::hash<Variable>;
@@ -44,7 +46,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::Variable>
 {
-    size_t operator()(reflifc::Variable const& variable) const noexcept
+    size_t operator()(reflifc::Variable variable) const noexcept
     {
         return reflifc::hash_combine(0, variable.ifc_, variable.var_);
     }

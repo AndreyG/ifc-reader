@@ -42,7 +42,9 @@ namespace reflifc
 
         Declaration home_scope() const;
 
-        auto operator<=>(ClassOrStruct const& other) const = default;
+        ifc::File const* containing_file() const { return ifc_; }
+
+        auto operator<=>(ClassOrStruct other) const = default;
 
     private:
         friend std::hash<ClassOrStruct>;
@@ -69,7 +71,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::ClassOrStruct>
 {
-    size_t operator()(reflifc::ClassOrStruct const& class_or_struct) const noexcept
+    size_t operator()(reflifc::ClassOrStruct class_or_struct) const noexcept
     {
         return reflifc::hash_combine(0, class_or_struct.ifc_, class_or_struct.scope_);
     }

@@ -21,7 +21,9 @@ namespace reflifc
         Type        type()          const { return { ifc_, intrinsic_->type }; }
         Declaration home_scope()    const { return { ifc_, intrinsic_->home_scope }; }
 
-        auto operator<=>(IntrinsicDeclaration const& other) const = default;
+        ifc::File const* containing_file() const { return ifc_; }
+
+        auto operator<=>(IntrinsicDeclaration other) const = default;
 
     private:
         friend std::hash<IntrinsicDeclaration>;
@@ -34,7 +36,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::IntrinsicDeclaration>
 {
-    size_t operator()(reflifc::IntrinsicDeclaration const& intrinsic) const noexcept
+    size_t operator()(reflifc::IntrinsicDeclaration intrinsic) const noexcept
     {
         return reflifc::hash_combine(0, intrinsic.ifc_, intrinsic.intrinsic_);
     }

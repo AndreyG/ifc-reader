@@ -26,7 +26,9 @@ namespace reflifc
         ifc::Access access() const;
         ifc::BasicSpecifiers specifiers() const;
 
-        auto operator<=>(TemplateDeclaration const& other) const = default;
+        ifc::File const* containing_file() const { return ifc_; }
+
+        auto operator<=>(TemplateDeclaration other) const = default;
 
     private:
         friend std::hash<TemplateDeclaration>;
@@ -39,7 +41,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::TemplateDeclaration>
 {
-    size_t operator()(reflifc::TemplateDeclaration const& template_decl) const noexcept
+    size_t operator()(reflifc::TemplateDeclaration template_decl) const noexcept
     {
         return reflifc::hash_combine(0, template_decl.ifc_, template_decl.template_);
     }

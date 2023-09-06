@@ -20,7 +20,9 @@ namespace reflifc
         Declaration resolution() const;
         Declaration home_scope() const;
 
-        auto operator<=>(UsingDeclaration const& other) const = default;
+        ifc::File const* containing_file() const { return ifc_; }
+
+        auto operator<=>(UsingDeclaration other) const = default;
 
     private:
         friend std::hash<UsingDeclaration>;
@@ -33,7 +35,7 @@ namespace reflifc
 template<>
 struct std::hash<reflifc::UsingDeclaration>
 {
-    size_t operator()(reflifc::UsingDeclaration const& using_decl) const noexcept
+    size_t operator()(reflifc::UsingDeclaration using_decl) const noexcept
     {
         return reflifc::hash_combine(0, using_decl.ifc_, using_decl.using_decl_);
     }
