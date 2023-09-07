@@ -8,11 +8,11 @@ namespace reflifc
 {
     Type QualifiedType::unqualified() const
     {
-        return { ifc_, qualified_.unqualified };
+        return { ifc_, qualified_->unqualified };
     }
 
     ifc::Qualifiers QualifiedType::qualifiers() const
     {
-        return qualified_.qualifiers;
+        return qualified_->qualifiers;
     }
 }

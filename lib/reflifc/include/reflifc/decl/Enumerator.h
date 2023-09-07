@@ -2,6 +2,7 @@
 
 #include "reflifc/Expression.h"
 #include "reflifc/Literal.h"
+#include "reflifc/HashCombine.h"
 
 #include <ifc/DeclarationFwd.h>
 
@@ -21,7 +22,11 @@ namespace reflifc
 
         ifc::File const* containing_file() const { return ifc_; }
 
+        auto operator<=>(Enumerator const& other) const = default;
+
     private:
+        friend std::hash<Enumerator>;
+
         ifc::File const* ifc_;
         ifc::Enumerator const* enumerator_;
     };
@@ -31,3 +36,12 @@ namespace reflifc
         return enumerator.value().as_literal().int_value();
     }
 }
+
+template<>
+struct std::hash<reflifc::Enumerator>
+{
+    size_t operator()(reflifc::Enumerator enumerator) const noexcept
+    {
+        return reflifc::hash_combine(0, enumerator.ifc_, enumerator.enumerator_);
+    }
+};

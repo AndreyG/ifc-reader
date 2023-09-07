@@ -4,6 +4,8 @@
 
 #include <ifc/Type.h>
 
+#include <functional>
+
 namespace reflifc
 {
     struct LvalueReference
@@ -12,6 +14,8 @@ namespace reflifc
             : referee(ifc, ref.referee)
         {
         }
+
+        auto operator<=>(LvalueReference const& other) const = default;
 
         Type referee;
     };
@@ -23,7 +27,27 @@ namespace reflifc
         {
         }
 
+        auto operator<=>(RvalueReference const& other) const = default;
+
         Type referee;
     };
     
 }
+
+template<>
+struct std::hash<reflifc::LvalueReference>
+{
+    size_t operator()(reflifc::LvalueReference object) const noexcept
+    {
+        return std::hash<reflifc::Type>{}(object.referee);
+    }
+};
+
+template<>
+struct std::hash<reflifc::RvalueReference>
+{
+    size_t operator()(reflifc::RvalueReference object) const noexcept
+    {
+        return std::hash<reflifc::Type>{}(object.referee);
+    }
+};

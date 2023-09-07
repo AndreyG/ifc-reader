@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include "HashCombine.h"
+
 #include <ifc/FileFwd.h>
 #include <ifc/Name.h>
 
@@ -39,13 +41,11 @@ namespace reflifc
 
         ifc::NameSort sort() const { return index_.sort(); }
 
-        bool operator==(Name other) const
-        {
-            assert(ifc_ == other.ifc_);
-            return index_ == other.index_;
-        }
+        auto operator<=>(Name const& other) const = default;
 
     private:
+        friend std::hash<Name>;
+
         ifc::File const* ifc_;
         ifc::NameIndex index_;
     };
@@ -61,7 +61,11 @@ namespace reflifc
         Name                primary()               const;
         TupleExpressionView template_arguments()    const;
 
+        auto operator<=>(SpecializationName const& other) const = default;
+
     private:
+        friend std::hash<SpecializationName>;
+
         ifc::File const* ifc_;
         ifc::SpecializationName const* specialization_;
     };
@@ -77,3 +81,21 @@ namespace reflifc
         return is_identifier(declaration.name(), s);
     }
 }
+
+template<>
+struct std::hash<reflifc::Name>
+{
+    size_t operator()(reflifc::Name object) const noexcept
+    {
+        return reflifc::hash_combine(0, object.ifc_, object.index_);
+    }
+};
+
+template<>
+struct std::hash<reflifc::SpecializationName>
+{
+    size_t operator()(reflifc::SpecializationName object) const noexcept
+    {
+        return reflifc::hash_combine(0, object.ifc_, object.specialization_);
+    }
+};

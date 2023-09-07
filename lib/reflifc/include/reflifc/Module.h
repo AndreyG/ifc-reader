@@ -2,6 +2,8 @@
 
 #include "decl/Scope.h"
 #include "decl/ScopeDeclaration.h"
+#include "HashCombine.h"
+
 #include "ifc/Module.h"
 #include "ifc/Environment.h"
 
@@ -22,6 +24,8 @@ namespace reflifc
             return get_string_or_null(module_reference_->partition);
         }
 
+        auto operator<=>(ModuleReference const& other) const = default;
+
     private:
         const char* get_string_or_null(ifc::TextOffset text) const {
             if (ifc::is_null(text)) {
@@ -29,6 +33,8 @@ namespace reflifc
             }
             return ifc_->get_string(text);
         }
+
+        friend std::hash<ModuleReference>;
 
         ifc::ModuleReference const* module_reference_;
         ifc::File const* ifc_;
@@ -46,7 +52,11 @@ namespace reflifc
 
         const char* name() const { return ifc_->get_string(ifc::TextOffset{unit_.index}); }
 
+        auto operator<=>(UnitDescription const& other) const = default;
+
     private:
+        friend std::hash<UnitDescription>;
+
         ifc::UnitIndex unit_;
         ifc::File const* ifc_;
     };
@@ -97,7 +107,38 @@ namespace reflifc
             return { ifc_, ifc_->header().unit };
         }
 
+        auto operator<=>(Module const& other) const = default;
+
     private:
+        friend std::hash<Module>;
+
         ifc::File const* ifc_;
     };
 }
+
+template<>
+struct std::hash<reflifc::ModuleReference>
+{
+    size_t operator()(reflifc::ModuleReference object) const noexcept
+    {
+        return reflifc::hash_combine(0, object.ifc_, object.module_reference_);
+    }
+};
+
+template<>
+struct std::hash<reflifc::UnitDescription>
+{
+    size_t operator()(reflifc::UnitDescription object) const noexcept
+    {
+        return reflifc::hash_combine(0, object.ifc_, object.unit_);
+    }
+};
+
+template<>
+struct std::hash<reflifc::Module>
+{
+    size_t operator()(reflifc::Module object) const noexcept
+    {
+        return reflifc::hash_combine(0, object.ifc_);
+    }
+};

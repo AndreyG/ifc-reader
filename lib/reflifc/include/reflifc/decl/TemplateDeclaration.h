@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "reflifc/HashCombine.h"
 #include "reflifc/Name.h"
 
 #include <ifc/DeclarationFwd.h>
@@ -27,8 +28,21 @@ namespace reflifc
 
         ifc::File const* containing_file() const { return ifc_; }
 
+        auto operator<=>(TemplateDeclaration const& other) const = default;
+
     private:
+        friend std::hash<TemplateDeclaration>;
+
         ifc::File const* ifc_;
         ifc::TemplateDeclaration const* template_;
     };
 }
+
+template<>
+struct std::hash<reflifc::TemplateDeclaration>
+{
+    size_t operator()(reflifc::TemplateDeclaration template_decl) const noexcept
+    {
+        return reflifc::hash_combine(0, template_decl.ifc_, template_decl.template_);
+    }
+};

@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include "reflifc/HashCombine.h"
+
 #include <ifc/DeclarationFwd.h>
 #include <ifc/FileFwd.h>
 
@@ -23,9 +25,22 @@ namespace reflifc
         Declaration home_scope()    const;
 
         ifc::File const* containing_file() const { return ifc_; }
+        
+        auto operator<=>(Concept const& other) const = default;
 
     private:
+        friend std::hash<Concept>;
+
         ifc::File const* ifc_;
         ifc::Concept const* c_;
     };
 }
+
+template<>
+struct std::hash<reflifc::Concept>
+{
+    size_t operator()(reflifc::Concept concept_) const noexcept
+    {
+        return reflifc::hash_combine(0, concept_.ifc_, concept_.c_);
+    }
+};
