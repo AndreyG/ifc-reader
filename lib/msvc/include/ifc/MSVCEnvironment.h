@@ -1,6 +1,10 @@
 #pragma once
 
-#include "ifc/Environment.h"
+#include <filesystem>
+#include <optional>
+#include <string>
+
+import ifc.Environment;
 
 namespace ifc
 {

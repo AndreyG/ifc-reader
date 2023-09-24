@@ -1,9 +1,9 @@
-#include "ifc/MSVCEnvironment.h"
-
 #include <nlohmann/json.hpp>
 
 #include <filesystem>
 #include <fstream>
+
+#include "ifc/MSVCEnvironment.h"
 
 static ifc::Environment::Config read_config(std::string const& path_to_config, std::optional<std::filesystem::path> const& dir_for_relative_paths)
 {

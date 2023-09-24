@@ -1,14 +1,4 @@
-﻿#include "reflifc/Syntax.h"
-
-#include "reflifc/syntax/TemplateId.h"
-#include "reflifc/syntax/TypeId.h"
-#include "reflifc/syntax/TypeSpecifier.h"
-#include "reflifc/syntax/TypeTraitIntrinsic.h"
-
-#include "reflifc/Expression.h"
-
-#include <ifc/File.h>
-#include <ifc/SyntaxTree.h>
+﻿module reflifc;
 
 namespace reflifc
 {

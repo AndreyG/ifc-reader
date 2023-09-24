@@ -1,7 +1,4 @@
-﻿#include "reflifc/Name.h"
-#include "reflifc/TupleView.h"
-
-#include <ifc/File.h>
+﻿module reflifc;
 
 namespace reflifc
 {

@@ -1,17 +1,8 @@
 #include "Presenter.h"
 
-#include "ifc/File.h"
-
-#include "ifc/Attribute.h"
-#include "ifc/Chart.h"
-#include "ifc/Expression.h"
-#include "ifc/Declaration.h"
-#include "ifc/SyntaxTree.h"
-#include "ifc/Type.h"
-#include "ifc/Word.h"
-
 #include <cassert>
 #include <locale>
+#include <ostream>
 
 void Presenter::present(ifc::NameIndex name) const
 {

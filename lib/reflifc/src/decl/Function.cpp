@@ -1,13 +1,4 @@
-﻿#include "reflifc/decl/Function.h"
-
-#include "reflifc/Declaration.h"
-#include "reflifc/TupleView.h"
-#include "reflifc/Type.h"
-#include "reflifc/type/Function.h"
-
-#include <ifc/Declaration.h>
-#include <ifc/File.h>
-#include <ifc/Type.h>
+﻿module reflifc;
 
 namespace reflifc
 {

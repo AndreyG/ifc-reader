@@ -1,7 +1,5 @@
-﻿#include <ifc/Attribute.h>
-#include <ifc/Declaration.h>
-#include <ifc/File.h>
-#include <ifc/Type.h>
+﻿import ifc;
+
 #include <ifc/blob_reader.h>
 
 #include <gtest/gtest.h>

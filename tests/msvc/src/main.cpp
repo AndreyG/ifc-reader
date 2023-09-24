@@ -1,12 +1,13 @@
-﻿#include <ifc/MSVCEnvironment.h>
-#include <ifc/blob_reader.h>
-#include <ifc/File.h>
-#include <ifc/Declaration.h>
-#include <ifc/Type.h>
-
-#include <gtest/gtest.h>
+﻿#include <gtest/gtest.h>
 
 #include <filesystem>
+
+#include <ifc/MSVCEnvironment.h>
+#include <ifc/blob_reader.h>
+
+import ifc;
+import ifc.FileHeader;
+import ifc.Module;
 
 static std::filesystem::path data_dir;
 

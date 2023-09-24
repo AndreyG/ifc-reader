@@ -1,9 +1,8 @@
-﻿#include "reflifc/decl/ScopeDeclaration.h"
+﻿module;
 
-#include "reflifc/decl/Namespace.h"
-#include "reflifc/decl/ClassOrStruct.h"
+#include <cassert>
 
-#include <ifc/Type.h>
+module reflifc;
 
 namespace reflifc
 {

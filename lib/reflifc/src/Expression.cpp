@@ -1,26 +1,6 @@
-﻿#include "reflifc/Expression.h"
+﻿module reflifc;
 
-#include "reflifc/expr/Monad.h"
-#include "reflifc/expr/Dyad.h"
-#include "reflifc/expr/Call.h"
-#include "reflifc/expr/Alignof.h"
-#include "reflifc/expr/Sizeof.h"
-#include "reflifc/expr/Path.h"
-#include "reflifc/expr/ProductValueType.h"
-#include "reflifc/expr/Read.h"
-#include "reflifc/expr/RequiresExpression.h"
-#include "reflifc/expr/QualifiedName.h"
-#include "reflifc/expr/UnqualifiedId.h"
-
-#include "reflifc/Declaration.h"
-#include "reflifc/Literal.h"
-#include "reflifc/StringLiteral.h"
-#include "reflifc/Syntax.h"
-#include "reflifc/TemplateId.h"
-#include "reflifc/Type.h"
-
-#include <ifc/Expression.h>
-#include <ifc/File.h>
+import reflifc.StringLiteral;
 
 namespace reflifc
 {

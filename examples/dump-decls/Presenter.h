@@ -1,19 +1,13 @@
 #pragma once
 
-#include "ifc/AttributeFwd.h"
-#include "ifc/ChartFwd.h"
-#include "ifc/ExpressionFwd.h"
-#include "ifc/TypeFwd.h"
-#include "ifc/SyntaxTreeFwd.h"
-
-#include "ifc/Declaration.h"
-#include "ifc/Literal.h"
-#include "ifc/Partition.h"
-#include "ifc/Word.h"
-
-#include "ifc/Environment.h"
+import ifc;
+import ifc.Environment;
+import ifc.Literal;
+import ifc.Partition;
+import ifc.Word;
 
 #include <iosfwd>
+#include <string_view>
 
 class Presenter
 {

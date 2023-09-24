@@ -1,6 +1,6 @@
-﻿#include "reflifc/decl/ClassOrStruct.h"
+﻿module reflifc;
 
-#include "reflifc/Name.h"
+import :Name;
 
 namespace reflifc
 {

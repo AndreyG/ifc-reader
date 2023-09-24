@@ -1,6 +1,4 @@
-﻿#include "reflifc/Chart.h"
-
-#include "reflifc/Expression.h"
+﻿module reflifc;
 
 namespace reflifc
 {

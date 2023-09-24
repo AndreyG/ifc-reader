@@ -1,9 +1,9 @@
-﻿#include "reflifc/decl/Enumeration.h"
-
-#include "reflifc/Declaration.h"
-#include "reflifc/Type.h"
+﻿module;
 
 #include <cstring>
+#include <optional>
+
+module reflifc;
 
 namespace reflifc
 {

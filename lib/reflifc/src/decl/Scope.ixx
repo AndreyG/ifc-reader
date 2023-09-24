@@ -1,0 +1,51 @@
+﻿module;
+
+#include <functional>
+#include <ranges>
+
+export module reflifc:Scope;
+
+import reflifc;
+import reflifc.ViewOf;
+import reflifc.HashCombine;
+
+import ifc;
+import ifc.Scope;
+
+namespace reflifc
+{
+    export struct Scope
+    {
+        Scope(ifc::File const* ifc, ifc::ScopeIndex scope)
+            : ifc_(ifc)
+            , scope_(scope)
+        {
+        }
+
+        ViewOf<Declaration> auto get_declarations() const
+        {
+            const auto scope_members = ifc_->scope_descriptors()[scope_];
+            return ifc::get_declarations(*ifc_, scope_members)
+                | std::views::transform([ifc = ifc_] (ifc::Declaration decl) { return Declaration(ifc, decl.index); });
+        }
+
+        ifc::File const* containing_file() const { return ifc_; }
+
+        auto operator<=>(Scope const& other) const = default;
+        
+    private:
+        friend std::hash<Scope>;
+
+        ifc::File const* ifc_;
+        ifc::ScopeIndex scope_;
+    };
+}
+
+template<>
+struct std::hash<reflifc::Scope>
+{
+    size_t operator()(reflifc::Scope scope) const noexcept
+    {
+        return reflifc::hash_combine(0, scope.ifc_, static_cast<uint32_t>(scope.scope_));
+    }
+};

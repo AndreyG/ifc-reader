@@ -1,11 +1,8 @@
-﻿#include "reflifc/decl/Variable.h"
+﻿module;
 
-#include "reflifc/Declaration.h"
-#include "reflifc/Expression.h"
-#include "reflifc/Name.h"
-#include "reflifc/Type.h"
+#include <cassert>
 
-#include <ifc/Declaration.h>
+module reflifc;
 
 namespace reflifc
 {

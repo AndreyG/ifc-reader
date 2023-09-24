@@ -1,17 +1,9 @@
-﻿#include "reflifc/TupleView.h"
+﻿module;
 
-#include "reflifc/Expression.h"
-#include "reflifc/Syntax.h"
-#include "reflifc/Type.h"
-
-#include "reflifc/ViewOf.h"
-
-#include <ifc/File.h>
-#include <ifc/Expression.h>
-#include <ifc/SyntaxTree.h>
-#include <ifc/Type.h>
-
+#include <stdexcept>
 #include <string>
+
+module reflifc;
 
 namespace reflifc
 {

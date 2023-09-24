@@ -1,6 +1,8 @@
 #pragma once
 
-#include "ifc/Environment.h"
+#include <filesystem>
+
+import ifc.Environment;
 
 namespace ifc
 {

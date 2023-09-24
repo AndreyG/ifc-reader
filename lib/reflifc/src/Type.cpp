@@ -1,23 +1,8 @@
-﻿#include "reflifc/Type.h"
+﻿module;
 
-#include "reflifc/Declaration.h"
-#include "reflifc/Expression.h"
-#include "reflifc/TemplateId.h"
-#include "reflifc/expr/Path.h"
-#include "reflifc/type/Array.h"
-#include "reflifc/type/Base.h"
-#include "reflifc/type/Expansion.h"
-#include "reflifc/type/Forall.h"
-#include "reflifc/type/Pointer.h"
-#include "reflifc/type/Function.h"
-#include "reflifc/type/Reference.h"
-#include "reflifc/type/Placeholder.h"
-#include "reflifc/type/Qualified.h"
+#include <cassert>
 
-#include <ifc/File.h>
-#include <ifc/Type.h>
-#include <ifc/Expression.h>
-#include <ifc/SyntaxTree.h>
+module reflifc;
 
 namespace reflifc
 {

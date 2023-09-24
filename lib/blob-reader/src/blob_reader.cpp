@@ -1,6 +1,10 @@
+#include <boost/iostreams/device/mapped_file.hpp>
+
+#include <span>
+
 #include "ifc/blob_reader.h"
 
-#include <boost/iostreams/device/mapped_file.hpp>
+import ifc;
 
 struct BlobHolderImpl : ifc::Environment::BlobHolder
 {

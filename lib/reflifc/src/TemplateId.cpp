@@ -1,11 +1,4 @@
-﻿#include "reflifc/TemplateId.h"
-
-#include "reflifc/Declaration.h"
-#include "reflifc/Expression.h"
-#include "reflifc/Name.h"
-#include "reflifc/TupleView.h"
-
-#include <ifc/Expression.h>
+﻿module reflifc;
 
 namespace reflifc
 {

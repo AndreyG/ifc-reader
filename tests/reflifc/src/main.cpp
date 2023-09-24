@@ -1,25 +1,11 @@
-﻿#include "reflifc/Module.h"
-#include "reflifc/Expression.h"
-#include "reflifc/Query.h"
-#include "reflifc/TemplateId.h"
-#include "reflifc/Type.h"
-#include "reflifc/TupleView.h"
-#include "reflifc/Word.h"
-#include "reflifc/decl/Function.h"
-#include "reflifc/decl/Variable.h"
-#include "reflifc/decl/Parameter.h"
-#include "reflifc/decl/TemplateDeclaration.h"
-#include "reflifc/decl/Specialization.h"
-#include "reflifc/expr/Call.h"
-#include "reflifc/type/Function.h"
-#include "reflifc/type/Base.h"
-#include "reflifc/type/Pointer.h"
+﻿#include <gtest/gtest.h>
+
+#include <filesystem>
 
 #include <ifc/blob_reader.h>
 
-#include <gtest/gtest.h>
-
-#include <filesystem>
+import reflifc;
+import ifc;
 
 static std::filesystem::path data_dir;
 

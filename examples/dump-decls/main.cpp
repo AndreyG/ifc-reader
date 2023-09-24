@@ -1,6 +1,8 @@
 #include "Presenter.h"
 
-#include "ifc/File.h"
+import ifc;
+import ifc.FileHeader;
+
 #include "ifc/MSVCEnvironment.h"
 #include "ifc/blob_reader.h"
 

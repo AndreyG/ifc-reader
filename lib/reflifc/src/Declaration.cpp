@@ -1,19 +1,8 @@
-﻿#include "reflifc/Declaration.h"
+﻿module;
 
-#include "reflifc/decl/AliasDeclaration.h"
-#include "reflifc/decl/ClassOrStruct.h"
-#include "reflifc/decl/Concept.h"
-#include "reflifc/decl/DeclarationReference.h"
-#include "reflifc/decl/Enumeration.h"
-#include "reflifc/decl/Field.h"
-#include "reflifc/decl/Function.h"
-#include "reflifc/decl/Intrinsic.h"
-#include "reflifc/decl/Parameter.h"
-#include "reflifc/decl/ScopeDeclaration.h"
-#include "reflifc/decl/TemplateDeclaration.h"
-#include "reflifc/decl/Specialization.h"
-#include "reflifc/decl/UsingDeclaration.h"
-#include "reflifc/decl/Variable.h"
+#include <cassert>
+
+module reflifc;
 
 namespace reflifc
 {

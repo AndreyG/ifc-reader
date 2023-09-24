@@ -1,8 +1,12 @@
+cmake_minimum_required(VERSION 3.26)
 project (ifc-reader)
-cmake_minimum_required(VERSION 3.16)
 
 OPTION(BUILD_IFC_READER_EXAMPLES "Build library usage example apps" OFF)
 OPTION(BUILD_IFC_READER_TESTS "Build tests" OFF)
+
+set(CMAKE_EXPERIMENTAL_CXX_MODULE_CMAKE_API "2182bf5c-ef0d-489a-91da-49dbc3090d2a")
+set(CMAKE_EXPERIMENTAL_CXX_MODULE_DYNDEP 1) # enable dynamic dependency evaluation
+#set(CMAKE_CXX_EXTENSIONS OFF) # required with Clang
 
 add_subdirectory(lib/core)
 add_subdirectory(lib/reflifc)

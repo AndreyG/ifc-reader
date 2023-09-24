@@ -1,10 +1,4 @@
-#include "reflifc/decl/Specialization.h"
-
-#include "reflifc/Chart.h"
-#include "reflifc/Declaration.h"
-#include "reflifc/TupleView.h"
-
-#include <ifc/Declaration.h>
+module reflifc;
 
 namespace reflifc
 {

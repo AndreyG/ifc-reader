@@ -1,19 +1,17 @@
 project (ifc-core)
 
-file(GLOB_RECURSE headers
-  include/ifc/*.h
-)
-
 set(sources
-    src/File.cpp
-    src/Environment.cpp
+    File.cpp
+    Environment.cpp
 )
 
-add_library(ifc-core STATIC ${sources} ${headers})
+file(GLOB interface_units ./*.ixx)
+
+add_library(ifc-core)
+target_sources(ifc-core
+  PRIVATE ${sources}
+  PUBLIC
+    FILE_SET cxx_modules TYPE CXX_MODULES FILES ${interface_units}
+)
 
 target_compile_features(ifc-core PUBLIC cxx_std_20)
-
-target_include_directories(ifc-core
-  PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-)
