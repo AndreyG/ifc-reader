@@ -6,7 +6,6 @@
 
 export module reflifc:Parameter;
 
-import :Chart;
 import :Type;
 
 import reflifc.HashCombine;
@@ -15,6 +14,8 @@ import ifc;
 
 namespace reflifc
 {
+    struct Chart;
+
     export struct Parameter
     {
         Parameter(ifc::File const* ifc, ifc::ParameterDeclaration const& param)
@@ -26,12 +27,7 @@ namespace reflifc
         const char* name() const { return ifc_->get_string(param_->name); }
         Type        type() const { return { ifc_, param_->type }; }
 
-        Chart template_parameters() const
-        {
-        	auto forall_type = type().as_forall();
-        	assert(forall_type.subject().as_fundamental().basis == ifc::TypeBasis::Typename);
-        	return forall_type.chart();	        
-        }
+        Chart template_parameters() const;
 
         ifc::ParameterSort sort() const { return param_->sort; }
         ifc::ParameterPosition position() const { return param_->position; }

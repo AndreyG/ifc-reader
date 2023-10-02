@@ -23,6 +23,7 @@ export import :Enumerator;
 export import :Function;
 export import :Intrinsic;
 export import :Namespace;
+export import :Parameter;
 export import :Scope;
 export import :ScopeDeclaration;
 export import :Specialization;

@@ -2,7 +2,6 @@ project (reflifc)
 
 set(sources
     src/Attribute.cpp
-    src/Chart.cpp
     src/Declaration.cpp
     src/Expression.cpp
     src/Name.cpp
@@ -10,11 +9,12 @@ set(sources
     src/TemplateId.cpp
     src/TupleView.cpp
     src/Type.cpp
+    src/decl/ClassOrStruct.cpp
     src/decl/Enumeration.cpp
     src/decl/Function.cpp
-    src/decl/ScopeDeclaration.cpp
-    src/decl/ClassOrStruct.cpp
+    src/decl/Parameter.cpp
     src/decl/Specialization.cpp
+    src/decl/ScopeDeclaration.cpp
     src/decl/Variable.cpp
 )
 

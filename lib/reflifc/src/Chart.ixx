@@ -5,6 +5,7 @@
 
 export module reflifc:Chart;
 
+import :Expression;
 import :Parameter;
 
 import reflifc.ViewOf;
@@ -12,11 +13,11 @@ import reflifc.HashCombine;
 
 import ifc;
 
-namespace reflifc
+export namespace reflifc
 {
-    export struct ChartUnilevel;
+    struct ChartUnilevel;
 
-    export struct Chart
+    struct Chart
     {
         Chart(ifc::File const* ifc, ifc::ChartIndex index)
             : ifc_(ifc),
@@ -37,8 +38,6 @@ namespace reflifc
         ifc::ChartIndex index_;
     };
 
-    struct Expression;
-
     struct ChartUnilevel
     {
         ChartUnilevel(ifc::File const* ifc, ifc::ChartUnilevel const& unilevel)
@@ -53,10 +52,10 @@ namespace reflifc
                 | std::views::transform([ifc = ifc_] (ifc::ParameterDeclaration const & param) { return Parameter(ifc, param); });
         }
 
-        ifc::Sequence params_sequence() const;
+        ifc::Sequence params_sequence() const { return static_cast<ifc::Sequence>(*unilevel_); }
 
-        bool        has_constraint()    const;
-        Expression  constraint()        const;
+        bool        has_constraint()    const { return !unilevel_->constraint.is_null(); }
+        Expression  constraint()        const { return { ifc_, unilevel_->constraint }; }
 
         auto operator<=>(ChartUnilevel const& other) const = default;
 
@@ -66,6 +65,11 @@ namespace reflifc
         ifc::File const* ifc_;
         ifc::ChartUnilevel const* unilevel_;
     };
+
+	ChartUnilevel Chart::as_unilevel() const
+	{
+		return { ifc_, ifc_->unilevel_charts()[index_] };
+	}
 }
 
 template<>

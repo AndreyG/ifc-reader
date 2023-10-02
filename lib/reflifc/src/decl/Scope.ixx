@@ -5,7 +5,7 @@
 
 export module reflifc:Scope;
 
-import reflifc;
+import :Declaration;
 import reflifc.ViewOf;
 import reflifc.HashCombine;
 
