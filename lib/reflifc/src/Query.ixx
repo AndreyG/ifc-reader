@@ -1,6 +1,8 @@
 ﻿module;
 
 #include <optional>
+#include <ranges>
+#include <string_view>
 
 export module reflifc.Query;
 
