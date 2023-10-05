@@ -29,10 +29,12 @@ jobs:
               clang-16 \
               clang++-16 \
               cmake \
-              ninja-build \
               libboost-iostreams-dev \
               nlohmann-json3-dev \
               libgtest-dev
+            sudo wget -qO /usr/local/bin/ninja.gz https://github.com/ninja-build/ninja/releases/latest/download/ninja-linux.zip
+            sudo gunzip /usr/local/bin/ninja.gz
+            sudo chmod a+x /usr/local/bin/ninja
             echo "::endgroup::"
 
       - uses: actions/checkout@v2
