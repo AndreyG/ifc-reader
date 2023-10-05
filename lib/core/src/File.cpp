@@ -249,26 +249,21 @@ namespace ifc
         { 
             auto const cache_index = (uint32_t)cache_type;
 
-            // Init cache entry
-            if(!cached_partitions_[cache_index])
+            if (auto& cached_partition = cached_partitions_[cache_index])
             {
-                auto it = table_of_contents_.find(name);
-                if (it != table_of_contents_.end())
-                {
-                    auto partition = it->second;
-                    auto result = get_partition<T, Index>(partition);
-                    cached_partitions_[cache_index].emplace(result.data(), result.size());
-                    return result;
-                }
-                else
-                {
-                    return Partition<T, Index>{nullptr, 0};
-                }
+                auto partition = *cached_partition;
+                return { static_cast<T const*>(partition.data), partition.size };
             }
-
-            // Otherwise use the cached entry
-            auto partition = *cached_partitions_[cache_index];
-            return { static_cast<T const*>(partition.data), partition.size };
+            else if (auto it = table_of_contents_.find(name); it != table_of_contents_.end())
+            {
+                auto result = get_partition<T, Index>(it->second);
+                cached_partition.emplace(result.data(), result.size());
+                return result;
+            }
+            else
+            {
+                return Partition<T, Index>{nullptr, 0};
+            }
         }
 
         std::unordered_map<DeclIndex, std::vector<AttrIndex>> const & trait_declaration_attributes()
