@@ -54,7 +54,8 @@ namespace ifc
             return data_[static_cast<size_t>(get_raw_index(index))];
         }
 
-        size_t size() const { return size_; }
+        T const* data() const { return data_; }
+        size_t   size() const { return size_; }
 
         T const * begin() const { return data_; }
         T const * end()   const { return data_ + size_; }

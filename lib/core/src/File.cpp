@@ -256,9 +256,9 @@ namespace ifc
                 if (it != table_of_contents_.end())
                 {
                     auto partition = it->second;
-                    ifc::Index start{ (size_t)partition->offset };
-                    cached_partitions_[cache_index] = Sequence{ start, partition->cardinality };
-                    return get_partition<T, Index>(partition);
+                    auto result = get_partition<T, Index>(partition);
+                    cached_partitions_[cache_index].emplace(result.data(), result.size());
+                    return result;
                 }
                 else
                 {
@@ -267,9 +267,8 @@ namespace ifc
             }
 
             // Otherwise use the cached entry
-            auto const& sequence = cached_partitions_[cache_index];
-            auto start_ptr = reinterpret_cast<T const*>(blob_.data() + (size_t)sequence->start);
-            return Partition<T, Index>{ start_ptr, (size_t)sequence->cardinality };
+            auto partition = *cached_partitions_[cache_index];
+            return { static_cast<T const*>(partition.data), partition.size };
         }
 
         std::unordered_map<DeclIndex, std::vector<AttrIndex>> const & trait_declaration_attributes()
@@ -338,7 +337,13 @@ namespace ifc
         std::optional<std::unordered_map<DeclIndex, std::vector<AttrIndex>>> trait_declaration_attributes_;
         std::optional<std::unordered_map<DeclIndex, Sequence>> trait_friendship_of_class_;
 
-        using CachedPartition = std::optional<Sequence>;
+        struct UntypedPartition
+        {
+            const void* data;
+            size_t      size;
+        };
+        using CachedPartition = std::optional<UntypedPartition>;
+
         mutable std::array<CachedPartition, (size_t)FilePartitionCache::Num> cached_partitions_{};
     };
 
