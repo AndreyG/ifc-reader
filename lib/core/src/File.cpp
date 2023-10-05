@@ -220,12 +220,6 @@ namespace ifc
         }
 
         template<typename T, typename Index>
-        std::optional<Partition<T, Index>> try_get_partition() const
-        {
-            return try_get_partition<T, Index>(T::PartitionName);
-        }
-
-        template<typename T, typename Index>
         Partition<T, Index> get_partition(std::string_view name) const
         {
             return get_partition<T, Index>(table_of_contents_.at(name));
@@ -945,22 +939,6 @@ namespace ifc
     Sequence File::trait_friendship_of_class(DeclIndex declaration) const
     {
         return get_value<Sequence>(declaration, impl_->trait_friendship_of_class());
-    }
-
-    template<typename T, typename Index>
-    Partition<T, Index> File::get_partition_with_cache(std::optional<Partition<T, Index>> & cache) const
-    {
-        return get_partition_with_cache<T, Index>(cache, T::PartitionName);
-    }
-
-    template <typename T, typename Index>
-    Partition<T, Index> File::get_partition_with_cache(std::optional<Partition<T, Index>>& cache, std::string_view name) const
-    {
-        if (cache.has_value())
-            return *cache;
-        auto result = impl_->get_partition<T, Index>(name);
-        cache = result;
-        return result;
     }
 
     File::File(BlobView data)
