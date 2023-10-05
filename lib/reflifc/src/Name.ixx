@@ -1,11 +1,9 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 #include <string_view>
 
 export module reflifc:Name;
-
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -83,21 +81,3 @@ namespace reflifc
         return is_identifier(declaration.name(), s);
     }
 }
-
-template<>
-struct std::hash<reflifc::Name>
-{
-    size_t operator()(reflifc::Name object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.ifc_, object.index_);
-    }
-};
-
-template<>
-struct std::hash<reflifc::SpecializationName>
-{
-    size_t operator()(reflifc::SpecializationName object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.ifc_, object.specialization_);
-    }
-};

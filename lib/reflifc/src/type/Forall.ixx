@@ -1,13 +1,11 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:ForallType;
 
 import :Chart;
 import :Type;
-
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -30,18 +28,7 @@ namespace reflifc
         auto operator<=>(ForallType const& other) const = default;
 
     private:
-        friend std::hash<ForallType>;
-
         ifc::File const* ifc_;
         ifc::ForallType const* forall_;
     };
 }
-
-template<>
-struct std::hash<reflifc::ForallType>
-{
-    size_t operator()(reflifc::ForallType object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.ifc_, object.forall_);
-    }
-};

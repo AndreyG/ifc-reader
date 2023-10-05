@@ -1,12 +1,10 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:ExpansionType;
 
 import :Type;
-
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -27,18 +25,7 @@ namespace reflifc
         auto operator<=>(ExpansionType const& other) const = default;
 
     private:
-        friend std::hash<ExpansionType>;
-
         ifc::File const* ifc_;
         ifc::ExpansionType const* expansion_;
     };
 }
-
-template<>
-struct std::hash<reflifc::ExpansionType>
-{
-    size_t operator()(reflifc::ExpansionType object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.ifc_, object.expansion_);
-    }
-};

@@ -1,6 +1,6 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:Reference;
 
@@ -34,21 +34,3 @@ export namespace reflifc
         Type referee;
     };    
 }
-
-template<>
-struct std::hash<reflifc::LvalueReference>
-{
-    size_t operator()(reflifc::LvalueReference object) const noexcept
-    {
-        return std::hash<reflifc::Type>{}(object.referee);
-    }
-};
-
-template<>
-struct std::hash<reflifc::RvalueReference>
-{
-    size_t operator()(reflifc::RvalueReference object) const noexcept
-    {
-        return std::hash<reflifc::Type>{}(object.referee);
-    }
-};

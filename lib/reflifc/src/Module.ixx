@@ -1,6 +1,6 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 #include <ranges>
 
 export module reflifc:Module;
@@ -8,7 +8,6 @@ export module reflifc:Module;
 import :Scope;
 import :ScopeDeclaration;
 
-import reflifc.HashCombine;
 import reflifc.ViewOf;
 
 import ifc;
@@ -44,8 +43,6 @@ export namespace reflifc
             return ifc_->get_string(text);
         }
 
-        friend std::hash<ModuleReference>;
-
         ifc::ModuleReference const* module_reference_;
         ifc::File const* ifc_;
     };
@@ -65,8 +62,6 @@ export namespace reflifc
         auto operator<=>(UnitDescription const& other) const = default;
 
     private:
-        friend std::hash<UnitDescription>;
-
         ifc::UnitIndex unit_;
         ifc::File const* ifc_;
     };
@@ -120,35 +115,6 @@ export namespace reflifc
         auto operator<=>(Module const& other) const = default;
 
     private:
-        friend std::hash<Module>;
-
         ifc::File const* ifc_;
     };
 }
-
-template<>
-struct std::hash<reflifc::ModuleReference>
-{
-    size_t operator()(reflifc::ModuleReference object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.ifc_, object.module_reference_);
-    }
-};
-
-template<>
-struct std::hash<reflifc::UnitDescription>
-{
-    size_t operator()(reflifc::UnitDescription object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.ifc_, object.unit_);
-    }
-};
-
-template<>
-struct std::hash<reflifc::Module>
-{
-    size_t operator()(reflifc::Module object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.ifc_);
-    }
-};

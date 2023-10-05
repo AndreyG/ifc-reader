@@ -14,7 +14,6 @@ import :Type;
 import :BaseType;
 import :TupleView;
 
-import reflifc.HashCombine;
 import reflifc.ViewOf;
 
 import ifc;
@@ -55,8 +54,6 @@ export namespace reflifc
         auto operator<=>(ClassOrStruct const& other) const = default;
 
     private:
-        friend std::hash<ClassOrStruct>;
-
         ifc::File const* ifc_;
         ifc::ScopeDeclaration const* scope_;
     };
@@ -75,12 +72,3 @@ export namespace reflifc
             | std::views::transform(&Declaration::as_variable);
     }
 }
-
-template<>
-struct std::hash<reflifc::ClassOrStruct>
-{
-    size_t operator()(reflifc::ClassOrStruct class_or_struct) const noexcept
-    {
-        return reflifc::hash_combine(0, class_or_struct.ifc_, class_or_struct.scope_);
-    }
-};

@@ -1,14 +1,12 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:Concept;
 
 import :Chart;
 import :Declaration;
 import :Expression;
-
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -36,18 +34,7 @@ namespace reflifc
         auto operator<=>(Concept const& other) const = default;
 
     private:
-        friend std::hash<Concept>;
-
         ifc::File const* ifc_;
         ifc::Concept const* c_;
     };
 }
-
-template<>
-struct std::hash<reflifc::Concept>
-{
-    size_t operator()(reflifc::Concept concept_) const noexcept
-    {
-        return reflifc::hash_combine(0, concept_.ifc_, concept_.c_);
-    }
-};

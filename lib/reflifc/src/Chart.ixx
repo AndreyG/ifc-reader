@@ -1,6 +1,6 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 #include <ranges>
 
 export module reflifc:Chart;
@@ -9,7 +9,6 @@ import :Expression;
 import :Parameter;
 
 import reflifc.ViewOf;
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -60,8 +59,6 @@ export namespace reflifc
         auto operator<=>(ChartUnilevel const& other) const = default;
 
     private:
-        friend std::hash<ChartUnilevel>;
-
         ifc::File const* ifc_;
         ifc::ChartUnilevel const* unilevel_;
     };
@@ -71,21 +68,3 @@ export namespace reflifc
 		return { ifc_, ifc_->unilevel_charts()[index_] };
 	}
 }
-
-template<>
-struct std::hash<reflifc::Chart>
-{
-    size_t operator()(reflifc::Chart object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.ifc_, object.index_);
-    }
-};
-
-template<>
-struct std::hash<reflifc::ChartUnilevel>
-{
-    size_t operator()(reflifc::ChartUnilevel object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.ifc_, object.unilevel_);
-    }
-};

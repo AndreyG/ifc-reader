@@ -1,5 +1,6 @@
 ﻿module;
 
+#include <compare>
 #include <ranges>
 
 export module reflifc:Declaration;
@@ -7,7 +8,6 @@ export module reflifc:Declaration;
 import :Attribute;
 import :Expression;
 import reflifc.ViewOf;
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -121,18 +121,7 @@ namespace reflifc
         auto operator<=>(Declaration const& other) const = default;
 
     private:
-        friend std::hash<Declaration>;
-
         ifc::File const* ifc_;
         ifc::DeclIndex index_;
     };
 }
-
-template<>
-struct std::hash<reflifc::Declaration>
-{
-    size_t operator()(reflifc::Declaration decl) const noexcept
-    {
-        return reflifc::hash_combine(0, decl.ifc_, decl.index_);
-    }
-};

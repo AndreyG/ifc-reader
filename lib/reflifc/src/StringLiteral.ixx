@@ -1,11 +1,9 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 #include <string_view>
 
 export module reflifc.StringLiteral;
-
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -24,18 +22,7 @@ namespace reflifc
         auto operator<=>(StringLiteral const& other) const = default;
 
     private:
-        friend std::hash<StringLiteral>;
-
         ifc::File const* ifc_;
         ifc::StringLiteral literal_;
     };
 }
-
-template<>
-struct std::hash<reflifc::StringLiteral>
-{
-    size_t operator()(reflifc::StringLiteral object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.ifc_, object.literal_.start, object.literal_.length, object.literal_.suffix);
-    }
-};

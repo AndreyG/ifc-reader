@@ -1,10 +1,8 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:Word;
-
-import reflifc.HashCombine;
 
 import ifc;
 import ifc.Word;
@@ -25,18 +23,7 @@ namespace reflifc
         auto operator<=>(Word const& other) const = default;
 
     private:
-        friend std::hash<Word>;
-
         ifc::File const* ifc_;
         ifc::Word const* word_;
     };
 }
-
-template<>
-struct std::hash<reflifc::Word>
-{
-    size_t operator()(reflifc::Word word) const noexcept
-    {
-        return reflifc::hash_combine(0, word.ifc_, word.word_);
-    }
-};

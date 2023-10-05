@@ -1,6 +1,6 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:Pointer;
 
@@ -22,12 +22,3 @@ namespace reflifc
         Type pointee;
     };
 }
-
-template<>
-struct std::hash<reflifc::PointerType>
-{
-    size_t operator()(reflifc::PointerType object) const noexcept
-    {
-        return std::hash<reflifc::Type>{}(object.pointee);
-    }
-};

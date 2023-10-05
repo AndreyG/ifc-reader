@@ -1,13 +1,11 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:DyadExpression;
 
 import :Declaration;
 import :Expression;
-
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -31,18 +29,7 @@ namespace reflifc
         auto operator<=>(DyadExpression const& other) const = default;
 
     private:
-        friend std::hash<DyadExpression>;
-
         ifc::File const* ifc_;
         ifc::DyadExpression const* expr_;
     };
 }
-
-template<>
-struct std::hash<reflifc::DyadExpression>
-{
-    size_t operator()(reflifc::DyadExpression object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.ifc_, object.expr_);
-    }
-};

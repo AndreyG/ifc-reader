@@ -1,12 +1,10 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:TypeSpecifier;
 
 import :Syntax;
-
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -25,18 +23,7 @@ namespace reflifc
         auto operator<=>(TypeSpecifierSyntax const& other) const = default;
 
     private:
-        friend std::hash<TypeSpecifierSyntax>;
-
         ifc::File const* ifc_;
         ifc::TypeSpecifierSeq const* syntax_;
     };
 }
-
-template<>
-struct std::hash<reflifc::TypeSpecifierSyntax>
-{
-    size_t operator()(reflifc::TypeSpecifierSyntax object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.ifc_, object.syntax_);
-    }
-};

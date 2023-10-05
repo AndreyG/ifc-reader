@@ -9,7 +9,6 @@ export module reflifc:Enumeration;
 import :Enumerator;
 
 import reflifc.ViewOf;
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -49,8 +48,6 @@ namespace reflifc
         auto operator<=>(Enumeration const& other) const = default;
 
     private:
-        friend std::hash<Enumeration>;
-
         ifc::File const* ifc_;
         ifc::Enumeration const* enum_;
     };
@@ -58,12 +55,3 @@ namespace reflifc
     std::optional<Enumerator> find_enumerator_by_value(Enumeration, std::uint32_t value);
     std::optional<Enumerator> find_enumerator_by_value(Enumeration, std::span<std::byte const> value);
 }
-
-template<>
-struct std::hash<reflifc::Enumeration>
-{
-    size_t operator()(reflifc::Enumeration enumeration) const noexcept
-    {
-        return reflifc::hash_combine(0, enumeration.ifc_, enumeration.enum_);
-    }
-};

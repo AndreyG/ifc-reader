@@ -1,10 +1,8 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:Syntax;
-
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -37,18 +35,7 @@ namespace reflifc
         auto operator<=>(Syntax const& other) const = default;
 
     private:
-        friend std::hash<Syntax>;
-
         ifc::File const* ifc_;
         ifc::SyntaxIndex index_;
     };
 }
-
-template<>
-struct std::hash<reflifc::Syntax>
-{
-    size_t operator()(reflifc::Syntax object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.ifc_, object.index_);
-    }
-};

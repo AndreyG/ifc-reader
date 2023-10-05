@@ -1,12 +1,10 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:PathExpression;
 
 import :Expression;
-
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -26,18 +24,7 @@ namespace reflifc
         auto operator<=>(PathExpression const& other) const = default;
 
     private:
-        friend std::hash<PathExpression>;
-
         ifc::File const* ifc_;
         ifc::PathExpression const* expr_;
     };
 }
-
-template<>
-struct std::hash<reflifc::PathExpression>
-{
-    size_t operator()(reflifc::PathExpression object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.ifc_, object.expr_);
-    }
-};

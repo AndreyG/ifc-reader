@@ -1,9 +1,11 @@
-﻿export module reflifc:AliasDeclaration;
+﻿module;
+
+#include <compare>
+
+export module reflifc:AliasDeclaration;
 
 import :Declaration;
 import :Type;
-
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -27,18 +29,7 @@ namespace reflifc
         auto operator<=>(AliasDeclaration const& other) const = default;
 
     private:
-        friend std::hash<AliasDeclaration>;
-
         ifc::File const* ifc_;
         ifc::AliasDeclaration const* alias_;
     };
 }
-
-template<>
-struct std::hash<reflifc::AliasDeclaration>
-{
-    size_t operator()(reflifc::AliasDeclaration alias) const noexcept
-    {
-        return reflifc::hash_combine(0, alias.ifc_, alias.alias_);
-    }
-};

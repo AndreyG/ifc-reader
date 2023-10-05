@@ -1,11 +1,9 @@
 ﻿module;
 
 #include <cassert>
-#include <functional>
+#include <compare>
 
 export module reflifc.Literal;
-
-import reflifc.HashCombine;
 
 import ifc;
 import ifc.Literal;
@@ -33,18 +31,7 @@ namespace reflifc
         auto operator<=>(Literal const& other) const = default;
 
     private:
-        friend std::hash<Literal>;
-
         ifc::File const* ifc_;
         ifc::LitIndex index_;
     };
 }
-
-template<>
-struct std::hash<reflifc::Literal>
-{
-    size_t operator()(reflifc::Literal object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.ifc_, object.index_);
-    }
-};

@@ -1,12 +1,10 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:ReadExpression;
 
 import :Expression;
-
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -33,12 +31,3 @@ namespace reflifc
         ifc::ReadExpression const* expr_;
     };
 }
-
-template<>
-struct std::hash<reflifc::ReadExpression>
-{
-    size_t operator()(reflifc::ReadExpression object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.ifc_, object.expr_);
-    }
-};

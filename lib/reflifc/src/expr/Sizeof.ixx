@@ -1,12 +1,10 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:Sizeof;
 
 import :Type;
-
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -23,12 +21,3 @@ namespace reflifc
         Type operand;
     };
 }
-
-template<>
-struct std::hash<reflifc::SizeofExpression>
-{
-    size_t operator()(reflifc::SizeofExpression object) const noexcept
-    {
-        return std::hash<reflifc::Type>{}(object.operand);
-    }
-};

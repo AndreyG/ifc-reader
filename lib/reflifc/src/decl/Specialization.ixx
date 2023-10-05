@@ -1,12 +1,10 @@
 module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:Specialization;
 
 import :Name;
-
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -30,8 +28,6 @@ namespace reflifc
         auto operator<=>(SpecializationForm const& other) const = default;
 
     private:
-        friend std::hash<SpecializationForm>;
-
         ifc::File const* ifc_;
         ifc::SpecializationForm const* form_;
     };
@@ -57,8 +53,6 @@ namespace reflifc
         auto operator<=>(PartialSpecialization const& other) const = default;
 
     private:
-        friend std::hash<PartialSpecialization>;
-
         ifc::File const* ifc_;
         ifc::PartialSpecialization const* spec_;
     };
@@ -80,36 +74,7 @@ namespace reflifc
         auto operator<=>(Specialization const& other) const = default;
 
     private:
-        friend std::hash<Specialization>;
-
         ifc::File const* ifc_;
         ifc::Specialization const* spec_;
     };
 }
-
-template<>
-struct std::hash<reflifc::SpecializationForm>
-{
-    size_t operator()(reflifc::SpecializationForm specialization) const noexcept
-    {
-        return reflifc::hash_combine(0, specialization.ifc_, specialization.form_);
-    }
-};
-
-template<>
-struct std::hash<reflifc::PartialSpecialization>
-{
-    size_t operator()(reflifc::PartialSpecialization specialization) const noexcept
-    {
-        return reflifc::hash_combine(0, specialization.ifc_, specialization.spec_);
-    }
-};
-
-template<>
-struct std::hash<reflifc::Specialization>
-{
-    size_t operator()(reflifc::Specialization specialization) const noexcept
-    {
-        return reflifc::hash_combine(0, specialization.ifc_, specialization.spec_);
-    }
-};

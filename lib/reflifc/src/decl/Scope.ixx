@@ -1,13 +1,12 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 #include <ranges>
 
 export module reflifc:Scope;
 
 import :Declaration;
 import reflifc.ViewOf;
-import reflifc.HashCombine;
 
 import ifc;
 import ifc.Scope;
@@ -34,18 +33,7 @@ namespace reflifc
         auto operator<=>(Scope const& other) const = default;
         
     private:
-        friend std::hash<Scope>;
-
         ifc::File const* ifc_;
         ifc::ScopeIndex scope_;
     };
 }
-
-template<>
-struct std::hash<reflifc::Scope>
-{
-    size_t operator()(reflifc::Scope scope) const noexcept
-    {
-        return reflifc::hash_combine(0, scope.ifc_, static_cast<uint32_t>(scope.scope_));
-    }
-};

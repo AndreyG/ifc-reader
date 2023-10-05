@@ -1,13 +1,12 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:TemplateDeclaration;
 
 import :Chart;
 import :Declaration;
 import :Name;
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -33,18 +32,7 @@ namespace reflifc
         auto operator<=>(TemplateDeclaration const& other) const = default;
 
     private:
-        friend std::hash<TemplateDeclaration>;
-
         ifc::File const* ifc_;
         ifc::TemplateDeclaration const* template_;
     };
 }
-
-template<>
-struct std::hash<reflifc::TemplateDeclaration>
-{
-    size_t operator()(reflifc::TemplateDeclaration template_decl) const noexcept
-    {
-        return reflifc::hash_combine(0, template_decl.ifc_, template_decl.template_);
-    }
-};

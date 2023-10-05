@@ -1,13 +1,11 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:Namespace;
 
 import :Name;
 import :Scope;
-
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -31,18 +29,7 @@ namespace reflifc
         auto operator<=>(Namespace const& other) const = default;
 
     private:
-        friend std::hash<Namespace>;
-
         ifc::File const* ifc_;
         ifc::ScopeDeclaration const* scope_;
     };
 }
-
-template<>
-struct std::hash<reflifc::Namespace>
-{
-    size_t operator()(reflifc::Namespace namespace_) const noexcept
-    {
-        return reflifc::hash_combine(0, namespace_.ifc_, namespace_.scope_);
-    }
-};

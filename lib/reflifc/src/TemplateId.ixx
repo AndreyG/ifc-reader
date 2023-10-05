@@ -1,10 +1,8 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:TemplateId;
-
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -30,8 +28,6 @@ namespace reflifc
         auto operator<=>(TemplateId const& other) const = default;
 
     private:
-        friend std::hash<TemplateId>;
-
         ifc::File const* ifc_;
         ifc::TemplateId const* template_id_;
     };
@@ -51,27 +47,7 @@ namespace reflifc
         auto operator<=>(TemplateReference const& other) const = default;
 
     private:
-        friend std::hash<TemplateReference>;
-
         ifc::File const* ifc_;
         ifc::TemplateReference const* template_ref_;
     };
 }
-
-template<>
-struct std::hash<reflifc::TemplateId>
-{
-    size_t operator()(reflifc::TemplateId object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.ifc_, object.template_id_);
-    }
-};
-
-template<>
-struct std::hash<reflifc::TemplateReference>
-{
-    size_t operator()(reflifc::TemplateReference object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.ifc_, object.template_ref_);
-    }
-};

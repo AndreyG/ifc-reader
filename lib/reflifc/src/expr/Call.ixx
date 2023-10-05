@@ -1,13 +1,11 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:CallExpression;
 
 import :Expression;
 import :TupleView;
-
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -27,18 +25,7 @@ namespace reflifc
         auto operator<=>(CallExpression const& other) const = default;
 
     private:
-        friend std::hash<CallExpression>;
-
         ifc::File const* ifc_;
         ifc::CallExpression const* expr_;
     };
 }
-
-template<>
-struct std::hash<reflifc::CallExpression>
-{
-    size_t operator()(reflifc::CallExpression object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.ifc_, object.expr_);
-    }
-};

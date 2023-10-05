@@ -1,6 +1,6 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 #include <ranges>
 
 export module reflifc:TypeTraitIntrinsic;
@@ -8,7 +8,6 @@ export module reflifc:TypeTraitIntrinsic;
 import :Syntax;
 import :TupleView;
 import reflifc.ViewOf;
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -36,18 +35,7 @@ namespace reflifc
         auto operator<=>(TypeTraitIntrinsicSyntax const& other) const = default;
 
     private:
-        friend std::hash<TypeTraitIntrinsicSyntax>;
-
         ifc::File const* ifc_;
         ifc::TypeTraitIntrinsicSyntax const* syntax_;
     };
 }
-
-template<>
-struct std::hash<reflifc::TypeTraitIntrinsicSyntax>
-{
-    size_t operator()(reflifc::TypeTraitIntrinsicSyntax object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.ifc_, object.syntax_);
-    }
-};

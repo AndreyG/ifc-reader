@@ -1,13 +1,11 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:MonadExpression;
 
 import :Declaration;
 import :Expression;
-
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -30,18 +28,7 @@ namespace reflifc
         auto operator<=>(MonadExpression const& other) const = default;
 
     private:
-        friend std::hash<MonadExpression>;
-
         ifc::File const* ifc_;
         ifc::MonadExpression const* expr_;
     };
 }
-
-template<>
-struct std::hash<reflifc::MonadExpression>
-{
-    size_t operator()(reflifc::MonadExpression object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.ifc_, object.expr_);
-    }
-};

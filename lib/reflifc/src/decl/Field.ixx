@@ -1,14 +1,12 @@
 ﻿module;
 
 #include <cassert>
-#include <functional>
+#include <compare>
 
 export module reflifc:Field;
 
 import :Declaration;
 import :Type;
-
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -44,18 +42,7 @@ namespace reflifc
         auto operator<=>(Field const& other) const = default;
 
     private:
-        friend std::hash<Field>;
-
         ifc::File const* ifc_;
         ifc::FieldDeclaration const* field_;
     };
 }
-
-template<>
-struct std::hash<reflifc::Field>
-{
-    size_t operator()(reflifc::Field field) const noexcept
-    {
-        return reflifc::hash_combine(0, field.ifc_, field.field_);
-    }
-};

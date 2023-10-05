@@ -1,12 +1,10 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:UsingDeclaration;
 
 import :Declaration;
-
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -34,12 +32,3 @@ namespace reflifc
         ifc::UsingDeclaration const* using_decl_;
     };
 }
-
-template<>
-struct std::hash<reflifc::UsingDeclaration>
-{
-    size_t operator()(reflifc::UsingDeclaration using_decl) const noexcept
-    {
-        return reflifc::hash_combine(0, using_decl.ifc_, using_decl.using_decl_);
-    }
-};

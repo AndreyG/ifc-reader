@@ -1,10 +1,8 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:Variable;
-
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -39,18 +37,7 @@ namespace reflifc
         auto operator<=>(Variable const& other) const = default;
 
     private:
-        friend std::hash<Variable>;
-
         ifc::File const* ifc_;
         ifc::VariableDeclaration const* var_;
     };
 }
-
-template<>
-struct std::hash<reflifc::Variable>
-{
-    size_t operator()(reflifc::Variable variable) const noexcept
-    {
-        return reflifc::hash_combine(0, variable.ifc_, variable.var_);
-    }
-};

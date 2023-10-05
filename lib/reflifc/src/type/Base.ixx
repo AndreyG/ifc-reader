@@ -5,7 +5,6 @@
 export module reflifc:BaseType;
 
 import :Type;
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -27,12 +26,3 @@ namespace reflifc
         ifc::BaseType::Specifiers specifiers;
     };
 }
-
-template<>
-struct std::hash<reflifc::BaseType>
-{
-    size_t operator()(reflifc::BaseType object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.type, static_cast<uint32_t>(object.access), static_cast<uint32_t>(object.specifiers) );
-    }
-};

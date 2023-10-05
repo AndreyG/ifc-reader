@@ -1,13 +1,11 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:Intrinsic;
 
 import :Declaration;
 import :Type;
-
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -30,18 +28,7 @@ namespace reflifc
         auto operator<=>(IntrinsicDeclaration const& other) const = default;
 
     private:
-        friend std::hash<IntrinsicDeclaration>;
-
         ifc::File const* ifc_;
         ifc::IntrinsicDeclaration const* intrinsic_;
     };
 }
-
-template<>
-struct std::hash<reflifc::IntrinsicDeclaration>
-{
-    size_t operator()(reflifc::IntrinsicDeclaration intrinsic) const noexcept
-    {
-        return reflifc::hash_combine(0, intrinsic.ifc_, intrinsic.intrinsic_);
-    }
-};

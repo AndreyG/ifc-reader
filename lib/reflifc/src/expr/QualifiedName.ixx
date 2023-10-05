@@ -1,13 +1,11 @@
 ﻿module;
 
-#include <functional>
 #include <ranges>
 
 export module reflifc:QualifiedNameExpression;
 
 import :Expression;
 
-import reflifc.HashCombine;
 import reflifc.ViewOf;
 
 import ifc;
@@ -39,12 +37,3 @@ namespace reflifc
         ifc::QualifiedNameExpression const* expr_;
     };
 }
-
-template<>
-struct std::hash<reflifc::QualifiedNameExpression>
-{
-    size_t operator()(reflifc::QualifiedNameExpression object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.ifc_, object.expr_);
-    }
-};

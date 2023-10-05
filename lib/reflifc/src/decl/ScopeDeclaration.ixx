@@ -4,8 +4,6 @@
 
 export module reflifc:ScopeDeclaration;
 
-import reflifc.HashCombine;
-
 import ifc;
 
 namespace reflifc
@@ -40,18 +38,7 @@ namespace reflifc
         auto operator<=>(ScopeDeclaration const& other) const = default;
 
     private:
-        friend std::hash<ScopeDeclaration>;
-
         ifc::File const* ifc_;
         ifc::ScopeDeclaration const* scope_;
     };
 }
-
-template<>
-struct std::hash<reflifc::ScopeDeclaration>
-{
-    size_t operator()(reflifc::ScopeDeclaration scope_decl) const noexcept
-    {
-        return reflifc::hash_combine(0, scope_decl.ifc_, scope_decl.scope_);
-    }
-};

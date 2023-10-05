@@ -1,6 +1,6 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:ArrayType;
 
@@ -8,7 +8,6 @@ import :Expression;
 import :Type;
 
 import reflifc.Literal;
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -39,12 +38,3 @@ namespace reflifc
     	return array.extent().as_literal().int_value();
     }
 }
-
-template<>
-struct std::hash<reflifc::ArrayType>
-{
-    size_t operator()(reflifc::ArrayType object) const noexcept
-    {
-        return reflifc::hash_combine(0, object.ifc_, object.array_);
-    }
-};

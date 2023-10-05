@@ -1,6 +1,6 @@
 ﻿module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:Alignof;
 
@@ -21,12 +21,3 @@ namespace reflifc
         Type operand;
     };
 }
-
-template<>
-struct std::hash<reflifc::AlignofExpression>
-{
-    size_t operator()(reflifc::AlignofExpression object) const noexcept
-    {
-        return std::hash<reflifc::Type>{}(object.operand);
-    }
-};

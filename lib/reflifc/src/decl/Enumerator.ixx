@@ -6,7 +6,6 @@ export module reflifc:Enumerator;
 
 import :Expression;
 import reflifc.Literal;
-import reflifc.HashCombine;
 
 import ifc;
 
@@ -29,8 +28,6 @@ export namespace reflifc
         auto operator<=>(Enumerator const& other) const = default;
 
     private:
-        friend std::hash<Enumerator>;
-
         ifc::File const* ifc_;
         ifc::Enumerator const* enumerator_;
     };
@@ -40,12 +37,3 @@ export namespace reflifc
         return enumerator.value().as_literal().int_value();
     }
 }
-
-template<>
-struct std::hash<reflifc::Enumerator>
-{
-    size_t operator()(reflifc::Enumerator enumerator) const noexcept
-    {
-        return reflifc::hash_combine(0, enumerator.ifc_, enumerator.enumerator_);
-    }
-};
