@@ -248,15 +248,11 @@ namespace ifc
                 auto partition = *cached_partition;
                 return { static_cast<T const*>(partition.data), partition.size };
             }
-            else if (auto it = table_of_contents_.find(name); it != table_of_contents_.end())
-            {
-                auto result = get_partition<T, Index>(it->second);
-                cached_partition.emplace(result.data(), result.size());
-                return result;
-            }
             else
             {
-                return Partition<T, Index>{nullptr, 0};
+                auto result = get_partition<T, Index>(table_of_contents_.at(name));
+                cached_partition.emplace(result.data(), result.size());
+                return result;
             }
         }
 
