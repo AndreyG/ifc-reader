@@ -6,14 +6,13 @@
 export module reflifc:Field;
 
 import :Declaration;
+import :Expression;
 import :Type;
 
 import ifc;
 
 namespace reflifc
 {
-    struct Expression;
-
     export struct Field
     {
         Field(ifc::File const* ifc, ifc::FieldDeclaration const& field)

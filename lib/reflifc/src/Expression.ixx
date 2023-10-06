@@ -4,6 +4,8 @@
 
 export module reflifc:Expression;
 
+import reflifc.Literal;
+import reflifc.StringLiteral;
 import ifc;
 
 namespace reflifc
@@ -21,8 +23,6 @@ namespace reflifc
     struct QualifiedNameExpression;
 
     struct Declaration;
-    struct Literal;
-    struct StringLiteral;
     struct Syntax;
     struct Type;
     struct TemplateId;

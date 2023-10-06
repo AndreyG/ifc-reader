@@ -7,8 +7,6 @@ export module reflifc:ArrayType;
 import :Expression;
 import :Type;
 
-import reflifc.Literal;
-
 import ifc;
 
 namespace reflifc
