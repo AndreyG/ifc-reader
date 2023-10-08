@@ -35,4 +35,6 @@ namespace ifc
     enum class FunctionTypeTraits : std::uint8_t;
 
     enum class TypeBasis : uint8_t;
+    enum class TypePrecision : uint8_t;
+    enum class TypeSign : uint8_t;
 }
