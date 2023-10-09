@@ -6,14 +6,14 @@ export module reflifc:Variable;
 
 import ifc;
 
-namespace reflifc
+export namespace reflifc
 {
     struct Declaration;
     struct Expression;
     struct Name;
     struct Type;
 
-    export struct Variable
+    struct Variable
     {
         Variable(ifc::File const* ifc, ifc::VariableDeclaration const& var)
             : ifc_(ifc)

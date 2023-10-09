@@ -6,7 +6,7 @@ export module reflifc:Type;
 
 import ifc;
 
-namespace reflifc
+export namespace reflifc
 {
     struct ArrayType;
     struct BaseType;
@@ -25,7 +25,7 @@ namespace reflifc
     struct Expression;
     struct PathExpression;
 
-    export struct Type
+    struct Type
     {
         Type(ifc::File const* ifc, ifc::TypeIndex index)
             : ifc_(ifc)

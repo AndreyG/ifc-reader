@@ -79,9 +79,9 @@ namespace reflifc
         ifc::File const* ifc_;
     };
 
-    struct Expression;
-    struct Syntax;
-    struct Type;
+    export struct Expression;
+    export struct Syntax;
+    export struct Type;
 
     struct TupleExpressionTraits
     {

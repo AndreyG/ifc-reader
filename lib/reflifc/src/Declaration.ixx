@@ -11,7 +11,7 @@ import reflifc.ViewOf;
 
 import ifc;
 
-namespace reflifc
+export namespace reflifc
 {
     struct AliasDeclaration;
     struct ScopeDeclaration;
@@ -32,7 +32,7 @@ namespace reflifc
     struct Concept;
     struct IntrinsicDeclaration;
 
-    export struct Declaration
+    struct Declaration
     {
         Declaration(ifc::File const* ifc, ifc::DeclIndex index)
             : ifc_(ifc)
