@@ -1,6 +1,6 @@
 module;
 
-#include <functional>
+#include <compare>
 
 export module reflifc:DeclarationReference;
 
