@@ -1,14 +1,16 @@
 ﻿#pragma once
 
+#include "reflifc/Expression.h"
 #include "reflifc/HashCombine.h"
+#include "reflifc/TupleView.h"
+#include "reflifc/ViewOf.h"
 
-#include <ifc/FileFwd.h>
-#include <ifc/ExpressionFwd.h>
+#include <ifc/Expression.h>
+#include <ifc/File.h>
 
 namespace reflifc
 {
     struct Type;
-    struct TupleExpressionView;
 
     struct ProductValueTypeExpression
     {
@@ -18,8 +20,15 @@ namespace reflifc
         {
         }
 
-        Type                structure() const;
-        TupleExpressionView members() const;
+        Type structure() const;
+
+        ViewOf<Expression> auto members() const
+        {
+            return TupleExpressionView(ifc_, expr_->members) | std::views::transform([this] (Expression e)
+            {
+                return Expression(ifc_, ifc_->suboject_value_expressions()[e.index()].value);
+            });
+        }
 
         auto operator<=>(ProductValueTypeExpression const& other) const = default;
 

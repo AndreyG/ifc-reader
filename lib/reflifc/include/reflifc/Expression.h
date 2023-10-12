@@ -93,6 +93,7 @@ namespace reflifc
         ProductValueTypeExpression as_product_value_type() const;
 
         ifc::ExprSort sort() const { return index_.sort(); }
+        ifc::ExprIndex index() const { return index_; }
 
         auto operator<=>(Expression const& other) const = default;
 
