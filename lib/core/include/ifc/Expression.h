@@ -492,6 +492,14 @@ namespace ifc
         PARTITION_SORT(ExprSort::ProductTypeValue);
     };
 
+    struct SubobjectValueExpression
+    {
+        ExprIndex value;
+
+        PARTITION_NAME("expr.class-subobject-value");
+        PARTITION_SORT(ExprSort::SubobjectValue);
+    };
+
     struct StringLiteral
     {
         TextOffset start;

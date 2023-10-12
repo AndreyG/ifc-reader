@@ -30,6 +30,7 @@ namespace ifc
     struct ReadExpression;
     struct SyntaxTreeExpression;
     struct ProductValueTypeExpression;
+    struct SubobjectValueExpression;
     struct PackedTemplateArguments;
     struct StringLiteral;
 }

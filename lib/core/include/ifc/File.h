@@ -113,6 +113,7 @@ namespace ifc
         Partition<QualifiedNameExpression, ExprIndex>       qualified_name_expressions() const;
         Partition<PackedTemplateArguments, ExprIndex>       packed_template_arguments() const;
         Partition<ProductValueTypeExpression, ExprIndex>    product_value_type_expressions() const;
+        Partition<SubobjectValueExpression, ExprIndex>      suboject_value_expressions() const;
 
         Partition<StringLiteral, StringIndex> string_literal_expressions() const;
 

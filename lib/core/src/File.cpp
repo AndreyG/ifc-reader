@@ -98,6 +98,7 @@ namespace ifc
             QualifiedNameExpressions,
             PackedTemplateArguments,
             ProductValueTypeExpressions,
+            SubojectValueExpressions,
             StringLiteralExpressions,
             TypeHeap,
             ExprHeap,
@@ -717,6 +718,11 @@ namespace ifc
     Partition<ProductValueTypeExpression, ExprIndex> File::product_value_type_expressions() const
     {
         return impl_->get_and_cache_partition<ProductValueTypeExpression, ExprIndex>(FilePartitionCache::ProductValueTypeExpressions);
+    }
+
+    Partition<SubobjectValueExpression, ExprIndex> File::suboject_value_expressions() const
+    {
+        return impl_->get_and_cache_partition<SubobjectValueExpression, ExprIndex>(FilePartitionCache::SubojectValueExpressions);
     }
 
     // ------------------------------------------------------------------------
