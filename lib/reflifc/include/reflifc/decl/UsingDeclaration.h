@@ -19,6 +19,7 @@ namespace reflifc
 
         Declaration resolution() const;
         Declaration home_scope() const;
+        ifc::Access access() const;
 
         ifc::File const* containing_file() const { return ifc_; }
 

@@ -15,4 +15,9 @@ namespace reflifc
     {
         return { ifc_, using_decl_->home_scope };
     }
+
+    ifc::Access UsingDeclaration::access() const
+    {
+        return using_decl_->access;
+    }
 }
