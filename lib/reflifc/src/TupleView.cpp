@@ -5,6 +5,9 @@
 
 module reflifc;
 
+import ifc;
+import reflifc.ViewOf;
+
 namespace reflifc
 {
     template<typename Traits>

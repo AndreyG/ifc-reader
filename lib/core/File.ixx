@@ -24,7 +24,9 @@ export import :Type;
 export import :TypeIndex;
 
 export import ifc.common_types;
+import ifc.AbstractReference;
 import ifc.FileHeader;
+import ifc.Literal;
 import ifc.Module;
 import ifc.Partition;
 import ifc.Scope;

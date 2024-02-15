@@ -5,8 +5,8 @@
 export module reflifc:Function;
 
 import ifc;
-import ifc.CallingConvention;
-import ifc.NoexceptSpecification;
+export import ifc.CallingConvention;
+export import ifc.NoexceptSpecification;
 
 namespace reflifc
 {

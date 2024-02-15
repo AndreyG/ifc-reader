@@ -1,5 +1,6 @@
 ﻿module reflifc;
 
+import reflifc.Literal;
 import reflifc.StringLiteral;
 
 namespace reflifc

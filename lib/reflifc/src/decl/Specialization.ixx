@@ -5,6 +5,7 @@ module;
 export module reflifc:Specialization;
 
 import :Name;
+import :TupleView;
 
 import ifc;
 

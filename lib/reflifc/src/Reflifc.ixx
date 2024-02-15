@@ -20,6 +20,7 @@ export import :Concept;
 export import :DeclarationReference;
 export import :Enumeration;
 export import :Enumerator;
+export import :Field;
 export import :Function;
 export import :Intrinsic;
 export import :Namespace;
@@ -29,6 +30,7 @@ export import :ScopeDeclaration;
 export import :Specialization;
 export import :TemplateDeclaration;
 export import :UsingDeclaration;
+export import :Variable;
 
 // expressions
 
@@ -47,6 +49,7 @@ export import :ProductValueTypeExpression;
 // types
 
 export import :ArrayType;
+export import :BaseType;
 export import :ExpansionType;
 export import :FunctionType;
 export import :ForallType;
@@ -61,3 +64,7 @@ export import :TemplateIdSyntax;
 export import :TypeId;
 export import :TypeSpecifier;
 export import :TypeTraitIntrinsic;
+
+// helpers
+
+export import :TupleView;

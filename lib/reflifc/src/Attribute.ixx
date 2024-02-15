@@ -4,7 +4,7 @@
 
 export module reflifc:Attribute;
 
-import :Word;
+export import :Word;
 
 import ifc;
 
