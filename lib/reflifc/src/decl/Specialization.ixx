@@ -9,7 +9,7 @@ import :TupleView;
 
 import ifc;
 
-namespace reflifc
+export namespace reflifc
 {
     struct Chart;
     struct Declaration;

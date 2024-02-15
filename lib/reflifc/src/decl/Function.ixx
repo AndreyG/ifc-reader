@@ -8,7 +8,7 @@ import ifc;
 export import ifc.CallingConvention;
 export import ifc.NoexceptSpecification;
 
-namespace reflifc
+export namespace reflifc
 {
     struct Declaration;
     struct Name;
@@ -17,7 +17,7 @@ namespace reflifc
     struct MethodType;
     struct TupleTypeView;
 
-    export struct Function
+    struct Function
     {
         Function(ifc::File const* ifc, ifc::FunctionDeclaration const& func)
             : ifc_(ifc)

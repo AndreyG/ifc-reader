@@ -8,7 +8,7 @@ import :Type;
 
 import ifc;
 
-namespace reflifc
+export namespace reflifc
 {
     struct SizeofExpression
     {

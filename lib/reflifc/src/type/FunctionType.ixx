@@ -9,9 +9,9 @@ import :TupleView;
 
 import ifc;
 
-namespace reflifc
+export namespace reflifc
 {
-    export struct FunctionType
+    struct FunctionType
     {
         FunctionType(ifc::File const* ifc, ifc::FunctionType const& function)
             : ifc_(ifc)

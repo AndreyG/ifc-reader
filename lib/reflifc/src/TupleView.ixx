@@ -7,9 +7,9 @@ export module reflifc:TupleView;
 
 import ifc;
 
-namespace reflifc
+export namespace reflifc
 {
-    export template<typename Traits>
+    template<typename Traits>
     struct TupleView : std::ranges::view_interface<TupleView<Traits>>
     {
         using Index = typename Traits::Index;
@@ -79,9 +79,9 @@ namespace reflifc
         ifc::File const* ifc_;
     };
 
-    export struct Expression;
-    export struct Syntax;
-    export struct Type;
+    struct Expression;
+    struct Syntax;
+    struct Type;
 
     struct TupleExpressionTraits
     {
@@ -101,17 +101,17 @@ namespace reflifc
         using Element = Type;
     };
 
-    export struct TupleExpressionView : TupleView<TupleExpressionTraits>
+    struct TupleExpressionView : TupleView<TupleExpressionTraits>
     {
         using TupleView::TupleView;
     };
 
-    export struct TupleSyntaxView : TupleView<TupleSyntaxTraits>
+    struct TupleSyntaxView : TupleView<TupleSyntaxTraits>
     {
         using TupleView::TupleView;
     };
 
-    export struct TupleTypeView : TupleView<TupleTypeTraits>
+    struct TupleTypeView : TupleView<TupleTypeTraits>
     {
         using TupleView::TupleView;
     };

@@ -6,7 +6,7 @@ export module reflifc:RequiresExpression;
 
 import ifc;
 
-namespace reflifc
+export namespace reflifc
 {
     struct RequiresExpression
     {
