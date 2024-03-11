@@ -1,0 +1,64 @@
+name: build
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        compiler:
+          - { compiler: gcc,  CC: gcc-11,   CXX: g++-11 }
+          - { compiler: clang, CC: clang-16, CXX: clang++-16 }
+    steps:
+      - name: deps
+        run: |
+          echo "::group:: deps"
+            wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+            sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-16 main"
+            sudo apt-get update -y
+            sudo apt-get install -y \
+              gcc-11 \
+              g++-11 \
+              clang-16 \
+              clang++-16 \
+              cmake \
+              ninja-build \
+              libboost-iostreams-dev \
+              nlohmann-json3-dev \
+              libgtest-dev
+            echo "::endgroup::"
+
+      - uses: actions/checkout@v2
+
+      # Allow for https://github.com/nektos/act to write to the current
+      # directory
+      - name: fix_act
+        run: |
+          echo "::group:: fix_act"
+          sudo chmod a+w .
+          echo "::endgroup::"
+
+      - name: configure
+        env:
+          CC: ${{ matrix.compiler.CC }}
+          CXX: ${{ matrix.compiler.CXX }}
+        run: |
+          echo "::group:: configure"
+          cmake -B build -G Ninja -DBUILD_IFC_READER_TESTS=ON .
+          echo "::endgroup::"
+
+      - name: build
+        run: |
+          echo "::group:: build"
+          cmake --build build
+          echo "::endgroup::"
+
+      - name: test
+        working-directory: ${{github.workspace}}/build
+        run: |
+          echo "::group:: test"
+          ctest -C ${{env.BUILD_TYPE}}
+          echo "::endgroup::"
+
+# EOF

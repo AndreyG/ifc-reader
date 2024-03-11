@@ -19,12 +19,14 @@ namespace ifc
     {
         ExprIndex constraint;
 
-        static constexpr std::string_view PartitionName = "chart.unilevel";
+        PARTITION_NAME("chart.unilevel");
+        PARTITION_SORT(ChartSort::Unilevel);
     };
 
     struct ChartMultilevel
     {
 
-        static constexpr std::string_view PartitionName = "chart.multilevel";
+        PARTITION_NAME("chart.multilevel");
+        PARTITION_SORT(ChartSort::Multilevel);
     };
 }

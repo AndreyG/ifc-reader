@@ -1,24 +1,41 @@
 #include "ifc/Environment.h"
+#include "ifc/Module.h"
 
 namespace ifc
 {
-    File const& Environment::get_module_by_bmi_path(std::string const & key)
+    std::string module_name(ModuleReference module, File const & file)
+    {
+        if (auto owner = module.owner; is_null(owner))
+        {
+            // global module
+            return file.get_string(module.partition);
+        }
+        else
+        {
+            std::string name = file.get_string(owner);
+            if (auto partition = module.partition; !is_null(partition))
+                name.append(":").append(file.get_string(partition));
+            return name;
+        }
+    }
+
+    File const& Environment::get_referenced_module(ModuleReference module, File const& file)
+    {
+        return get_module_by_bmi_path(module_name_to_bmi_path_[module_name(module, file)]);
+    }
+
+    File const& Environment::get_module_by_bmi_path(std::filesystem::path const & key)
     {
         auto cached = cached_bmis_.find(key);
         if (cached == cached_bmis_.end())
         {
-            fill_name_to_path_mapping(get_config(key));
-            cached = cached_bmis_.emplace_hint(cached, key, File(key, this));
+            cached = cached_bmis_.emplace_hint(cached, key, file_reader_(key));
         }
-        return cached->second;
+        return cached->second.ifc;
     }
 
-    File const& Environment::get_module_by_name(std::string const& name)
-    {
-        return get_module_by_bmi_path(module_name_to_bmi_path_[name]);
-    }
-
-    void Environment::fill_name_to_path_mapping(Config config)
+    Environment::Environment(Config config, std::function<BlobHolderPtr(std::filesystem::path const &)> file_reader)
+        : file_reader_(std::move(file_reader))
     {
         for (auto & [header, bmi] : config.imported_header_units)
             module_name_to_bmi_path_.emplace(std::move(header), std::move(bmi));

@@ -3,7 +3,6 @@
 #include "Partition.h"
 
 #include <stdexcept>
-#include <string_view>
 
 namespace ifc
 {
@@ -14,21 +13,16 @@ namespace ifc
         return scope == ScopeIndex{0};
     }
 
-    struct ScopeDescriptor : Sequence
+    class ScopePartition : Partition<Sequence, ScopeIndex>
     {
-        static constexpr std::string_view PartitionName = "scope.desc";
-    };
-
-    class ScopePartition : Partition<ScopeDescriptor, ScopeIndex>
-    {
-        using Base = Partition<ScopeDescriptor, ScopeIndex>;
+        using Base = Partition<Sequence, ScopeIndex>;
 
     public:
         ScopePartition(Base base)
             : Base(base)
         {}
 
-        ScopeDescriptor operator[](ScopeIndex index) const
+        Sequence operator[](ScopeIndex index) const
         {
             if (is_null(index))
                 throw std::out_of_range("scope indices start from 1");

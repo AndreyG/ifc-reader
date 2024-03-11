@@ -3,13 +3,15 @@
 #include "DeclarationFwd.h"
 
 #include "CallingConvention.h"
+#include "ChartFwd.h"
+#include "ExpressionFwd.h"
+#include "FileFwd.h"
 #include "Module.h"
 #include "Name.h"
 #include "NoexceptSpecification.h"
 #include "Scope.h"
 #include "SourceLocation.h"
-
-#include <string_view>
+#include "TypeFwd.h"
 
 namespace ifc
 {
@@ -60,7 +62,7 @@ namespace ifc
 
     enum class ParameterPosition : uint32_t { };
 
-    enum class DeclSort
+    enum class DeclSort : uint32_t
     {
         VendorExtension         = 0x00,
         Enumerator              = 0x01,
@@ -74,8 +76,8 @@ namespace ifc
         Temploid                = 0x09,
         Template                = 0x0A,
         PartialSpecialization   = 0x0B,
-        ExplicitSpecialization  = 0x0C,
-        ExplicitInstantiation   = 0x0D,
+        Specialization          = 0x0C,
+        DefaultArgument         = 0x0D,
         Concept                 = 0x0E,
         Function                = 0x0F,
         Method                  = 0x10,
@@ -100,7 +102,7 @@ namespace ifc
     {
         DeclIndex index;
 
-        static constexpr std::string_view PartitionName = "scope.member";
+        PARTITION_NAME("scope.member");
     };
 
     struct UsingDeclaration
@@ -115,7 +117,8 @@ namespace ifc
         Access access;
         bool hidden;
 
-        static constexpr std::string_view PartitionName = "decl.using-declaration";
+        PARTITION_NAME("decl.using-declaration");
+        PARTITION_SORT(DeclSort::UsingDeclaration);
     };
 
     struct ParameterizedEntity
@@ -133,13 +136,54 @@ namespace ifc
         DeclIndex home_scope;
         ChartIndex chart;
         ParameterizedEntity entity;
+        TypeIndex type;
         BasicSpecifiers specifiers;
         Access access;
         ReachableProperties properties;
 
-        uint32_t _padding_;
+        PARTITION_NAME("decl.template");
+        PARTITION_SORT(DeclSort::Template);
+    };
 
-        static constexpr std::string_view PartitionName = "decl.template";
+    struct SpecializationForm
+    {
+        DeclIndex primary;
+        ExprIndex arguments;
+
+        PARTITION_NAME("form.spec");
+    };
+
+    struct PartialSpecialization
+    {
+        NameIndex name;
+        SourceLocation locus;
+        DeclIndex home_scope;
+        ChartIndex chart;
+        ParameterizedEntity entity;
+        SpecFormIndex form;
+        BasicSpecifiers specifiers;
+        Access access;
+        ReachableProperties properties;
+
+        PARTITION_NAME("decl.partial-specialization");
+        PARTITION_SORT(DeclSort::PartialSpecialization);
+    };
+
+    enum class SpecializationSort : uint8_t
+    {
+        Implicit        = 0x0,
+        Explicit        = 0x1,
+        Instantiation   = 0x2,
+    };
+
+    struct Specialization
+    {
+        SpecFormIndex form;
+        DeclIndex decl;
+        SpecializationSort sort;
+
+        PARTITION_NAME("decl.specialization");
+        PARTITION_SORT(DeclSort::Specialization);
     };
 
     struct Enumeration
@@ -155,7 +199,21 @@ namespace ifc
         Access access;
         ReachableProperties properties;
 
-        static constexpr std::string_view PartitionName = "decl.enum";
+        PARTITION_NAME("decl.enum");
+        PARTITION_SORT(DeclSort::Enumeration);
+    };
+
+    struct Enumerator
+    {
+        TextOffset name;
+        SourceLocation locus;
+        TypeIndex type;
+        ExprIndex initializer;
+        BasicSpecifiers specifier;
+        Access access;
+
+        PARTITION_NAME("decl.enumerator");
+        PARTITION_SORT(DeclSort::Enumerator);
     };
 
     struct AliasDeclaration
@@ -168,7 +226,8 @@ namespace ifc
         BasicSpecifiers specifiers;
         Access access;
 
-        static constexpr std::string_view PartitionName = "decl.alias";
+        PARTITION_NAME("decl.alias");
+        PARTITION_SORT(DeclSort::Alias);
     };
 
     enum class PackSize : uint16_t {};
@@ -198,8 +257,16 @@ namespace ifc
         Access access;
         ReachableProperties properties;
 
-        static constexpr std::string_view PartitionName = "decl.scope";
+        PARTITION_NAME("decl.scope");
+        PARTITION_SORT(DeclSort::Scope);
     };
+
+    constexpr bool is_inline(ScopeDeclaration const & scope)
+    {
+        return (static_cast<uint8_t>(scope.traits) & static_cast<uint8_t>(ScopeTraits::Inline)) != 0;
+    }
+
+    TypeBasis get_kind(ScopeDeclaration const &, File const &);
 
     enum class FunctionTraits : uint16_t
     {
@@ -234,12 +301,14 @@ namespace ifc
 
     struct FunctionDeclaration : FunctionDeclarationBase
     {
-        static constexpr std::string_view PartitionName = "decl.function";
+        PARTITION_NAME("decl.function");
+        PARTITION_SORT(DeclSort::Function);
     };
 
     struct MethodDeclaration : FunctionDeclarationBase
     {
-        static constexpr std::string_view PartitionName = "decl.method";
+        PARTITION_NAME("decl.method");
+        PARTITION_SORT(DeclSort::Method);
     };
 
     struct Constructor
@@ -254,7 +323,8 @@ namespace ifc
         Access access;
         ReachableProperties properties;
 
-        static constexpr std::string_view PartitionName = "decl.constructor";
+        PARTITION_NAME("decl.constructor");
+        PARTITION_SORT(DeclSort::Constructor);
     };
 
     struct Destructor
@@ -269,7 +339,8 @@ namespace ifc
         CallingConvention convention;
         ReachableProperties properties;
 
-        static constexpr std::string_view PartitionName = "decl.destructor";
+        PARTITION_NAME("decl.destructor");
+        PARTITION_SORT(DeclSort::Destructor);
     };
 
     struct VariableDeclaration
@@ -285,7 +356,25 @@ namespace ifc
         Access access;
         ReachableProperties properties;
 
-        static constexpr std::string_view PartitionName = "decl.variable";
+        PARTITION_NAME("decl.variable");
+        PARTITION_SORT(DeclSort::Variable);
+    };
+
+    struct FieldDeclaration
+    {
+        TextOffset name;
+        SourceLocation locus;
+        TypeIndex type;
+        DeclIndex home_scope;
+        ExprIndex initializer;
+        ExprIndex alignment;
+        ObjectTraits traits;
+        BasicSpecifiers specifiers;
+        Access access;
+        ReachableProperties properties;
+
+        PARTITION_NAME("decl.field");
+        PARTITION_SORT(DeclSort::Field);
     };
 
     enum class ParameterSort : uint8_t
@@ -307,9 +396,47 @@ namespace ifc
         ParameterPosition position;
         ParameterSort sort;
         ReachableProperties properties;
-        bool pack;
 
-        static constexpr std::string_view PartitionName = "decl.parameter";
+        PARTITION_NAME("decl.parameter");
+        PARTITION_SORT(DeclSort::Parameter);
+    };
+
+    struct FriendDeclaration
+    {
+        ExprIndex entity;
+
+        PARTITION_NAME("decl.friend");
+        PARTITION_SORT(DeclSort::Friend);
+    };
+
+    struct Concept
+    {
+        TextOffset name;
+        SourceLocation locus;
+        DeclIndex home_scope;
+        TypeIndex type;
+        ChartIndex chart;
+        ExprIndex constraint;
+        BasicSpecifiers specifiers;
+        Access access;
+        SentenceIndex head;
+        SentenceIndex body;
+
+        PARTITION_NAME("decl.concept");
+        PARTITION_SORT(DeclSort::Concept);
+    };
+
+    struct IntrinsicDeclaration
+    {
+        TextOffset name;
+        SourceLocation locus;
+        TypeIndex type;
+        DeclIndex home_scope;
+        BasicSpecifiers specifiers;
+        Access access;
+
+        PARTITION_NAME("decl.intrinsic");
+        PARTITION_SORT(DeclSort::Intrinsic);
     };
 
     struct DeclReference
@@ -317,6 +444,7 @@ namespace ifc
         ModuleReference unit;
         DeclIndex local_index;
 
-        static constexpr std::string_view PartitionName = "decl.reference";
+        PARTITION_NAME("decl.reference");
+        PARTITION_SORT(DeclSort::Reference);
     };
 }

@@ -4,9 +4,5 @@
 
 namespace ifc
 {
-    class MSVCEnvironment final : public Environment
-    {
-    protected:
-        Config get_config(std::string const& path_to_bmi) const override;
-    };
+    Environment::Config read_msvc_config(std::string const& path_to_config, std::optional<std::filesystem::path> dir_for_relative_paths = std::nullopt);
 }

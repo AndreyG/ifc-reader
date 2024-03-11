@@ -4,12 +4,13 @@
 
 namespace ifc
 {
-    enum class DeclSort;
+    enum class DeclSort : uint32_t;
     using DeclIndex = AbstractReference<5, DeclSort>;
 
     struct Declaration;
     struct DeclReference;
     struct VariableDeclaration;
+    struct FieldDeclaration;
     struct ParameterDeclaration;
     struct ScopeDeclaration;
     struct FunctionDeclaration;
@@ -18,6 +19,20 @@ namespace ifc
     struct Destructor;
     struct AliasDeclaration;
     struct Enumeration;
+    struct Enumerator;
     struct UsingDeclaration;
+    struct FriendDeclaration;
     struct TemplateDeclaration;
+    struct PartialSpecialization;
+    struct Specialization;
+    struct Concept;
+    struct IntrinsicDeclaration;
+
+    enum class Access : uint8_t;
+    enum class ObjectTraits : uint8_t;
+    enum class BasicSpecifiers : uint8_t;
+    enum class SpecializationSort : uint8_t;
+
+    enum class SpecFormIndex : uint32_t {};
+    struct SpecializationForm;
 }
