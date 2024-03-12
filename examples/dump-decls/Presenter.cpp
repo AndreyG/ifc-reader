@@ -1058,6 +1058,12 @@ void Presenter::present_refered_declaration(ifc::DeclIndex decl) const
             present(scope.name);
         }
         break;
+    case ifc::DeclSort::Alias:
+        {
+            ifc::AliasDeclaration const & alias = file_.alias_declarations()[decl];
+            out_ << file_.get_string(alias.name);
+        }
+        break;
     case ifc::DeclSort::Template:
         {
             ifc::TemplateDeclaration const & template_declaration = file_.template_declarations()[decl];
