@@ -124,9 +124,13 @@ namespace ifc
         Partition<SyntaxIndex, Index>   syntax_heap() const;
 
         // Names
-        Partition<OperatorFunctionName, NameIndex>  operator_names() const;
-        Partition<SpecializationName, NameIndex>    specialization_names() const;
-        Partition<LiteralName, NameIndex>           literal_names() const;
+        Partition<OperatorFunctionName, NameIndex>      operator_names() const;
+        Partition<ConversionFunctionName, NameIndex>    conversion_function_names() const;
+        Partition<LiteralName, NameIndex>               literal_names() const;
+        Partition<TemplateName, NameIndex>              template_names() const;
+        Partition<SpecializationName, NameIndex>        specialization_names() const;
+        Partition<SourceFileName, NameIndex>            source_file_names() const;
+        Partition<DeductionGuideName, NameIndex>        deduction_guide_names() const;
 
         // Charts
         Partition<ChartUnilevel, ChartIndex>    unilevel_charts() const;
