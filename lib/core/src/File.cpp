@@ -105,8 +105,12 @@ namespace ifc
             AttrHeap,
             SyntaxHeap,
             OperatorNames,
-            SpecializationNames,
+            ConversionNames,
             LiteralNames,
+            TemplateNames,
+            SpecializationNames,
+            SourceFileNames,
+            DeductionGuideNames,
             UnilevelCharts,
             MultilevelCharts,
             IntegerLiterals,
@@ -868,14 +872,34 @@ namespace ifc
         return impl_->get_and_cache_partition<OperatorFunctionName, NameIndex>(FilePartitionCache::OperatorNames);
     }
 
+    Partition<ConversionFunctionName, NameIndex> File::conversion_function_names() const
+	{
+		return impl_->get_and_cache_partition<ConversionFunctionName, NameIndex>(FilePartitionCache::ConversionNames);
+	}
+
+    Partition<LiteralName, NameIndex> File::literal_names() const
+    {
+        return impl_->get_and_cache_partition<LiteralName, NameIndex>(FilePartitionCache::LiteralNames);
+    }
+
+    Partition<TemplateName, NameIndex> File::template_names() const
+	{
+		return impl_->get_and_cache_partition<TemplateName, NameIndex>(FilePartitionCache::TemplateNames);
+	}
+
     Partition<SpecializationName, NameIndex> File::specialization_names() const
     {
         return impl_->get_and_cache_partition<SpecializationName, NameIndex>(FilePartitionCache::SpecializationNames);
     }
 
-    Partition<LiteralName, NameIndex> File::literal_names() const
+    Partition<SourceFileName, NameIndex> File::source_file_names() const
+	{
+		return impl_->get_and_cache_partition<SourceFileName, NameIndex>(FilePartitionCache::SourceFileNames);
+	}
+
+    Partition<DeductionGuideName, NameIndex> File::deduction_guide_names() const
     {
-        return impl_->get_and_cache_partition<LiteralName, NameIndex>(FilePartitionCache::LiteralNames);
+		return impl_->get_and_cache_partition<DeductionGuideName, NameIndex>(FilePartitionCache::DeductionGuideNames);
     }
 
     // ------------------------------------------------------------------------

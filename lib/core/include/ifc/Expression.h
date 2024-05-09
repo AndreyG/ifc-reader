@@ -4,10 +4,11 @@
 #include "DeclarationFwd.h"
 #include "NameFwd.h"
 #include "TypeFwd.h"
+#include "SyntaxTreeFwd.h"
 
 #include "Literal.h"
 #include "SourceLocation.h"
-#include "SyntaxTreeFwd.h"
+#include "Operator.h"
 
 #include "common_types.h"
 
@@ -181,71 +182,6 @@ namespace ifc
         PARTITION_SORT(ExprSort::PackedTemplateArguments);
     };
 
-    enum class MonadicOperator
-    {
-        Unknown         = 0x00,
-
-        Plus            = 0x01,
-        Negate          = 0x02,
-        Deref           = 0x03,
-        Address         = 0x04,
-        Complement      = 0x05,
-        Not             = 0x06,
-        PreIncrement    = 0x07,
-        PreDecrement    = 0x08,
-        PostIncrement   = 0x09,
-        PostDecrement   = 0x0A,
-        Truncate        = 0x0B,
-        Ceil            = 0x0C,
-        Floor           = 0x0D,
-        Paren           = 0x0E,
-        Brace           = 0x0F,
-        // TODO
-
-        MsvcIsNothrowDestructible = 0x41B,
-        // TODO
-    };
-
-    inline const char * to_string(MonadicOperator op)
-    {
-        switch (op)
-        {
-        case MonadicOperator::Unknown:
-            return "Unknown";
-        case MonadicOperator::Plus:
-            return "+";
-        case MonadicOperator::Negate:
-            return "-";
-        case MonadicOperator::Deref:
-            return "*";
-        case MonadicOperator::Address:
-            return "&";
-        case MonadicOperator::Complement:
-            return "~";
-        case MonadicOperator::Not:
-            return "!";
-        case MonadicOperator::PreIncrement:
-            return "(pre)++";
-        case MonadicOperator::PreDecrement:
-            return "(pre)--";
-        case MonadicOperator::PostIncrement:
-            return "(post)++";
-        case MonadicOperator::PostDecrement:
-            return "(post)--";
-        case MonadicOperator::Truncate:
-            return "(truncate)";
-        case MonadicOperator::Ceil:
-            return "(ceil)";
-        case MonadicOperator::Floor:
-            return "(floor)";
-        case MonadicOperator::Paren:
-            return "(paren)";
-        case MonadicOperator::Brace:
-            return "{brace}";
-        }
-        return "Unknown";
-    }
-
     struct MonadExpression : ExpressionBase
     {
         DeclIndex impl;
@@ -255,127 +191,6 @@ namespace ifc
         PARTITION_NAME("expr.monad");
         PARTITION_SORT(ExprSort::Monad);
     };
-
-    enum class DyadicOperator
-    {
-        Unknown     = 0x00,
-        // Arithmetic
-        Plus            = 0x01,
-        Minus           = 0x02,
-        Mult            = 0x03,
-        Slash           = 0x04,
-        Modulo          = 0x05,
-        Remaniner       = 0x06,
-        // Bitwise
-        Bitand          = 0x07,
-        Bitor           = 0x08,
-        Bitxor          = 0x09,
-        Lshift          = 0x0A,
-        Rshift          = 0x0B,
-        // Comparison
-        Equal           = 0x0C,
-        NotEqual        = 0x0D,
-        Less            = 0x0E,
-        LessEqual       = 0x0F,
-        Greater         = 0x10,
-        GreaterEqual    = 0x11,
-        Compare         = 0x12,
-        // Logical
-        LogicAnd        = 0x13,
-        LogicOr         = 0x14,
-        // Assign
-        Assign          = 0x15,
-        PlusAssign      = 0x16,
-        MinusAssign     = 0x17,
-        MultAssign      = 0x18,
-        SlashAssign     = 0x19,
-        ModuloAssign    = 0x1A,
-        BitandAssign    = 0x1B,
-        BitorAssign     = 0x1C,
-        BitxorAssign    = 0x1D,
-        LshiftAssign    = 0x1E,
-        RshiftAssign    = 0x1F,
-
-        Dot             = 0x21,
-        Arrow           = 0x22,
-        Apply           = 0x26,
-        Index           = 0x27,
-        // TODO
-
-        MsvcIsBaseOf        = 0x40A,
-        MsvcIsConvertibleTo = 0x40B,
-        // TODO
-    };
-
-    inline const char * to_string(DyadicOperator op)
-    {
-        switch (op)
-        {
-        case DyadicOperator::Unknown:
-            return "Unknown";
-        case DyadicOperator::Plus:
-            return "+";
-        case DyadicOperator::Minus:
-            return "-";
-        case DyadicOperator::Mult:
-            return "*";
-        case DyadicOperator::Slash:
-            return "/";
-        case DyadicOperator::Modulo:
-            return "%";
-        case DyadicOperator::Bitand:
-            return "&";
-        case DyadicOperator::Bitor:
-            return "|";
-        case DyadicOperator::Bitxor:
-            return "^";
-        case DyadicOperator::Lshift:
-            return "<<";
-        case DyadicOperator::Rshift:
-            return ">>";
-        case DyadicOperator::Equal:
-            return "==";
-        case DyadicOperator::NotEqual:
-            return "!=";
-        case DyadicOperator::Less:
-            return "<";
-        case DyadicOperator::LessEqual:
-            return "<=";
-        case DyadicOperator::Greater:
-            return ">";
-        case DyadicOperator::GreaterEqual:
-            return ">=";
-        case DyadicOperator::Compare:
-            return "<=>";
-        case DyadicOperator::LogicAnd:
-            return "&&";
-        case DyadicOperator::LogicOr:
-            return "||";
-        case DyadicOperator::Assign:
-            return "=";
-        case DyadicOperator::PlusAssign:
-            return "+=";
-        case DyadicOperator::MinusAssign:
-            return "-=";
-        case DyadicOperator::MultAssign:
-            return "*=";
-        case DyadicOperator::SlashAssign:
-            return "/=";
-        case DyadicOperator::ModuloAssign:
-            return "%=";
-        case DyadicOperator::BitandAssign:
-            return "&=";
-        case DyadicOperator::BitorAssign:
-            return "|=";
-        case DyadicOperator::BitxorAssign:
-            return "^=";
-        case DyadicOperator::LshiftAssign:
-            return "<<=";
-        case DyadicOperator::RshiftAssign:
-            return ">>=";
-        }
-        return "Unknown";
-    }
 
     struct DyadExpression : ExpressionBase
     {
@@ -393,16 +208,6 @@ namespace ifc
 
         PARTITION_NAME("expr.strings");
         PARTITION_SORT(ExprSort::String);
-    };
-
-    enum class StorageOperator
-    {
-        Unknown,
-        AllocateSingle,
-        AllocateArray,
-        DeallocateSingle,
-        DeallocateArray,
-        MSVC = 0x7DE,
     };
 
     struct CallExpression : ExpressionBase

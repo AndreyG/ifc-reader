@@ -8,6 +8,10 @@ namespace ifc
     using NameIndex = AbstractReference<3, NameSort>;
 
     struct OperatorFunctionName;
-    struct SpecializationName;
+    struct ConversionFunctionName;
     struct LiteralName;
+    struct TemplateName;
+    struct SpecializationName;
+    struct SourceFileName;
+    struct DeductionGuideName;
 }
