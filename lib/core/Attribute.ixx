@@ -1,3 +1,7 @@
+module;
+
+#include "partition_defines.h"
+
 export module ifc:Attribute;
 
 import :ExprIndex;
@@ -5,8 +9,6 @@ import :ExprIndex;
 import ifc.AbstractReference;
 import ifc.common_types;
 import ifc.Word;
-
-#include "partition_defines.h"
 
 export namespace ifc
 {

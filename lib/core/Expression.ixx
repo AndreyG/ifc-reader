@@ -1,3 +1,7 @@
+module;
+
+#include "partition_defines.h"
+
 export module ifc:Expression;
 
 import :DeclIndex;
@@ -9,8 +13,6 @@ import :TypeIndex;
 import ifc.Literal;
 import ifc.SourceLocation;
 import ifc.common_types;
-
-#include "partition_defines.h"
 
 export namespace ifc
 {

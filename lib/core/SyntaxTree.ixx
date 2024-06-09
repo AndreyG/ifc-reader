@@ -1,3 +1,7 @@
+module;
+
+#include "partition_defines.h"
+
 export module ifc:SyntaxTree;
 
 import :ExprIndex;
@@ -8,8 +12,6 @@ import ifc.CallingConvention;
 import ifc.SourceLocation;
 import ifc.common_types;
 import :Name;
-
-#include "partition_defines.h"
 
 export namespace ifc
 {
