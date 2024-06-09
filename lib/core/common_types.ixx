@@ -22,16 +22,16 @@ export namespace ifc
 
     enum class Cardinality : uint32_t {};
 
-    inline size_t raw_count(Cardinality c)
+    inline std::size_t raw_count(Cardinality c)
     {
-        return static_cast<size_t>(c);
+        return static_cast<std::size_t>(c);
     }
 
     enum class EntitySize : uint32_t {};
 
     enum class Index : uint32_t {};
 
-    inline Index operator+(Index start, size_t offset)
+    inline Index operator+(Index start, std::size_t offset)
     {
         return Index { static_cast<uint32_t>(start) + static_cast<uint32_t>(offset) };
     }
@@ -50,7 +50,7 @@ export namespace ifc
             return start + (raw_count(cardinality) - 1);
         }
 
-        Sequence shift(size_t n) const
+        Sequence shift(std::size_t n) const
         {
             return { start + n, cardinality };
         }
