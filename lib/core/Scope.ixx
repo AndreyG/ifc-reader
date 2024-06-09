@@ -1,6 +1,7 @@
 module;
 
 #include <stdexcept>
+#include <cstdint>
 
 export module ifc.Scope;
 

@@ -2,6 +2,7 @@ module;
 
 #include <functional>
 #include <type_traits>
+#include <cstdint>
 #include <compare>
 
 export module ifc.AbstractReference;
