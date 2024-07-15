@@ -159,6 +159,11 @@ namespace reflifc
         return { ifc_, ifc_->syntax_tree_expressions()[index_].syntax };
     }
 
+    bool Expression::is_packed_template_arguments() const
+    {
+        return sort() == ifc::ExprSort::PackedTemplateArguments;
+    }
+
     Expression Expression::packed_template_arguments() const
     {
         return { ifc_, ifc_->packed_template_arguments()[index_].arguments };

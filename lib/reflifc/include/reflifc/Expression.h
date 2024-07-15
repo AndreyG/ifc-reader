@@ -81,6 +81,7 @@ namespace reflifc
 
         Syntax syntax() const;
 
+        bool            is_packed_template_arguments() const;
         Expression      packed_template_arguments() const;
 
         SizeofExpression    as_sizeof()  const;
