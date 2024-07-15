@@ -68,6 +68,8 @@ namespace reflifc
 
         Element operator[] (size_t index) const;
 
+        Element front() const { return *begin(); }
+
         size_t size() const;
         bool   empty() const;
 
